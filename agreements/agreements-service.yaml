@@ -66,13 +66,13 @@ paths:
               schema:
                 $ref: '#/components/schemas/AgreementDetail'
         404:
-          description: Commercial Agreement not found.
+          description: Commercial Agreement not found
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Errors'
         500:
-          description: Internal server error.
+          description: Internal server error
           content:
             application/json:
               schema:
@@ -109,7 +109,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/LotDetail'
         404:
-          description: Commercial Agreement and/or Lot not found.
+          description: Commercial Agreement and/or Lot not found
           content:
             application/json:
               schema:
@@ -211,7 +211,7 @@ components:
           type: array
           items:
             type: string
-            description: short description of the benefit
+            description: Short description of the benefit
         lots:
           type: array
           items:
@@ -332,7 +332,7 @@ components:
             allowsEAuction:
               type: boolean
               description: Is the lot for eAuctions?
-        buyingSystemURL:
+        buyingSystemUrl:
           type: string
           format: uri
           description: The URL to use for the system to progress the procurement (e.g. BaT, CaT, other)
@@ -419,15 +419,15 @@ components:
     AgreementUpdate:
       type: object
       properties:
-        updateDate:
+        date:
           type: string
           format: date
           description: Date that the update was added
-        updateLink:
+        linkUrl:
           type: string
           format: uri
           description: Link to further information regarding the update
-        updateText:
+        text:
           type: string
           description: Actual update text
 
@@ -445,22 +445,22 @@ components:
     Document:
       type: object
       properties:
-        documentUri:
+        url:
           type: string
           format: uri
-        documentName:
+        name:
           type: string
-        documentVersion:
+        version:
           type: string
         
 
     Organisation:
       type: object
       properties:
-        organisationId:
+        id:
           type: string
           description: Conclave Organisation Id
-        organisationName:
+        name:
           type: string
           description: Company name
         contactName:

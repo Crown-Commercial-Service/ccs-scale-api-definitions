@@ -473,14 +473,14 @@ components:
     BuyerNeed:
       type: object
       properties:
-        needId:
+        id:
           type: integer
           format: int64
           description: Id of the need (to allow alignment with CaT)
-        needName:
+        name:
           type: string
           description: Name of Buyer Need
-        needText:
+        text:
           type: string
           description: Text to be displayed for Buyer need
 

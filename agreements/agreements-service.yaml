@@ -1,7 +1,7 @@
 openapi: 3.0.1
 info:
   title: SCALE Commercial Agreements Service
-  version: "0.0.1"
+  version: "0.0.2"
   description: This API allows access to CCS Commercial Agreement data. This is used both to provide information to users and to govern the behaviour of other systems for example 'Buy a Thing' and 'Contract for a Thing', where processes may differ based on the configuration of the underlying Commercial Agreement and Lot.  
 
 # Some data is explicitly omitted from the initial version of the API. Some detailed notes below but a summary here
@@ -12,6 +12,12 @@ info:
 #
 # TODO:
 # 1. calls to manage data e.g. POST agreement, lot; PUT modifications and so on
+# 2. Questions that need to be answered by suppliers on registration (for Evidence Locker) - talk to 
+# 3. CaT data - RFx question lists per lot
+#
+# Versions
+# 0.0.1             Initial draft
+# 0.0.2  25/03/2020 Moved Lot criteria to a Route to Market array
 
 servers:
 # This is NOT a real server
@@ -236,6 +242,70 @@ components:
         type:
           type: string
           enum: [product|service|product and service]
+
+        services:
+          type: array
+          items:
+            type: object
+            properties:
+              name:
+                type: string
+                description: The name of the Service
+              description:
+                type: string
+                description: Brief description of the Service
+        products:
+          type: array
+          items:
+            type: object
+            properties:
+              name:
+                type: string
+                description: The name of the Product
+              description:
+                type: string
+                description: Brief description of the Product
+        suppliers:
+          type: array
+          description: Suppliers registered against this Lot
+          items:
+            $ref: '#/components/schemas/Organisation'
+        routesToMarket:
+          type: array
+          description: Routes to Market for the Lot and associated bounds
+          items:
+            $ref: '#/components/schemas/RouteToMarket'
+        termsAndConditions:
+          $ref: '#/components/schemas/Document'
+        documents:
+          # An array to hold 'other documents'.  Later versions of the API can add attributes for links to specific documents
+          type: array
+          items:
+            $ref: '#/components/schemas/Document'
+        buyerNeeds:
+          # Lot default text for buyer needs for CaT
+          type: array
+          items:
+            $ref: '#/components/schemas/BuyerNeed'
+        # Further to the rules model below can data drive the whole rules evaluation triggering the rules from events in CaT and BaT
+        # e.g. a list of events mapped to rules in config. When event happens, if Agreement has rule data then we evaluate the rule. All in a standard function passed event data and Agreement data
+        # Assumption that event mapping discussed above is required for MVP
+        rules:
+          type: array
+          items:
+                $ref: '#/components/schemas/LotRule'
+    
+    RouteToMarket:
+      # Route to Market for the Lot complete with the rules which determine when it applies
+      type: object
+      properties:
+        buyingMethods:
+          type: string
+          enum: [DirectAward , FurtherCompetition, Marketplace, EAuction]
+        buyingSystemURL:
+          type: string
+          format: uri
+          description: The URL to use for the system to progress the procurement (e.g. BaT, CaT, other)
         minimumValue:
           type: number
           format: float
@@ -290,83 +360,15 @@ components:
               type: number
               format: float
               description: The number of units
-        services:
-          type: array
-          items:
-            type: object
-            properties:
-              name:
-                type: string
-                description: The name of the Service
-              description:
-                type: string
-                description: Brief description of the Service
-        products:
-          type: array
-          items:
-            type: object
-            properties:
-              name:
-                type: string
-                description: The name of the Product
-              description:
-                type: string
-                description: Brief description of the Product
-        suppliers:
-          type: array
-          description: Suppliers registered against this Lot
-          items:
-            $ref: '#/components/schemas/Organisation'
-        buyingMethods:
-          type: object
-          properties:
-            allowsDirectAward: 
-              type: boolean
-              description: Does the Lot allow Direct Award?
-            allowsFurtherCompetition:
-              type: boolean
-              description: Does the Lot allow Further Competition?
-            allowsMarketplace:
-              type: boolean
-              description: Is the Lot a product based Marketplace? 
-            allowsEAuction:
-              type: boolean
-              description: Is the lot for eAuctions?
-        buyingSystemUrl:
-          type: string
-          format: uri
-          description: The URL to use for the system to progress the procurement (e.g. BaT, CaT, other)
-        termsAndConditions:
-          $ref: '#/components/schemas/Document'
-        documents:
-          # An array to hold 'other documents'.  Later versions of the API can add attributes for links to specific documents
-          type: array
-          items:
-            $ref: '#/components/schemas/Document'
-        buyerNeeds:
-          # Lot default text for buyer needs for CaT
-          type: array
-          items:
-            $ref: '#/components/schemas/BuyerNeed'
-        # Further to the rules model below can data drive the whole rules evaluation triggering the rules from events in CaT and BaT
-        # e.g. a list of events mapped to rules in config. When event happens, if Agreement has rule data then we evaluate the rule. All in a standard function passed event data and Agreement data
-        # Assumption that event mapping discussed above is required for MVP
-        rules:
-          type: array
-          items:
-                $ref: '#/components/schemas/LotRule'
     
     LotRule:
-        # Rules such as 'Prices may not rise more than {x} times in any consecutive {y} day period' can be included in the 'other' element - in this case 2 data-points would be required.
-        # In the above example:
-        #  name="max number of prices rises in period"
-        #  ruleId="maxNumberPriceChangesInPeriod"
-        #  lotAttributes=[ {"numberOfTimes","integer",,3,}, 
-        #                  {"daysInPeriod" ,"integer",,7,}]
-        #  transactionData= ["priceRisesLastPeriod","product.priceRises"]
-        #  evaluationType="complex"
-        #  as here specific logic is required to obtain the number of price rises before evaluating
       type: object
+      description: Rules such as 'Prices may not rise more than {x} times in any consecutive {y} day period' can be included in the 'other' element - in this case 2 data-points would be required. <br><br>In the above example:<br><br>name="max number of prices rises in period"<br>
+        ruleId="maxNumberPriceChangesInPeriod"<br>
+        lotAttributes=[ {"numberOfTimes","integer",,3,},{"daysInPeriod" ,"integer",,7,}]<br>
+        transactionData= ["priceRisesLastPeriod","product.priceRises"]<br>
+        evaluationType="complex"<br><br>
+        as here specific logic is required to obtain the number of price rises before evaluating.
       properties:
         name:
           type: string

@@ -17,7 +17,7 @@ info:
 #
 # Versions
 # 0.0.1             Initial draft
-# 0.0.2  25/03/2020 Moved Lot criteria to a Route to Market array
+# 0.0.2  25/03/2020 Moved Lot criteria to a Route to Market array, and Sector to lot level
 
 servers:
 # This is NOT a real server
@@ -208,11 +208,6 @@ components:
           type: string
           format: uri
           description: URL of the Agreement detail page on the CCS website
-        sectors:
-          type: array
-          items:
-            type: string
-            description: A sector permitted to buy using the Agreement 
         benefits:
           type: array
           items:
@@ -275,6 +270,11 @@ components:
           description: Routes to Market for the Lot and associated bounds
           items:
             $ref: '#/components/schemas/RouteToMarket'
+        sectors:
+          type: array
+          items:
+            type: string
+            description: A sector permitted to buy using the Agreement 
         termsAndConditions:
           $ref: '#/components/schemas/Document'
         documents:

@@ -26,7 +26,7 @@ paths:
         - name: q
           in: query
           description: Journey search term
-          required: false
+          required: true
           schema:
             type: string
       responses:
@@ -145,11 +145,6 @@ components:
         name:
           type: string
           description: Short descriptive name e.g. "Laptops"
-        searchTerms:
-          type: array
-          description: 'Collection of search terms that will match this journey, e.g. ["laptops", "laptop", "notebook", "netbook"]'
-          items:
-            type: string
         questionUuid:
           type: string
           format: uuid
@@ -171,7 +166,7 @@ components:
           description: 'Question text e.g. "How many laptops would you like to buy?"'
         description:
           type: string
-          description: Further descriptive text regarding the question e.g. 'High value matters'
+          description: Further descriptive text regarding the question
         uiType:
           type: string
           enum: [radio, dropdown, checkbox, free_text, pattern, date, date_range]
@@ -180,10 +175,10 @@ components:
           description: Regex pattern for client-side validation of free text entry fields
         definedAnswers:
           type: array
+          uniqueItems: true
           description: Ordered collection of defined answers (for radio and checkbox types)
           items:
             $ref: '#/components/schemas/DefinedAnswer'
-          uniqueItems: true
 
     DefinedAnswer:
       type: object
@@ -195,6 +190,9 @@ components:
         text:
           type: string
           description: 'Answer text e.g. "< 100", "Education", "Yes", "No"'
+        description:
+          type: string
+          description: Further descriptive text regarding each specific answer e.g. 'High value matters'
 
     QuestionAnswers:
       type: object
@@ -202,6 +200,7 @@ components:
       properties:
         data:
           type: array
+          uniqueItems: true
           items:
             type: string
 
@@ -211,7 +210,7 @@ components:
         uuid:
           type: string
           format: uuid
-          description: Journey result unique identifier
+          description: Agreement unique identifier
         name:
           type: string
           description: Commercial agreement / Framework name (e.g. Tech Products)

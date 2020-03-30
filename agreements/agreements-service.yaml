@@ -19,13 +19,14 @@ info:
 # 1. calls to manage data e.g. POST agreement, lot; PUT modifications and so on
 # 2. Questions that need to be answered by suppliers on registration (for Evidence Locker) - talk to 
 # 3. CaT data - RFx question lists per lot
+# 4. Implement security when Conclave or other Auth in place. Commented out for now
 #
 # Versions
 # 0.0.1             Initial draft
 # 0.0.2  25/03/2020 Moved Lot criteria to a Route to Market array, and Sector to lot level
-security: 
-  - OAuth2:
-    - read
+#security: 
+#  - OAuth2:
+#    - read
 
 servers:
 # This is NOT a real server
@@ -179,15 +180,15 @@ paths:
 
 
 components:
-  securitySchemes:
-    OAuth2:
-      type: oauth2
-      flows:
-        authorizationCode:
-          authorizationUrl: http://ccsexample.com/oauth/auth
-          tokenUrl: https://api.crowncommercial.gov.uk/oauth/token
-          scopes:
-            read: Grants read access
+#  securitySchemes:
+#    OAuth2:
+#      type: oauth2
+#      flows:
+#        authorizationCode:
+#          authorizationUrl: http://ccsexample.com/oauth/auth
+#          tokenUrl: https://api.crowncommercial.gov.uk/oauth/token
+#          scopes:
+#            read: Grants read access
 #           only read for MVP
 
   schemas:
@@ -227,11 +228,11 @@ components:
           type: string
           format: date
           description: Effective start date of Commercial Agreement
-          example: dd/mm/yyyy
+          example: yyyy-mm-dd
         endDate:
           type: string
           format: date
-          example: dd/mm/yyyy
+          example: yyyy-mm-dd
           description: Effective start date of Commercial Agreement
         detailUrl:
           type: string
@@ -461,7 +462,7 @@ components:
           type: string
           format: date
           description: Date that the update was added
-          example: dd/mm/yyyy
+          example: yyyy-mm-dd
         linkUrl:
           type: string
           format: uri

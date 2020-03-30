@@ -247,6 +247,7 @@ components:
           type: string
           enum: [lot, support, question]
         data:
+          description: Present when type is 'lot' or 'question'
           oneOf:
             - $ref: '#/components/schemas/Agreement'
             - $ref: '#/components/schemas/Question'

@@ -181,7 +181,7 @@ components:
           description: Further descriptive text regarding the question
         type:
           type: string
-          enum: [list, multiSelectList, number, textInput, date, dateRange, postcode, nuts]
+          enum: [boolean, list, multiSelectList, number, textInput, date, dateRange, postcode, nuts]
         pattern:
           type: string
           description: Regex pattern for client-side validation of free text entry fields

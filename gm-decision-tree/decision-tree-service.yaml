@@ -1,0 +1,270 @@
+openapi: 3.0.1
+info:
+  title: SCALE Guided Match Decision Tree Service API
+  version: "0.0.2"
+servers:
+  - url: https://{apiHost}{basePath}
+    description: "Server base URL - parameterised for different environments"
+    variables:
+      apiHost:
+        default: czuhfg17q4.execute-api.eu-west-2.amazonaws.com
+        description: API Host. Default is SCALE DEV, subject to change and downtime.
+      basePath:
+        default: /dev/scale/decision-tree
+        description: Decision Tree API base path. Default is DEV path.
+tags:
+  - name: scale
+paths:
+
+  /journeys:
+    get:
+      tags:
+      - search-journeys
+      operationId: search-journeys
+      parameters:
+        - name: q
+          in: query
+          description: Journey search term
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: Collection of journey entities, may be zero
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                    $ref: '#/components/schemas/Journey'
+        500:
+          description: Internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Errors'
+
+  /journeys/{uuid}/questions/{question-uuid}:
+    get:
+      tags:
+        - get-journey-question
+      operationId: get-journey-question
+      parameters:
+        - name: uuid
+          in: path
+          description: Journey unique ID
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: question-uuid
+          in: path
+          description: Journey question unique ID
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: modifier
+          in: query
+          description: Term used as an additional key for Dynamic List question lookups
+          required: false
+          schema:
+            type: string
+
+      responses:
+        200:
+         description: A journey question entity
+         content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Question'
+        404:
+          description: Journey-question entity not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Errors'
+        500:
+          description: Internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Errors'
+
+  /journeys/{uuid}/questions/{question-uuid}/outcome:
+    post:
+      tags:
+        - get-journey-question-outcome
+      operationId: get-journey-question-outcome
+      parameters:
+        - name: uuid
+          in: path
+          description: Journey unique ID
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: question-uuid
+          in: path
+          description: Journey question unique ID
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: modifier
+          in: query
+          description: Term used to identify 'modifier' journeys to move to when generic questions are complete
+          required: false
+          schema:
+            type: string
+      requestBody:
+        description: Object containing a collection of answer values
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/QuestionAnswers'
+      responses:
+        200:
+         description: A journey question outcome entity
+         content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Outcome'
+        404:
+          description: Next question entity not found (end of journey)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Errors'
+        500:
+          description: Internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Errors'
+
+components:
+  schemas:
+
+    Journey:
+      type: object
+      properties:
+        uuid:
+          type: string
+          format: uuid
+          description: Guided Match journey unique identifier
+        name:
+          type: string
+          description: Short descriptive name e.g. "Laptops"
+        questionUuid:
+          type: string
+          format: uuid
+          description: UUID for the Guided Match journey opening question
+
+    Question:
+      type: object
+      required:
+        - uuid
+        - text
+        - type
+      properties:
+        uuid:
+          type: string
+          format: uuid
+          description: Question unique identifier
+        text:
+          type: string
+          description: 'Question text e.g. "How many laptops would you like to buy?"'
+        description:
+          type: string
+          description: Further descriptive text regarding the question
+        type:
+          type: string
+          enum: [boolean, list, multiSelectList, number, textInput, date, dateRange, postcode, nuts]
+        pattern:
+          type: string
+          description: Regex pattern for client-side validation of free text entry fields
+        definedAnswers:
+          type: array
+          uniqueItems: true
+          description: Ordered collection of defined answers (for radio and checkbox types)
+          items:
+            $ref: '#/components/schemas/DefinedAnswer'
+
+    DefinedAnswer:
+      type: object
+      properties:
+        uuid:
+          type: string
+          format: uuid
+          description: Answer unique identifier
+        text:
+          type: string
+          description: 'Answer text e.g. "< 100", "Education", "Yes", "No"'
+        description:
+          type: string
+          description: Further descriptive text regarding each specific answer e.g. 'High value matters'
+
+    QuestionAnswers:
+      type: object
+      description: Container for answer values to a particular question (UUIDs, free-text, date range etc).
+      properties:
+        data:
+          type: array
+          uniqueItems: true
+          items:
+            type: string
+
+    Agreement:
+      type: object
+      properties:
+        uuid:
+          type: string
+          format: uuid
+          description: Agreement unique identifier
+        name:
+          type: string
+          description: Commercial agreement / Framework name (e.g. Tech Products)
+        description:
+          type: string
+        agreementId:
+          type: string
+        url:
+          type: string
+          description: Jump off link to start procurement / go to marketplace
+
+    Outcome:
+      type: object
+      description: |
+        Represents the outcome to the submission of answer(s) to a particular question.
+        This could be dynamic i.e. a subsequent question or an agreement (lot), or
+        the support type indicating that no matching agreement could be found
+      required:
+        - type
+      properties:
+        type:
+          type: string
+          enum: [lot, support, question]
+        data:
+          description: Present when type is 'lot' or 'question'
+          oneOf:
+            - $ref: '#/components/schemas/Agreement'
+            - $ref: '#/components/schemas/Question'
+
+    Errors:
+      type: object
+      properties:
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/Error'
+    Error:
+      type: object
+      properties:
+        status:
+          type: string
+        title:
+          type: string
+        detail:
+          type: string

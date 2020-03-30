@@ -64,6 +64,13 @@ paths:
           schema:
             type: string
             format: uuid
+        - name: modifier
+          in: query
+          description: Term used as an additional key for Dynamic List question lookups
+          required: false
+          schema:
+            type: string
+
       responses:
         200:
          description: A journey question entity
@@ -104,6 +111,12 @@ paths:
           schema:
             type: string
             format: uuid
+        - name: modifier
+          in: query
+          description: Term used to identify 'modifier' journeys to move to when generic questions are complete
+          required: false
+          schema:
+            type: string
       requestBody:
         description: Object containing a collection of answer values
         required: true
@@ -154,7 +167,7 @@ components:
       required:
         - uuid
         - text
-        - uiType
+        - type
       properties:
         uuid:
           type: string
@@ -166,9 +179,9 @@ components:
         description:
           type: string
           description: Further descriptive text regarding the question
-        uiType:
+        type:
           type: string
-          enum: [radio, dropdown, checkbox, free_text, pattern, date, date_range]
+          enum: [list, multiSelectList, number, textInput, date, dateRange, postcode, nuts]
         pattern:
           type: string
           description: Regex pattern for client-side validation of free text entry fields
@@ -223,6 +236,12 @@ components:
 
     Outcome:
       type: object
+      description: |
+        Represents the outcome to the submission of answer(s) to a particular question.
+        This could be dynamic i.e. a subsequent question or an agreement (lot), or
+        the support type indicating that no matching agreement could be found
+      required:
+        - type
       properties:
         type:
           type: string
@@ -231,7 +250,6 @@ components:
           oneOf:
             - $ref: '#/components/schemas/Agreement'
             - $ref: '#/components/schemas/Question'
-            # TODO: Support - what does that look like?
 
     Errors:
       type: object

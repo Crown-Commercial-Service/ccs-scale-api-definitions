@@ -1,7 +1,7 @@
 openapi: 3.0.1
 info:
   title: SCALE Guided Match Decision Tree Service API
-  version: "0.0.2"
+  version: "0.0.3"
 servers:
   - url: https://{apiHost}{basePath}
     description: "Server base URL - parameterised for different environments"
@@ -176,7 +176,7 @@ components:
         text:
           type: string
           description: 'Question text e.g. "How many laptops would you like to buy?"'
-        description:
+        hint:
           type: string
           description: Further descriptive text regarding the question
         type:
@@ -202,9 +202,9 @@ components:
         text:
           type: string
           description: 'Answer text e.g. "< 100", "Education", "Yes", "No"'
-        description:
+        hint:
           type: string
-          description: Further descriptive text regarding each specific answer e.g. 'High value matters'
+          description: Further descriptive text regarding the answer e.g. 'High value matters'
 
     QuestionAnswers:
       type: object

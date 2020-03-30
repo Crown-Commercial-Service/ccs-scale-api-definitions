@@ -7,8 +7,7 @@ servers:
     description: "Server base URL - parameterised for different environments"
     variables:
       apiHost:
-        # TODO: Update API ID once redeployed to DEV using new IaC
-        default: fxogd5ptai.execute-api.eu-west-2.amazonaws.com
+        default: czuhfg17q4.execute-api.eu-west-2.amazonaws.com
         description: API Host. Default is SCALE DEV, subject to change and downtime.
       basePath:
         default: /dev/scale/decision-tree

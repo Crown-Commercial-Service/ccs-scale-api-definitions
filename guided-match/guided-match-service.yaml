@@ -1,0 +1,463 @@
+openapi: 3.0.1
+info:
+  title: SCALE Guided Match Service
+  version: "0.0.1"
+  description: This API allows access to Scale FaT Guided Match functionality from the Scale presentation layer  
+#  PLACEHOLDERS
+#  termsOfService: "http://api.crowncommercial.gov.uk/terms/"
+#  contact:
+#    email: "apiteam@crowncommercial.gov.uk"
+#  license:
+#    name: "Open Government Licence 3.0"
+#    url: "https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/"
+
+# References: FaT HLD - https://crowncommercialservice.atlassian.net/wiki/spaces/SCALE/pages/122617907/HLD+-+B.01+FaT
+#
+# TODO:
+# 1.
+#
+# Versions
+# 0.0.1             Initial draft
+#
+# PLACEHOLDER - Commented out security until Conclave is in place for integration
+#security: 
+#  - OAuth2:
+#    - read
+
+servers:
+  - url: https://{apiHost}{basePath}
+    description: "Server base URL - parameterised for different environments"
+    variables:
+      apiHost:
+        default: czuhfg17q4.execute-api.eu-west-2.amazonaws.com
+        description: API Host. Default is SCALE DEV, subject to change and downtime.
+      basePath:
+        default: /dev/scale/decision-tree
+        description: Decision Tree API base path. Default is DEV path.
+        
+tags:
+- name: Guided Match
+
+paths:
+
+  /guidedmatch/processSearchResults:
+    post:
+      summary: Given a set of search results returns GM Journey list
+      description: Given an array of search results extracts those which point to Guided Match Journeys and returns details to build journey selection screen
+      tags:
+      - process-search-results
+      operationId: process-search-results
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SearchResults'
+      responses:
+        200:
+          description: Collection of Guided Match Journey Summary entities
+          content:
+            application/json:
+              schema:
+                type: object
+                items:
+                  $ref: '#/components/schemas/ProcessSearchResponse'
+        500:
+          description: Internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Errors'
+  
+  /guidedmatch/journey/{id}:
+    post:
+      summary: Starts a new Guided Match journey instance
+      description: Starts a new Guided Match journey instance based on the definition 'id'. Identifies the first question for the journey and returns this with answer definitions to the caller.
+      tags:
+      - start-journey
+      operationId: start-journey
+      parameters:
+        - name: id
+          in: path
+          description: GM Journey id
+          example: 1
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/JourneySelectionParameters'
+      responses:
+        200:
+          description: Start Journey Response - instanceId and initial question(s)
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  instanceId:
+                    type: string
+                    format: uuid
+                  questions:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Question'
+        404:
+          description: Guided Match Journey not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Errors'      
+        500:
+          description: Internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Errors'
+        
+  /guidedmatch/journey-instance/{id}/question/{question-id}:
+    post:
+      summary: For a given answer returns details of the next step
+      description: Given the answer provided by the user, evaluates the outcome and passes that back to the UI. Outcome will be one of:<br>a) Agreement/LotId to display the outcome page<br>b) Flag that the user should call Support for further help<br>c) Details of the next question(s)
+      tags:
+      - get-journey-question-outcome
+      operationId: get-journey-question-outcome
+      parameters:
+        - name: id
+          in: path
+          description: Journey instance id
+          example: 1
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: question-id
+          in: path
+          description: Unique identifier of the question answered in this response (if a set of questions, the id of the first question in the set)
+          example: 1
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        description: Answer to the question(s) presented to the user
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/AnsweredQuestion'
+      responses:
+        200:
+          description: Outcome - what to do next and journey history
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  outcome:
+                    $ref: '#/components/schemas/Outcome'
+                  journeyHistory:
+                    type: array
+                    description: Record of the questions asked and answers given through the journey
+                    items:
+                      $ref: '#/components/schemas/QuestionHistory'
+        404:
+          description: Guided Match Journey not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Errors'      
+        500:
+          description: Internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Errors'
+    
+  /guidedmatch/journey-instance/{id}:
+    get:
+      summary: Returns the journey history 
+      description: Returns the journey history (all questions and answers) for the specified journey-instance. Includes Question and Answer texts as displayed to the user
+      tags:
+      - get-history
+      operationId: getJourney
+      parameters:
+        - name: id
+          in: path
+          description: Journey instance id
+          example: 1
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        200:
+          description: Outcome - what happened and journey history
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  outcome:
+                    $ref: '#/components/schemas/Outcome'
+                  journeyHistory:
+                    type: array
+                    description: Record of the questions asked and answers given through the journey
+                    items:
+                      $ref: '#/components/schemas/QuestionHistory'
+        404:
+          description: Journey instance not found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Errors'
+        500:
+          description: Internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Errors'
+    
+
+
+components:
+  securitySchemes:
+    OAuth2:
+      type: oauth2
+      flows:
+        authorizationCode:
+          authorizationUrl: http://ccsexample.com/oauth/auth
+          tokenUrl: https://api.crowncommercial.gov.uk/oauth/token
+          scopes:
+            read: Grants read access
+#           only read for MVP
+  schemas:
+
+# Process-Search-Results objects
+
+    SearchResults:
+      type: object
+      properties:
+        term:
+          type: string
+          description: The search term entered by the user
+          example: security
+        result:
+          type: string
+          description: PLACEHOLDER for search results structure
+
+    ProcessSearchResponse:
+      type: object
+      properties:
+        journeys:
+          type: array
+          items:
+            $ref: '#/components/schemas/GuidedMatchJourneySummary'
+        searchResults:
+          # Returns same array as input - allows for future processing of results
+          $ref: '#/components/schemas/SearchResults'
+
+    GuidedMatchJourneySummary:
+      type: object
+      properties:
+        number:
+          type: string
+          format: uuid
+          description: Guided Match Journey id
+          example: 1
+        name:
+          type: string
+          description: Guided Match journey name (for display in journey selection). Note that this name may be context specific e.g. the Journey is actually 'Consultancy' but the search term to journey mapping record specifies the text to show the user in the selection page.
+          example: "Security consultancy"
+        description:
+          type: string
+          description: Brief journey description in the context of the search term, explaining to which types of 'thing' related to the search term this journey applies
+        modifier:
+          type: string
+          description: The 'modifier' value used as the key along with questionId to obtain dynamic list answers in the context of the search term for a more generic journey (e.g. 'security' within the Consultancy journey will return security consultancy related dynamic list answers)
+          example: security
+
+# Common Objects
+
+    Question:
+      type: object
+      required:
+        - id
+        - text
+        - type
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: Question id
+        text:
+          type: string
+          description: The text to display for the question in the UI
+          example: "For which sector are you purchasing?"
+        hint:
+          type: string
+          description: "A description of the question and its purpose. For example, 'The question sets out to discover what sector the procurement specialist is from. We would expect only one answer' aimed at online help for users."
+        type:
+          type: string
+          enum: [boolean|list|multiselect|number|text|date|daterange]  
+          description: "The type of the question.  Described in detail in the HLD section 7.1.2.2"
+          
+    Agreement:
+      type: object
+      properties:
+        uuid:
+          type: string
+          format: uuid
+          description: Agreement unique identifier
+        name:
+          type: string
+          description: Commercial agreement / Framework name (e.g. Tech Products)
+        description:
+          type: string
+        agreementId:
+          type: string
+        url:
+          type: string
+          description: Jump off link to start procurement / go to marketplace
+          
+# GM Historical Objects - definitions used to present history of a journey
+
+    QuestionHistory:
+      type: object
+      properties:
+        question:
+          $ref: '#/components/schemas/Question'
+        answers:
+          type: array
+          items:
+            $ref: '#/components/schemas/AnswerHistory'
+
+    AnswerHistory:
+      type: object
+      description: Answer from the user and for context the text displayed for that answer. N.B. a question may have more than one answer
+      properties:
+        answer:
+          type: string
+          description: The Answer. The question type indicates how to interpret the response. AnswerIds will be UUID, other question types will be string values. May be more than one answer for a question.
+        answerText:
+          type: string
+          description: The text for the answer as displayed to the user - needed for history
+
+# GM Operational Objects - definitions used while in a Journey
+   
+    JourneySelectionParameters:
+      type: object
+      properties:
+        searchTerm:
+          type: string
+          description: The search term entered by the user
+          example: security
+        modifier:
+          type: string
+          description: The 'modifier' value stored in the search term lookup which governs dynamic list questions and other behaviour within a generic journey
+          example: security
+      
+    QuestionDefinition:
+      type: object
+      required:
+        - id
+        - text
+        - type
+      properties:
+        question:
+          $ref: '#/components/schemas/Question'
+        pattern:
+          type: string
+          description: Regex pattern for client-side validation of free text entry fields
+        prePopulatedAnswerId:
+          type: string
+          format: uuid
+          description: Not used in MVP. To be the id of the answer pre-selected from other sources for list question types.
+        prePopulatedAnswerSource:
+          type: string
+          description: "Details of the source data used to pre-populate the answer - e.g. <system>|<json path>, so that the user can be told that the data came from user profile, org data and so on"
+        definedAnswers:
+          type: array
+          items:
+            $ref: '#/components/schemas/AnswerDefinition'
+            
+    AnswerDefinition:
+      # Only the properties needed for display of the answer for list questions
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: Answer unique id
+        text:
+          type: string
+          description: 'The text to display for the answer e.g. "< 100", "Education", "Yes", "No"'
+        hint:
+          type: string
+          description: Further descriptive text regarding the answer e.g. 'High value matters'
+
+    AnsweredQuestion:
+      type: object
+        # The object behind the array of questions, 1 entry per question
+        # id is redundant if only 1 in the array but needed for more than 1
+        # questionType not required as that can be looked up
+        # This object is only used in the 'processAnswer' call.      
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: The Id of the answered Question
+        answers:
+          type: array
+          items:
+            type: string
+            description: Container for answer values to a particular question (UUIDs, free-text, date range etc).
+            uniqueItems: true
+
+    Outcome:
+      type: object
+      description: |
+        Represents the outcome to the submission of answer(s) to a particular question.
+        This could be dynamic i.e. subsequent question(s) or an agreement (lot), or
+        the support type indicating that no matching agreement could be found
+      required:
+        - type
+      properties:
+        type:
+          type: string
+          enum: [lot, support, question]
+        timestamp:
+          type: string
+          format: date-time
+          description: Date-time that the journey instance was created
+        data:
+          description: Present when type is 'lot' or 'question'
+          oneOf:
+            - $ref: '#/components/schemas/Agreement'
+            - type: array
+              items:
+                $ref: '#/components/schemas/QuestionDefinition'    
+
+# Error objects          
+    Errors:
+      type: object
+      properties:
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/Error'
+    Error:
+      type: object
+      properties:
+        status:
+          type: string
+        title:
+          type: string
+        detail:
+          type: string

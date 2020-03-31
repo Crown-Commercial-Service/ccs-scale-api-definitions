@@ -3,6 +3,14 @@ info:
   title: SCALE Commercial Agreements Service
   version: "0.0.2"
   description: This API allows access to CCS Commercial Agreement data. This is used both to provide information to users and to govern the behaviour of other systems for example 'Buy a Thing' and 'Contract for a Thing', where processes may differ based on the configuration of the underlying Commercial Agreement and Lot.  
+  
+#  PLACEHOLDERs - to be uncommented when implemented  
+#  termsOfService: "http://api.crowncommercial.gov.uk/terms/"
+#  contact:
+#    email: "apiteam@crowncommercial.gov.uk"
+#  license:
+#    name: "Open Government Licence 3.0"
+#    url: "https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/"
 
 # Some data is explicitly omitted from the initial version of the API. Some detailed notes below but a summary here
 # - Terms and conditions are not included (in MVP) as individual data items. It is assumed that a link to a t&cs document will be provided for all Agreements. To be considered post MVP.
@@ -14,18 +22,22 @@ info:
 # 1. calls to manage data e.g. POST agreement, lot; PUT modifications and so on
 # 2. Questions that need to be answered by suppliers on registration (for Evidence Locker) - talk to 
 # 3. CaT data - RFx question lists per lot
+# 4. Implement security when Conclave or other Auth in place. Commented out for now
 #
 # Versions
 # 0.0.1             Initial draft
 # 0.0.2  25/03/2020 Moved Lot criteria to a Route to Market array, and Sector to lot level
+#security: 
+#  - OAuth2:
+#    - read
 
 servers:
 # This is NOT a real server
 - url: https://crowncommercialservices.gov.uk/dummy/scale/agreements
 tags:
 - name: agreements
-paths:
 
+paths:
   # No filter parameter included against API principle due to no use case for this call for MVP which would require a filter and enterprise search provides search functionality on agreements.
   /agreements:
     get:
@@ -60,7 +72,8 @@ paths:
       parameters:
         - name: ca-number
           in: path
-          description: Commercial Agreement unique 'number' e.g. "RM1045"
+          description: Commercial Agreement unique 'number'
+          example: RM3733
           required: true
           schema:
             type: string
@@ -97,13 +110,15 @@ paths:
       parameters:
         - name: ca-number
           in: path
-          description: Commercial Agreement unique number e.g. "RM1045"
+          description: Commercial Agreement unique number
+          example: RM3733
           required: true
           schema:
             type: string
         - name: lot-number
           in: path
           description: Unique number of Lot within Commercial Agreement
+          example: "Lot 1"
           required: true
           schema:
             type: string
@@ -138,7 +153,8 @@ paths:
       parameters:
         - name: ca-number
           in: path
-          description: Commercial Agreement unique number e.g. "RM1045"
+          description: Commercial Agreement unique number
+          example: RM3733
           required: true
           schema:
             type: string
@@ -167,6 +183,17 @@ paths:
 
 
 components:
+#  securitySchemes:
+#    OAuth2:
+#      type: oauth2
+#      flows:
+#        authorizationCode:
+#          authorizationUrl: http://ccsexample.com/oauth/auth
+#          tokenUrl: https://api.crowncommercial.gov.uk/oauth/token
+#          scopes:
+#            read: Grants read access
+#           only read for MVP
+
   schemas:
 
     AgreementSummary:
@@ -174,10 +201,12 @@ components:
       properties:
         number:
           type: string
-          description: Commercial Agreement Number e.g. "RM1045"
+          description: Commercial Agreement Number
+          example: RM3733
         name:
           type: string
-          description: Commercial Agreement Name e.g. "Linen and Laundry Services"
+          description: Commercial Agreement Name 
+          example: "Technology Products 2"
           
           
 # Agreement Detail omits some Agreement data in the initial version.
@@ -189,10 +218,12 @@ components:
       properties:
         number:
           type: string
-          description: Commercial Agreement Number e.g. "RM1045"
+          description: Commercial Agreement Number 
+          example: "RM3733"
         name:
           type: string
-          description: Commercial Agreement Name e.g. "Linen and Laundry Services"
+          description: Commercial Agreement Name 
+          example: "Technology Products 2"
         description:
           type: string
           description: Short textual description of the commercial agreement
@@ -200,14 +231,17 @@ components:
           type: string
           format: date
           description: Effective start date of Commercial Agreement
+          example: yyyy-mm-dd
         endDate:
           type: string
           format: date
+          example: yyyy-mm-dd
           description: Effective start date of Commercial Agreement
         detailUrl:
           type: string
           format: uri
           description: URL of the Agreement detail page on the CCS website
+          example: "https://www.crowncommercial.gov.uk/agreements/RM3733"
         benefits:
           type: array
           items:
@@ -227,17 +261,18 @@ components:
       properties:
         number:
           type: string
-          description: Lot number e.g. "1" for Lot 1
+          description: Lot number 
+          example: 1
         name:
           type: string
-          description: Lot name e.g. "Finance"
+          description: Lot name 
+          example: Finance
         description:
           type: string
           description: Short textual description of the Lot
         type:
           type: string
           enum: [product|service|product and service]
-
         services:
           type: array
           items:
@@ -274,7 +309,7 @@ components:
           type: array
           items:
             type: string
-            description: A sector permitted to buy using the Agreement 
+            description: A sector permitted to buy using the Agreement/Lot   
         termsAndConditions:
           $ref: '#/components/schemas/Document'
         documents:
@@ -346,6 +381,7 @@ components:
             unit:
               type: string
               description: The unit of the quantity value
+              example: "days"
             length:
               type: number
               format: float
@@ -356,6 +392,7 @@ components:
             unit:
               type: string
               description: The unit of the quantity value
+              example: "units"
             length:
               type: number
               format: float
@@ -373,6 +410,7 @@ components:
         name:
           type: string
           description: Name of the rule (3 or 4 word description)
+          example: "Price rise limit"
         ruleId: 
           type: string
           description: Unique identifier of the rule
@@ -387,11 +425,13 @@ components:
             type: object
             properties:
               name:
-                type: "string"
+                type: string
                 description: name of the variable
+                example: "priceRisesLastPeriod"
               location:
-                type: "string"
+                type: string
                 description: Path or other location of the data which can be evaluated by the application
+                example: "product.priceRises"
         evaluationType:
           type: string
           enum: [equal , greater, less, complex]
@@ -425,6 +465,7 @@ components:
           type: string
           format: date
           description: Date that the update was added
+          example: yyyy-mm-dd
         linkUrl:
           type: string
           format: uri
@@ -438,10 +479,12 @@ components:
       properties:
         number:
           type: string
-          description: Lot number e.g. "1" for Lot 1
+          description: Lot number
+          example: 1
         name:
           type: string
-          description: Lot name e.g. "Finance"
+          description: Lot name
+          example: "Finance"
 
           
     Document:

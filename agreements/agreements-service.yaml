@@ -3,12 +3,15 @@ info:
   title: SCALE Commercial Agreements Service
   version: "0.0.2"
   description: This API allows access to CCS Commercial Agreement data. This is used both to provide information to users and to govern the behaviour of other systems for example 'Buy a Thing' and 'Contract for a Thing', where processes may differ based on the configuration of the underlying Commercial Agreement and Lot.  
-  termsOfService: "http://api.crowncommercial.gov.uk/terms/"
-  contact:
-    email: "apiteam@crowncommercial.gov.uk"
-  license:
-    name: "Open Government Licence 3.0"
-    url: "https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/"
+  
+#  PLACEHOLDERs - to be uncommented when implemented  
+#  termsOfService: "http://api.crowncommercial.gov.uk/terms/"
+#  contact:
+#    email: "apiteam@crowncommercial.gov.uk"
+#  license:
+#    name: "Open Government Licence 3.0"
+#    url: "https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/"
+
 # Some data is explicitly omitted from the initial version of the API. Some detailed notes below but a summary here
 # - Terms and conditions are not included (in MVP) as individual data items. It is assumed that a link to a t&cs document will be provided for all Agreements. To be considered post MVP.
 # - 'Special Considerations' - mentioned in an email from JW, needs analysis

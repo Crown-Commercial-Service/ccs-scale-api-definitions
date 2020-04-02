@@ -32,15 +32,15 @@ servers:
         default: czuhfg17q4.execute-api.eu-west-2.amazonaws.com
         description: API Host. Default is SCALE DEV, subject to change and downtime.
       basePath:
-        default: /dev/scale/decision-tree
-        description: Decision Tree API base path. Default is DEV path.
+        default: /dev/scale/guided-match-service
+        description: Guided Match API base path. Default is DEV path.
         
 tags:
 - name: Guided Match
 
 paths:
 
-  /guidedmatch/processSearchResults:
+  /guidedmatch/process-search-results:
     post:
       summary: Given a set of search results returns GM Journey list
       description: Given an array of search results extracts those which point to Guided Match Journeys and returns details to build journey selection screen
@@ -62,6 +62,12 @@ paths:
                 type: object
                 items:
                   $ref: '#/components/schemas/ProcessSearchResponse'
+        400:
+          description: Bad request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Errors'
         500:
           description: Internal server error.
           content:
@@ -106,6 +112,12 @@ paths:
                     type: array
                     items:
                       $ref: '#/components/schemas/Question'
+        400:
+          description: Bad request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Errors'
         404:
           description: Guided Match Journey not found
           content:
@@ -167,6 +179,12 @@ paths:
                     description: Record of the questions asked and answers given through the journey
                     items:
                       $ref: '#/components/schemas/QuestionHistory'
+        400:
+          description: Bad request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Errors'
         404:
           description: Guided Match Journey not found
           content:
@@ -305,7 +323,7 @@ components:
           description: "A description of the question and its purpose. For example, 'The question sets out to discover what sector the procurement specialist is from. We would expect only one answer' aimed at online help for users."
         type:
           type: string
-          enum: [boolean|list|multiselect|number|text|date|daterange]  
+          enum: [boolean,list,multiselect,number,text,date,daterange]  
           description: "The type of the question.  Described in detail in the HLD section 7.1.2.2"
           
     Agreement:

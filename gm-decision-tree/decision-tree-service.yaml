@@ -216,16 +216,16 @@ components:
           items:
             type: string
 
-    Agreement:
+    Lot:
       type: object
       properties:
         uuid:
           type: string
           format: uuid
-          description: Agreement unique identifier
+          description: Lot unique identifier
         name:
           type: string
-          description: Commercial agreement / Framework name (e.g. Tech Products)
+          description: Commercial agreement lot (e.g. Linen and Laundry Services Lot 1b)
         description:
           type: string
         agreementId:
@@ -249,7 +249,7 @@ components:
         data:
           description: Present when type is 'lot' or 'question'
           oneOf:
-            - $ref: '#/components/schemas/Agreement'
+            - $ref: '#/components/schemas/Lot'
             - $ref: '#/components/schemas/Question'
 
     Errors:

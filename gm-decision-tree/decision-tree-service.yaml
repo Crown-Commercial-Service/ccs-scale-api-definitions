@@ -1,7 +1,7 @@
 openapi: 3.0.1
 info:
   title: SCALE Guided Match Decision Tree Service API
-  version: "0.0.3"
+  version: "0.0.4"
 servers:
   - url: https://{apiHost}{basePath}
     description: "Server base URL - parameterised for different environments"
@@ -194,6 +194,10 @@ components:
 
     DefinedAnswer:
       type: object
+      required:
+        - uuid
+        - text
+        - order
       properties:
         uuid:
           type: string
@@ -202,6 +206,9 @@ components:
         text:
           type: string
           description: 'Answer text e.g. "< 100", "Education", "Yes", "No"'
+        order:
+          type: integer
+          description: Suggested order in which the answer should appear in a UI for a particular question
         hint:
           type: string
           description: Further descriptive text regarding the answer e.g. 'High value matters'

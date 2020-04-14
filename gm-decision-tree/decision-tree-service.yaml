@@ -1,7 +1,7 @@
 openapi: 3.0.1
 info:
   title: SCALE Guided Match Decision Tree Service API
-  version: "0.0.4"
+  version: "0.0.5"
 servers:
   - url: https://{apiHost}{basePath}
     description: "Server base URL - parameterised for different environments"
@@ -230,9 +230,12 @@ components:
           type: string
           format: uuid
           description: Lot unique identifier
-        name:
+        agreementName:
           type: string
-          description: Commercial agreement lot (e.g. Linen and Laundry Services Lot 1b)
+          description: Commercial agreement name e.g. Workplace Services (FM Marketplace Phase 2)
+        lotName:
+          type: string
+          description: Lot name (e.g. Lot 1b)
         description:
           type: string
         agreementId:

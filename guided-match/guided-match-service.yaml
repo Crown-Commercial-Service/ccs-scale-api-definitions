@@ -1,7 +1,7 @@
 openapi: 3.0.1
 info:
   title: SCALE Guided Match Service
-  version: "0.0.1"
+  version: "0.0.2"
   description: This API allows access to Scale FaT Guided Match functionality from the Scale presentation layer  
 #  PLACEHOLDERS
 #  termsOfService: "http://api.crowncommercial.gov.uk/terms/"
@@ -18,6 +18,8 @@ info:
 #
 # Versions
 # 0.0.1             Initial draft
+# 0.0.2             Added variableName to Question, user and searchTerm to JourneyHistory
+#                   Note that as FaT MVP is anonymous, user will be null initially
 #
 # PLACEHOLDER - Commented out security until Conclave is in place for integration
 #security: 
@@ -222,6 +224,13 @@ paths:
               schema:
                 type: object
                 properties:
+                  searchTerm:
+                    type: string
+                    description: The original search term entered by the user
+                  userId:
+                    type: string
+                    format: uuid
+                    description: Id of the user. Only present for logged in users
                   outcome:
                     $ref: '#/components/schemas/Outcome'
                   journeyHistory:
@@ -355,7 +364,9 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/AnswerHistory'
-
+        variableName:
+          type: string
+          description: short variable name used in the interface for FaT/BaT to define the data held in the answer e.g. budget, deliveryDate, organisation
     AnswerHistory:
       type: object
       description: Answer from the user and for context the text displayed for that answer. N.B. a question may have more than one answer
@@ -479,3 +490,4 @@ components:
           type: string
         detail:
           type: string
+ 

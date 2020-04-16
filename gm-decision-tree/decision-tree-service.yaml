@@ -1,7 +1,7 @@
 openapi: 3.0.1
 info:
   title: SCALE Guided Match Decision Tree Service API
-  version: "0.0.6"
+  version: "0.0.7"
 servers:
   - url: https://{apiHost}{basePath}
     description: "Server base URL - parameterised for different environments"
@@ -182,6 +182,9 @@ components:
         type:
           type: string
           enum: [boolean, list, multiSelectList, number, textInput, date, dateRange, postcode, nuts]
+        variableName:
+          type: string
+          description: short variable name used in the interface for FaT/BaT to define the data held in the answer e.g. budget, deliveryDate, organisation
         pattern:
           type: string
           description: Regex pattern for client-side validation of free text entry fields

@@ -1,7 +1,7 @@
 openapi: 3.0.1
 info:
   title: SCALE Guided Match Decision Tree Service API
-  version: "0.0.5"
+  version: "0.0.6"
 servers:
   - url: https://{apiHost}{basePath}
     description: "Server base URL - parameterised for different environments"
@@ -248,8 +248,8 @@ components:
       type: object
       description: |
         Represents the outcome to the submission of answer(s) to a particular question.
-        This could be dynamic i.e. a subsequent question or an agreement (lot), or
-        the support type indicating that no matching agreement could be found
+        This could be dynamic i.e. a subsequent question or single/multiple agreement lots, 
+        or the support type indicating that no matching agreement could be found
       required:
         - type
       properties:
@@ -259,7 +259,9 @@ components:
         data:
           description: Present when type is 'lot' or 'question'
           oneOf:
-            - $ref: '#/components/schemas/Lot'
+            - type: array
+              items:
+                $ref: '#/components/schemas/Lot'
             - $ref: '#/components/schemas/Question'
 
     Errors:

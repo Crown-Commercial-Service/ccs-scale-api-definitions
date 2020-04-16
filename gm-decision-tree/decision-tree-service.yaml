@@ -1,7 +1,7 @@
 openapi: 3.0.1
 info:
   title: SCALE Guided Match Decision Tree Service API
-  version: "0.0.7"
+  version: "0.0.8"
 servers:
   - url: https://{apiHost}{basePath}
     description: "Server base URL - parameterised for different environments"
@@ -239,8 +239,13 @@ components:
         lotName:
           type: string
           description: Lot name (e.g. Lot 1b)
-        description:
+        agreementDescription:
           type: string
+        lotDescription:
+          type: string
+        scale:
+          type: boolean
+          description: Whether this agreement is on the SCALE platform
         agreementId:
           type: string
         url:
@@ -251,7 +256,7 @@ components:
       type: object
       description: |
         Represents the outcome to the submission of answer(s) to a particular question.
-        This could be dynamic i.e. a subsequent question or single/multiple agreement lots, 
+        This could be dynamic i.e. a subsequent question or single/multiple agreement lots,
         or the support type indicating that no matching agreement could be found
       required:
         - type

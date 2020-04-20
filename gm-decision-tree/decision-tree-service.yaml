@@ -1,7 +1,7 @@
 openapi: 3.0.1
 info:
   title: SCALE Guided Match Decision Tree Service API
-  version: "0.0.8"
+  version: "0.0.9"
 servers:
   - url: https://{apiHost}{basePath}
     description: "Server base URL - parameterised for different environments"
@@ -228,6 +228,11 @@ components:
 
     Lot:
       type: object
+      required:
+        - uuid
+        - agreementName
+        - scale
+        - type
       properties:
         uuid:
           type: string
@@ -248,6 +253,14 @@ components:
           description: Whether this agreement is on the SCALE platform
         agreementId:
           type: string
+        type:
+          type: string
+          enum: ['bat', 'cat', 'other', 'support']
+          description: Primary purchasing route (Buy-a-Thing, Contract-a-Thing, general marketplace, contact CCS support)
+        routeToMarket:
+          type: string
+          enum: ['fc','da']
+          description: Route to market sub-type (Further Competition or Direct Award)
         url:
           type: string
           description: Jump off link to start procurement / go to marketplace

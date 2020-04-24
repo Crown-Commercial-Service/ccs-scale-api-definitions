@@ -1,8 +1,8 @@
 openapi: 3.0.1
 info:
   title: SCALE Guided Match Service
-  version: "0.0.2"
-  description: This API allows access to Scale FaT Guided Match functionality from the Scale presentation layer  
+  version: "0.0.3"
+  description: This API allows access to Scale FaT Guided Match functionality from the Scale presentation layer
 #  PLACEHOLDERS
 #  termsOfService: "http://api.crowncommercial.gov.uk/terms/"
 #  contact:
@@ -22,7 +22,7 @@ info:
 #                   Note that as FaT MVP is anonymous, user will be null initially
 #
 # PLACEHOLDER - Commented out security until Conclave is in place for integration
-#security: 
+#security:
 #  - OAuth2:
 #    - read
 
@@ -36,7 +36,7 @@ servers:
       basePath:
         default: /dev/scale/guided-match-service
         description: Guided Match API base path. Default is DEV path.
-        
+
 tags:
 - name: Guided Match
 
@@ -76,7 +76,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Errors'
-  
+
   /guidedmatch/journey/{id}:
     post:
       summary: Starts a new Guided Match journey instance
@@ -125,14 +125,14 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Errors'      
+                $ref: '#/components/schemas/Errors'
         500:
           description: Internal server error.
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Errors'
-        
+
   /guidedmatch/journey-instance/{id}/question/{question-id}:
     post:
       summary: For a given answer returns details of the next step
@@ -192,17 +192,17 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Errors'      
+                $ref: '#/components/schemas/Errors'
         500:
           description: Internal server error.
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Errors'
-    
+
   /guidedmatch/journey-instance/{id}:
     get:
-      summary: Returns the journey history 
+      summary: Returns the journey history
       description: Returns the journey history (all questions and answers) for the specified journey-instance. Includes Question and Answer texts as displayed to the user
       tags:
       - get-history
@@ -250,7 +250,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Errors'
-    
+
 
 
 components:
@@ -293,11 +293,11 @@ components:
     GuidedMatchJourneySummary:
       type: object
       properties:
-        number:
+        id:
           type: string
           format: uuid
           description: Guided Match Journey id
-          example: 1
+          example: e1940802-8612-11ea-bc55-0242ac130003
         name:
           type: string
           description: Guided Match journey name (for display in journey selection). Note that this name may be context specific e.g. the Journey is actually 'Consultancy' but the search term to journey mapping record specifies the text to show the user in the selection page.
@@ -332,13 +332,13 @@ components:
           description: "A description of the question and its purpose. For example, 'The question sets out to discover what sector the procurement specialist is from. We would expect only one answer' aimed at online help for users."
         type:
           type: string
-          enum: [boolean,list,multiselect,number,text,date,daterange]  
+          enum: [boolean,list,multiselect,number,text,date,daterange]
           description: "The type of the question.  Described in detail in the HLD section 7.1.2.2"
-          
+
     Agreement:
       type: object
       properties:
-        uuid:
+        id:
           type: string
           format: uuid
           description: Agreement unique identifier
@@ -352,7 +352,7 @@ components:
         url:
           type: string
           description: Jump off link to start procurement / go to marketplace
-          
+
 # GM Historical Objects - definitions used to present history of a journey
 
     QuestionHistory:
@@ -379,7 +379,7 @@ components:
           description: The text for the answer as displayed to the user - needed for history
 
 # GM Operational Objects - definitions used while in a Journey
-   
+
     JourneySelectionParameters:
       type: object
       properties:
@@ -391,7 +391,7 @@ components:
           type: string
           description: The 'modifier' value stored in the search term lookup which governs dynamic list questions and other behaviour within a generic journey
           example: security
-      
+
     QuestionDefinition:
       type: object
       required:
@@ -415,7 +415,7 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/AnswerDefinition'
-            
+
     AnswerDefinition:
       # Only the properties needed for display of the answer for list questions
       type: object
@@ -436,7 +436,7 @@ components:
         # The object behind the array of questions, 1 entry per question
         # id is redundant if only 1 in the array but needed for more than 1
         # questionType not required as that can be looked up
-        # This object is only used in the 'processAnswer' call.      
+        # This object is only used in the 'processAnswer' call.
       properties:
         id:
           type: string
@@ -471,9 +471,9 @@ components:
             - $ref: '#/components/schemas/Agreement'
             - type: array
               items:
-                $ref: '#/components/schemas/QuestionDefinition'    
+                $ref: '#/components/schemas/QuestionDefinition'
 
-# Error objects          
+# Error objects
     Errors:
       type: object
       properties:
@@ -490,4 +490,3 @@ components:
           type: string
         detail:
           type: string
- 

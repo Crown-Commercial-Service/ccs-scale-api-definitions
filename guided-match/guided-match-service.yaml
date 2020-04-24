@@ -13,14 +13,6 @@ info:
 
 # References: FaT HLD - https://crowncommercialservice.atlassian.net/wiki/spaces/SCALE/pages/122617907/HLD+-+B.01+FaT
 #
-# TODO:
-# 1.
-#
-# Versions
-# 0.0.1             Initial draft
-# 0.0.2             Added variableName to Question, user and searchTerm to JourneyHistory
-#                   Note that as FaT MVP is anonymous, user will be null initially
-#
 # PLACEHOLDER - Commented out security until Conclave is in place for integration
 #security:
 #  - OAuth2:

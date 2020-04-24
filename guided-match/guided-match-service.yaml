@@ -1,7 +1,7 @@
 openapi: 3.0.1
 info:
   title: SCALE Guided Match Service
-  version: "0.0.3"
+  version: "0.0.4"
   description: This API allows access to Scale FaT Guided Match functionality from the Scale presentation layer
 #  PLACEHOLDERS
 #  termsOfService: "http://api.crowncommercial.gov.uk/terms/"
@@ -128,7 +128,12 @@ paths:
   /guidedmatch/journey-instance/{id}/question/{question-id}:
     post:
       summary: For a given answer returns details of the next step
-      description: Given the answer provided by the user, evaluates the outcome and passes that back to the UI. Outcome will be one of:<br>a) Agreement/LotId to display the outcome page<br>b) Flag that the user should call Support for further help<br>c) Details of the next question(s)
+      description: |
+        Given the answer provided by the user, evaluates the outcome and passes that back to the UI.
+        Outcome will be one of:
+          1. Framework(s) to display on the results pages
+          2. Flag that the user should call Support for further help
+          3. Details of the next question(s)
       tags:
       - get-journey-question-outcome
       operationId: get-journey-question-outcome
@@ -327,20 +332,55 @@ components:
           enum: [boolean,list,multiselect,number,text,date,daterange]
           description: "The type of the question.  Described in detail in the HLD section 7.1.2.2"
 
-    Agreement:
+    Framework:
       type: object
+      description: CCS commercial framework (aka agreement)
       properties:
         id:
           type: string
           format: uuid
-          description: Agreement unique identifier
+          description: Framework unique identifier
         name:
           type: string
-          description: Commercial agreement / Framework name (e.g. Tech Products)
+          example: Linen and Laundry Services
         description:
           type: string
-        agreementId:
+        frameworkId:
           type: string
+        startDate:
+          type: string
+          format: date
+          example: '2017-07-21'
+        endDate:
+          type: string
+          format: date
+          example: '2017-07-21'
+        scale:
+          type: boolean
+          description: Whether this framework is on the SCALE platform
+        type:
+          type: string
+          enum: ['bat', 'cat', 'other', 'support']
+          description: Primary purchasing route (Buy-a-Thing, Contract-a-Thing, general marketplace, contact CCS support)
+        lots:
+          type: array
+          uniqueItems: true
+          items:
+            $ref: '#/components/schemas/Lot'
+
+    Lot:
+      type: object
+      description: A framework lot
+      properties:
+        name:
+          type: string
+          example: 'Lot 1b: Standard Wash Linen and Laundry Services'
+        description:
+          type: string
+        routeToMarket:
+          type: string
+          enum: ['fc','da']
+          description: Route to market sub-type (Further Competition or Direct Award)
         url:
           type: string
           description: Jump off link to start procurement / go to marketplace
@@ -445,23 +485,27 @@ components:
       type: object
       description: |
         Represents the outcome to the submission of answer(s) to a particular question.
-        This could be dynamic i.e. subsequent question(s) or an agreement (lot), or
-        the support type indicating that no matching agreement could be found
+        This could be dynamic i.e. subsequent question(s), one or more frameworks (with
+        or without lots), or the support type indicating that no matching frameworks could be found
       required:
         - type
       properties:
         type:
           type: string
-          enum: [lot, support, question]
+          enum: [framework, support, question]
         timestamp:
           type: string
           format: date-time
           description: Date-time that the journey instance was created
         data:
-          description: Present when type is 'lot' or 'question'
+          description: Present when type is 'framework' or 'question'
           oneOf:
-            - $ref: '#/components/schemas/Agreement'
             - type: array
+              uniqueItems: true
+              items:
+                $ref: '#/components/schemas/Framework'
+            - type: array
+              uniqueItems: true
               items:
                 $ref: '#/components/schemas/QuestionDefinition'
 

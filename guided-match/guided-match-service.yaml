@@ -1,7 +1,7 @@
 openapi: 3.0.1
 info:
   title: SCALE Guided Match Service
-  version: "0.0.3"
+  version: "0.0.4"
   description: This API allows access to Scale FaT Guided Match functionality from the Scale presentation layer
 #  PLACEHOLDERS
 #  termsOfService: "http://api.crowncommercial.gov.uk/terms/"
@@ -23,7 +23,7 @@ servers:
     description: "Server base URL - parameterised for different environments"
     variables:
       apiHost:
-        default: czuhfg17q4.execute-api.eu-west-2.amazonaws.com
+        default: hd2xpoa1xb.execute-api.eu-west-2.amazonaws.com
         description: API Host. Default is SCALE DEV, subject to change and downtime.
       basePath:
         default: /dev/scale/guided-match-service
@@ -34,50 +34,18 @@ tags:
 
 paths:
 
-  /guidedmatch/process-search-results:
-    post:
-      summary: Given a set of search results returns GM Journey list
-      description: Given an array of search results extracts those which point to Guided Match Journeys and returns details to build journey selection screen
-      tags:
-      - process-search-results
-      operationId: process-search-results
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/SearchResults'
-      responses:
-        200:
-          description: Collection of Guided Match Journey Summary entities
-          content:
-            application/json:
-              schema:
-                type: object
-                items:
-                  $ref: '#/components/schemas/ProcessSearchResponse'
-        400:
-          description: Bad request.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Errors'
-        500:
-          description: Internal server error.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Errors'
-
-  /guidedmatch/journey/{id}:
+  /journeys/{journey-id}:
     post:
       summary: Starts a new Guided Match journey instance
-      description: Starts a new Guided Match journey instance based on the definition 'id'. Identifies the first question for the journey and returns this with answer definitions to the caller.
+      description: |
+        Starts a new Guided Match journey instance based on the definition 'id'.
+        Identifies the first question for the journey and returns this with
+        answer definitions to the caller.
       tags:
       - start-journey
       operationId: start-journey
       parameters:
-        - name: id
+        - name: journey-id
           in: path
           description: GM Journey id
           example: 1
@@ -93,13 +61,13 @@ paths:
               $ref: '#/components/schemas/JourneySelectionParameters'
       responses:
         200:
-          description: Start Journey Response - instanceId and initial question(s)
+          description: Start Journey Response - journeyInstanceId and initial question(s)
           content:
             application/json:
               schema:
                 type: object
                 properties:
-                  instanceId:
+                  journeyInstanceId:
                     type: string
                     format: uuid
                   questions:
@@ -125,15 +93,20 @@ paths:
               schema:
                 $ref: '#/components/schemas/Errors'
 
-  /guidedmatch/journey-instance/{id}/question/{question-id}:
+  /journey-instances/{journey-instance-id}/questions/{question-id}:
     post:
       summary: For a given answer returns details of the next step
-      description: Given the answer provided by the user, evaluates the outcome and passes that back to the UI. Outcome will be one of:<br>a) Agreement/LotId to display the outcome page<br>b) Flag that the user should call Support for further help<br>c) Details of the next question(s)
+      description: |
+        Given the answer provided by the user, evaluates the outcome and passes that back to the UI.
+        Outcome will be one of:
+          1. Commercial Agreement(s) to display on the results pages
+          2. Flag that the user should call Support for further help
+          3. Details of the next question(s)
       tags:
       - get-journey-question-outcome
       operationId: get-journey-question-outcome
       parameters:
-        - name: id
+        - name: journey-instance-id
           in: path
           description: Journey instance id
           example: 1
@@ -192,7 +165,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/Errors'
 
-  /guidedmatch/journey-instance/{id}:
+  /journey-instances/{journey-instance-id}:
     get:
       summary: Returns the journey history
       description: Returns the journey history (all questions and answers) for the specified journey-instance. Includes Question and Answer texts as displayed to the user
@@ -200,7 +173,7 @@ paths:
       - get-history
       operationId: getJourney
       parameters:
-        - name: id
+        - name: journey-instance-id
           in: path
           description: Journey instance id
           example: 1
@@ -258,50 +231,6 @@ components:
 #           only read for MVP
   schemas:
 
-# Process-Search-Results objects
-
-    SearchResults:
-      type: object
-      properties:
-        term:
-          type: string
-          description: The search term entered by the user
-          example: security
-        result:
-          type: string
-          description: PLACEHOLDER for search results structure
-
-    ProcessSearchResponse:
-      type: object
-      properties:
-        journeys:
-          type: array
-          items:
-            $ref: '#/components/schemas/GuidedMatchJourneySummary'
-        searchResults:
-          # Returns same array as input - allows for future processing of results
-          $ref: '#/components/schemas/SearchResults'
-
-    GuidedMatchJourneySummary:
-      type: object
-      properties:
-        id:
-          type: string
-          format: uuid
-          description: Guided Match Journey id
-          example: e1940802-8612-11ea-bc55-0242ac130003
-        name:
-          type: string
-          description: Guided Match journey name (for display in journey selection). Note that this name may be context specific e.g. the Journey is actually 'Consultancy' but the search term to journey mapping record specifies the text to show the user in the selection page.
-          example: "Security consultancy"
-        description:
-          type: string
-          description: Brief journey description in the context of the search term, explaining to which types of 'thing' related to the search term this journey applies
-        modifier:
-          type: string
-          description: The 'modifier' value used as the key along with questionId to obtain dynamic list answers in the context of the search term for a more generic journey (e.g. 'security' within the Consultancy journey will return security consultancy related dynamic list answers)
-          example: security
-
 # Common Objects
 
     Question:
@@ -329,18 +258,37 @@ components:
 
     Agreement:
       type: object
+      description: CCS commercial agreement (aka framework)
       properties:
-        id:
+        number:
           type: string
-          format: uuid
-          description: Agreement unique identifier
-        name:
+          description: Commercial agreement number
+          example: "RM3733"
+        scale:
+          type: boolean
+          description: Whether this agreement is on the SCALE platform
+        lots:
+          type: array
+          uniqueItems: true
+          items:
+            $ref: '#/components/schemas/Lot'
+
+    Lot:
+      type: object
+      description: A commercial agreement lot
+      properties:
+        number:
           type: string
-          description: Commercial agreement / Framework name (e.g. Tech Products)
-        description:
+          description: Lot number
+          example: '1a'
+        type:
           type: string
-        agreementId:
+          enum: ['bat', 'cat']
+          description: Primary purchasing route (Buy-a-Thing or Contract-a-Thing)
+        routeToMarket:
           type: string
+          enum: ['fc','da']
+          description: Route to market sub-type (Further Competition or Direct Award)
         url:
           type: string
           description: Jump off link to start procurement / go to marketplace
@@ -359,6 +307,7 @@ components:
         variableName:
           type: string
           description: short variable name used in the interface for FaT/BaT to define the data held in the answer e.g. budget, deliveryDate, organisation
+
     AnswerHistory:
       type: object
       description: Answer from the user and for context the text displayed for that answer. N.B. a question may have more than one answer
@@ -387,9 +336,7 @@ components:
     QuestionDefinition:
       type: object
       required:
-        - id
-        - text
-        - type
+        - question
       properties:
         question:
           $ref: '#/components/schemas/Question'
@@ -445,23 +392,28 @@ components:
       type: object
       description: |
         Represents the outcome to the submission of answer(s) to a particular question.
-        This could be dynamic i.e. subsequent question(s) or an agreement (lot), or
-        the support type indicating that no matching agreement could be found
+        This could be dynamic i.e. subsequent question(s), one or more agreements (with
+        or without lots), or the support type indicating that no matching agreements could be found
       required:
         - type
+        - timestamp
       properties:
         type:
           type: string
-          enum: [lot, support, question]
+          enum: [agreement, support, question]
         timestamp:
           type: string
           format: date-time
           description: Date-time that the journey instance was created
         data:
-          description: Present when type is 'lot' or 'question'
+          description: Present when type is 'agreement' or 'question'
           oneOf:
-            - $ref: '#/components/schemas/Agreement'
             - type: array
+              uniqueItems: true
+              items:
+                $ref: '#/components/schemas/Agreement'
+            - type: array
+              uniqueItems: true
               items:
                 $ref: '#/components/schemas/QuestionDefinition'
 

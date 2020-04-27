@@ -23,7 +23,7 @@ servers:
     description: "Server base URL - parameterised for different environments"
     variables:
       apiHost:
-        default: czuhfg17q4.execute-api.eu-west-2.amazonaws.com
+        default: hd2xpoa1xb.execute-api.eu-west-2.amazonaws.com
         description: API Host. Default is SCALE DEV, subject to change and downtime.
       basePath:
         default: /dev/scale/guided-match-service
@@ -34,7 +34,7 @@ tags:
 
 paths:
 
-  /guidedmatch/journey/{journey-id}:
+  /journeys/{journey-id}:
     post:
       summary: Starts a new Guided Match journey instance
       description: |
@@ -93,7 +93,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/Errors'
 
-  /guidedmatch/journey-instance/{journey-instance-id}/question/{question-id}:
+  /journey-instances/{journey-instance-id}/questions/{question-id}:
     post:
       summary: For a given answer returns details of the next step
       description: |
@@ -165,7 +165,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/Errors'
 
-  /guidedmatch/journey-instance/{journey-instance-id}:
+  /journey-instances/{journey-instance-id}:
     get:
       summary: Returns the journey history
       description: Returns the journey history (all questions and answers) for the specified journey-instance. Includes Question and Answer texts as displayed to the user

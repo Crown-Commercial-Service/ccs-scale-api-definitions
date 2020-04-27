@@ -131,7 +131,7 @@ paths:
       description: |
         Given the answer provided by the user, evaluates the outcome and passes that back to the UI.
         Outcome will be one of:
-          1. Framework(s) to display on the results pages
+          1. Commercial Agreement(s) to display on the results pages
           2. Flag that the user should call Support for further help
           3. Details of the next question(s)
       tags:
@@ -332,32 +332,17 @@ components:
           enum: [boolean,list,multiselect,number,text,date,daterange]
           description: "The type of the question.  Described in detail in the HLD section 7.1.2.2"
 
-    Framework:
+    Agreement:
       type: object
-      description: CCS commercial framework (aka agreement)
+      description: CCS commercial agreement (aka framework)
       properties:
-        id:
+        number:
           type: string
-          format: uuid
-          description: Framework unique identifier
-        name:
-          type: string
-          example: Linen and Laundry Services
-        description:
-          type: string
-        frameworkId:
-          type: string
-        startDate:
-          type: string
-          format: date
-          example: '2017-07-21'
-        endDate:
-          type: string
-          format: date
-          example: '2017-07-21'
+          description: Commercial agreement number
+          example: "RM3733"
         scale:
           type: boolean
-          description: Whether this framework is on the SCALE platform
+          description: Whether this agreement is on the SCALE platform
         type:
           type: string
           enum: ['bat', 'cat', 'other', 'support']
@@ -370,13 +355,12 @@ components:
 
     Lot:
       type: object
-      description: A framework lot
+      description: A commercial agreement lot
       properties:
-        name:
+        number:
           type: string
-          example: 'Lot 1b: Standard Wash Linen and Laundry Services'
-        description:
-          type: string
+          description: Lot number
+          example: '1a'
         routeToMarket:
           type: string
           enum: ['fc','da']
@@ -485,25 +469,25 @@ components:
       type: object
       description: |
         Represents the outcome to the submission of answer(s) to a particular question.
-        This could be dynamic i.e. subsequent question(s), one or more frameworks (with
-        or without lots), or the support type indicating that no matching frameworks could be found
+        This could be dynamic i.e. subsequent question(s), one or more agreements (with
+        or without lots), or the support type indicating that no matching agreements could be found
       required:
         - type
       properties:
         type:
           type: string
-          enum: [framework, support, question]
+          enum: [agreement, support, question]
         timestamp:
           type: string
           format: date-time
           description: Date-time that the journey instance was created
         data:
-          description: Present when type is 'framework' or 'question'
+          description: Present when type is 'agreement' or 'question'
           oneOf:
             - type: array
               uniqueItems: true
               items:
-                $ref: '#/components/schemas/Framework'
+                $ref: '#/components/schemas/Agreement'
             - type: array
               uniqueItems: true
               items:

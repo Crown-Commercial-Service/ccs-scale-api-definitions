@@ -23,11 +23,11 @@ servers:
     description: "Server base URL - parameterised for different environments"
     variables:
       apiHost:
-        default: hd2xpoa1xb.execute-api.eu-west-2.amazonaws.com
-        description: API Host. Default is SCALE DEV, subject to change and downtime.
+        default: api.crowncommercial.gov.uk
+        description: API Host (TBC)
       basePath:
         default: /dev/scale/guided-match-service
-        description: Guided Match API base path. Default is DEV path.
+        description: Guided Match API base path (TBC)
 
 tags:
 - name: Guided Match
@@ -73,7 +73,7 @@ paths:
                   questions:
                     type: array
                     items:
-                      $ref: '#/components/schemas/Question'
+                      $ref: '#/components/schemas/QuestionDefinition'
         400:
           description: Bad request.
           content:

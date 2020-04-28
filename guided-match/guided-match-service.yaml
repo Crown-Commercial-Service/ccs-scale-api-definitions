@@ -358,6 +358,9 @@ components:
     AnswerDefinition:
       # Only the properties needed for display of the answer for list questions
       type: object
+      required:
+        - id
+        - text
       properties:
         id:
           type: string
@@ -369,6 +372,9 @@ components:
         hint:
           type: string
           description: Further descriptive text regarding the answer e.g. 'High value matters'
+        order:
+          type: integer
+          description: Suggested order in which the answer should appear in a UI for a particular question
 
     AnsweredQuestion:
       type: object

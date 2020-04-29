@@ -2,9 +2,9 @@ openapi: 3.0.1
 info:
   title: SCALE Commercial Agreements Service
   version: "0.0.2"
-  description: This API allows access to CCS Commercial Agreement data. This is used both to provide information to users and to govern the behaviour of other systems for example 'Buy a Thing' and 'Contract for a Thing', where processes may differ based on the configuration of the underlying Commercial Agreement and Lot.  
-  
-#  PLACEHOLDERs - to be uncommented when implemented  
+  description: This API allows access to CCS Commercial Agreement data. This is used both to provide information to users and to govern the behaviour of other systems for example 'Buy a Thing' and 'Contract for a Thing', where processes may differ based on the configuration of the underlying Commercial Agreement and Lot.
+
+#  PLACEHOLDERs - to be uncommented when implemented
 #  termsOfService: "http://api.crowncommercial.gov.uk/terms/"
 #  contact:
 #    email: "apiteam@crowncommercial.gov.uk"
@@ -20,20 +20,27 @@ info:
 #
 # TODO:
 # 1. calls to manage data e.g. POST agreement, lot; PUT modifications and so on
-# 2. Questions that need to be answered by suppliers on registration (for Evidence Locker) - talk to 
+# 2. Questions that need to be answered by suppliers on registration (for Evidence Locker) - talk to
 # 3. CaT data - RFx question lists per lot
 # 4. Implement security when Conclave or other Auth in place. Commented out for now
 #
 # Versions
 # 0.0.1             Initial draft
 # 0.0.2  25/03/2020 Moved Lot criteria to a Route to Market array, and Sector to lot level
-#security: 
+#security:
 #  - OAuth2:
 #    - read
 
 servers:
-# This is NOT a real server
-- url: https://crowncommercialservices.gov.uk/dummy/scale/agreements
+  - url: https://{apiHost}{basePath}
+    description: "Server base URL - parameterised for different environments"
+    variables:
+      apiHost:
+        default: api.crowncommercial.gov.uk
+        description: API Host (TBC)
+      basePath:
+        default: /dev/scale/agreements-service
+        description: Agreements API base path (TBC)
 tags:
 - name: agreements
 
@@ -61,7 +68,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Errors'
-  
+
   /agreements/{ca-number}:
     get:
       summary: Returns details of the specified Commercial Agreement
@@ -96,10 +103,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Errors'
- 
+
  # The get-agreement-detail call explicitly omits CPV codes in the initial version. These will be added later if required. As there are potentially thousands of CPV codes it was felt that these would overwhelm the output and management of the underlying data.  Additional calls can be added to provide these if required in a similar way to the '/agreements/{ca-number}/updates' call below.
- 
-  
+
+
   /agreements/{ca-number}/lots/{lot-number}:
     get:
       summary: Returns details of the specified Lot for this Commercial Agreement
@@ -142,7 +149,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/Errors'
 
-  
+
   /agreements/{ca-number}/updates:
     get:
       summary: Returns any updates added to the Agreement
@@ -205,10 +212,10 @@ components:
           example: RM3733
         name:
           type: string
-          description: Commercial Agreement Name 
+          description: Commercial Agreement Name
           example: "Technology Products 2"
-          
-          
+
+
 # Agreement Detail omits some Agreement data in the initial version.
 #  - Suppliers will be shown at a Lot level rather than Agreement level
 #  - CPV codes are omitted as noted above
@@ -218,11 +225,11 @@ components:
       properties:
         number:
           type: string
-          description: Commercial Agreement Number 
+          description: Commercial Agreement Number
           example: "RM3733"
         name:
           type: string
-          description: Commercial Agreement Name 
+          description: Commercial Agreement Name
           example: "Technology Products 2"
         description:
           type: string
@@ -261,11 +268,11 @@ components:
       properties:
         number:
           type: string
-          description: Lot number 
+          description: Lot number
           example: 1
         name:
           type: string
-          description: Lot name 
+          description: Lot name
           example: Finance
         description:
           type: string
@@ -309,7 +316,7 @@ components:
           type: array
           items:
             type: string
-            description: A sector permitted to buy using the Agreement/Lot   
+            description: A sector permitted to buy using the Agreement/Lot
         termsAndConditions:
           $ref: '#/components/schemas/Document'
         documents:
@@ -329,7 +336,7 @@ components:
           type: array
           items:
                 $ref: '#/components/schemas/LotRule'
-    
+
     RouteToMarket:
       # Route to Market for the Lot complete with the rules which determine when it applies
       type: object
@@ -397,7 +404,7 @@ components:
               type: number
               format: float
               description: The number of units
-    
+
     LotRule:
       type: object
       description: Rules such as 'Prices may not rise more than {x} times in any consecutive {y} day period' can be included in the 'other' element - in this case 2 data-points would be required. <br><br>In the above example:<br><br>name="max number of prices rises in period"<br>
@@ -411,7 +418,7 @@ components:
           type: string
           description: Name of the rule (3 or 4 word description)
           example: "Price rise limit"
-        ruleId: 
+        ruleId:
           type: string
           description: Unique identifier of the rule
         lotAttributes:
@@ -437,12 +444,12 @@ components:
           enum: [equal , greater, less, complex]
           # regexp requires the expression. Left for post-MVP
           # complex will require specific code to evaluate e.g. 'identify number of price rises in n days'
-        
-    
+
+
     NameValueType:
       type: object
       properties:
-        name: 
+        name:
           type: string
           description: The name of the 'other' bound to be used as hashmap key
         datatype:
@@ -450,7 +457,7 @@ components:
           type: string
           enum: [string|integer|number]
           description: the datatype of the 'other' lotBound value
-        valueText: 
+        valueText:
           type: string
         valueInteger:
           type: integer
@@ -486,7 +493,7 @@ components:
           description: Lot name
           example: "Finance"
 
-          
+
     Document:
       type: object
       properties:
@@ -497,7 +504,7 @@ components:
           type: string
         version:
           type: string
-        
+
 
     Organisation:
       type: object

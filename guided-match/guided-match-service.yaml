@@ -1,7 +1,7 @@
 openapi: 3.0.1
 info:
   title: SCALE Guided Match Service
-  version: "0.0.4"
+  version: "0.0.5"
   description: This API allows access to Scale FaT Guided Match functionality from the Scale presentation layer
 #  PLACEHOLDERS
 #  termsOfService: "http://api.crowncommercial.gov.uk/terms/"
@@ -33,6 +33,62 @@ tags:
 - name: Guided Match
 
 paths:
+
+  /journeys/{lookup-entry-id}/summary:
+    get:
+      summary: Get summary of journey for selection screen
+      description: |
+        Reads data from the search term/journey mapping lookup to use to provide the journey selection screen where a search term returns more than one journey.  Note that the journey description will be context specific for the search term entered
+      tags:
+      - get-journey-summary
+      operationId: get-journey-summary
+      parameters:
+        - name: lookup-entry-id
+          in: path
+          description: Id of the entry in the search term/ GM Journey lookup table to allow the 
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        200:
+          description: Get Journey summary response, context specific text for the journey selection screen. 
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  journeyId:
+                    type: string
+                    description: unique id of the GM journey
+                    format: uuid
+                  modifier:
+                    type: string
+                    description: modifier string used in conjunction with the GM Journey to provide behaviour specific to the search term such as moving from a generic GM journey to a context specific one or to support the selection of dynamic answers.
+                  selectionText:
+                    type: string
+                    description: Main text to show for the journey in the journey selection screen. Text describes the journey in the context of the search term.
+                  selectionDescription:
+                    type: string
+                    description: Lower level hint text to show for the journey in the journey selection screen. Text describes the journey in the context of the search term.
+        400:
+          description: Bad request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Errors'
+        404:
+          description: Guided Match Journey not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Errors'
+        500:
+          description: Internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Errors'
 
   /journeys/{journey-id}:
     post:

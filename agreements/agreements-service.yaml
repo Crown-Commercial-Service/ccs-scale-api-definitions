@@ -24,9 +24,6 @@ info:
 # 3. CaT data - RFx question lists per lot
 # 4. Implement security when Conclave or other Auth in place. Commented out for now
 #
-# Versions
-# 0.0.1             Initial draft
-# 0.0.2  25/03/2020 Moved Lot criteria to a Route to Market array, and Sector to lot level
 #security:
 #  - OAuth2:
 #    - read
@@ -51,7 +48,7 @@ paths:
       summary: Returns an array of all configured Commercial Agreements
       description: Returns an array of Commercial Agreement Ids, names and simple descriptions
       tags:
-      - agreements
+      - get-agreement-list
       operationId: get-agreements
       responses:
         200:
@@ -74,7 +71,7 @@ paths:
       summary: Returns details of the specified Commercial Agreement
       description: Returns the definition of the specified Commercial Agreement
       tags:
-      - agreements
+      - get-agreement-detail
       operationId: get-agreement-detail
       parameters:
         - name: ca-number
@@ -112,7 +109,7 @@ paths:
       summary: Returns details of the specified Lot for this Commercial Agreement
       description: Returns data about the Lot, both general information and parameters required to govern the behaviour of applications using this data
       tags:
-      - agreements
+      - get-lot-detail-for-agreement
       operationId: get-lot-details
       parameters:
         - name: ca-number
@@ -155,7 +152,7 @@ paths:
       summary: Returns any updates added to the Agreement
       description: Returns updates recorded for the specified Commercial Agreement
       tags:
-      - agreements
+      - get-agreement-updates
       operationId: get-agreement-updates
       parameters:
         - name: ca-number

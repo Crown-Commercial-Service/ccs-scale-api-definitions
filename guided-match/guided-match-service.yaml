@@ -34,7 +34,7 @@ tags:
 
 paths:
 
-  /journeys/{lookup-entry-id}/summary:
+  /journey-summaries/{lookup-entry-id}/summary:
     get:
       summary: Get summary of journey for selection screen
       description: |

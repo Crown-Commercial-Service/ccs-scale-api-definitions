@@ -77,7 +77,7 @@ paths:
          content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Question'
+              $ref: '#/components/schemas/QuestionDefinition'
         404:
           description: Journey-question entity not found
           content:
@@ -118,12 +118,14 @@ paths:
           schema:
             type: string
       requestBody:
-        description: Object containing a collection of answer values
+        description: A collection of answered questions
         required: true
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/QuestionAnswers'
+              type: array
+              items:
+                $ref: '#/components/schemas/AnsweredQuestion'
       responses:
         200:
          description: A journey question outcome entity
@@ -162,7 +164,7 @@ components:
           format: uuid
           description: UUID for the Guided Match journey opening question
 
-    Question:
+    QuestionDefinition:
       type: object
       required:
         - uuid
@@ -172,7 +174,7 @@ components:
         uuid:
           type: string
           format: uuid
-          description: Question unique identifier
+          description: Question instance unique identifier
         text:
           type: string
           description: 'Question text e.g. "How many laptops would you like to buy?"'
@@ -193,9 +195,9 @@ components:
           uniqueItems: true
           description: Ordered collection of defined answers (for radio and checkbox types)
           items:
-            $ref: '#/components/schemas/DefinedAnswer'
+            $ref: '#/components/schemas/AnswerDefinition'
 
-    DefinedAnswer:
+    AnswerDefinition:
       type: object
       required:
         - uuid
@@ -216,11 +218,15 @@ components:
           type: string
           description: Further descriptive text regarding the answer e.g. 'High value matters'
 
-    QuestionAnswers:
+    AnsweredQuestion:
       type: object
       description: Container for answer values to a particular question (UUIDs, free-text, date range etc).
       properties:
-        data:
+        id:
+          type: string
+          format: uuid
+          description: The Id of the answered Question
+        answers:
           type: array
           uniqueItems: true
           items:
@@ -283,7 +289,7 @@ components:
             - type: array
               items:
                 $ref: '#/components/schemas/Lot'
-            - $ref: '#/components/schemas/Question'
+            - $ref: '#/components/schemas/QuestionDefinition'
 
     Errors:
       type: object

@@ -1,7 +1,7 @@
 openapi: 3.0.1
 info:
   title: SCALE Guided Match Decision Tree Service API
-  version: "0.0.9"
+  version: "0.1.0"
 servers:
   - url: https://{apiHost}{basePath}
     description: "Server base URL - parameterised for different environments"
@@ -16,70 +16,28 @@ tags:
   - name: scale
 paths:
 
-  /journeys:
+  /journeys/{journey-uuid}:
     get:
       tags:
-      - search-journeys
-      operationId: search-journeys
+      - get-journey
+      operationId: get-journey
       parameters:
-        - name: q
-          in: query
-          description: Journey search term
-          required: true
-          schema:
-            type: string
-      responses:
-        200:
-          description: Collection of journey entities, may be zero
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                    $ref: '#/components/schemas/Journey'
-        500:
-          description: Internal server error.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Errors'
-
-  /journeys/{uuid}/questions/{question-uuid}:
-    get:
-      tags:
-        - get-journey-question
-      operationId: get-journey-question
-      parameters:
-        - name: uuid
+        - name: journey-uuid
           in: path
           description: Journey unique ID
           required: true
           schema:
             type: string
             format: uuid
-        - name: question-uuid
-          in: path
-          description: Journey question unique ID
-          required: true
-          schema:
-            type: string
-            format: uuid
-        - name: modifier
-          in: query
-          description: Term used as an additional key for Dynamic List question lookups
-          required: false
-          schema:
-            type: string
-
       responses:
         200:
-         description: A journey question entity
-         content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/QuestionDefinition'
+          description: Journey entity, containing first question
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Journey'
         404:
-          description: Journey-question entity not found
+          description: Journey entity not found
           content:
             application/json:
               schema:
@@ -91,13 +49,13 @@ paths:
               schema:
                 $ref: '#/components/schemas/Errors'
 
-  /journeys/{uuid}/questions/{question-uuid}/outcome:
+  /journeys/{journey-uuid}/questions/{question-uuid}/outcome:
     post:
       tags:
         - get-journey-question-outcome
       operationId: get-journey-question-outcome
       parameters:
-        - name: uuid
+        - name: journey-uuid
           in: path
           description: Journey unique ID
           required: true
@@ -134,7 +92,7 @@ paths:
             schema:
               $ref: '#/components/schemas/Outcome'
         404:
-          description: Next question entity not found (end of journey)
+          description: Journey, question or outcome not found
           content:
             application/json:
               schema:
@@ -158,11 +116,9 @@ components:
           description: Guided Match journey unique identifier
         name:
           type: string
-          description: Short descriptive name e.g. "Laptops"
-        questionUuid:
-          type: string
-          format: uuid
-          description: UUID for the Guided Match journey opening question
+          description: Short descriptive name e.g. "Linen & Laundry"
+        firstQuestion:
+          $ref: '#/components/schemas/QuestionDefinition'
 
     QuestionDefinition:
       type: object
@@ -232,37 +188,35 @@ components:
           items:
             type: string
 
-    Lot:
+    Agreement:
       type: object
-      required:
-        - uuid
-        - agreementName
-        - scale
-        - type
+      description: CCS commercial agreement (aka framework)
       properties:
-        uuid:
+        number:
           type: string
-          format: uuid
-          description: Lot unique identifier
-        agreementName:
-          type: string
-          description: Commercial agreement name e.g. Workplace Services (FM Marketplace Phase 2)
-        lotName:
-          type: string
-          description: Lot name (e.g. Lot 1b)
-        agreementDescription:
-          type: string
-        lotDescription:
-          type: string
+          description: Commercial agreement number
+          example: "RM3733"
         scale:
           type: boolean
           description: Whether this agreement is on the SCALE platform
-        agreementId:
+        lots:
+          type: array
+          uniqueItems: true
+          items:
+            $ref: '#/components/schemas/Lot'
+
+    Lot:
+      type: object
+      description: A commercial agreement lot
+      properties:
+        number:
           type: string
+          description: Lot number
+          example: '1a'
         type:
           type: string
-          enum: ['bat', 'cat', 'other', 'support']
-          description: Primary purchasing route (Buy-a-Thing, Contract-a-Thing, general marketplace, contact CCS support)
+          enum: ['bat', 'cat']
+          description: Primary purchasing route (Buy-a-Thing or Contract-a-Thing)
         routeToMarket:
           type: string
           enum: ['fc','da']
@@ -288,8 +242,11 @@ components:
           oneOf:
             - type: array
               items:
-                $ref: '#/components/schemas/Lot'
-            - $ref: '#/components/schemas/QuestionDefinition'
+                $ref: '#/components/schemas/Agreement'
+            - type: array
+              uniqueItems: true
+              items:
+                $ref: '#/components/schemas/QuestionDefinition'
 
     Errors:
       type: object

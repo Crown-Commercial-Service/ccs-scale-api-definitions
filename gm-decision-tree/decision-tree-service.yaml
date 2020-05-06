@@ -1,7 +1,7 @@
 openapi: 3.0.1
 info:
   title: SCALE Guided Match Decision Tree Service API
-  version: "0.0.9"
+  version: "0.1.0"
 servers:
   - url: https://{apiHost}{basePath}
     description: "Server base URL - parameterised for different environments"
@@ -16,70 +16,28 @@ tags:
   - name: scale
 paths:
 
-  /journeys:
+  /journeys/{journey-uuid}:
     get:
       tags:
-      - search-journeys
-      operationId: search-journeys
+      - get-journey
+      operationId: get-journey
       parameters:
-        - name: q
-          in: query
-          description: Journey search term
-          required: true
-          schema:
-            type: string
-      responses:
-        200:
-          description: Collection of journey entities, may be zero
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                    $ref: '#/components/schemas/Journey'
-        500:
-          description: Internal server error.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Errors'
-
-  /journeys/{uuid}/questions/{question-uuid}:
-    get:
-      tags:
-        - get-journey-question
-      operationId: get-journey-question
-      parameters:
-        - name: uuid
+        - name: journey-uuid
           in: path
           description: Journey unique ID
           required: true
           schema:
             type: string
             format: uuid
-        - name: question-uuid
-          in: path
-          description: Journey question unique ID
-          required: true
-          schema:
-            type: string
-            format: uuid
-        - name: modifier
-          in: query
-          description: Term used as an additional key for Dynamic List question lookups
-          required: false
-          schema:
-            type: string
-
       responses:
         200:
-         description: A journey question entity
-         content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/Question'
+          description: Journey entity, containing first question
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Journey'
         404:
-          description: Journey-question entity not found
+          description: Journey entity not found
           content:
             application/json:
               schema:
@@ -91,13 +49,13 @@ paths:
               schema:
                 $ref: '#/components/schemas/Errors'
 
-  /journeys/{uuid}/questions/{question-uuid}/outcome:
+  /journeys/{journey-uuid}/questions/{question-uuid}/outcome:
     post:
       tags:
         - get-journey-question-outcome
       operationId: get-journey-question-outcome
       parameters:
-        - name: uuid
+        - name: journey-uuid
           in: path
           description: Journey unique ID
           required: true
@@ -118,12 +76,14 @@ paths:
           schema:
             type: string
       requestBody:
-        description: Object containing a collection of answer values
+        description: A collection of answered questions
         required: true
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/QuestionAnswers'
+              type: array
+              items:
+                $ref: '#/components/schemas/AnsweredQuestion'
       responses:
         200:
          description: A journey question outcome entity
@@ -132,7 +92,7 @@ paths:
             schema:
               $ref: '#/components/schemas/Outcome'
         404:
-          description: Next question entity not found (end of journey)
+          description: Journey, question or outcome not found
           content:
             application/json:
               schema:
@@ -156,13 +116,11 @@ components:
           description: Guided Match journey unique identifier
         name:
           type: string
-          description: Short descriptive name e.g. "Laptops"
-        questionUuid:
-          type: string
-          format: uuid
-          description: UUID for the Guided Match journey opening question
+          description: Short descriptive name e.g. "Linen & Laundry"
+        firstQuestion:
+          $ref: '#/components/schemas/QuestionDefinition'
 
-    Question:
+    QuestionDefinition:
       type: object
       required:
         - uuid
@@ -172,7 +130,7 @@ components:
         uuid:
           type: string
           format: uuid
-          description: Question unique identifier
+          description: Question instance unique identifier
         text:
           type: string
           description: 'Question text e.g. "How many laptops would you like to buy?"'
@@ -193,9 +151,9 @@ components:
           uniqueItems: true
           description: Ordered collection of defined answers (for radio and checkbox types)
           items:
-            $ref: '#/components/schemas/DefinedAnswer'
+            $ref: '#/components/schemas/AnswerDefinition'
 
-    DefinedAnswer:
+    AnswerDefinition:
       type: object
       required:
         - uuid
@@ -216,51 +174,53 @@ components:
           type: string
           description: Further descriptive text regarding the answer e.g. 'High value matters'
 
-    QuestionAnswers:
+    AnsweredQuestion:
       type: object
       description: Container for answer values to a particular question (UUIDs, free-text, date range etc).
       properties:
-        data:
+        id:
+          type: string
+          format: uuid
+          description: The Id of the answered Question
+        answers:
           type: array
           uniqueItems: true
           items:
             type: string
 
+    Agreement:
+      type: object
+      description: CCS commercial agreement (aka framework)
+      properties:
+        number:
+          type: string
+          description: Commercial agreement number
+          example: "RM3733"
+        lots:
+          type: array
+          uniqueItems: true
+          items:
+            $ref: '#/components/schemas/Lot'
+
     Lot:
       type: object
-      required:
-        - uuid
-        - agreementName
-        - scale
-        - type
+      description: A commercial agreement lot
       properties:
-        uuid:
+        number:
           type: string
-          format: uuid
-          description: Lot unique identifier
-        agreementName:
-          type: string
-          description: Commercial agreement name e.g. Workplace Services (FM Marketplace Phase 2)
-        lotName:
-          type: string
-          description: Lot name (e.g. Lot 1b)
-        agreementDescription:
-          type: string
-        lotDescription:
-          type: string
-        scale:
-          type: boolean
-          description: Whether this agreement is on the SCALE platform
-        agreementId:
-          type: string
+          description: Lot number
+          example: '1a'
         type:
           type: string
-          enum: ['bat', 'cat', 'other', 'support']
-          description: Primary purchasing route (Buy-a-Thing, Contract-a-Thing, general marketplace, contact CCS support)
+          enum: ['bat', 'cat']
+          description: Primary purchasing route (Buy-a-Thing or Contract-a-Thing)
         routeToMarket:
           type: string
           enum: ['fc','da']
           description: Route to market sub-type (Further Competition or Direct Award)
+        scale:
+          type: boolean
+          description: Whether this lot is on the SCALE platform
         url:
           type: string
           description: Jump off link to start procurement / go to marketplace
@@ -282,8 +242,11 @@ components:
           oneOf:
             - type: array
               items:
-                $ref: '#/components/schemas/Lot'
-            - $ref: '#/components/schemas/Question'
+                $ref: '#/components/schemas/Agreement'
+            - type: array
+              uniqueItems: true
+              items:
+                $ref: '#/components/schemas/QuestionDefinition'
 
     Errors:
       type: object

@@ -196,9 +196,6 @@ components:
           type: string
           description: Commercial agreement number
           example: "RM3733"
-        scale:
-          type: boolean
-          description: Whether this agreement is on the SCALE platform
         lots:
           type: array
           uniqueItems: true
@@ -221,6 +218,9 @@ components:
           type: string
           enum: ['fc','da']
           description: Route to market sub-type (Further Competition or Direct Award)
+        scale:
+          type: boolean
+          description: Whether this lot is on the SCALE platform
         url:
           type: string
           description: Jump off link to start procurement / go to marketplace

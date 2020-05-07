@@ -45,7 +45,7 @@ paths:
       parameters:
         - name: lookup-entry-id
           in: path
-          description: Id of the entry in the search term/ GM Journey lookup table to allow the
+          description: Id of the entry in the search term / GM Journey lookup table
           required: true
           schema:
             type: string

@@ -1,7 +1,7 @@
 openapi: 3.0.1
 info:
   title: SCALE Guided Match Service
-  version: "0.0.5"
+  version: "0.0.6"
   description: This API allows access to Scale FaT Guided Match functionality from the Scale presentation layer
 #  PLACEHOLDERS
 #  termsOfService: "http://api.crowncommercial.gov.uk/terms/"
@@ -45,14 +45,14 @@ paths:
       parameters:
         - name: lookup-entry-id
           in: path
-          description: Id of the entry in the search term/ GM Journey lookup table to allow the 
+          description: Id of the entry in the search term/ GM Journey lookup table to allow the
           required: true
           schema:
             type: string
             format: uuid
       responses:
         200:
-          description: Get Journey summary response, context specific text for the journey selection screen. 
+          description: Get Journey summary response, context specific text for the journey selection screen.
           content:
             application/json:
               schema:
@@ -320,9 +320,6 @@ components:
           type: string
           description: Commercial agreement number
           example: "RM3733"
-        scale:
-          type: boolean
-          description: Whether this agreement is on the SCALE platform
         lots:
           type: array
           uniqueItems: true
@@ -345,6 +342,9 @@ components:
           type: string
           enum: ['fc','da']
           description: Route to market sub-type (Further Competition or Direct Award)
+        scale:
+          type: boolean
+          description: Whether this lot is on the SCALE platform
         url:
           type: string
           description: Jump off link to start procurement / go to marketplace

@@ -216,8 +216,15 @@ components:
           type: string
           description: Further descriptive text regarding the answer e.g. 'High value matters'
         conditionalInput:
-          type: boolean
-          description: Prototype. Whether this answer when selected reveals a conditional input field.
+          type: object
+          description: Prototype. Conditional question definition
+          properties:
+            text:
+              type: string
+              description: Question text e.g. "How much is your budget?"
+            hint:
+              type: string
+              description: question hint text e.g. "An estimate is fine"
 
     QuestionAnswers:
       type: object

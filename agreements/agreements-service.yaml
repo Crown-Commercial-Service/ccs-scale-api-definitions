@@ -51,32 +51,10 @@ paths:
       - get-agreement-list
       operationId: get-agreements
       parameters:
-        - in: header
-          name: x-correlation-id
-          description: Logging Service header - The id of the first proccess in the process chain (root process/service)
-          schema:
-            type: string
-            format: uuid
-          required: true
-        - in: header
-          name: x-causation-id
-          description: Logging Service header - The id of the predecessor proccess in the process chain (root process/service)
-          schema:
-            type: string
-            format: uuid
-          required: true
-        - in: header
-          name: x-channel
-          description: Logging Service header - Type of device
-          schema:
-            type: string
-            enum: [smartphone|tablet|desktop|other]
-        - in: header
-          name: x-client
-          description: Logging Service header - Type of client app
-          schema:
-            type: string
-            enum: [mobile-app|browser|client-apis|bot-app]
+        - $ref: '#/components/parameters/x-correlation-id'
+        - $ref: '#/components/parameters/x-causation-id'
+        - $ref: '#/components/parameters/x-channel'
+        - $ref: '#/components/parameters/x-client'
       responses:
         200:
           description: Collection of Commercial Agreement summary entities
@@ -108,32 +86,10 @@ paths:
           required: true
           schema:
             type: string
-        - in: header
-          name: x-correlation-id
-          description: Logging Service header - The id of the first proccess in the process chain (root process/service)
-          schema:
-            type: string
-            format: uuid
-          required: true
-        - in: header
-          name: x-causation-id
-          description: Logging Service header - The id of the predecessor proccess in the process chain (root process/service)
-          schema:
-            type: string
-            format: uuid
-          required: true
-        - in: header
-          name: x-channel
-          description: Logging Service header - Type of device
-          schema:
-            type: string
-            enum: [smartphone|tablet|desktop|other]
-        - in: header
-          name: x-client
-          description: Logging Service header - Type of client app
-          schema:
-            type: string
-            enum: [mobile-app|browser|client-apis|bot-app]
+        - $ref: '#/components/parameters/x-correlation-id'
+        - $ref: '#/components/parameters/x-causation-id'
+        - $ref: '#/components/parameters/x-channel'
+        - $ref: '#/components/parameters/x-client'
       responses:
         200:
           description: Commercial Agreement detail
@@ -169,32 +125,10 @@ paths:
           required: true
           schema:
             type: string
-        - in: header
-          name: x-correlation-id
-          description: Logging Service header - The id of the first proccess in the process chain (root process/service)
-          schema:
-            type: string
-            format: uuid
-          required: true
-        - in: header
-          name: x-causation-id
-          description: Logging Service header - The id of the predecessor proccess in the process chain (root process/service)
-          schema:
-            type: string
-            format: uuid
-          required: true
-        - in: header
-          name: x-channel
-          description: Logging Service header - Type of device
-          schema:
-            type: string
-            enum: [smartphone|tablet|desktop|other]
-        - in: header
-          name: x-client
-          description: Logging Service header - Type of client app
-          schema:
-            type: string
-            enum: [mobile-app|browser|client-apis|bot-app]
+        - $ref: '#/components/parameters/x-correlation-id'
+        - $ref: '#/components/parameters/x-causation-id'
+        - $ref: '#/components/parameters/x-channel'
+        - $ref: '#/components/parameters/x-client'
       responses:
         200:
           description: Commercial Agreement documents
@@ -243,32 +177,10 @@ paths:
           required: true
           schema:
             type: string
-        - in: header
-          name: x-correlation-id
-          description: Logging Service header - The id of the first proccess in the process chain (root process/service)
-          schema:
-            type: string
-            format: uuid
-          required: true
-        - in: header
-          name: x-causation-id
-          description: Logging Service header - The id of the predecessor proccess in the process chain (root process/service)
-          schema:
-            type: string
-            format: uuid
-          required: true
-        - in: header
-          name: x-channel
-          description: Logging Service header - Type of device
-          schema:
-            type: string
-            enum: [smartphone|tablet|desktop|other]
-        - in: header
-          name: x-client
-          description: Logging Service header - Type of client app
-          schema:
-            type: string
-            enum: [mobile-app|browser|client-apis|bot-app]
+        - $ref: '#/components/parameters/x-correlation-id'
+        - $ref: '#/components/parameters/x-causation-id'
+        - $ref: '#/components/parameters/x-channel'
+        - $ref: '#/components/parameters/x-client'
       responses:
         200:
           description: Lot details
@@ -312,32 +224,10 @@ paths:
           required: true
           schema:
             type: string
-        - in: header
-          name: x-correlation-id
-          description: Logging Service header - The id of the first proccess in the process chain (root process/service)
-          schema:
-            type: string
-            format: uuid
-          required: true
-        - in: header
-          name: x-causation-id
-          description: Logging Service header - The id of the predecessor proccess in the process chain (root process/service)
-          schema:
-            type: string
-            format: uuid
-          required: true
-        - in: header
-          name: x-channel
-          description: Logging Service header - Type of device
-          schema:
-            type: string
-            enum: [smartphone|tablet|desktop|other]
-        - in: header
-          name: x-client
-          description: Logging Service header - Type of client app
-          schema:
-            type: string
-            enum: [mobile-app|browser|client-apis|bot-app]
+        - $ref: '#/components/parameters/x-correlation-id'
+        - $ref: '#/components/parameters/x-causation-id'
+        - $ref: '#/components/parameters/x-channel'
+        - $ref: '#/components/parameters/x-client'
       responses:
         200:
           description: Lot details
@@ -382,32 +272,10 @@ paths:
           required: true
           schema:
             type: string
-        - in: header
-          name: x-correlation-id
-          description: Logging Service header - The id of the first proccess in the process chain (root process/service)
-          schema:
-            type: string
-            format: uuid
-          required: true
-        - in: header
-          name: x-causation-id
-          description: Logging Service header - The id of the predecessor proccess in the process chain (root process/service)
-          schema:
-            type: string
-            format: uuid
-          required: true
-        - in: header
-          name: x-channel
-          description: Logging Service header - Type of device
-          schema:
-            type: string
-            enum: [smartphone|tablet|desktop|other]
-        - in: header
-          name: x-client
-          description: Logging Service header - Type of client app
-          schema:
-            type: string
-            enum: [mobile-app|browser|client-apis|bot-app]
+        - $ref: '#/components/parameters/x-correlation-id'
+        - $ref: '#/components/parameters/x-causation-id'
+        - $ref: '#/components/parameters/x-channel'
+        - $ref: '#/components/parameters/x-client'
       responses:
         200:
           description: Lot documents
@@ -446,32 +314,10 @@ paths:
           required: true
           schema:
             type: string
-        - in: header
-          name: x-correlation-id
-          description: Logging Service header - The id of the first proccess in the process chain (root process/service)
-          schema:
-            type: string
-            format: uuid
-          required: true
-        - in: header
-          name: x-causation-id
-          description: Logging Service header - The id of the predecessor proccess in the process chain (root process/service)
-          schema:
-            type: string
-            format: uuid
-          required: true
-        - in: header
-          name: x-channel
-          description: Logging Service header - Type of device
-          schema:
-            type: string
-            enum: [smartphone|tablet|desktop|other]
-        - in: header
-          name: x-client
-          description: Logging Service header - Type of client app
-          schema:
-            type: string
-            enum: [mobile-app|browser|client-apis|bot-app]
+        - $ref: '#/components/parameters/x-correlation-id'
+        - $ref: '#/components/parameters/x-causation-id'
+        - $ref: '#/components/parameters/x-channel'
+        - $ref: '#/components/parameters/x-client'
       responses:
         200:
           description: Commercial Agreement updates
@@ -831,3 +677,35 @@ components:
           type: string
         detail:
           type: string
+  parameters:
+    x-correlation-id:
+      name: x-correlation-id
+      in: header
+      required: true
+      schema:
+        type: string
+        format: uuid
+      description: Logging Service header - The id of the first proccess in the process chain (root process/service)
+    x-causation-id:  
+      name: x-causation-id
+      in: header
+      required: true
+      description: Logging Service header - The id of the predecessor proccess in the process chain (root process/service)
+      schema:
+        type: string
+        format: uuid
+    x-channel:
+      name: x-channel
+      in: header
+      required: true
+      description: Logging Service header - Type of device
+      schema:
+        type: string
+        enum: [smartphone|tablet|desktop|other]
+    x-client:
+      name: x-client
+      in: header
+      description: Logging Service header - Type of client app
+      schema:
+        type: string
+        enum: [mobile-app|browser|client-apis|bot-app]

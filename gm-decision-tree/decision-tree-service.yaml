@@ -1,7 +1,7 @@
 openapi: 3.0.1
 info:
   title: SCALE Guided Match Decision Tree Service API
-  version: "0.0.9"
+  version: "0.0.10.PT"
 servers:
   - url: https://{apiHost}{basePath}
     description: "Server base URL - parameterised for different environments"
@@ -181,7 +181,7 @@ components:
           description: Further descriptive text regarding the question
         type:
           type: string
-          enum: [boolean, list, multiSelectList, number, textInput, date, dateRange, postcode, nuts]
+          enum: [boolean, list, multiSelectList, number, textInput, conditionalNumericInput, date, dateRange, postcode, nuts]
         variableName:
           type: string
           description: short variable name used in the interface for FaT/BaT to define the data held in the answer e.g. budget, deliveryDate, organisation
@@ -215,6 +215,16 @@ components:
         hint:
           type: string
           description: Further descriptive text regarding the answer e.g. 'High value matters'
+        conditionalInput:
+          type: object
+          description: Prototype. Conditional question definition
+          properties:
+            text:
+              type: string
+              description: Question text e.g. "How much is your budget?"
+            hint:
+              type: string
+              description: question hint text e.g. "An estimate is fine"
 
     QuestionAnswers:
       type: object
@@ -224,7 +234,21 @@ components:
           type: array
           uniqueItems: true
           items:
-            type: string
+            $ref: '#/components/schemas/GivenAnswer'
+
+    GivenAnswer:
+      type: object
+      description: |
+        Prototype. Container to facilitate conditional input question types.
+        A GivenAnswer may consist of a uuid (boolean, list, multiSelectList), a value (number, textInput) or both (conditionalNumericInput)
+      properties:
+        uuid:
+          type: string
+          format: uuid
+          description: Answer unique identifier
+        value:
+          type: string
+          description: Text or numberic input value
 
     Lot:
       type: object

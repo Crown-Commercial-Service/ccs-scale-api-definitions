@@ -1,7 +1,7 @@
 openapi: 3.0.1
 info:
   title: SCALE Guided Match Decision Tree Service API
-  version: "0.0.10.PT"
+  version: "0.0.11.PT"
 servers:
   - url: https://{apiHost}{basePath}
     description: "Server base URL - parameterised for different environments"
@@ -225,6 +225,9 @@ components:
             hint:
               type: string
               description: question hint text e.g. "An estimate is fine"
+        mutex:
+          type: boolean
+          description: Mutual exclusion indiciator. Answer should be separated by 'Or' in UI and when clicked, deselect any previously selected answers above
 
     QuestionAnswers:
       type: object

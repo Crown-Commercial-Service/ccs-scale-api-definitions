@@ -1,7 +1,7 @@
 openapi: 3.0.1
 info:
   title: SCALE Commercial Agreements Service
-  version: "0.0.2"
+  version: "0.0.3"
   description: This API allows access to CCS Commercial Agreement data. This is used both to provide information to users and to govern the behaviour of other systems for example 'Buy a Thing' and 'Contract for a Thing', where processes may differ based on the configuration of the underlying Commercial Agreement and Lot.
 
 #  PLACEHOLDERs - to be uncommented when implemented
@@ -50,6 +50,11 @@ paths:
       tags:
       - get-agreement-list
       operationId: get-agreements
+      parameters:
+        - $ref: '#/components/parameters/x-correlation-id'
+        - $ref: '#/components/parameters/x-causation-id'
+        - $ref: '#/components/parameters/x-channel'
+        - $ref: '#/components/parameters/x-client'
       responses:
         200:
           description: Collection of Commercial Agreement summary entities
@@ -81,6 +86,10 @@ paths:
           required: true
           schema:
             type: string
+        - $ref: '#/components/parameters/x-correlation-id'
+        - $ref: '#/components/parameters/x-causation-id'
+        - $ref: '#/components/parameters/x-channel'
+        - $ref: '#/components/parameters/x-client'
       responses:
         200:
           description: Commercial Agreement detail
@@ -100,6 +109,48 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Errors'
+
+  /agreements/{ca-number}/documents:
+    get:
+      summary: Returns details of the specified Commercial Agreement documents
+      description: Returns the documents for the specified Commercial Agreement
+      tags:
+      - get-agreement-documents
+      operationId: get-agreement-documents
+      parameters:
+        - name: ca-number
+          in: path
+          description: Commercial Agreement unique 'number'
+          example: RM3733
+          required: true
+          schema:
+            type: string
+        - $ref: '#/components/parameters/x-correlation-id'
+        - $ref: '#/components/parameters/x-causation-id'
+        - $ref: '#/components/parameters/x-channel'
+        - $ref: '#/components/parameters/x-client'
+      responses:
+        200:
+          description: Commercial Agreement documents
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Document'
+        404:
+          description: Commercial Agreement not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Errors'
+        500:
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Errors'
+
 
  # The get-agreement-detail call explicitly omits CPV codes in the initial version. These will be added later if required. As there are potentially thousands of CPV codes it was felt that these would overwhelm the output and management of the underlying data.  Additional calls can be added to provide these if required in a similar way to the '/agreements/{ca-number}/updates' call below.
 
@@ -126,6 +177,10 @@ paths:
           required: true
           schema:
             type: string
+        - $ref: '#/components/parameters/x-correlation-id'
+        - $ref: '#/components/parameters/x-causation-id'
+        - $ref: '#/components/parameters/x-channel'
+        - $ref: '#/components/parameters/x-client'
       responses:
         200:
           description: Lot details
@@ -133,6 +188,103 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/LotDetail'
+        404:
+          description: Commercial Agreement and/or Lot not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Errors'
+        500:
+          description: Internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Errors'
+
+
+  /agreements/{ca-number}/lots/{lot-number}/suppliers:
+    get:
+      summary: Returns details of the suppliers for the specified Lot for this Commercial Agreement
+      description: Returns the supplier list for the Lot
+      tags:
+      - get-lot-suppliers
+      operationId: get-lot-suppliers
+      parameters:
+        - name: ca-number
+          in: path
+          description: Commercial Agreement unique number
+          example: RM3733
+          required: true
+          schema:
+            type: string
+        - name: lot-number
+          in: path
+          description: Unique number of Lot within Commercial Agreement
+          example: "Lot 1"
+          required: true
+          schema:
+            type: string
+        - $ref: '#/components/parameters/x-correlation-id'
+        - $ref: '#/components/parameters/x-causation-id'
+        - $ref: '#/components/parameters/x-channel'
+        - $ref: '#/components/parameters/x-client'
+      responses:
+        200:
+          description: Lot details
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Organisation'
+        404:
+          description: Commercial Agreement and/or Lot not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Errors'
+        500:
+          description: Internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Errors'
+
+  /agreements/{ca-number}/lots/{lot-number}/documents:
+    get:
+      summary: Returns details of the documents for the specified Lot for this Commercial Agreement
+      description: Returns the document list for the Lot
+      tags:
+      - get-lot-documents
+      operationId: get-lot-documents
+      parameters:
+        - name: ca-number
+          in: path
+          description: Commercial Agreement unique number
+          example: RM3733
+          required: true
+          schema:
+            type: string
+        - name: lot-number
+          in: path
+          description: Unique number of Lot within Commercial Agreement
+          example: "Lot 1"
+          required: true
+          schema:
+            type: string
+        - $ref: '#/components/parameters/x-correlation-id'
+        - $ref: '#/components/parameters/x-causation-id'
+        - $ref: '#/components/parameters/x-channel'
+        - $ref: '#/components/parameters/x-client'
+      responses:
+        200:
+          description: Lot documents
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Document'
         404:
           description: Commercial Agreement and/or Lot not found
           content:
@@ -162,6 +314,10 @@ paths:
           required: true
           schema:
             type: string
+        - $ref: '#/components/parameters/x-correlation-id'
+        - $ref: '#/components/parameters/x-causation-id'
+        - $ref: '#/components/parameters/x-channel'
+        - $ref: '#/components/parameters/x-client'
       responses:
         200:
           description: Commercial Agreement updates
@@ -255,10 +411,7 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/LotSummary'
-        documents:
-          type: array
-          items:
-            $ref: '#/components/schemas/Document'
+
 
     LotDetail:
       type: object
@@ -277,33 +430,6 @@ components:
         type:
           type: string
           enum: [product|service|product and service]
-        services:
-          type: array
-          items:
-            type: object
-            properties:
-              name:
-                type: string
-                description: The name of the Service
-              description:
-                type: string
-                description: Brief description of the Service
-        products:
-          type: array
-          items:
-            type: object
-            properties:
-              name:
-                type: string
-                description: The name of the Product
-              description:
-                type: string
-                description: Brief description of the Product
-        suppliers:
-          type: array
-          description: Suppliers registered against this Lot
-          items:
-            $ref: '#/components/schemas/Organisation'
         routesToMarket:
           type: array
           description: Routes to Market for the Lot and associated bounds
@@ -314,13 +440,6 @@ components:
           items:
             type: string
             description: A sector permitted to buy using the Agreement/Lot
-        termsAndConditions:
-          $ref: '#/components/schemas/Document'
-        documents:
-          # An array to hold 'other documents'.  Later versions of the API can add attributes for links to specific documents
-          type: array
-          items:
-            $ref: '#/components/schemas/Document'
         buyerNeeds:
           # Lot default text for buyer needs for CaT
           type: array
@@ -497,10 +616,16 @@ components:
         url:
           type: string
           format: uri
+          description: URI for the document. Should be a perma-link and can be used as a key for the document
         name:
           type: string
+          description: document name
         version:
           type: string
+          description: Version number of the document - does not proscribe the format
+        documentType:
+          type: string
+          description: The type of document e.g. overview, t&cs, guidance, how to buy, contract notice etc
 
 
     Organisation:
@@ -511,7 +636,10 @@ components:
           description: Conclave Organisation Id
         name:
           type: string
-          description: Company name
+          description: Company registered name
+        tradingName:
+          type: string
+          description: Company trading name for this Lot
         contactName:
           type: string
           description: Contact name for this context
@@ -549,3 +677,35 @@ components:
           type: string
         detail:
           type: string
+  parameters:
+    x-correlation-id:
+      name: x-correlation-id
+      in: header
+      required: true
+      schema:
+        type: string
+        format: uuid
+      description: Logging Service header - The id of the first proccess in the process chain (root process/service)
+    x-causation-id:  
+      name: x-causation-id
+      in: header
+      required: true
+      description: Logging Service header - The id of the predecessor proccess in the process chain (root process/service)
+      schema:
+        type: string
+        format: uuid
+    x-channel:
+      name: x-channel
+      in: header
+      required: true
+      description: Logging Service header - Type of device
+      schema:
+        type: string
+        enum: [smartphone|tablet|desktop|other]
+    x-client:
+      name: x-client
+      in: header
+      description: Logging Service header - Type of client app
+      schema:
+        type: string
+        enum: [mobile-app|browser|client-apis|bot-app]

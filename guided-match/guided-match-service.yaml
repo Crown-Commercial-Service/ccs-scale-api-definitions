@@ -50,6 +50,10 @@ paths:
           schema:
             type: string
             format: uuid
+        - $ref: '#/components/parameters/x-correlation-id'
+        - $ref: '#/components/parameters/x-causation-id'
+        - $ref: '#/components/parameters/x-channel'
+        - $ref: '#/components/parameters/x-client'
       responses:
         200:
           description: Get Journey summary response, context specific text for the journey selection screen.
@@ -109,6 +113,10 @@ paths:
           schema:
             type: string
             format: uuid
+        - $ref: '#/components/parameters/x-correlation-id'
+        - $ref: '#/components/parameters/x-causation-id'
+        - $ref: '#/components/parameters/x-channel'
+        - $ref: '#/components/parameters/x-client'
       requestBody:
         required: true
         content:
@@ -178,6 +186,10 @@ paths:
           schema:
             type: string
             format: uuid
+        - $ref: '#/components/parameters/x-correlation-id'
+        - $ref: '#/components/parameters/x-causation-id'
+        - $ref: '#/components/parameters/x-channel'
+        - $ref: '#/components/parameters/x-client'
       requestBody:
         required: true
         description: Answer to the question(s) presented to the user
@@ -237,6 +249,10 @@ paths:
           schema:
             type: string
             format: uuid
+        - $ref: '#/components/parameters/x-correlation-id'
+        - $ref: '#/components/parameters/x-causation-id'
+        - $ref: '#/components/parameters/x-channel'
+        - $ref: '#/components/parameters/x-client'
       responses:
         200:
           description: Outcome - what happened and journey history
@@ -496,3 +512,36 @@ components:
           type: string
         detail:
           type: string
+
+  parameters:
+    x-correlation-id:
+      name: x-correlation-id
+      in: header
+      required: true
+      schema:
+        type: string
+        format: uuid
+      description: Logging Service header - The id of the first proccess in the process chain (root process/service)
+    x-causation-id:  
+      name: x-causation-id
+      in: header
+      required: true
+      description: Logging Service header - The id of the predecessor proccess in the process chain (root process/service)
+      schema:
+        type: string
+        format: uuid
+    x-channel:
+      name: x-channel
+      in: header
+      required: true
+      description: Logging Service header - Type of device
+      schema:
+        type: string
+        enum: [smartphone|tablet|desktop|other]
+    x-client:
+      name: x-client
+      in: header
+      description: Logging Service header - Type of client app
+      schema:
+        type: string
+        enum: [mobile-app|browser|client-apis|bot-app]

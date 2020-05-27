@@ -1,7 +1,7 @@
 openapi: 3.0.1
 info:
   title: SCALE Guided Match Service
-  version: "0.0.6"
+  version: "0.1.0"
   description: This API allows access to Scale FaT Guided Match functionality from the Scale presentation layer
 #  PLACEHOLDERS
 #  termsOfService: "http://api.crowncommercial.gov.uk/terms/"
@@ -428,7 +428,7 @@ components:
             $ref: '#/components/schemas/AnswerDefinition'
 
     AnswerDefinition:
-      # Only the properties needed for display of the answer for list questions
+      description: Describes a specific answer in questions of type `boolean`, `list` or `multiselect`
       type: object
       required:
         - id
@@ -447,13 +447,29 @@ components:
         order:
           type: integer
           description: Suggested order in which the answer should appear in a UI for a particular question
+        conditionalInput:
+          type: object
+          description: Conditional input question definition (aka. 'reveal')
+          properties:
+            text:
+              type: string
+              description: Question text e.g. "How much is your budget?"
+            hint:
+              type: string
+              description: question hint text e.g. "An estimate is fine"
+            type:
+              type: string
+              enum: [number, text, date, daterange]
+              description: The type of conditional input
+        mutuallyExclusive:
+          type: boolean
+          description: |
+            Mutual exclusion indiciator.
+            Answer should be separated by 'Or' in UI and when clicked, deselect all previously selected answers.
 
     AnsweredQuestion:
       type: object
-        # The object behind the array of questions, 1 entry per question
-        # id is redundant if only 1 in the array but needed for more than 1
-        # questionType not required as that can be looked up
-        # This object is only used in the 'processAnswer' call.
+      description: The object behind the array of questions, 1 entry per question.
       properties:
         id:
           type: string
@@ -462,9 +478,24 @@ components:
         answers:
           type: array
           items:
-            type: string
-            description: Container for answer values to a particular question (UUIDs, free-text, date range etc).
-            uniqueItems: true
+            $ref: '#/components/schemas/GivenAnswer'
+
+    GivenAnswer:
+      type: object
+      description: |
+        Container to facilitating answers to all question types.
+        GivenAnswer may consist of:
+        * An `id` only (`boolean`, `list` or `multiselect`)
+        * A `value` only (`number`, `text`, `date` or `daterange`)
+        * Both `id` and `value` (for answers of any question type where a `conditionalInput` object property is present on the `DefinedAnswer`)
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: Answer unique id
+        value:
+          type: string
+          description: Text or numberic input value
 
     Outcome:
       type: object
@@ -495,7 +526,6 @@ components:
               items:
                 $ref: '#/components/schemas/QuestionDefinition'
 
-# Error objects
     Errors:
       type: object
       properties:
@@ -522,7 +552,7 @@ components:
         type: string
         format: uuid
       description: Logging Service header - The id of the first proccess in the process chain (root process/service)
-    x-causation-id:  
+    x-causation-id:
       name: x-causation-id
       in: header
       required: true

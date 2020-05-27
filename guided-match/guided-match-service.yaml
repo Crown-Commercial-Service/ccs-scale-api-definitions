@@ -448,24 +448,27 @@ components:
           type: integer
           description: Suggested order in which the answer should appear in a UI for a particular question
         conditionalInput:
-          type: object
-          description: Conditional input question definition (aka. 'reveal')
-          properties:
-            text:
-              type: string
-              description: Question text e.g. "How much is your budget?"
-            hint:
-              type: string
-              description: question hint text e.g. "An estimate is fine"
-            type:
-              type: string
-              enum: [number, text, date, daterange]
-              description: The type of conditional input
+          $ref: '#/components/schemas/ConditionalInput'
         mutuallyExclusive:
           type: boolean
           description: |
             Mutual exclusion indiciator.
             Answer should be separated by 'Or' in UI and when clicked, deselect all previously selected answers.
+
+    ConditionalInput:
+      type: object
+      description: Conditional input question definition (aka. 'reveal')
+      properties:
+        text:
+          type: string
+          description: Question text e.g. "How much is your budget?"
+        hint:
+          type: string
+          description: question hint text e.g. "An estimate is fine"
+        type:
+          type: string
+          enum: [number, text, date, daterange]
+          description: The type of conditional input
 
     AnsweredQuestion:
       type: object

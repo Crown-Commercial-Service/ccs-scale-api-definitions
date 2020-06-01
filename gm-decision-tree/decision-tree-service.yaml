@@ -113,7 +113,7 @@ components:
         uuid:
           type: string
           format: uuid
-          description: Guided Match journey unique identifier
+          description: UUID of the Guided Match Journey
         name:
           type: string
           description: Short descriptive name e.g. "Linen & Laundry"
@@ -130,7 +130,7 @@ components:
         uuid:
           type: string
           format: uuid
-          description: Question instance unique identifier
+          description: UUID of the question represented by this definition
         text:
           type: string
           description: 'Question text e.g. "How many laptops would you like to buy?"'
@@ -154,6 +154,7 @@ components:
             $ref: '#/components/schemas/AnswerDefinition'
 
     AnswerDefinition:
+      description: Describes a specific answer in questions of type `boolean`, `list` or `multiselect`
       type: object
       required:
         - uuid
@@ -163,7 +164,7 @@ components:
         uuid:
           type: string
           format: uuid
-          description: Answer unique identifier
+          description: UUID of the answer represented by this definition
         text:
           type: string
           description: 'Answer text e.g. "< 100", "Education", "Yes", "No"'
@@ -173,20 +174,59 @@ components:
         hint:
           type: string
           description: Further descriptive text regarding the answer e.g. 'High value matters'
+        conditionalInput:
+          $ref: '#/components/schemas/ConditionalInput'
+        mutuallyExclusive:
+          type: boolean
+          description: |
+            Mutual exclusion indiciator.
+            Answer should be separated by 'Or' in UI and when clicked, deselect all previously selected answers.
+
+    ConditionalInput:
+      type: object
+      description: Conditional input question definition (aka. 'reveal')
+      properties:
+        text:
+          type: string
+          description: Question text e.g. "How much is your budget?"
+        hint:
+          type: string
+          description: question hint text e.g. "An estimate is fine"
+        type:
+          type: string
+          enum: [number, text, date, daterange]
+          description: The type of conditional input
 
     AnsweredQuestion:
       type: object
       description: Container for answer values to a particular question (UUIDs, free-text, date range etc).
       properties:
-        id:
+        uuid:
           type: string
           format: uuid
-          description: The Id of the answered Question
+          description: UUID of the answered question
         answers:
           type: array
           uniqueItems: true
           items:
-            type: string
+            $ref: '#/components/schemas/GivenAnswer'
+
+    GivenAnswer:
+      type: object
+      description: |
+        Container to facilitating answers to all question types.
+        GivenAnswer may consist of:
+        * An `id` only (`boolean`, `list` or `multiselect`)
+        * A `value` only (`number`, `text`, `date` or `daterange`)
+        * Both `id` and `value` (for answers of any question type where a `conditionalInput` object property is present on the `DefinedAnswer`)
+      properties:
+        uuid:
+          type: string
+          format: uuid
+          description: UUID of the given answer
+        value:
+          type: string
+          description: Text or numberic input value
 
     Agreement:
       type: object
@@ -236,7 +276,7 @@ components:
       properties:
         type:
           type: string
-          enum: [lot, support, question]
+          enum: [question, lot, support]
         data:
           description: Present when type is 'lot' or 'question'
           oneOf:

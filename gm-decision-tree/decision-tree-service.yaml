@@ -146,7 +146,7 @@ components:
         pattern:
           type: string
           description: Regex pattern for client-side validation of free text entry fields
-        definedAnswers:
+        answerDefinitions:
           type: array
           uniqueItems: true
           description: Ordered collection of defined answers (for radio and checkbox types)

@@ -269,18 +269,19 @@ components:
       type: object
       description: |
         Represents the outcome to the submission of answer(s) to a particular question.
-        This could be dynamic i.e. a subsequent question or single/multiple agreement lots,
-        or the support type indicating that no matching agreement could be found
+        This could be dynamic i.e. subsequent question(s), one or more agreements (with
+        or without lots), or the support type indicating that no matching agreements could be found
       required:
         - type
       properties:
         type:
           type: string
-          enum: [question, lot, support]
+          enum: [agreement, support, question]
         data:
-          description: Present when type is 'lot' or 'question'
+          description: Present when type is 'agreement' or 'question'
           oneOf:
             - type: array
+              uniqueItems: true
               items:
                 $ref: '#/components/schemas/Agreement'
             - type: array

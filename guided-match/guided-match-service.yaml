@@ -422,8 +422,10 @@ components:
         prePopulatedAnswerSource:
           type: string
           description: "Details of the source data used to pre-populate the answer - e.g. <system>|<json path>, so that the user can be told that the data came from user profile, org data and so on"
-        definedAnswers:
+        answerDefinitions:
           type: array
+          uniqueItems: true
+          description: Ordered collection of defined answers (for radio and checkbox types)
           items:
             $ref: '#/components/schemas/AnswerDefinition'
 

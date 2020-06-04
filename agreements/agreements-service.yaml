@@ -592,7 +592,7 @@ components:
                 example: "priceRisesLastPeriod"
               location:
                 type: string
-                description: Path or other location of the data which can be evaluated by the application 
+                description: Path or other location of the data which can be evaluated by the application
                 example: "product.priceRises"
         evaluationType:
           type: string

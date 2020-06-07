@@ -488,7 +488,7 @@ components:
           example: "6"
         relationship:
           type: string
-          description: "The type of the relationship in machine readble form"
+          description: "The type of the relationship in machine readable form"
           example: "FurtherCompetitionWhenBudgetExceeded"
 
 

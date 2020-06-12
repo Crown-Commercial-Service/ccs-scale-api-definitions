@@ -537,28 +537,6 @@ components:
               type: integer
               format: int64
               description: The number of units
-        minQuantity:
-          type: object
-          properties:
-            unit:
-              type: string
-              description: The unit of the quantity value
-              example: "days"
-            length:
-              type: number
-              format: float
-              description: The number of units
-        maxQuantity:
-          type: object
-          properties:
-            unit:
-              type: string
-              description: The unit of the quantity value
-              example: "units"
-            length:
-              type: number
-              format: float
-              description: The number of units
 
     LotRule:
       type: object

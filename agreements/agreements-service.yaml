@@ -1,7 +1,7 @@
 openapi: 3.0.1
 info:
   title: SCALE Commercial Agreements Service
-  version: "0.0.3"
+  version: "0.0.4"
   description: This API allows access to CCS Commercial Agreement data. This is used both to provide information to users and to govern the behaviour of other systems for example 'Buy a Thing' and 'Contract for a Thing', where processes may differ based on the configuration of the underlying Commercial Agreement and Lot.
 
 #  PLACEHOLDERs - to be uncommented when implemented
@@ -402,6 +402,10 @@ components:
           format: uri
           description: URL of the Agreement detail page on the CCS website
           example: "https://www.crowncommercial.gov.uk/agreements/RM3733"
+        contactDetails:
+          type: array
+          items:
+            $ref: '#/components/schemas/ContactDetail'
         benefits:
           type: array
           items:
@@ -412,6 +416,19 @@ components:
           items:
             $ref: '#/components/schemas/LotSummary'
 
+    ContactDetail:
+      type: object
+      description: Details of a contact. Initially email only, will be extended in future as additional contact channels are added (e.g. phone number)
+      properties:
+        email:
+          type: string
+          format: email
+          description: Email address
+          example: "Category.Manager@crowncommercial.gov.uk"
+        type:
+          type: string
+          description: The 'type' of the contact in business terms, used to identify the correct contact for a particular purpose.
+          example: "CCSCategoryManager"
 
     LotDetail:
       type: object
@@ -440,6 +457,10 @@ components:
           items:
             type: string
             description: A sector permitted to buy using the Agreement/Lot
+        relatedAgreementLots:
+          type: array
+          items:
+            $ref: '#/components/schemas/RelatedAgreementLot'
         buyerNeeds:
           # Lot default text for buyer needs for CaT
           type: array
@@ -452,6 +473,24 @@ components:
           type: array
           items:
                 $ref: '#/components/schemas/LotRule'
+
+    RelatedAgreementLot:
+      type: object
+      description: A simple reference to a related Agreement/Lot combination and relationship type
+      properties:
+        caNumber:
+          type: string
+          description: Commercial Agreement number
+          example: "RM3733"
+        lotNumber:
+          type: string
+          description: Lot number within the Commercial Agreement
+          example: "6"
+        relationship:
+          type: string
+          description: "The type of the relationship in machine readable form"
+          example: "FurtherCompetitionWhenBudgetExceeded"
+
 
     RouteToMarket:
       # Route to Market for the Lot complete with the rules which determine when it applies
@@ -498,28 +537,6 @@ components:
               type: integer
               format: int64
               description: The number of units
-        minQuantity:
-          type: object
-          properties:
-            unit:
-              type: string
-              description: The unit of the quantity value
-              example: "days"
-            length:
-              type: number
-              format: float
-              description: The number of units
-        maxQuantity:
-          type: object
-          properties:
-            unit:
-              type: string
-              description: The unit of the quantity value
-              example: "units"
-            length:
-              type: number
-              format: float
-              description: The number of units
 
     LotRule:
       type: object
@@ -557,9 +574,19 @@ components:
                 example: "product.priceRises"
         evaluationType:
           type: string
-          enum: [equal , greater, less, complex]
+          description: How the rule should be evaluated -<br>
+            equal = rule is true if the lotAttribute is equal to the transactionData<br>
+            greater = rule is true if the lotAttribute is greater than the transactionData<br>
+            less = rule is true if the lotAttribute is less than the transactionData<br>
+            complex = rule specific code is required to evaluate (typically where there are multiple variables)<br>
+            flag = rule is always true. The presence of the rule is used to flag that certain behaviour is required. In some cases data may be passed in the lotAttributes.
+          enum: [equal , greater, less, complex, flag]
           # regexp requires the expression. Left for post-MVP
           # complex will require specific code to evaluate e.g. 'identify number of price rises in n days'
+        service:
+          type: string
+          description: Name of the service to which the rule applies (in future the Agreement Service may only return rules for the requested services)
+          example: "BaT"
 
 
     NameValueType:

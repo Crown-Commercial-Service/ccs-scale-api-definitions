@@ -233,6 +233,56 @@ paths:
               schema:
                 $ref: '#/components/schemas/Errors'
 
+    get:
+      summary: Get details of a specific question (may return multiple definitions)
+      description: Used to navigate to a specific question
+      tags:
+      - get-journey-question
+      operationId: get-journey-question
+      parameters:
+        - name: journey-instance-id
+          in: path
+          description: Journey instance id
+          example: '0-0-0-0-0'
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: question-id
+          in: path
+          description: Unique identifier of the question required (if a set of questions, the id of the first question in the set)
+          example: '0-0-0-0-0'
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - $ref: '#/components/parameters/x-correlation-id'
+        - $ref: '#/components/parameters/x-causation-id'
+        - $ref: '#/components/parameters/x-channel'
+        - $ref: '#/components/parameters/x-client'
+      responses:
+        200:
+          description: Array of question definitions
+          content:
+            application/json:
+              schema:
+                type: array
+                uniqueItems: true
+                items:
+                  $ref: '#/components/schemas/QuestionDefinition'
+        404:
+          description: Journey instance or question not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Errors'
+        500:
+          description: Internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Errors'
+
   /journey-instances/{journey-instance-id}:
     get:
       summary: Returns the journey history

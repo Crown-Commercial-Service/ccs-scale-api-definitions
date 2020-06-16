@@ -1,7 +1,7 @@
 openapi: 3.0.1
 info:
   title: SCALE Guided Match Decision Tree Service API
-  version: "0.1.0"
+  version: "0.1.1"
 servers:
   - url: https://{apiHost}{basePath}
     description: "Server base URL - parameterised for different environments"
@@ -93,6 +93,49 @@ paths:
               $ref: '#/components/schemas/Outcome'
         404:
           description: Journey, question or outcome not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Errors'
+        500:
+          description: Internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Errors'
+
+  /journeys/{journey-uuid}/questions/{question-uuid}:
+    get:
+      tags:
+        - get-journey-question
+      operationId: get-journey-question
+      parameters:
+        - name: journey-uuid
+          in: path
+          description: Journey unique ID
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: question-uuid
+          in: path
+          description: Journey question unique ID
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        200:
+         description: Array of question definitions
+         content:
+          application/json:
+            schema:
+              type: array
+              uniqueItems: true
+              items:
+                $ref: '#/components/schemas/QuestionDefinition'
+        404:
+          description: Journey or question not found
           content:
             application/json:
               schema:

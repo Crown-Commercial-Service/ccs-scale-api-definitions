@@ -1,7 +1,7 @@
 openapi: 3.0.1
 info:
   title: SCALE Guided Match Service
-  version: "0.1.1"
+  version: "0.1.2"
   description: This API allows access to Scale FaT Guided Match functionality from the Scale presentation layer
 #  PLACEHOLDERS
 #  termsOfService: "http://api.crowncommercial.gov.uk/terms/"
@@ -377,6 +377,13 @@ components:
           type: string
           enum: [boolean,list,multiselect,number,text,date,daterange]
           description: "The type of the question.  Described in detail in the HLD section 7.1.2.2"
+        unit: 
+          $ref: '#/components/schemas/Unit'
+
+    Unit:        
+      type: string
+      enum: [currency,quantity,days,weeks,months,years]
+      description: The unit defining the value supplied for a number answer
 
     Agreement:
       type: object
@@ -521,6 +528,8 @@ components:
           type: string
           enum: [number, text, date, daterange]
           description: The type of conditional input
+        unit: 
+          $ref: '#/components/schemas/Unit'
 
     AnsweredQuestion:
       type: object

@@ -1,7 +1,7 @@
 openapi: 3.0.1
 info:
   title: SCALE Guided Match Decision Tree Service API
-  version: "0.1.1"
+  version: "0.1.2"
 servers:
   - url: https://{apiHost}{basePath}
     description: "Server base URL - parameterised for different environments"
@@ -183,6 +183,8 @@ components:
         type:
           type: string
           enum: [boolean, list, multiSelectList, number, textInput, date, dateRange, postcode, nuts]
+        unit: 
+          $ref: '#/components/schemas/Unit'
         variableName:
           type: string
           description: short variable name used in the interface for FaT/BaT to define the data held in the answer e.g. budget, deliveryDate, organisation
@@ -239,6 +241,14 @@ components:
           type: string
           enum: [number, text, date, daterange]
           description: The type of conditional input
+        unit: 
+          $ref: '#/components/schemas/Unit'
+
+    Unit:        
+      type: string
+      enum: [currency|quantity|days|weeks|months|years]
+      description: The unit defining the value supplied for a number answer
+          
 
     AnsweredQuestion:
       type: object

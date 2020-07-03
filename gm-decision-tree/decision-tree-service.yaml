@@ -246,7 +246,7 @@ components:
 
     Unit:        
       type: string
-      enum: [currency|quantity|days|weeks|months|years]
+      enum: [currency,quantity,days,weeks,months,years]
       description: The unit defining the value supplied for a number answer
           
 

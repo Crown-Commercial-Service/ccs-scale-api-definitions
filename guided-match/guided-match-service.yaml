@@ -38,12 +38,12 @@ paths:
     get:
       summary: Get list of journeys which match the searchTerm
       description: |
-        Given a searchTerm, looks up which journeys match (using fuzzy search) and returns the details needed toprovide the journey selection screen and/or enter the journey
+        Given a searchTerm, looks up which journeys match (using fuzzy search) and returns the details needed to provide the journey selection screen and/or enter the journey
       tags:
       - search-journeys
       operationId: search-journeys
       parameters:
-        - name: searchTerm
+        - name: search-term
           in: query
           description: Search term entered by the user
           required: true

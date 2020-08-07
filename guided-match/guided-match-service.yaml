@@ -82,12 +82,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Errors'
-        404:
-          description: No Guided Match Journeys found for this searchTerm
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Errors'
         500:
           description: Internal server error.
           content:

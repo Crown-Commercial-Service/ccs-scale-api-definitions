@@ -563,7 +563,9 @@ components:
         errorMessage:
           type: string
           description: "The error message to display to the end-user, this will potentially be question specific"
-        
+        errorSummary:
+          type: string
+          description: "Summary version of the error message to display to the end-user, this will potentially be question specific"
 
     AnswerDefinition:
       description: Describes a specific answer in questions of type `boolean`, `list` or `multiselect`

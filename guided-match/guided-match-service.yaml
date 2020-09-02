@@ -1,7 +1,7 @@
 openapi: 3.0.1
 info:
   title: SCALE Guided Match Service
-  version: "0.1.5"
+  version: "0.1.6"
   description: This API allows access to Scale FaT Guided Match functionality from the Scale presentation layer
 #  PLACEHOLDERS
 #  termsOfService: "http://api.crowncommercial.gov.uk/terms/"
@@ -558,6 +558,7 @@ components:
           description: "Code indicating the type of validation to perform - should map to a block of code in the UI"
         errorCode:
           type: string
+          enum: ['ERR_GM001', 'ERR_GM002', 'ERR_GM003', 'ERR_GM004' ]
           description: "Error code to aid in log processing, this will potentially be question specific"
         errorMessage:
           type: string

@@ -558,7 +558,7 @@ components:
           description: "Code indicating the type of validation to perform - should map to a block of code in the UI"
         errorCode:
           type: string
-          enum: ['ERR_GM001', 'ERR_GM002', 'ERR_GM003', 'ERR_GM004' ]
+          example: 'ERR_GM001'
           description: "Error code to aid in log processing, this will potentially be question specific"
         errorMessage:
           type: string

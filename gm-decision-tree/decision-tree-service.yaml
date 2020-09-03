@@ -1,7 +1,7 @@
 openapi: 3.0.1
 info:
   title: SCALE Guided Match Decision Tree Service API
-  version: "0.1.2"
+  version: "0.1.3"
 servers:
   - url: https://{apiHost}{basePath}
     description: "Server base URL - parameterised for different environments"
@@ -164,6 +164,7 @@ components:
           $ref: '#/components/schemas/QuestionDefinition'
 
     QuestionDefinition:
+      description: Question instance definition
       type: object
       required:
         - uuid
@@ -173,7 +174,11 @@ components:
         uuid:
           type: string
           format: uuid
-          description: UUID of the question represented by this definition
+          description: UUID of this question instance
+        definition-uuid:
+          type: string
+          format: uuid
+          description: UUID of the question definition node that defines this instance
         text:
           type: string
           description: 'Question text e.g. "How many laptops would you like to buy?"'
@@ -183,7 +188,7 @@ components:
         type:
           type: string
           enum: [boolean, list, multiSelectList, number, textInput, date, dateRange, postcode, nuts]
-        unit: 
+        unit:
           $ref: '#/components/schemas/Unit'
         variableName:
           type: string
@@ -241,14 +246,14 @@ components:
           type: string
           enum: [number, text, date, daterange]
           description: The type of conditional input
-        unit: 
+        unit:
           $ref: '#/components/schemas/Unit'
 
-    Unit:        
+    Unit:
       type: string
       enum: [currency,quantity,days,weeks,months,years]
       description: The unit defining the value supplied for a number answer
-          
+
 
     AnsweredQuestion:
       type: object

@@ -175,7 +175,7 @@ components:
           type: string
           format: uuid
           description: UUID of this question instance
-        definition-uuid:
+        definitionUuid:
           type: string
           format: uuid
           description: UUID of the question definition node that defines this instance

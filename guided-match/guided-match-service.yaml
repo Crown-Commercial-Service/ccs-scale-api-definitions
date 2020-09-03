@@ -1,7 +1,7 @@
 openapi: 3.0.1
 info:
   title: SCALE Guided Match Service
-  version: "0.1.5"
+  version: "0.1.6"
   description: This API allows access to Scale FaT Guided Match functionality from the Scale presentation layer
 #  PLACEHOLDERS
 #  termsOfService: "http://api.crowncommercial.gov.uk/terms/"
@@ -558,11 +558,14 @@ components:
           description: "Code indicating the type of validation to perform - should map to a block of code in the UI"
         errorCode:
           type: string
+          example: 'ERR_GM001'
           description: "Error code to aid in log processing, this will potentially be question specific"
         errorMessage:
           type: string
           description: "The error message to display to the end-user, this will potentially be question specific"
-        
+        errorSummary:
+          type: string
+          description: "Summary version of the error message to display to the end-user, this will potentially be question specific"
 
     AnswerDefinition:
       description: Describes a specific answer in questions of type `boolean`, `list` or `multiselect`

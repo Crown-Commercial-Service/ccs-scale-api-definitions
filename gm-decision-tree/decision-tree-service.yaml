@@ -1,7 +1,7 @@
 openapi: 3.0.1
 info:
   title: SCALE Guided Match Decision Tree Service API
-  version: "0.1.2"
+  version: "0.1.3"
 servers:
   - url: https://{apiHost}{basePath}
     description: "Server base URL - parameterised for different environments"
@@ -354,6 +354,7 @@ components:
       properties:
         status:
           type: string
+          enum: ['DT_ERR_ANSWER_NOT_FOUND', 'DT_ERR_QUESTION_NOT_FOUND', 'DT_ERR_INVALID_REQUEST', 'DT_ERR_UNKNOWN', 'DT_ERR_VALIDATION_WRONG_ANSWER_TYPE', 'DT_ERR_NO_OUTCOME_FOUND']
         title:
           type: string
         detail:

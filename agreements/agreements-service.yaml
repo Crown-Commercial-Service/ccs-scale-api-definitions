@@ -154,6 +154,55 @@ paths:
 
  # The get-agreement-detail call explicitly omits CPV codes in the initial version. These will be added later if required. As there are potentially thousands of CPV codes it was felt that these would overwhelm the output and management of the underlying data.  Additional calls can be added to provide these if required in a similar way to the '/agreements/{ca-number}/updates' call below.
 
+  /agreements/{ca-number}/lots:
+    get:
+      summary: Returns details of all of the Lots for this Commercial Agreement
+      description: Returns data about the Lots, both general information and parameters required to govern the behaviour of applications using this data
+      tags:
+      - get-agreement-lots
+      operationId: get-agreement-lots
+      parameters:
+        - name: buyingMethod
+          in: query
+          schema:
+            type: string
+            enum: [DirectAward , FurtherCompetition, Marketplace, EAuction]
+            description: Return Lots which are for this buyingMethod
+        - name: ca-number
+          in: path
+          description: Commercial Agreement unique number
+          example: RM3733
+          required: true
+          schema:
+            type: string
+        - $ref: '#/components/parameters/x-correlation-id'
+        - $ref: '#/components/parameters/x-causation-id'
+        - $ref: '#/components/parameters/x-channel'
+        - $ref: '#/components/parameters/x-client'
+      responses:
+        200:
+          description: Lot details
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                    $ref: '#/components/schemas/LotDetail'
+        404:
+          description: Commercial Agreement and/or Lot not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Errors'
+        500:
+          description: Internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Errors'
+
+
+
 
   /agreements/{ca-number}/lots/{lot-number}:
     get:

@@ -507,8 +507,10 @@ components:
       type: object
       properties:
         buyingMethods:
-          type: string
-          enum: [DirectAward , FurtherCompetition, Marketplace, EAuction]
+          type: array
+          items:
+            enum: [DirectAward , FurtherCompetition, Marketplace, EAuction]
+            example: "DirectAward"
         buyingSystemURL:
           type: string
           format: uri

@@ -1,7 +1,7 @@
 openapi: 3.0.1
 info:
   title: SCALE Commercial Agreements Service
-  version: "0.0.4"
+  version: "0.0.5"
   description: This API allows access to CCS Commercial Agreement data. This is used both to provide information to users and to govern the behaviour of other systems for example 'Buy a Thing' and 'Contract for a Thing', where processes may differ based on the configuration of the underlying Commercial Agreement and Lot.
 
 #  PLACEHOLDERs - to be uncommented when implemented
@@ -441,6 +441,16 @@ components:
           type: string
           description: Lot name
           example: Finance
+        startDate:
+          type: string
+          format: date
+          description: Effective start date of Lot
+          example: yyyy-mm-dd
+        endDate:
+          type: string
+          format: date
+          example: yyyy-mm-dd
+          description: Effective start date of Lot
         description:
           type: string
           description: Short textual description of the Lot
@@ -606,6 +616,9 @@ components:
           type: integer
         valueNumber:
           type: number
+        units:
+          type: string
+          description: The unit of the value given in the value fields e.g. kg, mile, hour
 
 
     AgreementUpdate:
@@ -667,12 +680,13 @@ components:
         tradingName:
           type: string
           description: Company trading name for this Lot
-        contactName:
+        contactDetails:
+          type: array
+          items:
+            $ref: '#/components/schemas/ContactDetail'
+        supplierStatus:
           type: string
-          description: Contact name for this context
-        contactEmail:
-          type: string
-          format: email
+          enum: [active|suspended|excluded]
 
     BuyerNeed:
       type: object

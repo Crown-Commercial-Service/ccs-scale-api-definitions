@@ -285,7 +285,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/Organisation'
+                  $ref: '#/components/schemas/Supplier'
         404:
           description: Commercial Agreement and/or Lot not found
           content:

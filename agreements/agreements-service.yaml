@@ -285,7 +285,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/Supplier'
+                  $ref: '#/components/schemas/LotSupplier'
         404:
           description: Commercial Agreement and/or Lot not found
           content:
@@ -719,7 +719,7 @@ components:
           description: The type of document e.g. overview, t&cs, guidance, how to buy, contract notice etc
 
 
-    Supplier:
+    LotSupplier:
       type: object
       properties:
         organisation: 

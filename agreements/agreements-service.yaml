@@ -719,25 +719,31 @@ components:
           description: The type of document e.g. overview, t&cs, guidance, how to buy, contract notice etc
 
 
+    Supplier:
+      type: object
+      properties:
+        organisation: 
+          $ref: '#/components/schemas/Organisation'
+        supplierStatus:
+          type: string
+          enum: [active|suspended|excluded]
+          
     Organisation:
       type: object
       properties:
         id:
           type: string
-          description: Conclave Organisation Id
-        name:
+          description: Primary Organisation Id
+        legalName:
           type: string
           description: Company registered name
-        tradingName:
+        name:
           type: string
           description: Company trading name for this Lot
         contactDetails:
           type: array
           items:
             $ref: '#/components/schemas/ContactDetail'
-        supplierStatus:
-          type: string
-          enum: [active|suspended|excluded]
 
     BuyerNeed:
       type: object

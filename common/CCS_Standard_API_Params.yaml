@@ -1,0 +1,137 @@
+components:
+  parameters:
+    SelfParam:
+      name: self
+      in: path
+      required: true
+      description: User ID
+      schema:
+        $ref: 'https://raw.githubusercontent.com/ronin1972/ccs-scale-api-definitions/master/CCS_Standard_API_Schema.yaml#/components/schemas/GenericID'
+        
+    OrgParam:
+      name: orgID
+      in: path
+      required: true
+      description: Organisation ID
+      schema:
+        $ref: 'https://raw.githubusercontent.com/ronin1972/ccs-scale-api-definitions/master/CCS_Standard_API_Schema.yaml#/components/schemas/GenericID'
+        
+    TeamParam:
+      name: teamID
+      in: path
+      required: true
+      description: Team ID
+      schema:
+        $ref: 'https://raw.githubusercontent.com/ronin1972/ccs-scale-api-definitions/master/CCS_Standard_API_Schema.yaml#/components/schemas/GenericID'
+        
+    TeamMemberParam:
+      name: teamMemberID
+      in: path
+      required: true
+      description: Team member ID
+      schema:
+        $ref: 'https://raw.githubusercontent.com/ronin1972/ccs-scale-api-definitions/master/CCS_Standard_API_Schema.yaml#/components/schemas/GenericID'
+        
+    AgreementParam:
+      name: agreementID
+      in: path
+      required: true
+      description: Agreement
+      schema:
+        $ref: 'https://raw.githubusercontent.com/ronin1972/ccs-scale-api-definitions/master/CCS_Standard_API_Schema.yaml#/components/schemas/AgreementID'
+        
+    LotParam:
+      name: lotID
+      in: path
+      required: true
+      description: Lot
+      schema:
+        $ref: 'https://raw.githubusercontent.com/ronin1972/ccs-scale-api-definitions/master/CCS_Standard_API_Schema.yaml#/components/schemas/GenericID'
+        
+    GMParam:
+      name: GuidedMatchHistoryID
+      in: query
+      required: true
+      description: Guided Match ID
+      schema:
+        $ref: 'https://raw.githubusercontent.com/ronin1972/ccs-scale-api-definitions/master/CCS_Standard_API_Schema.yaml#/components/schemas/GenericID'
+        
+    FMParam:
+      name: FMID
+      in: query
+      required: true
+      description: Facilities Management Transfer ID
+      schema:
+        $ref: 'https://raw.githubusercontent.com/ronin1972/ccs-scale-api-definitions/master/CCS_Standard_API_Schema.yaml#/components/schemas/GenericID'
+        
+    ProcurementParam:
+      name: procID
+      in: path
+      required: true
+      description: Procurement Case ID
+      schema:
+        $ref: '#/components/schemas/ProcurementID'
+        
+    RFxParam:
+      name: rfxID
+      in: path
+      required: true
+      description: RFx ID
+      schema:
+        $ref: 'https://raw.githubusercontent.com/ronin1972/ccs-scale-api-definitions/master/CCS_Standard_API_Schema.yaml#/components/schemas/ProcurementID'
+        
+    HLNeedParam:
+      name: hlNeedID
+      in: path
+      required: true
+      description: High Level Need ID
+      schema:
+        $ref: 'https://raw.githubusercontent.com/ronin1972/ccs-scale-api-definitions/master/CCS_Standard_API_Schema.yaml#/components/schemas/GenericID'
+        
+    SupplierParam:
+      name: supplierID
+      in: path
+      required: true
+      description: Supplier ID
+      schema:
+        $ref: 'https://raw.githubusercontent.com/ronin1972/ccs-scale-api-definitions/master/CCS_Standard_API_Schema.yaml#/components/schemas/GenericID'
+        
+    ResponseParam:
+      name: responseID
+      in: path
+      required: true
+      description: High Level Need ID
+      schema:
+        $ref: 'https://raw.githubusercontent.com/ronin1972/ccs-scale-api-definitions/master/CCS_Standard_API_Schema.yaml#/components/schemas/GenericID'
+        
+    x-correlation-id:
+      name: x-correlation-id
+      in: header
+      required: true
+      schema:
+        type: string
+        format: uuid
+      description: Logging Service header - The id of the first proccess in the process chain (root process/service)
+    x-causation-id:  
+      name: x-causation-id
+      in: header
+      required: true
+      description: Logging Service header - The id of the predecessor proccess in the process chain (root process/service)
+      schema:
+        type: string
+        format: uuid
+    x-channel:
+      name: x-channel
+      in: header
+      required: true
+      description: Logging Service header - Type of device
+      schema:
+        type: string
+        enum: [smartphone|tablet|desktop|other]
+    x-client:
+      name: x-client
+      in: header
+      description: Logging Service header - Type of client app
+      schema:
+        type: string
+        enum: [mobile-app|browser|client-apis|bot-app]

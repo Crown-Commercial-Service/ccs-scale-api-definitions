@@ -82,6 +82,23 @@ components:
         link:
           type: string 
           format: uri
+          
+    Document:
+      type: object
+      properties:
+        url:
+          type: string
+          format: uri
+          description: URI for the document. Should be a perma-link and can be used as a key for the document
+        name:
+          type: string
+          description: document name
+        version:
+          type: string
+          description: Version number of the document - does not proscribe the format
+        documentType:
+          type: string
+          description: The type of document e.g. overview, t&cs, guidance, how to buy, contract notice etc
 
 #
     Errors:

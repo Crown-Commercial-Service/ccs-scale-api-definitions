@@ -1607,10 +1607,54 @@ components:
               using partyDetail extensions that define particular properties and
               classification schemes.
             title: Details
+            allOf:
+              - $ref: '#/components/schemas/organisationDetail'
        # patternProperties:
        #   '^(name_(((([A-Za-z]{2,3}(-([A-Za-z]{3}(-[A-Za-z]{3}){0,2}))?)|[A-Za-z]{4}|[A-Za-z]{5,8})(-([A-Za-z]{4}))?(-([A-Za-z]{2}|[0-9]{3}))?(-([A-Za-z0-9]{5,8}|[0-9][A-Za-z0-9]{3}))*(-([0-9A-WY-Za-wy-z](-[A-Za-z0-9]{2,8})+))*(-(x(-[A-Za-z0-9]{1,8})+))?)|(x(-[A-Za-z0-9]{1,8})+)))$':
        #     type: string
        #     default: null
+#
+    organizationDetail:
+      type: object
+      description: "Additional attributes for the Organization object required for CCS Organization Service"
+      required:
+      - creationDate
+      - countryCode
+      - companyType
+      - is_sme
+      - is_vcse
+      - status
+      - active
+      properties:
+        creationDate:
+          description: "Date of organisation creation"
+          type: "string"
+          example: "DD/MM/YY" 
+        countryCode:
+          description: "Country code of incorporation"
+          type: "string"
+          example: "UK" 
+        companyType:
+          description: "Type of company"
+          type: "string"
+          example: "Type of company"
+        is_sme:
+          description: "Is company SME (Small Medium Enterprise)?"
+          type: "boolean"
+          example: "1"          
+        is_vcse:
+          description: "IS VCSE?"
+          type: "boolean"
+          example: "1" 
+        status:
+          description: "Organisation Status"
+          type: "string"
+          example: "Organisation status" 
+        active:
+          description: "Is organisation active?"
+          type: "boolean"
+          example: "1" 
+#           
     Item:
         title: Item
         type: object

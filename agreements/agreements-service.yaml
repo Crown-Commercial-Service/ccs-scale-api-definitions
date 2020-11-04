@@ -1,17 +1,15 @@
-openapi: 3.0.1
+openapi: "3.0.1"
 info:
-  title: SCALE Commercial Agreements Service
-  version: "0.0.5"
+  title: "SCALE Commercial Agreements Service"
+  version: v0.0.5
   description: This API allows access to CCS Commercial Agreement data. This is used both to provide information to users and to govern the behaviour of other systems for example 'Buy a Thing' and 'Contract for a Thing', where processes may differ based on the configuration of the underlying Commercial Agreement and Lot.
-
 #  PLACEHOLDERs - to be uncommented when implemented
-#  termsOfService: "http://api.crowncommercial.gov.uk/terms/"
-#  contact:
-#    email: "apiteam@crowncommercial.gov.uk"
-#  license:
-#    name: "Open Government Licence 3.0"
-#    url: "https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/"
-
+  termsOfService: "http://api.crowncommercial.gov.uk/terms/"
+  contact:
+    email: "apiteam@crowncommercial.gov.uk"
+  license:
+    name: "Open Government Licence 3.0"
+    url: "https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/"
 # Some data is explicitly omitted from the initial version of the API. Some detailed notes below but a summary here
 # - Terms and conditions are not included (in MVP) as individual data items. It is assumed that a link to a t&cs document will be provided for all Agreements. To be considered post MVP.
 # - 'Special Considerations' - mentioned in an email from JW, needs analysis
@@ -27,20 +25,17 @@ info:
 #security:
 #  - OAuth2:
 #    - read
-
-servers:
-  - url: https://{apiHost}{basePath}
-    description: "Server base URL - parameterised for different environments"
-    variables:
-      apiHost:
-        default: api.crowncommercial.gov.uk
-        description: API Host (TBC)
-      basePath:
-        default: /dev/scale/agreements-service
-        description: Agreements API base path (TBC)
 tags:
-- name: agreements
-
+- name: "Agreement"
+  description: "Operations at Agreement level"
+  externalDocs:
+    description: "Find out more"
+    url: "http://apis.crowncommercial.gov.uk"
+- name: "Lot"
+  description: "Operations at Lot level"
+  externalDocs:
+    description: "Find out more"
+    url: "http://apis.crowncommercial.gov.uk"
 paths:
   # No filter parameter included against API principle due to no use case for this call for MVP which would require a filter and enterprise search provides search functionality on agreements.
   /agreements:
@@ -48,13 +43,13 @@ paths:
       summary: Returns an array of all configured Commercial Agreements
       description: Returns an array of Commercial Agreement Ids, names and simple descriptions
       tags:
-      - get-agreement-list
+      - Agreement
       operationId: get-agreements
       parameters:
-        - $ref: '#/components/parameters/x-correlation-id'
-        - $ref: '#/components/parameters/x-causation-id'
-        - $ref: '#/components/parameters/x-channel'
-        - $ref: '#/components/parameters/x-client'
+        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_Updates_2/common/CCS_Standard_API_Params.yaml#/components/parameters/x-correlation-id'
+        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_Updates_2/common/CCS_Standard_API_Params.yaml#/components/parameters/x-causation-id'
+        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_Updates_2/common/CCS_Standard_API_Params.yaml#/components/parameters/x-channel'
+        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_Updates_2/common/CCS_Standard_API_Params.yaml#/components/parameters/x-client'
       responses:
         200:
           description: Collection of Commercial Agreement summary entities
@@ -69,14 +64,14 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Errors'
-
+                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_Updates_2/common/CCS_Standard_API_Schema.yaml#/components/schemas/Errors'
+#
   /agreements/{ca-number}:
     get:
       summary: Returns details of the specified Commercial Agreement
       description: Returns the definition of the specified Commercial Agreement
       tags:
-      - get-agreement-detail
+      - Agreement
       operationId: get-agreement-detail
       parameters:
         - name: ca-number
@@ -86,10 +81,10 @@ paths:
           required: true
           schema:
             type: string
-        - $ref: '#/components/parameters/x-correlation-id'
-        - $ref: '#/components/parameters/x-causation-id'
-        - $ref: '#/components/parameters/x-channel'
-        - $ref: '#/components/parameters/x-client'
+        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_Updates_2/common/CCS_Standard_API_Params.yaml#/components/parameters/x-correlation-id'
+        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_Updates_2/common/CCS_Standard_API_Params.yaml#/components/parameters/x-causation-id'
+        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_Updates_2/common/CCS_Standard_API_Params.yaml#/components/parameters/x-channel'
+        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_Updates_2/common/CCS_Standard_API_Params.yaml#/components/parameters/x-client'
       responses:
         200:
           description: Commercial Agreement detail
@@ -102,20 +97,20 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Errors'
+                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_Updates_2/common/CCS_Standard_API_Schema.yaml#/components/schemas/Errors'
         500:
           description: Internal server error
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Errors'
-
+                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_Updates_2/common/CCS_Standard_API_Schema.yaml#/components/schemas/Errors'
+#
   /agreements/{ca-number}/documents:
     get:
       summary: Returns details of the specified Commercial Agreement documents
       description: Returns the documents for the specified Commercial Agreement
       tags:
-      - get-agreement-documents
+      - Agreement
       operationId: get-agreement-documents
       parameters:
         - name: ca-number
@@ -125,10 +120,10 @@ paths:
           required: true
           schema:
             type: string
-        - $ref: '#/components/parameters/x-correlation-id'
-        - $ref: '#/components/parameters/x-causation-id'
-        - $ref: '#/components/parameters/x-channel'
-        - $ref: '#/components/parameters/x-client'
+        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_Updates_2/common/CCS_Standard_API_Params.yaml#/components/parameters/x-correlation-id'
+        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_Updates_2/common/CCS_Standard_API_Params.yaml#/components/parameters/x-causation-id'
+        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_Updates_2/common/CCS_Standard_API_Params.yaml#/components/parameters/x-channel'
+        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_Updates_2/common/CCS_Standard_API_Params.yaml#/components/parameters/x-client'
       responses:
         200:
           description: Commercial Agreement documents
@@ -143,23 +138,20 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Errors'
+                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_Updates_2/common/CCS_Standard_API_Schema.yaml#/components/schemas/Errors'
         500:
           description: Internal server error
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Errors'
-
-
+                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_Updates_2/common/CCS_Standard_API_Schema.yaml#/components/schemas/Errors'
  # The get-agreement-detail call explicitly omits CPV codes in the initial version. These will be added later if required. As there are potentially thousands of CPV codes it was felt that these would overwhelm the output and management of the underlying data.  Additional calls can be added to provide these if required in a similar way to the '/agreements/{ca-number}/updates' call below.
-
   /agreements/{ca-number}/lots:
     get:
       summary: Returns details of all of the Lots for this Commercial Agreement
       description: Returns data about the Lots, both general information and parameters required to govern the behaviour of applications using this data
       tags:
-      - get-agreement-lots
+      - Lot
       operationId: get-agreement-lots
       parameters:
         - name: buyingMethod
@@ -175,10 +167,10 @@ paths:
           required: true
           schema:
             type: string
-        - $ref: '#/components/parameters/x-correlation-id'
-        - $ref: '#/components/parameters/x-causation-id'
-        - $ref: '#/components/parameters/x-channel'
-        - $ref: '#/components/parameters/x-client'
+        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_Updates_2/common/CCS_Standard_API_Params.yaml#/components/parameters/x-correlation-id'
+        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_Updates_2/common/CCS_Standard_API_Params.yaml#/components/parameters/x-causation-id'
+        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_Updates_2/common/CCS_Standard_API_Params.yaml#/components/parameters/x-channel'
+        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_Updates_2/common/CCS_Standard_API_Params.yaml#/components/parameters/x-client'
       responses:
         200:
           description: Lot details
@@ -193,24 +185,21 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Errors'
+                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_Updates_2/common/CCS_Standard_API_Schema.yaml#/components/schemas/Errors'
         500:
           description: Internal server error.
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Errors'
-
-
-
-
+               $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_Updates_2/common/CCS_Standard_API_Schema.yaml#/components/schemas/Errors'
+  #
   /agreements/{ca-number}/lots/{lot-number}:
     get:
       summary: Returns details of the specified Lot for this Commercial Agreement
       description: Returns data about the Lot, both general information and parameters required to govern the behaviour of applications using this data
       tags:
-      - get-lot-detail-for-agreement
-      operationId: get-lot-details
+      - Lot
+      operationId: get-lot-details-for-agreement
       parameters:
         - name: ca-number
           in: path
@@ -226,10 +215,10 @@ paths:
           required: true
           schema:
             type: string
-        - $ref: '#/components/parameters/x-correlation-id'
-        - $ref: '#/components/parameters/x-causation-id'
-        - $ref: '#/components/parameters/x-channel'
-        - $ref: '#/components/parameters/x-client'
+        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_Updates_2/common/CCS_Standard_API_Params.yaml#/components/parameters/x-correlation-id'
+        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_Updates_2/common/CCS_Standard_API_Params.yaml#/components/parameters/x-causation-id'
+        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_Updates_2/common/CCS_Standard_API_Params.yaml#/components/parameters/x-channel'
+        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_Updates_2/common/CCS_Standard_API_Params.yaml#/components/parameters/x-client'
       responses:
         200:
           description: Lot details
@@ -242,21 +231,20 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Errors'
+                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_Updates_2/common/CCS_Standard_API_Schema.yaml#/components/schemas/Errors'
         500:
           description: Internal server error.
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Errors'
-
-
+                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_Updates_2/common/CCS_Standard_API_Schema.yaml#/components/schemas/Errors'
+  #
   /agreements/{ca-number}/lots/{lot-number}/suppliers:
     get:
       summary: Returns details of the suppliers for the specified Lot for this Commercial Agreement
       description: Returns the supplier list for the Lot
       tags:
-      - get-lot-suppliers
+      - Lot
       operationId: get-lot-suppliers
       parameters:
         - name: ca-number
@@ -273,10 +261,10 @@ paths:
           required: true
           schema:
             type: string
-        - $ref: '#/components/parameters/x-correlation-id'
-        - $ref: '#/components/parameters/x-causation-id'
-        - $ref: '#/components/parameters/x-channel'
-        - $ref: '#/components/parameters/x-client'
+        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_Updates_2/common/CCS_Standard_API_Params.yaml#/components/parameters/x-correlation-id'
+        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_Updates_2/common/CCS_Standard_API_Params.yaml#/components/parameters/x-causation-id'
+        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_Updates_2/common/CCS_Standard_API_Params.yaml#/components/parameters/x-channel'
+        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_Updates_2/common/CCS_Standard_API_Params.yaml#/components/parameters/x-client'
       responses:
         200:
           description: Lot details
@@ -291,20 +279,20 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Errors'
+                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_Updates_2/common/CCS_Standard_API_Schema.yaml#/components/schemas/Errors'
         500:
           description: Internal server error.
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Errors'
-
+                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_Updates_2/common/CCS_Standard_API_Schema.yaml#/components/schemas/Errors'
+#
   /agreements/{ca-number}/lots/{lot-number}/documents:
     get:
       summary: Returns details of the documents for the specified Lot for this Commercial Agreement
       description: Returns the document list for the Lot
       tags:
-      - get-lot-documents
+      - Lot
       operationId: get-lot-documents
       parameters:
         - name: ca-number
@@ -321,10 +309,10 @@ paths:
           required: true
           schema:
             type: string
-        - $ref: '#/components/parameters/x-correlation-id'
-        - $ref: '#/components/parameters/x-causation-id'
-        - $ref: '#/components/parameters/x-channel'
-        - $ref: '#/components/parameters/x-client'
+        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_Updates_2/common/CCS_Standard_API_Params.yaml#/components/parameters/x-correlation-id'
+        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_Updates_2/common/CCS_Standard_API_Params.yaml#/components/parameters/x-causation-id'
+        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_Updates_2/common/CCS_Standard_API_Params.yaml#/components/parameters/x-channel'
+        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_Updates_2/common/CCS_Standard_API_Params.yaml#/components/parameters/x-client'
       responses:
         200:
           description: Lot documents
@@ -339,21 +327,20 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Errors'
+                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_Updates_2/common/CCS_Standard_API_Schema.yaml#/components/schemas/Errors'
         500:
           description: Internal server error.
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Errors'
-
-
+                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_Updates_2/common/CCS_Standard_API_Schema.yaml#/components/schemas/Errors'
+#
   /agreements/{ca-number}/updates:
     get:
       summary: Returns any updates added to the Agreement
       description: Returns updates recorded for the specified Commercial Agreement
       tags:
-      - get-agreement-updates
+      - Agreement
       operationId: get-agreement-updates
       parameters:
         - name: ca-number
@@ -363,10 +350,10 @@ paths:
           required: true
           schema:
             type: string
-        - $ref: '#/components/parameters/x-correlation-id'
-        - $ref: '#/components/parameters/x-causation-id'
-        - $ref: '#/components/parameters/x-channel'
-        - $ref: '#/components/parameters/x-client'
+        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_Updates_2/common/CCS_Standard_API_Params.yaml#/components/parameters/x-correlation-id'
+        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_Updates_2/common/CCS_Standard_API_Params.yaml#/components/parameters/x-causation-id'
+        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_Updates_2/common/CCS_Standard_API_Params.yaml#/components/parameters/x-channel'
+        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_Updates_2/common/CCS_Standard_API_Params.yaml#/components/parameters/x-client'
       responses:
         200:
           description: Commercial Agreement updates
@@ -381,16 +368,14 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Errors'
+                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_Updates_2/common/CCS_Standard_API_Schema.yaml#/components/schemas/Errors'
         500:
           description: Internal server error.
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Errors'
-
-
-
+                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_Updates_2/common/CCS_Standard_API_Schema.yaml#/components/schemas/Errors'
+#
 components:
 #  securitySchemes:
 #    OAuth2:
@@ -402,9 +387,8 @@ components:
 #          scopes:
 #            read: Grants read access
 #           only read for MVP
-
   schemas:
-
+#
     AgreementSummary:
       type: object
       properties:
@@ -416,12 +400,11 @@ components:
           type: string
           description: Commercial Agreement Name
           example: "Technology Products 2"
-
-
+#
 # Agreement Detail omits some Agreement data in the initial version.
 #  - Suppliers will be shown at a Lot level rather than Agreement level
 #  - CPV codes are omitted as noted above
-
+#
     AgreementDetail:
       type: object
       properties:
@@ -451,10 +434,10 @@ components:
           format: uri
           description: URL of the Agreement detail page on the CCS website
           example: "https://www.crowncommercial.gov.uk/agreements/RM3733"
-        contactDetails:
+        contacts:
           type: array
           items:
-            $ref: '#/components/schemas/ContactDetail'
+            $ref: '#/components/schemas/LotContact'
         benefits:
           type: array
           items:
@@ -464,21 +447,7 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/LotSummary'
-
-    ContactDetail:
-      type: object
-      description: Details of a contact. Initially email only, will be extended in future as additional contact channels are added (e.g. phone number)
-      properties:
-        email:
-          type: string
-          format: email
-          description: Email address
-          example: "Category.Manager@crowncommercial.gov.uk"
-        type:
-          type: string
-          description: The 'type' of the contact in business terms, used to identify the correct contact for a particular purpose.
-          example: "CCSCategoryManager"
-
+#
     LotDetail:
       type: object
       properties:
@@ -532,7 +501,7 @@ components:
           type: array
           items:
                 $ref: '#/components/schemas/LotRule'
-
+#
     RelatedAgreementLot:
       type: object
       description: A simple reference to a related Agreement/Lot combination and relationship type
@@ -549,8 +518,7 @@ components:
           type: string
           description: "The type of the relationship in machine readable form"
           example: "FurtherCompetitionWhenBudgetExceeded"
-
-
+#
     RouteToMarket:
       # Route to Market for the Lot complete with the rules which determine when it applies
       type: object
@@ -598,7 +566,7 @@ components:
               type: integer
               format: int64
               description: The number of units
-
+#
     LotRule:
       type: object
       description: Rules such as 'Prices may not rise more than {x} times in any consecutive {y} day period' can be included in the 'other' element - in this case 2 data-points would be required. <br><br>In the above example:<br><br>name="max number of prices rises in period"<br>
@@ -648,8 +616,7 @@ components:
           type: string
           description: Name of the service to which the rule applies (in future the Agreement Service may only return rules for the requested services)
           example: "BaT"
-
-
+#
     NameValueType:
       type: object
       properties:
@@ -670,8 +637,7 @@ components:
         units:
           type: string
           description: The unit of the value given in the value fields e.g. kg, mile, hour
-
-
+#
     AgreementUpdate:
       type: object
       properties:
@@ -687,7 +653,7 @@ components:
         text:
           type: string
           description: Actual update text
-
+#
     LotSummary:
       type: object
       properties:
@@ -699,8 +665,7 @@ components:
           type: string
           description: Lot name
           example: "Finance"
-
-
+#
     Document:
       type: object
       properties:
@@ -717,34 +682,36 @@ components:
         documentType:
           type: string
           description: The type of document e.g. overview, t&cs, guidance, how to buy, contract notice etc
-
-
+#
     LotSupplier:
       type: object
       properties:
-        organisation: 
-          $ref: '#/components/schemas/Organisation'
-        supplierStatus:
+        organization: 
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_Updates_2/common/OCDS_Schema.yaml#/components/schemas/Organization'
+        supplierStatus: 
           type: string
           enum: [active|suspended|excluded]
-          
-    Organisation:
-      type: object
-      properties:
-        id:
-          type: string
-          description: Primary Organisation Id
-        legalName:
-          type: string
-          description: Company registered name
-        name:
-          type: string
-          description: Company trading name for this Lot
-        contactDetails:
+        LotContacts:
           type: array
           items:
-            $ref: '#/components/schemas/ContactDetail'
-
+            $ref: '#/components/schemas/LotContact'
+#
+    LotContact:
+      type: "object"
+      description: "Agreement/Lot specific contacts for the Organization"
+      properties:
+        contact:
+        #OCDS contactPoint as returned from the Org/Contact service
+          $ref: "https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_Updates_2/common/OCDS_Schema.yaml#/components/schemas/ContactPoint"
+        contactId:
+          type: string
+          description: "Unique identifier of the contact"
+        lotContactReason:
+        #Open Question: is there a more OCDS compliant term?
+          type: string
+          description: "Reason (usually application function) for which the contact should be contacted in the context of this Lot"
+          example: "batQuoteNotify"
+#
     BuyerNeed:
       type: object
       properties:
@@ -759,51 +726,8 @@ components:
           type: string
           description: Text to be displayed for Buyer need
 
-    Errors:
-      type: object
-      properties:
-        errors:
-          type: array
-          items:
-            $ref: '#/components/schemas/Error'
-    Error:
-      type: object
-      properties:
-        status:
-          type: string
-        title:
-          type: string
-        detail:
-          type: string
-  parameters:
-    x-correlation-id:
-      name: x-correlation-id
-      in: header
-      required: true
-      schema:
-        type: string
-        format: uuid
-      description: Logging Service header - The id of the first proccess in the process chain (root process/service)
-    x-causation-id:  
-      name: x-causation-id
-      in: header
-      required: true
-      description: Logging Service header - The id of the predecessor proccess in the process chain (root process/service)
-      schema:
-        type: string
-        format: uuid
-    x-channel:
-      name: x-channel
-      in: header
-      required: true
-      description: Logging Service header - Type of device
-      schema:
-        type: string
-        enum: [smartphone|tablet|desktop|other]
-    x-client:
-      name: x-client
-      in: header
-      description: Logging Service header - Type of client app
-      schema:
-        type: string
-        enum: [mobile-app|browser|client-apis|bot-app]
+#
+servers:
+  # Added by API Auto Mocking Plugin
+  - description: SwaggerHub API Auto Mocking
+    url: https://virtserver.swaggerhub.com/davejhughes/agreement-service/v0.0.5

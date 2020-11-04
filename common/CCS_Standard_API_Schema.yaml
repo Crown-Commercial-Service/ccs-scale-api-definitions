@@ -82,3 +82,22 @@ components:
         link:
           type: string 
           format: uri
+
+#
+    Errors:
+      type: object
+      properties:
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/Error'
+#
+    Error:
+      type: object
+      properties:
+        status:
+          type: string
+        title:
+          type: string
+        detail:
+          type: string

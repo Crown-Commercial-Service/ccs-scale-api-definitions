@@ -127,11 +127,11 @@ components:
       description: Logging Service header - Type of device
       schema:
         type: string
-        enum: [smartphone|tablet|desktop|other]
+        enum: [smartphone,tablet,desktop,other]
     x-client:
       name: x-client
       in: header
       description: Logging Service header - Type of client app
       schema:
         type: string
-        enum: [mobile-app|browser|client-apis|bot-app]
+        enum: [mobile-app,browser,client-apis,bot-app]

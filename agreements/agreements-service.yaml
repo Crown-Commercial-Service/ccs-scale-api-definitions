@@ -66,7 +66,7 @@ paths:
               schema:
                 $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_Updates_2/common/CCS_Standard_API_Schema.yaml#/components/schemas/Errors'
 #
-  /agreements/{ca-number}:
+  /agreements/{agreementID}:
     get:
       summary: Returns details of the specified Commercial Agreement
       description: Returns the definition of the specified Commercial Agreement
@@ -74,13 +74,7 @@ paths:
       - Agreement
       operationId: get-agreement-detail
       parameters:
-        - name: ca-number
-          in: path
-          description: Commercial Agreement unique 'number'
-          example: RM3733
-          required: true
-          schema:
-            type: string
+        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_Updates_2/common/CCS_Standard_API_Params.yaml#/components/parameters/AgreementParam'
         - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_Updates_2/common/CCS_Standard_API_Params.yaml#/components/parameters/x-correlation-id'
         - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_Updates_2/common/CCS_Standard_API_Params.yaml#/components/parameters/x-causation-id'
         - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_Updates_2/common/CCS_Standard_API_Params.yaml#/components/parameters/x-channel'
@@ -105,7 +99,7 @@ paths:
               schema:
                 $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_Updates_2/common/CCS_Standard_API_Schema.yaml#/components/schemas/Errors'
 #
-  /agreements/{ca-number}/documents:
+  /agreements/{agreementID}/documents:
     get:
       summary: Returns details of the specified Commercial Agreement documents
       description: Returns the documents for the specified Commercial Agreement
@@ -113,13 +107,7 @@ paths:
       - Agreement
       operationId: get-agreement-documents
       parameters:
-        - name: ca-number
-          in: path
-          description: Commercial Agreement unique 'number'
-          example: RM3733
-          required: true
-          schema:
-            type: string
+        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_Updates_2/common/CCS_Standard_API_Params.yaml#/components/parameters/AgreementParam'
         - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_Updates_2/common/CCS_Standard_API_Params.yaml#/components/parameters/x-correlation-id'
         - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_Updates_2/common/CCS_Standard_API_Params.yaml#/components/parameters/x-causation-id'
         - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_Updates_2/common/CCS_Standard_API_Params.yaml#/components/parameters/x-channel'
@@ -146,7 +134,7 @@ paths:
               schema:
                 $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_Updates_2/common/CCS_Standard_API_Schema.yaml#/components/schemas/Errors'
  # The get-agreement-detail call explicitly omits CPV codes in the initial version. These will be added later if required. As there are potentially thousands of CPV codes it was felt that these would overwhelm the output and management of the underlying data.  Additional calls can be added to provide these if required in a similar way to the '/agreements/{ca-number}/updates' call below.
-  /agreements/{ca-number}/lots:
+  /agreements/{agreementID}/lots:
     get:
       summary: Returns details of all of the Lots for this Commercial Agreement
       description: Returns data about the Lots, both general information and parameters required to govern the behaviour of applications using this data
@@ -157,16 +145,8 @@ paths:
         - name: buyingMethod
           in: query
           schema:
-            type: string
-            enum: [DirectAward , FurtherCompetition, Marketplace, EAuction]
-            description: Return Lots which are for this buyingMethod
-        - name: ca-number
-          in: path
-          description: Commercial Agreement unique number
-          example: RM3733
-          required: true
-          schema:
-            type: string
+              $ref: "#/components/schemas/BuyingMethod"
+        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_Updates_2/common/CCS_Standard_API_Params.yaml#/components/parameters/AgreementParam'
         - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_Updates_2/common/CCS_Standard_API_Params.yaml#/components/parameters/x-correlation-id'
         - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_Updates_2/common/CCS_Standard_API_Params.yaml#/components/parameters/x-causation-id'
         - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_Updates_2/common/CCS_Standard_API_Params.yaml#/components/parameters/x-channel'
@@ -193,7 +173,7 @@ paths:
               schema:
                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_Updates_2/common/CCS_Standard_API_Schema.yaml#/components/schemas/Errors'
   #
-  /agreements/{ca-number}/lots/{lot-number}:
+  /agreements/{agreementID}/lots/{lotID}:
     get:
       summary: Returns details of the specified Lot for this Commercial Agreement
       description: Returns data about the Lot, both general information and parameters required to govern the behaviour of applications using this data
@@ -201,20 +181,8 @@ paths:
       - Lot
       operationId: get-lot-details-for-agreement
       parameters:
-        - name: ca-number
-          in: path
-          description: Commercial Agreement unique number
-          example: RM3733
-          required: true
-          schema:
-            type: string
-        - name: lot-number
-          in: path
-          description: Unique number of Lot within Commercial Agreement
-          example: "Lot 1"
-          required: true
-          schema:
-            type: string
+        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_Updates_2/common/CCS_Standard_API_Params.yaml#/components/parameters/AgreementParam'
+        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_Updates_2/common/CCS_Standard_API_Params.yaml#/components/parameters/LotParam'
         - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_Updates_2/common/CCS_Standard_API_Params.yaml#/components/parameters/x-correlation-id'
         - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_Updates_2/common/CCS_Standard_API_Params.yaml#/components/parameters/x-causation-id'
         - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_Updates_2/common/CCS_Standard_API_Params.yaml#/components/parameters/x-channel'
@@ -239,7 +207,7 @@ paths:
               schema:
                 $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_Updates_2/common/CCS_Standard_API_Schema.yaml#/components/schemas/Errors'
   #
-  /agreements/{ca-number}/lots/{lot-number}/suppliers:
+  /agreements/{agreementID}/lots/{lotID}/suppliers:
     get:
       summary: Returns details of the suppliers for the specified Lot for this Commercial Agreement
       description: Returns the supplier list for the Lot
@@ -247,20 +215,8 @@ paths:
       - Lot
       operationId: get-lot-suppliers
       parameters:
-        - name: ca-number
-          in: path
-          description: Commercial Agreement unique number
-          example: RM3733
-          required: true
-          schema:
-            type: string
-        - name: lot-number
-          in: path
-          description: Unique number of Lot within Commercial Agreement
-          example: "Lot 1"
-          required: true
-          schema:
-            type: string
+        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_Updates_2/common/CCS_Standard_API_Params.yaml#/components/parameters/AgreementParam'
+        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_Updates_2/common/CCS_Standard_API_Params.yaml#/components/parameters/LotParam'
         - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_Updates_2/common/CCS_Standard_API_Params.yaml#/components/parameters/x-correlation-id'
         - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_Updates_2/common/CCS_Standard_API_Params.yaml#/components/parameters/x-causation-id'
         - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_Updates_2/common/CCS_Standard_API_Params.yaml#/components/parameters/x-channel'
@@ -287,7 +243,7 @@ paths:
               schema:
                 $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_Updates_2/common/CCS_Standard_API_Schema.yaml#/components/schemas/Errors'
 #
-  /agreements/{ca-number}/lots/{lot-number}/documents:
+  /agreements/{agreementID}/lots/{lotID}/documents:
     get:
       summary: Returns details of the documents for the specified Lot for this Commercial Agreement
       description: Returns the document list for the Lot
@@ -295,20 +251,8 @@ paths:
       - Lot
       operationId: get-lot-documents
       parameters:
-        - name: ca-number
-          in: path
-          description: Commercial Agreement unique number
-          example: RM3733
-          required: true
-          schema:
-            type: string
-        - name: lot-number
-          in: path
-          description: Unique number of Lot within Commercial Agreement
-          example: "Lot 1"
-          required: true
-          schema:
-            type: string
+        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_Updates_2/common/CCS_Standard_API_Params.yaml#/components/parameters/AgreementParam'
+        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_Updates_2/common/CCS_Standard_API_Params.yaml#/components/parameters/LotParam'
         - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_Updates_2/common/CCS_Standard_API_Params.yaml#/components/parameters/x-correlation-id'
         - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_Updates_2/common/CCS_Standard_API_Params.yaml#/components/parameters/x-causation-id'
         - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_Updates_2/common/CCS_Standard_API_Params.yaml#/components/parameters/x-channel'
@@ -335,7 +279,7 @@ paths:
               schema:
                 $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_Updates_2/common/CCS_Standard_API_Schema.yaml#/components/schemas/Errors'
 #
-  /agreements/{ca-number}/updates:
+  /agreements/{agreementID}/updates:
     get:
       summary: Returns any updates added to the Agreement
       description: Returns updates recorded for the specified Commercial Agreement
@@ -343,13 +287,7 @@ paths:
       - Agreement
       operationId: get-agreement-updates
       parameters:
-        - name: ca-number
-          in: path
-          description: Commercial Agreement unique number
-          example: RM3733
-          required: true
-          schema:
-            type: string
+        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_Updates_2/common/CCS_Standard_API_Params.yaml#/components/parameters/AgreementParam'
         - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_Updates_2/common/CCS_Standard_API_Params.yaml#/components/parameters/x-correlation-id'
         - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_Updates_2/common/CCS_Standard_API_Params.yaml#/components/parameters/x-causation-id'
         - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_Updates_2/common/CCS_Standard_API_Params.yaml#/components/parameters/x-channel'
@@ -474,7 +412,7 @@ components:
           description: Short textual description of the Lot
         type:
           type: string
-          enum: [product|service|product and service]
+          enum: ["product","service","product and service"]
         routesToMarket:
           type: array
           description: Routes to Market for the Lot and associated bounds
@@ -519,6 +457,11 @@ components:
           description: "The type of the relationship in machine readable form"
           example: "FurtherCompetitionWhenBudgetExceeded"
 #
+    BuyingMethod:
+      type: string
+      enum: ["DirectAward" , "FurtherCompetition", "Marketplace", "EAuction"]
+      example: "DirectAward"
+#
     RouteToMarket:
       # Route to Market for the Lot complete with the rules which determine when it applies
       type: object
@@ -526,8 +469,7 @@ components:
         buyingMethods:
           type: array
           items:
-            enum: [DirectAward , FurtherCompetition, Marketplace, EAuction]
-            example: "DirectAward"
+            $ref: "#/components/schemas/BuyingMethod"
         buyingSystemURL:
           type: string
           format: uri
@@ -549,7 +491,7 @@ components:
           properties:
             unit:
               type: string
-              enum: [day|month|year]
+              enum: ["day","month","year"]
               description: The unit of the length value
             length:
               type: integer
@@ -560,7 +502,7 @@ components:
           properties:
             unit:
               type: string
-              enum: [day|month|year]
+              enum: ["day","month","year"]
               description: The unit of the length value
             length:
               type: integer
@@ -626,7 +568,7 @@ components:
         datatype:
         # decided not to use date as this would actually be duration and that's an integer
           type: string
-          enum: [string|integer|number]
+          enum: [string,integer,number]
           description: the datatype of the 'other' lotBound value
         valueText:
           type: string
@@ -673,7 +615,7 @@ components:
           $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_Updates_2/common/OCDS_Schema.yaml#/components/schemas/Organization'
         supplierStatus: 
           type: string
-          enum: [active|suspended|excluded]
+          enum: [active,suspended,excluded]
         LotContacts:
           type: array
           items:
@@ -693,7 +635,7 @@ components:
         #Open Question: is there a more OCDS compliant term?
           type: string
           description: "Reason (usually application function) for which the contact should be contacted in the context of this Lot"
-          example: "batQuoteNotify"
+          example: "batQuoteNotification"
 #
     BuyerNeed:
       type: object

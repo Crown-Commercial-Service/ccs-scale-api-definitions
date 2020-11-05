@@ -46,7 +46,7 @@ components:
       required: true
       description: Lot
       schema:
-        $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_Updates_2/common/CCS_Standard_API_Schema.yaml#/components/schemas/GenericID'
+        $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_Updates_2/common/CCS_Standard_API_Schema.yaml#/components/schemas/LotID'
         
     GMParam:
       name: GuidedMatchHistoryID

@@ -11,7 +11,12 @@ components:
       pattern: RM[1-9]{4}
       example: RM1234
       readOnly: true
-      
+
+    LotID:
+      type: string
+      example: 1a
+      readOnly: true
+
     AgreementOCID:
       type: string
       pattern: ocds-RM[1-9]{4}

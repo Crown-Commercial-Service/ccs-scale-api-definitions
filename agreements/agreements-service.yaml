@@ -132,7 +132,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/Document'
+                  $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_Updates_2/common/OCDS_Schema.yaml#/components/schemas/Document'
         404:
           description: Commercial Agreement not found
           content:
@@ -321,7 +321,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/Document'
+                  $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_Updates_2/common/OCDS_Schema.yaml#/components/schemas/Document'
         404:
           description: Commercial Agreement and/or Lot not found
           content:
@@ -665,23 +665,6 @@ components:
           type: string
           description: Lot name
           example: "Finance"
-#
-    Document:
-      type: object
-      properties:
-        url:
-          type: string
-          format: uri
-          description: URI for the document. Should be a perma-link and can be used as a key for the document
-        name:
-          type: string
-          description: document name
-        version:
-          type: string
-          description: Version number of the document - does not proscribe the format
-        documentType:
-          type: string
-          description: The type of document e.g. overview, t&cs, guidance, how to buy, contract notice etc
 #
     LotSupplier:
       type: object

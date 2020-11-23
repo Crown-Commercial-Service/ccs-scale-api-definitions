@@ -87,7 +87,7 @@ components:
     TeamList:
       type: array
       items:
-        $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/cat/CaT_Schema.yaml#/components/schemas/Team'
+        $ref: '#/components/schemas/Team'
         
     Team:
       type: object

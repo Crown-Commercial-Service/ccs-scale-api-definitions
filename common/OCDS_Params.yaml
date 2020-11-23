@@ -1,0 +1,105 @@
+components:
+  parameters:
+    SelfParam:
+      name: self
+      in: path
+      required: true
+      description: User ID
+      schema:
+        $ref: '#/components/schemas/GenericID'
+        
+    OrgParam:
+      name: orgID
+      in: path
+      required: true
+      description: Organisation ID
+      schema:
+        $ref: '#/components/schemas/GenericID'
+        
+    TeamParam:
+      name: teamID
+      in: path
+      required: true
+      description: Team ID
+      schema:
+        $ref: '#/components/schemas/GenericID'
+        
+    TeamMemberParam:
+      name: teamMemberID
+      in: path
+      required: true
+      description: Team member ID
+      schema:
+        $ref: '#/components/schemas/GenericID'
+        
+    AgreementParam:
+      name: agreementID
+      in: path
+      required: true
+      description: Agreement
+      schema:
+        $ref: '#/components/schemas/AgreementID'
+        
+    LotParam:
+      name: lotID
+      in: path
+      required: true
+      description: Lot
+      schema:
+        $ref: '#/components/schemas/GenericID'
+        
+    GMParam:
+      name: GuidedMatchHistoryID
+      in: query
+      required: true
+      description: Guided Match ID
+      schema:
+        $ref: '#/components/schemas/GenericID'
+        
+    FMParam:
+      name: FMID
+      in: query
+      required: true
+      description: Facilities Management Transfer ID
+      schema:
+        $ref: '#/components/schemas/GenericID'
+        
+    ProcurementParam:
+      name: procID
+      in: path
+      required: true
+      description: Procurement Case ID
+      schema:
+        $ref: '#/components/schemas/ProcurementID'
+        
+    RFxParam:
+      name: rfxID
+      in: path
+      required: true
+      description: RFx ID
+      schema:
+        $ref: '#/components/schemas/ProcurementID'
+        
+    HLNeedParam:
+      name: hlNeedID
+      in: path
+      required: true
+      description: High Level Need ID
+      schema:
+        $ref: '#/components/schemas/GenericID'
+        
+    SupplierParam:
+      name: supplierID
+      in: path
+      required: true
+      description: Supplier ID
+      schema:
+        $ref: '#/components/schemas/GenericID'
+        
+    ResponseParam:
+      name: responseID
+      in: path
+      required: true
+      description: High Level Need ID
+      schema:
+        $ref: '#/components/schemas/GenericID'

@@ -6,68 +6,6 @@ components:
       example: 1234
       readOnly: true
 
-    TsAndCs:
-      type: array
-      items:
-        $ref: '#/components/schemas/Term'
-        
-    TermID:
-      type: string 
-      format: uri
-      example: 'http://agreementservice.crowncommercial.gov.uk/agreement/1234'
-  
-    Term:
-      type: object
-      properties:
-        id:
-          $ref: '#/components/schemas/TermID'
-        name:
-          type: string
-          description: Short name of the term or condition
-          example: Modern Slavery
-        agreements:
-          type: array
-          items:
-            $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/OCDS_Schema.yaml#/components/schemas/Release' 
-        accepted:
-          type: boolean
-          example: false
-          default: false
-        text:
-          type: string
-          description: Text of the terms and conditions that the user is asked to sign up to
-          example: The government’s task force on modern slavery has endorsed a government-wide strategy to tackle this issue. The strategy has identified actions to ensure modern slavery is tackled in government supply chains through public procurement and has committed to publishing its own modern slavery statement in December 2019
-          default: ''
-        link:
-          type: string 
-          format: uri
-      
-    TeamList:
-      type: array
-      items:
-        $ref: '#/components/schemas/Team'
-        
-    Team:
-      type: object
-      description: Team who work together on bids or procurements
-      required:
-        - name
-      properties: 
-        id:  
-          type: string
-          format: uuid
-          description: 1234
-        organisation:  
-          type: string
-          format: uuid
-          description: Organisation that has defined the team
-          example: 111
-        name:  
-          type: string
-          default: UAH
-          description: Name given to the team within the organisation
-          example: Procurment Team A
-            
 
           
             

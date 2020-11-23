@@ -1,0 +1,76 @@
+components:
+  parameters:
+    
+    TeamParam:
+      name: teamID
+      in: path
+      required: true
+      description: Team ID
+      schema:
+        $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_Updates_2/common/CCS_Standard_API_Schema.yaml#/components/schemas/GenericID'
+        
+    TeamMemberParam:
+      name: teamMemberID
+      in: path
+      required: true
+      description: Team member ID
+      schema:
+        $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_Updates_2/common/CCS_Standard_API_Schema.yaml#/components/schemas/GenericID'
+        
+        
+    GMParam:
+      name: GuidedMatchHistoryID
+      in: query
+      required: true
+      description: Guided Match ID
+      schema:
+        $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_Updates_2/common/CCS_Standard_API_Schema.yaml#/components/schemas/GenericID'
+        
+    FMParam:
+      name: FMID
+      in: query
+      required: true
+      description: Facilities Management Transfer ID
+      schema:
+        $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_Updates_2/common/CCS_Standard_API_Schema.yaml#/components/schemas/GenericID'
+        
+    ProcurementParam:
+      name: procID
+      in: path
+      required: true
+      description: Procurement Case ID
+      schema:
+        $ref: '#/components/schemas/ProcurementID'
+        
+    RFxParam:
+      name: rfxID
+      in: path
+      required: true
+      description: RFx ID
+      schema:
+        $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_Updates_2/common/CCS_Standard_API_Schema.yaml#/components/schemas/ProcurementID'
+        
+    HLNeedParam:
+      name: hlNeedID
+      in: path
+      required: true
+      description: High Level Need ID
+      schema:
+        $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_Updates_2/common/CCS_Standard_API_Schema.yaml#/components/schemas/GenericID'
+        
+    SupplierParam:
+      name: supplierID
+      in: path
+      required: true
+      description: Supplier ID
+      schema:
+        $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_Updates_2/common/CCS_Standard_API_Schema.yaml#/components/schemas/GenericID'
+        
+    ResponseParam:
+      name: responseID
+      in: path
+      required: true
+      description: High Level Need ID
+      schema:
+        $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_Updates_2/common/CCS_Standard_API_Schema.yaml#/components/schemas/GenericID'
+        

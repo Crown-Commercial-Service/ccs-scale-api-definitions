@@ -28,7 +28,7 @@ components:
     ProcurementIDList:
       type: array
       items:
-        $ref: 'https://raw.githubusercontent.com/ronin1972/ccs-scale-api-definitions/ronin1972-patch-1/cat/CaT_Schema.yaml#/components/schemas/ProcurementID' 
+        $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/cat/CaT_Schema.yaml#/components/schemas/ProcurementID' 
       
     ProcurementOCID:
       type: number
@@ -51,7 +51,7 @@ components:
     TsAndCs:
       type: array
       items:
-        $ref: 'https://raw.githubusercontent.com/ronin1972/ccs-scale-api-definitions/ronin1972-patch-1/cat/CaT_Schema.yaml#/components/schemas/Term'
+        $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/cat/CaT_Schema.yaml#/components/schemas/Term'
         
     TermID:
       type: string 
@@ -62,7 +62,7 @@ components:
       type: object
       properties:
         id:
-          $ref: 'https://raw.githubusercontent.com/ronin1972/ccs-scale-api-definitions/ronin1972-patch-1/cat/CaT_Schema.yaml#/components/schemas/TermID'
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/cat/CaT_Schema.yaml#/components/schemas/TermID'
         name:
           type: string
           description: Short name of the term or condition
@@ -70,7 +70,7 @@ components:
         agreements:
           type: array
           items:
-            $ref: 'https://raw.githubusercontent.com/ronin1972/ccs-scale-api-definitions/ronin1972-patch-1/cat/CaT_Schema.yaml#/components/schemas/Release' 
+            $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/cat/CaT_Schema.yaml#/components/schemas/Release' 
         accepted:
           type: boolean
           example: false
@@ -131,7 +131,7 @@ components:
           * withdrawn
       type: array
       items:
-        $ref: 'https://raw.githubusercontent.com/ronin1972/ccs-scale-api-definitions/ronin1972-patch-1/cat/CaT_Schema.yaml#/components/schemas/TerminationType'
+        $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/cat/CaT_Schema.yaml#/components/schemas/TerminationType'
       example: [
         "cancelled",
         "unsuccessful",
@@ -149,7 +149,7 @@ components:
           * direct
       type: array
       items:
-        $ref: 'https://raw.githubusercontent.com/ronin1972/ccs-scale-api-definitions/ronin1972-patch-1/cat/CaT_Schema.yaml#/components/schemas/ProcurementMethod'
+        $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/cat/CaT_Schema.yaml#/components/schemas/ProcurementMethod'
       example: [
         "open",
         "selective",
@@ -166,7 +166,7 @@ components:
           * RFP - Request for Proposal
       type: array
       items:
-        $ref: 'https://raw.githubusercontent.com/ronin1972/ccs-scale-api-definitions/ronin1972-patch-1/cat/CaT_Schema.yaml#/components/schemas/RFxType'
+        $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/cat/CaT_Schema.yaml#/components/schemas/RFxType'
       example: [
         "EOI",
         "RFI",
@@ -186,12 +186,12 @@ components:
             type: string
           type:
             allOf:
-              - $ref: 'https://raw.githubusercontent.com/ronin1972/ccs-scale-api-definitions/ronin1972-patch-1/cat/CaT_Schema.yaml#/components/schemas/RFxType'
+              - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/cat/CaT_Schema.yaml#/components/schemas/RFxType'
             example: RFP
           status:
             type: string
             allOf:
-              - $ref: 'https://raw.githubusercontent.com/ronin1972/ccs-scale-api-definitions/ronin1972-patch-1/cat/CaT_Schema.yaml#/components/schemas/TenderStatus'
+              - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/cat/CaT_Schema.yaml#/components/schemas/TenderStatus'
               
     DefaultName:
       type: object
@@ -218,7 +218,7 @@ components:
         status: 
           type: string
         errors:
-          $ref: 'https://raw.githubusercontent.com/ronin1972/ccs-scale-api-definitions/ronin1972-patch-1/cat/CaT_Schema.yaml#/components/schemas/Error'
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/cat/CaT_Schema.yaml#/components/schemas/Error'
         
 
           

@@ -68,7 +68,7 @@ components:
       items:
         $ref: '#/components/schemas/TeamMember'
         
-     TeamMember:
+    TeamMember:
       type: object
       description: Team who work together on bids or procurements
       required:
@@ -79,7 +79,7 @@ components:
           format: uuid
           description: 1234
           
- ExtendCriteria:
+    ExtendCriteria:
       description: >-
         Data required to extend the period for tender submissions. It must not exceed the orginal extention limit defined on a tender.
       type: object

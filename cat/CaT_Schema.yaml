@@ -6,5 +6,32 @@ components:
       format: integer
       example: 1234
       readOnly: true
+      
+    TeamList:
+      type: array
+      items:
+        $ref: '#/components/schemas/Team'
+        
+    Team:
+      type: object
+      description: Team who work together on bids or procurements
+      required:
+        - name
+      properties: 
+        id:  
+          type: string
+          format: uuid
+          description: 1234
+        organisation:  
+          type: string
+          format: uuid
+          description: Organisation that has defined the team
+          example: 111
+        name:  
+          type: string
+          default: UAH
+          description: Name given to the team within the organisation
+          example: Procurment Team A
+          
             
             

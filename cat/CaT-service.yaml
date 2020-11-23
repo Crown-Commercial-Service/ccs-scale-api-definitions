@@ -13,7 +13,7 @@ servers:
 paths:
   '/cat/account/{self}/tsandcs':
     parameters:
-      - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/OCDS_Params.yaml#/components/parameters/SelfParam'
+      - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CS_Standard_API_Params.yaml#/components/parameters/SelfParam'
       - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_Updates_2/common/CCS_Standard_API_Params.yaml#/components/parameters/x-correlation-id'
       - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_Updates_2/common/CCS_Standard_API_Params.yaml#/components/parameters/x-causation-id'
       - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_Updates_2/common/CCS_Standard_API_Params.yaml#/components/parameters/x-channel'
@@ -42,7 +42,7 @@ paths:
       
   '/cat/organisation/{orgID}/teams':
     parameters:
-      - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/OCDS_Params.yaml#/components/parameters/OrgParam'
+      - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CS_Standard_API_Params.yaml#/components/parameters/OrgParam'
       - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_Updates_2/common/CCS_Standard_API_Params.yaml#/components/parameters/x-correlation-id'
       - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_Updates_2/common/CCS_Standard_API_Params.yaml#/components/parameters/x-causation-id'
       - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_Updates_2/common/CCS_Standard_API_Params.yaml#/components/parameters/x-channel'
@@ -76,7 +76,7 @@ paths:
         content:
           multipart/form-data:
             schema:
-              $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/OCDS_Params.yaml#/components/schemas/Team'
+              $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CS_Standard_API_Params.yaml#/components/schemas/Team'
       responses:
         '200':
           description: ok
@@ -94,8 +94,8 @@ paths:
       summary: Create a new team
   '/cat/organisation/{orgID}/teams/{teamID}':
     parameters:
-      - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/OCDS_Params.yaml#/components/parameters/OrgParam'
-      - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/OCDS_Params.yaml#/components/parameters/TeamParam'
+      - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CS_Standard_API_Params.yaml#/components/parameters/OrgParam'
+      - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CS_Standard_API_Params.yaml#/components/parameters/TeamParam'
       - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_Updates_2/common/CCS_Standard_API_Params.yaml#/components/parameters/x-correlation-id'
       - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_Updates_2/common/CCS_Standard_API_Params.yaml#/components/parameters/x-causation-id'
       - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_Updates_2/common/CCS_Standard_API_Params.yaml#/components/parameters/x-channel'
@@ -123,8 +123,8 @@ paths:
       summary: Delete team
   '/cat/organisation/{orgID}/teams/{teamID}/members':
     parameters:
-      - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/OCDS_Params.yaml#/components/parameters/OrgParam'
-      - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/OCDS_Params.yaml#/components/parameters/TeamParam'
+      - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CS_Standard_API_Params.yaml#/components/parameters/OrgParam'
+      - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CS_Standard_API_Params.yaml#/components/parameters/TeamParam'
       - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_Updates_2/common/CCS_Standard_API_Params.yaml#/components/parameters/x-correlation-id'
       - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_Updates_2/common/CCS_Standard_API_Params.yaml#/components/parameters/x-causation-id'
       - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_Updates_2/common/CCS_Standard_API_Params.yaml#/components/parameters/x-channel'
@@ -256,9 +256,9 @@ paths:
       summary: List RFx types
   '/cat/procurementCase/defaultName/agreements/{agreementID}/lots/{lotID}':
     parameters:
-      - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/OCDS_Params.yaml#/components/parameters/OrgParam'
-      - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/OCDS_Params.yaml#/components/parameters/AgreementParam'
-      - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/OCDS_Params.yaml#/components/parameters/LotParam'
+      - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CS_Standard_API_Params.yaml#/components/parameters/OrgParam'
+      - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CS_Standard_API_Params.yaml#/components/parameters/AgreementParam'
+      - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CS_Standard_API_Params.yaml#/components/parameters/LotParam'
       - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_Updates_2/common/CCS_Standard_API_Params.yaml#/components/parameters/x-correlation-id'
       - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_Updates_2/common/CCS_Standard_API_Params.yaml#/components/parameters/x-causation-id'
       - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_Updates_2/common/CCS_Standard_API_Params.yaml#/components/parameters/x-channel'
@@ -275,7 +275,7 @@ paths:
           content:
             application/vnd.api+json:
               schema:
-                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/OCDS_Params.yaml#/components/schemas/DefaultName'
+                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CS_Standard_API_Params.yaml#/components/schemas/DefaultName'
         '401':
           $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CCS_Standard_API_Responses.yaml#/components/responses/401Unauthorized'
         '403':
@@ -308,7 +308,7 @@ paths:
           content:
             application/vnd.api+json:
               schema:
-                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/OCDS_Params.yaml#/components/schemas/DefaultName'
+                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CS_Standard_API_Params.yaml#/components/schemas/DefaultName'
         '401':
           $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CCS_Standard_API_Responses.yaml#/components/responses/401Unauthorized'
         '403':
@@ -319,7 +319,7 @@ paths:
       summary: Tranfer from Guided Match
   /cat/ProcurementCase/FMTransfer:
     parameters:
-      - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/OCDS_Params.yaml#/components/parameters/FMParam'
+      - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CS_Standard_API_Params.yaml#/components/parameters/FMParam'
       - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_Updates_2/common/CCS_Standard_API_Params.yaml#/components/parameters/x-correlation-id'
       - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_Updates_2/common/CCS_Standard_API_Params.yaml#/components/parameters/x-causation-id'
       - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_Updates_2/common/CCS_Standard_API_Params.yaml#/components/parameters/x-channel'
@@ -335,7 +335,7 @@ paths:
         content:
           multipart/form-data:
             schema:
-              $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/OCDS_Params.yaml#/components/schemas/DefaultName'
+              $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CS_Standard_API_Params.yaml#/components/schemas/DefaultName'
       responses:
         '200':
           description: ok
@@ -353,7 +353,7 @@ paths:
       summary: Tranfer from Facilities Managment
   /cat/ProcurementCase/Agreement:
     parameters:
-      - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/OCDS_Params.yaml#/components/parameters/AgreementParam'
+      - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CS_Standard_API_Params.yaml#/components/parameters/AgreementParam'
       - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_Updates_2/common/CCS_Standard_API_Params.yaml#/components/parameters/x-correlation-id'
       - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_Updates_2/common/CCS_Standard_API_Params.yaml#/components/parameters/x-causation-id'
       - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_Updates_2/common/CCS_Standard_API_Params.yaml#/components/parameters/x-channel'
@@ -386,7 +386,7 @@ paths:
       summary: Create from an Agreement
   '/cat/ProcurementCase/{procID}/confirm':
     parameters:
-      - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/OCDS_Params.yaml#/components/parameters/ProcurementParam'
+      - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CS_Standard_API_Params.yaml#/components/parameters/ProcurementParam'
       - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_Updates_2/common/CCS_Standard_API_Params.yaml#/components/parameters/x-correlation-id'
       - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_Updates_2/common/CCS_Standard_API_Params.yaml#/components/parameters/x-causation-id'
       - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_Updates_2/common/CCS_Standard_API_Params.yaml#/components/parameters/x-channel'
@@ -419,7 +419,7 @@ paths:
       summary: Confirm procurement case
   '/CaT/ProcurementCase/{procID}/status':
     parameters:
-      - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/OCDS_Params.yaml#/components/parameters/ProcurementParam'
+      - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CS_Standard_API_Params.yaml#/components/parameters/ProcurementParam'
       - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_Updates_2/common/CCS_Standard_API_Params.yaml#/components/parameters/x-correlation-id'
       - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_Updates_2/common/CCS_Standard_API_Params.yaml#/components/parameters/x-causation-id'
       - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_Updates_2/common/CCS_Standard_API_Params.yaml#/components/parameters/x-channel'
@@ -447,7 +447,7 @@ paths:
       summary: Get get RFx statuses on case
   '/cat/ProcurementCase/{procID}/rfxs':
     parameters:
-      - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/OCDS_Params.yaml#/components/parameters/ProcurementParam'
+      - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CS_Standard_API_Params.yaml#/components/parameters/ProcurementParam'
       - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_Updates_2/common/CCS_Standard_API_Params.yaml#/components/parameters/x-correlation-id'
       - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_Updates_2/common/CCS_Standard_API_Params.yaml#/components/parameters/x-causation-id'
       - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_Updates_2/common/CCS_Standard_API_Params.yaml#/components/parameters/x-channel'
@@ -500,8 +500,8 @@ paths:
       summary: Confirm procurement case
   '/cat/ProcurementCase/{procID}/rfxs/{rfxID}/HLNeeds':
     parameters:
-      - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/OCDS_Params.yaml#/components/parameters/ProcurementParam'
-      - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/OCDS_Params.yaml#/components/parameters/RFxParam'
+      - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CS_Standard_API_Params.yaml#/components/parameters/ProcurementParam'
+      - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CS_Standard_API_Params.yaml#/components/parameters/RFxParam'
       - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_Updates_2/common/CCS_Standard_API_Params.yaml#/components/parameters/x-correlation-id'
       - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_Updates_2/common/CCS_Standard_API_Params.yaml#/components/parameters/x-causation-id'
       - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_Updates_2/common/CCS_Standard_API_Params.yaml#/components/parameters/x-channel'
@@ -529,9 +529,9 @@ paths:
       summary: Get High Level Needs
   '/cat/ProcurementCase/{procID}/rfxs/{rfxID}/HLNeeds/{hlNeedID}/forms':
     parameters:
-      - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/OCDS_Params.yaml#/components/parameters/ProcurementParam'
-      - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/OCDS_Params.yaml#/components/parameters/RFxParam'
-      - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/OCDS_Params.yaml#/components/parameters/HLNeedParam'
+      - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CS_Standard_API_Params.yaml#/components/parameters/ProcurementParam'
+      - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CS_Standard_API_Params.yaml#/components/parameters/RFxParam'
+      - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CS_Standard_API_Params.yaml#/components/parameters/HLNeedParam'
       - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_Updates_2/common/CCS_Standard_API_Params.yaml#/components/parameters/x-correlation-id'
       - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_Updates_2/common/CCS_Standard_API_Params.yaml#/components/parameters/x-causation-id'
       - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_Updates_2/common/CCS_Standard_API_Params.yaml#/components/parameters/x-channel'
@@ -584,9 +584,9 @@ paths:
       summary: Confirm procurement case
   '/cat/ProcurementCase/{procID}/rfxs/{rfxID}/HLNeeds/{hlNeedID}/documents':
     parameters:
-      - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/OCDS_Params.yaml#/components/parameters/ProcurementParam'
-      - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/OCDS_Params.yaml#/components/parameters/RFxParam'
-      - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/OCDS_Params.yaml#/components/parameters/HLNeedParam'
+      - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CS_Standard_API_Params.yaml#/components/parameters/ProcurementParam'
+      - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CS_Standard_API_Params.yaml#/components/parameters/RFxParam'
+      - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CS_Standard_API_Params.yaml#/components/parameters/HLNeedParam'
       - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_Updates_2/common/CCS_Standard_API_Params.yaml#/components/parameters/x-correlation-id'
       - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_Updates_2/common/CCS_Standard_API_Params.yaml#/components/parameters/x-causation-id'
       - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_Updates_2/common/CCS_Standard_API_Params.yaml#/components/parameters/x-channel'
@@ -639,8 +639,8 @@ paths:
       summary: Confirm procurement case
   '/cat/ProcurementCase/{procID}/rfxs/{rfxID}/suppliers':
     parameters:
-      - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/OCDS_Params.yaml#/components/parameters/ProcurementParam'
-      - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/OCDS_Params.yaml#/components/parameters/RFxParam'
+      - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CS_Standard_API_Params.yaml#/components/parameters/ProcurementParam'
+      - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CS_Standard_API_Params.yaml#/components/parameters/RFxParam'
       - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_Updates_2/common/CCS_Standard_API_Params.yaml#/components/parameters/x-correlation-id'
       - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_Updates_2/common/CCS_Standard_API_Params.yaml#/components/parameters/x-causation-id'
       - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_Updates_2/common/CCS_Standard_API_Params.yaml#/components/parameters/x-channel'
@@ -691,9 +691,9 @@ paths:
       summary: Update Suppliers on RFx
   '/cat/ProcurementCase/{procID}/rfxs/{rfxID}/suppliers/{supplierID}':
     parameters:
-      - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/OCDS_Params.yaml#/components/parameters/ProcurementParam'
-      - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/OCDS_Params.yaml#/components/parameters/RFxParam'
-      - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/OCDS_Params.yaml#/components/parameters/SupplierParam'
+      - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CS_Standard_API_Params.yaml#/components/parameters/ProcurementParam'
+      - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CS_Standard_API_Params.yaml#/components/parameters/RFxParam'
+      - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CS_Standard_API_Params.yaml#/components/parameters/SupplierParam'
       - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_Updates_2/common/CCS_Standard_API_Params.yaml#/components/parameters/x-correlation-id'
       - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_Updates_2/common/CCS_Standard_API_Params.yaml#/components/parameters/x-causation-id'
       - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_Updates_2/common/CCS_Standard_API_Params.yaml#/components/parameters/x-channel'
@@ -717,8 +717,8 @@ paths:
       summary: Update Suppliers on RFx
   '/CaT/ProcurementCase/{procID}/rfxs/{rfxID}':
     parameters:
-      - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/OCDS_Params.yaml#/components/parameters/ProcurementParam'
-      - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/OCDS_Params.yaml#/components/parameters/RFxParam'
+      - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CS_Standard_API_Params.yaml#/components/parameters/ProcurementParam'
+      - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CS_Standard_API_Params.yaml#/components/parameters/RFxParam'
       - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_Updates_2/common/CCS_Standard_API_Params.yaml#/components/parameters/x-correlation-id'
       - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_Updates_2/common/CCS_Standard_API_Params.yaml#/components/parameters/x-causation-id'
       - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_Updates_2/common/CCS_Standard_API_Params.yaml#/components/parameters/x-channel'
@@ -746,8 +746,8 @@ paths:
       summary: Get RFx Summary
   '/CaT/ProcurementCase/{procID}/rfx/{rfxID}/GotoMarket/options':
     parameters:
-      - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/OCDS_Params.yaml#/components/parameters/ProcurementParam'
-      - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/OCDS_Params.yaml#/components/parameters/RFxParam'
+      - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CS_Standard_API_Params.yaml#/components/parameters/ProcurementParam'
+      - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CS_Standard_API_Params.yaml#/components/parameters/RFxParam'
       - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_Updates_2/common/CCS_Standard_API_Params.yaml#/components/parameters/x-correlation-id'
       - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_Updates_2/common/CCS_Standard_API_Params.yaml#/components/parameters/x-causation-id'
       - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_Updates_2/common/CCS_Standard_API_Params.yaml#/components/parameters/x-channel'
@@ -775,8 +775,8 @@ paths:
       summary: Get Go to market options
   '/CaT/ProcurementCase/{procID}/rfxs/{rfxID}/GotoMarket/':
     parameters:
-      - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/OCDS_Params.yaml#/components/parameters/ProcurementParam'
-      - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/OCDS_Params.yaml#/components/parameters/RFxParam'
+      - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CS_Standard_API_Params.yaml#/components/parameters/ProcurementParam'
+      - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CS_Standard_API_Params.yaml#/components/parameters/RFxParam'
       - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_Updates_2/common/CCS_Standard_API_Params.yaml#/components/parameters/x-correlation-id'
       - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_Updates_2/common/CCS_Standard_API_Params.yaml#/components/parameters/x-causation-id'
       - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_Updates_2/common/CCS_Standard_API_Params.yaml#/components/parameters/x-channel'
@@ -809,8 +809,8 @@ paths:
       summary: Go to market
   '/CaT/ProcurementCase/{procID}/rfxs/{rfxID}/GotoMarket/extend':
     parameters:
-      - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/OCDS_Params.yaml#/components/parameters/ProcurementParam'
-      - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/OCDS_Params.yaml#/components/parameters/RFxParam'
+      - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CS_Standard_API_Params.yaml#/components/parameters/ProcurementParam'
+      - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CS_Standard_API_Params.yaml#/components/parameters/RFxParam'
     put:
       description: Extend the end date for responses to the RFx.
       tags:
@@ -834,8 +834,8 @@ paths:
       summary: Extend the RFx
   '/CaT/ProcurementCase/{procID}/rfxs/{rfxID}/status':
     parameters:
-      - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/OCDS_Params.yaml#/components/parameters/ProcurementParam'
-      - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/OCDS_Params.yaml#/components/parameters/RFxParam'
+      - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CS_Standard_API_Params.yaml#/components/parameters/ProcurementParam'
+      - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CS_Standard_API_Params.yaml#/components/parameters/RFxParam'
       - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_Updates_2/common/CCS_Standard_API_Params.yaml#/components/parameters/x-correlation-id'
       - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_Updates_2/common/CCS_Standard_API_Params.yaml#/components/parameters/x-causation-id'
       - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_Updates_2/common/CCS_Standard_API_Params.yaml#/components/parameters/x-channel'
@@ -863,8 +863,8 @@ paths:
       summary: Get RFx status
   '/CaT/ProcurementCase/{procID}/rfxs/{rfxID}/responses':
     parameters:
-      - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/OCDS_Params.yaml#/components/parameters/ProcurementParam'
-      - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/OCDS_Params.yaml#/components/parameters/RFxParam'
+      - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CS_Standard_API_Params.yaml#/components/parameters/ProcurementParam'
+      - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CS_Standard_API_Params.yaml#/components/parameters/RFxParam'
       - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_Updates_2/common/CCS_Standard_API_Params.yaml#/components/parameters/x-correlation-id'
       - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_Updates_2/common/CCS_Standard_API_Params.yaml#/components/parameters/x-causation-id'
       - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_Updates_2/common/CCS_Standard_API_Params.yaml#/components/parameters/x-channel'
@@ -892,9 +892,9 @@ paths:
       summary: Get all responses to an RFx
   '/CaT/ProcurementCase/{procID}/rfxs/{rfxID}/responses/suppliers/{supplierID}':
     parameters:
-      - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/OCDS_Params.yaml#/components/parameters/ProcurementParam'
-      - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/OCDS_Params.yaml#/components/parameters/RFxParam'
-      - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/OCDS_Params.yaml#/components/parameters/SupplierParam'
+      - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CS_Standard_API_Params.yaml#/components/parameters/ProcurementParam'
+      - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CS_Standard_API_Params.yaml#/components/parameters/RFxParam'
+      - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CS_Standard_API_Params.yaml#/components/parameters/SupplierParam'
       - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_Updates_2/common/CCS_Standard_API_Params.yaml#/components/parameters/x-correlation-id'
       - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_Updates_2/common/CCS_Standard_API_Params.yaml#/components/parameters/x-causation-id'
       - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_Updates_2/common/CCS_Standard_API_Params.yaml#/components/parameters/x-channel'
@@ -922,9 +922,9 @@ paths:
       summary: Get responses from a supplier to an RFx
   '/CaT/ProcurementCase/{procID}/rfxs/{rfxID}/responses/{responseID}':
     parameters:
-      - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/OCDS_Params.yaml#/components/parameters/ProcurementParam'
-      - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/OCDS_Params.yaml#/components/parameters/RFxParam'
-      - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/OCDS_Params.yaml#/components/parameters/ResponseParam'
+      - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CS_Standard_API_Params.yaml#/components/parameters/ProcurementParam'
+      - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CS_Standard_API_Params.yaml#/components/parameters/RFxParam'
+      - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CS_Standard_API_Params.yaml#/components/parameters/ResponseParam'
       - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_Updates_2/common/CCS_Standard_API_Params.yaml#/components/parameters/x-correlation-id'
       - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_Updates_2/common/CCS_Standard_API_Params.yaml#/components/parameters/x-causation-id'
       - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_Updates_2/common/CCS_Standard_API_Params.yaml#/components/parameters/x-channel'
@@ -952,9 +952,9 @@ paths:
       summary: Get response details
   '/CaT/ProcurementCase/{procID}/rfxs/{rfxID}/responses/{responseID}/HLNeeds':
     parameters:
-      - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/OCDS_Params.yaml#/components/parameters/ProcurementParam'
-      - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/OCDS_Params.yaml#/components/parameters/RFxParam'
-      - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/OCDS_Params.yaml#/components/parameters/ResponseParam'
+      - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CS_Standard_API_Params.yaml#/components/parameters/ProcurementParam'
+      - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CS_Standard_API_Params.yaml#/components/parameters/RFxParam'
+      - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CS_Standard_API_Params.yaml#/components/parameters/ResponseParam'
       - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_Updates_2/common/CCS_Standard_API_Params.yaml#/components/parameters/x-correlation-id'
       - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_Updates_2/common/CCS_Standard_API_Params.yaml#/components/parameters/x-causation-id'
       - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_Updates_2/common/CCS_Standard_API_Params.yaml#/components/parameters/x-channel'
@@ -982,10 +982,10 @@ paths:
       summary: Get response HL Needs
   '/CaT/ProcurementCase/{procID}/rfxs/{rfxID}/responses/{responseID}/HLNeeds/{hlNeedID}/forms':
     parameters:
-      - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/OCDS_Params.yaml#/components/parameters/ProcurementParam'
-      - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/OCDS_Params.yaml#/components/parameters/RFxParam'
-      - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/OCDS_Params.yaml#/components/parameters/ResponseParam'
-      - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/OCDS_Params.yaml#/components/parameters/HLNeedParam'
+      - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CS_Standard_API_Params.yaml#/components/parameters/ProcurementParam'
+      - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CS_Standard_API_Params.yaml#/components/parameters/RFxParam'
+      - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CS_Standard_API_Params.yaml#/components/parameters/ResponseParam'
+      - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CS_Standard_API_Params.yaml#/components/parameters/HLNeedParam'
       - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_Updates_2/common/CCS_Standard_API_Params.yaml#/components/parameters/x-correlation-id'
       - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_Updates_2/common/CCS_Standard_API_Params.yaml#/components/parameters/x-causation-id'
       - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_Updates_2/common/CCS_Standard_API_Params.yaml#/components/parameters/x-channel'
@@ -1038,10 +1038,10 @@ paths:
       summary: Update form response
   '/CaT/ProcurementCase/{procID}/rfxs/{rfxID}/responses/{responseID}/HLNeeds/{hlNeedID}/documents':
     parameters:
-      - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/OCDS_Params.yaml#/components/parameters/ProcurementParam'
-      - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/OCDS_Params.yaml#/components/parameters/RFxParam'
-      - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/OCDS_Params.yaml#/components/parameters/ResponseParam'
-      - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/OCDS_Params.yaml#/components/parameters/HLNeedParam'
+      - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CS_Standard_API_Params.yaml#/components/parameters/ProcurementParam'
+      - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CS_Standard_API_Params.yaml#/components/parameters/RFxParam'
+      - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CS_Standard_API_Params.yaml#/components/parameters/ResponseParam'
+      - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CS_Standard_API_Params.yaml#/components/parameters/HLNeedParam'
       - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_Updates_2/common/CCS_Standard_API_Params.yaml#/components/parameters/x-correlation-id'
       - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_Updates_2/common/CCS_Standard_API_Params.yaml#/components/parameters/x-causation-id'
       - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_Updates_2/common/CCS_Standard_API_Params.yaml#/components/parameters/x-channel'
@@ -1094,9 +1094,9 @@ paths:
       summary: Update document response
   '/CaT/ProcurementCase/{procID}/rfxs/{rfxID}/responses/suppliers/{supplierID}/complete':
     parameters:
-      - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/OCDS_Params.yaml#/components/parameters/ProcurementParam'
-      - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/OCDS_Params.yaml#/components/parameters/RFxParam'
-      - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/OCDS_Params.yaml#/components/parameters/SupplierParam'
+      - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CS_Standard_API_Params.yaml#/components/parameters/ProcurementParam'
+      - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CS_Standard_API_Params.yaml#/components/parameters/RFxParam'
+      - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CS_Standard_API_Params.yaml#/components/parameters/SupplierParam'
       - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_Updates_2/common/CCS_Standard_API_Params.yaml#/components/parameters/x-correlation-id'
       - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_Updates_2/common/CCS_Standard_API_Params.yaml#/components/parameters/x-causation-id'
       - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_Updates_2/common/CCS_Standard_API_Params.yaml#/components/parameters/x-channel'
@@ -1124,8 +1124,8 @@ paths:
       summary: Supplier Complete
   '/CaT/ProcurementCase/{procID}/rfxs/{rfxID}/responses/furtherInfo':
     parameters:
-      - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/OCDS_Params.yaml#/components/parameters/ProcurementParam'
-      - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/OCDS_Params.yaml#/components/parameters/RFxParam'
+      - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CS_Standard_API_Params.yaml#/components/parameters/ProcurementParam'
+      - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CS_Standard_API_Params.yaml#/components/parameters/RFxParam'
       - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_Updates_2/common/CCS_Standard_API_Params.yaml#/components/parameters/x-correlation-id'
       - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_Updates_2/common/CCS_Standard_API_Params.yaml#/components/parameters/x-causation-id'
       - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_Updates_2/common/CCS_Standard_API_Params.yaml#/components/parameters/x-channel'
@@ -1178,9 +1178,9 @@ paths:
       summary: Create further info request
   '/CaT/ProcurementCase/{procID}/rfxs/{rfxID}/responses/suppliers/{supplierID}/furtherInfo':
     parameters:
-      - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/OCDS_Params.yaml#/components/parameters/ProcurementParam'
-      - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/OCDS_Params.yaml#/components/parameters/RFxParam'
-      - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/OCDS_Params.yaml#/components/parameters/SupplierParam'
+      - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CS_Standard_API_Params.yaml#/components/parameters/ProcurementParam'
+      - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CS_Standard_API_Params.yaml#/components/parameters/RFxParam'
+      - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CS_Standard_API_Params.yaml#/components/parameters/SupplierParam'
       - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_Updates_2/common/CCS_Standard_API_Params.yaml#/components/parameters/x-correlation-id'
       - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_Updates_2/common/CCS_Standard_API_Params.yaml#/components/parameters/x-causation-id'
       - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_Updates_2/common/CCS_Standard_API_Params.yaml#/components/parameters/x-channel'
@@ -1258,8 +1258,8 @@ paths:
       summary: Resturn Further Info
   '/CaT/ProcurementCase/{procID}/rfxs/{rfxID}/responses/export':
     parameters:
-      - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/OCDS_Params.yaml#/components/parameters/ProcurementParam'
-      - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/OCDS_Params.yaml#/components/parameters/RFxParam'
+      - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CS_Standard_API_Params.yaml#/components/parameters/ProcurementParam'
+      - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CS_Standard_API_Params.yaml#/components/parameters/RFxParam'
       - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_Updates_2/common/CCS_Standard_API_Params.yaml#/components/parameters/x-correlation-id'
       - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_Updates_2/common/CCS_Standard_API_Params.yaml#/components/parameters/x-causation-id'
       - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_Updates_2/common/CCS_Standard_API_Params.yaml#/components/parameters/x-channel'
@@ -1296,8 +1296,8 @@ paths:
       summary: Export all responses
   '/CaT/ProcurementCase/{procID}/rfxs/{rfxID}/scores':
     parameters:
-      - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/OCDS_Params.yaml#/components/parameters/ProcurementParam'
-      - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/OCDS_Params.yaml#/components/parameters/RFxParam'
+      - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CS_Standard_API_Params.yaml#/components/parameters/ProcurementParam'
+      - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CS_Standard_API_Params.yaml#/components/parameters/RFxParam'
       - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_Updates_2/common/CCS_Standard_API_Params.yaml#/components/parameters/x-correlation-id'
       - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_Updates_2/common/CCS_Standard_API_Params.yaml#/components/parameters/x-causation-id'
       - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_Updates_2/common/CCS_Standard_API_Params.yaml#/components/parameters/x-channel'
@@ -1327,9 +1327,9 @@ paths:
       summary: Get all scores for an RFx
   '/CaT/ProcurementCase/{procID}/rfxs/{rfxID}/scores/suppliers/{supplierID}/':
     parameters:
-      - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/OCDS_Params.yaml#/components/parameters/ProcurementParam'
-      - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/OCDS_Params.yaml#/components/parameters/RFxParam'
-      - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/OCDS_Params.yaml#/components/parameters/SupplierParam'
+      - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CS_Standard_API_Params.yaml#/components/parameters/ProcurementParam'
+      - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CS_Standard_API_Params.yaml#/components/parameters/RFxParam'
+      - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CS_Standard_API_Params.yaml#/components/parameters/SupplierParam'
       - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_Updates_2/common/CCS_Standard_API_Params.yaml#/components/parameters/x-correlation-id'
       - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_Updates_2/common/CCS_Standard_API_Params.yaml#/components/parameters/x-causation-id'
       - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_Updates_2/common/CCS_Standard_API_Params.yaml#/components/parameters/x-channel'
@@ -1388,9 +1388,9 @@ paths:
       summary: Get all scores for an RFx
   '/CaT/ProcurementCase/{procID}/rfxs/{rfxID}/terminate/options':
     parameters:
-      - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/OCDS_Params.yaml#/components/parameters/ProcurementParam'
-      - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/OCDS_Params.yaml#/components/parameters/RFxParam'
-      - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/OCDS_Params.yaml#/components/parameters/SupplierParam'
+      - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CS_Standard_API_Params.yaml#/components/parameters/ProcurementParam'
+      - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CS_Standard_API_Params.yaml#/components/parameters/RFxParam'
+      - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CS_Standard_API_Params.yaml#/components/parameters/SupplierParam'
       - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_Updates_2/common/CCS_Standard_API_Params.yaml#/components/parameters/x-correlation-id'
       - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_Updates_2/common/CCS_Standard_API_Params.yaml#/components/parameters/x-causation-id'
       - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_Updates_2/common/CCS_Standard_API_Params.yaml#/components/parameters/x-channel'
@@ -1418,8 +1418,8 @@ paths:
       summary: Request options for termination
   '/CaT/ProcurementCase/{procID}/rfxs/{rfxID}/terminate/':
     parameters:
-      - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/OCDS_Params.yaml#/components/parameters/ProcurementParam'
-      - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/OCDS_Params.yaml#/components/parameters/RFxParam'
+      - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CS_Standard_API_Params.yaml#/components/parameters/ProcurementParam'
+      - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CS_Standard_API_Params.yaml#/components/parameters/RFxParam'
       - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_Updates_2/common/CCS_Standard_API_Params.yaml#/components/parameters/x-correlation-id'
       - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_Updates_2/common/CCS_Standard_API_Params.yaml#/components/parameters/x-causation-id'
       - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_Updates_2/common/CCS_Standard_API_Params.yaml#/components/parameters/x-channel'
@@ -1452,8 +1452,8 @@ paths:
       summary: Terminate RFx
   '/CaT/ProcurementCase/{procID}/rfxs/{rfxID}/award/':
     parameters:
-      - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/OCDS_Params.yaml#/components/parameters/ProcurementParam'
-      - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/OCDS_Params.yaml#/components/parameters/RFxParam'
+      - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CS_Standard_API_Params.yaml#/components/parameters/ProcurementParam'
+      - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CS_Standard_API_Params.yaml#/components/parameters/RFxParam'
       - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_Updates_2/common/CCS_Standard_API_Params.yaml#/components/parameters/x-correlation-id'
       - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_Updates_2/common/CCS_Standard_API_Params.yaml#/components/parameters/x-causation-id'
       - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_Updates_2/common/CCS_Standard_API_Params.yaml#/components/parameters/x-channel'
@@ -1486,8 +1486,8 @@ paths:
       summary: Award Procurement
   '/CaT/ProcurementCase/{procID}/rfxs/{rfxID}/signed/':
     parameters:
-      - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/OCDS_Params.yaml#/components/parameters/ProcurementParam'
-      - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/OCDS_Params.yaml#/components/parameters/RFxParam'
+      - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CS_Standard_API_Params.yaml#/components/parameters/ProcurementParam'
+      - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CS_Standard_API_Params.yaml#/components/parameters/RFxParam'
       - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_Updates_2/common/CCS_Standard_API_Params.yaml#/components/parameters/x-correlation-id'
       - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_Updates_2/common/CCS_Standard_API_Params.yaml#/components/parameters/x-causation-id'
       - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_Updates_2/common/CCS_Standard_API_Params.yaml#/components/parameters/x-channel'

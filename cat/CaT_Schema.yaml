@@ -72,14 +72,12 @@ components:
       type: object
       description: Team who work together on bids or procurements
       required:
-        - name
+        - id
       properties: 
         id:  
           type: string
           format: uuid
-          description: ID of the team member
-          allOf:
-              - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_Updates_2/common/CCS_Standard_API_Params.yaml#/components/parameters/GenericID
+          description: 1234
           
  ExtendCriteria:
       description: >-

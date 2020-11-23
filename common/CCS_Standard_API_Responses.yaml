@@ -1,0 +1,149 @@
+components:
+ responses:
+  200Success:
+      description: Success. If data was requested, it will be available in the data field at the top level of the response body.
+      content:
+        application/vnd.api+json:
+          schema:
+            properties:
+              error:
+                type: string
+                example: data {}
+                default: OK
+                
+  201Success:
+      description: Success (for object creation). Its information is available in the data field at the top level of the response body. The API URL where the object can be retrieved is also returned in the Location header of the response.
+      content:
+        application/vnd.api+json:
+          schema:
+            $ref: '#/components/schemas/GenericID'
+            
+  400InvalidRequest:
+      description: Invalid request. This usually occurs because of a missing or malformed parameter. Check the documentation and the syntax of your request and try again.Success (for object creation). Its information is available in the data field at the top level of the response body. The API URL where the object can be retrieved is also returned in the Location header of the response.
+      content:
+        application/vnd.api+json:
+          schema:
+            $ref: '#/components/schemas/Errors'
+           
+  
+  401Unauthorized:
+      description: No authorization. A valid API key was not provided with the request, so the API could not associate a user with the request.
+      content:
+        application/vnd.api+json:
+          schema:
+             properties:
+              error:
+                type: string
+                example: The resource you were looking for requires L2 authentication.
+                default: No authorization. A valid API key was not provided with the request, so the API could not associate a user with the request.
+            
+                
+  403Forbidden:
+      description: The API key and request syntax was valid but the server is refusing to complete the request. This can happen if you are trying to read or write to objects or properties that you do not have access to.
+      content:
+        application/vnd.api+json:
+          schema:
+            properties:
+              error:
+                type: string
+                example: You are not authorized to access this page.
+                default: You are not authorized to access this page.
+  
+  404NotFound:
+      description: Not found. Either the request method and path supplied do not specify a known action in the API, or the object specified by the request does not exist.
+      content:
+        application/vnd.api+json:
+          schema:
+            properties:
+              error:
+                type: string
+                example: The resource you were looking for could not be found.
+                default: The resource you were looking for could not be found.
+                
+  409Conflict:
+      description: Document update conflict. The request could not be completed due to a conflict with the current state of the target resource. Please repeat your request.
+      content:
+        application/vnd.api+json:
+          schema:
+            properties:
+              error:
+                type: string
+                example: The resource you were looking for could not be found.
+                default: The resource you were looking for could not be found.  
+    
+  410Gone:
+      description: Archived. The resource requested is not and will not be available.
+      content:
+        application/vnd.api+json:
+          schema:
+            properties:
+              error:
+                type: string
+                example: The resource you were looking has been archived
+                default: The resource you were looking has been archived
+
+                
+  500InternalServerError:
+      description: An unknown server error has occurred.
+      content:
+        application/vnd.api+json:
+          schema:
+            properties:
+              error:
+                type: string
+                example: An unknown error has occurred.
+                default: An unknown error has occurred.
+                
+  501NotImplemented:
+      description: Not Implemented. The server either does not recognize the request method, or it lacks the ability to fulfill the request. Re-check the request consistency.
+      content:
+        application/vnd.api+json:
+          schema:
+            properties:
+              error:
+                type: string
+                example: Not Implemented.
+                default: Not Implemented.
+                
+  502BadGateway:
+      description: Bad Gateway. The server received an invalid response or backend is not ready to handle requests. Repeat request for repeatable operations or check object data with interval 1-5 min.
+      content:
+        application/vnd.api+json:
+          schema:
+            properties:
+              error:
+                type: string
+                example: Gateway Error
+                default: Gateway Error
+  503ServiceUnavailable:
+      description: Bad Gateway. The server received an invalid response or backend is not ready to handle requests. Repeat request for repeatable operations or check object data with interval 1-5 min.
+      content:
+        application/vnd.api+json:
+          schema:
+            properties:
+              error:
+                type: string
+                example: Service Unavailsable
+                default: Service Unavailsable
+                
+  504GatewayTimeout:
+      description: Bad Gateway. The server received an invalid response or backend is not ready to handle requests. Repeat request for repeatable operations or check object data with interval 1-5 min.
+      content:
+        application/vnd.api+json:
+          schema:
+            properties:
+              error:
+                type: string
+                example: Service Unavailsable
+                default: Service Unavailsable
+                
+  505HTTPVersionSupported:
+      description: Bad Gateway. The server received an invalid response or backend is not ready to handle requests. Repeat request for repeatable operations or check object data with interval 1-5 min.
+      content:
+        application/vnd.api+json:
+          schema:
+            properties:
+              error:
+                type: string
+                example: Service Unavailable
+                default: Service Unavailable

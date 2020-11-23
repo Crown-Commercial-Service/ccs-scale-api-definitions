@@ -1,0 +1,329 @@
+components:
+  schemas:
+
+    GenericID:
+      type: number
+      format: integer
+      example: 1234
+      readOnly: true
+      
+    AgreementID:
+      type: string
+      pattern: RM[1-9]{4}
+      example: RM1234
+      readOnly: true
+      
+    AgreementOCID:
+      type: string
+      pattern: ocds-RM[1-9]{4}
+      example: ocds-b5fd17-RM1234
+      readOnly: true
+      
+    ProcurementID:
+      type: number
+      format: string
+      example: 12345
+      readOnly: true  
+      
+    ProcurementIDList:
+      type: array
+      items:
+        $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/cat/CaT_Schema.yaml#/components/schemas/ProcurementID' 
+      
+    ProcurementOCID:
+      type: number
+      format: string
+      example: ocds-b5fd17-12345
+      readOnly: true
+      
+    Timestamp:
+      type: string
+      format: date-time
+      example: '2020-02-16T07:14:54.617Z'
+      readOnly: true
+      
+      
+    Email:
+      type: string
+      format: email
+      example: support@crowncommercial.org.uk
+      
+    TsAndCs:
+      type: array
+      items:
+        $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/cat/CaT_Schema.yaml#/components/schemas/Term'
+        
+    TermID:
+      type: string 
+      format: uri
+      example: 'http://agreementservice.crowncommercial.gov.uk/agreement/1234'
+  
+    Term:
+      type: object
+      properties:
+        id:
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/cat/CaT_Schema.yaml#/components/schemas/TermID'
+        name:
+          type: string
+          description: Short name of the term or condition
+          example: Modern Slavery
+        agreements:
+          type: array
+          items:
+            $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/cat/CaT_Schema.yaml#/components/schemas/Release' 
+        accepted:
+          type: boolean
+          example: false
+          default: false
+        text:
+          type: string
+          description: Text of the terms and conditions that the user is asked to sign up to
+          example: The government’s task force on modern slavery has endorsed a government-wide strategy to tackle this issue. The strategy has identified actions to ensure modern slavery is tackled in government supply chains through public procurement and has committed to publishing its own modern slavery statement in December 2019
+          default: ''
+        link:
+          type: string 
+          format: uri
+          
+    TeamList:
+      type: array
+      items:
+        $ref: '#/components/schemas/Team'
+        
+    Team:
+      type: object
+      description: Team who work together on bids or procurements
+      required:
+        - name
+      properties: 
+        id:  
+          type: string
+          format: uuid
+          description: 1234
+        organisation:  
+          type: string
+          format: uuid
+          description: Organisation that has defined the team
+          example: 111
+        name:  
+          type: string
+          default: UAH
+          description: Name given to the team within the organisation
+          example: Procurment Team A
+          
+    ExtendCriteria:
+      description: >-
+        Data required to extend the period for tender submissions. It must not exceed the orginal extention limit defined on a tender.
+      type: object
+      properties:
+        endDate:
+            title: End date
+            description: >-
+              The new end date for the period. 
+            type: string
+            nullable: true
+            format: date-time
+    
+    TerminationTypes:
+      description: >-
+        Ways to terminate a tender. There are several types-
+
+          * cancelled
+          * unsucessful
+          * complete
+          * withdrawn
+      type: array
+      items:
+        $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/cat/CaT_Schema.yaml#/components/schemas/TerminationType'
+      example: [
+        "cancelled",
+        "unsuccessful",
+        "complete",
+        "withdrawn"
+        ]
+        
+    ProcurementMethods:
+      description: >-
+        Different Options for procurement. There are several types-
+
+          * open
+          * selective
+          * limited
+          * direct
+      type: array
+      items:
+        $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/cat/CaT_Schema.yaml#/components/schemas/ProcurementMethod'
+      example: [
+        "open",
+        "selective",
+        "limited",
+        "direct"
+        ]
+        
+    RFxTypes:
+      description: >-
+        Generic term for an event put out to the market. There are several types-
+
+          * EOI - Expression of Interest
+          * RFI -  Request for Information
+          * RFP - Request for Proposal
+      type: array
+      items:
+        $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/cat/CaT_Schema.yaml#/components/schemas/RFxType'
+      example: [
+        "EOI",
+        "RFI",
+        "RFP"
+        ]
+        
+    RFxStatus:
+      description: >-
+        Generic term for an event put out to the market. Each is an optional procurement step in the procurement process. This casll shows the current status of each in the procurement process.
+      type: array
+      items:
+        type: object
+        properties:
+          id: 
+            type: string
+          ocid:
+            type: string
+          type:
+            allOf:
+              - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/cat/CaT_Schema.yaml#/components/schemas/RFxType'
+            example: RFP
+          status:
+            type: string
+            allOf:
+              - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/cat/CaT_Schema.yaml#/components/schemas/TenderStatus'
+              
+    DefaultName:
+      type: object
+      properties:
+        name:
+          type: string
+          example: <org>-<agreement>-<ID>
+        components:
+          type: object
+          properties:
+            org:
+              type: string
+              example: <org>
+            agreement:
+              type: string
+              example: <agreement>
+            identifier:
+              type: string
+              example: <ID>
+          
+    Errors:
+      type: object
+      properties:
+        status: 
+          type: string
+        errors:
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/cat/CaT_Schema.yaml#/components/schemas/Error'
+        
+
+          
+    Error:
+      type: object
+      description: Single error on a HTTP request
+      properties:
+        location: 
+          type: string
+        name: 
+          type: string
+        description:
+          type: string
+          example: No JSON object could be decoded
+
+# Reusable Enums    
+
+    ProcurementMethod:
+      title: RFx types
+      description: >-
+        Different Options for procurement. There are several types-
+
+          * open
+          * selective
+          * limited
+          * direct
+      type: string
+      enum:
+            - open
+            - selective
+            - limited
+            - direct
+
+
+    RFxType:
+      title: RFx types
+      description: >-
+        Generic term for an event put out to the market. There are several types-
+
+          * EOI - Expression of Interest
+          * RFI -  Request for Information
+          * RFP - Request for Proposal
+      type: string
+      enum:
+          - EOI
+          - RFI
+          - RFP
+          
+    TerminationType:
+      title: Termination types
+      description: >-
+        Subset of the codes in [tenderStatus](https://standard.open-contracting.org/1.1/en/schema/codelists/#tender-status) codelist.
+        This subset are those used to terminate an RFx.
+      type: object
+      properties:
+        terminationType:
+          type: string
+          enum:
+            - cancelled
+            - unsuccessful
+            - complete
+            - withdrawn.
+          
+
+    
+    ProcessStage:
+      title: Contracting Process Stages
+      description: >-
+        There are several stages to a contracting process defined by
+        [OCDS].(https://standard.open-contracting.org/1.1/en/getting_started/contracting_process/) - 
+        * Planning
+        * Initiation
+        * Award
+        * Contract
+        * Implementation
+        
+        Not all contracting processes have all stages. For example, direct contracting might start with the award of a contract. However, there will still be information that can be disclosed about the budgets, specifications and selection process even in this case.
+      type: string
+      enum:
+          - Planning
+          - Initiation
+          - Award
+          - Contract
+          - Implementation
+      example: Planning
+      
+          
+    TenderStatus:
+          title: Tender status
+          description: |-
+            The current status of the tender, from the closed
+            [tenderStatus](https://standard.open-contracting.org/1.1/en/schema/codelists/#tender-status)
+            codelist.
+          type: string
+          #codelist: tenderStatus.csv
+          #openCodelist: false
+          enum:
+            - planning
+            - planned
+            - active
+            - cancelled
+            - unsuccessful
+            - complete
+            - withdrawn
+            
+            

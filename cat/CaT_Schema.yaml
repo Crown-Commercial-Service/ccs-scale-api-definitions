@@ -1,6 +1,5 @@
 components:
   schemas:
-  
     GenericID:
       type: number
       format: integer

@@ -4,11 +4,13 @@ components:
       type: array
     items:
       $ref: '#/components/schemas/Term'
+    
         
     TermID:
       type: string 
       format: uri
       example: 'http://agreementservice.crowncommercial.gov.uk/agreement/1234'
+      
   
     Term:
       type: object

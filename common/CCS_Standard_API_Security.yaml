@@ -1,0 +1,13 @@
+security:
+#    - ApiKeyAuth: []
+  - OAuth2:
+    - read
+    - write
+  - openID: 
+    - read
+    - write
+  
+# The syntax is:
+# - scheme name:
+#     - scope 1
+#     - scope 2

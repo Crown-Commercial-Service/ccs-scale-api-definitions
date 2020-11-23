@@ -1,0 +1,1352 @@
+openapi: 3.0.0
+
+info:
+  title: Sample API
+  description: Optional multiline or single-line description in [CommonMark](http://commonmark.org/help/) or HTML.
+  version: 0.1.9
+servers:
+  - url: http://api.example.com/v1
+    description: Optional server description, e.g. Main (production) server
+  - url: http://staging-api.example.com
+    description: Optional server description, e.g. Internal staging server for testing
+
+paths:
+  '/cat/account/{self}/tsandcs':
+    parameters:
+      - $ref: 'https://raw.githubusercontent.com/ronin1972/ccs-scale-api-definitions/master/OCDS_Params.yaml#/components/parameters/SelfParam'
+    get:
+      description: Retrieve the terms and conditions required for CaT and if the user has signed up to them.
+      tags:
+        - Ts and Cs
+      operationId: Ts and Cs
+      responses:
+        '200':
+          description: ok
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: 'https://raw.githubusercontent.com/ronin1972/ccs-scale-api-definitions/master/OCDS_Schema.yaml#/components/schemas/TsAndCs'
+        '401':
+          $ref: 'https://raw.githubusercontent.com/ronin1972/ccs-scale-api-definitions/master/CCS_Standard_API_Responses.yaml#/components/responses/401Unauthorized'
+        '403':
+          $ref: 'https://raw.githubusercontent.com/ronin1972/ccs-scale-api-definitions/master/CCS_Standard_API_Responses.yaml#/components/responses/403Forbidden'
+      security:
+        - openID:
+            - read
+            - write
+      summary: Ts and Cs
+      
+  '/cat/organisation/{orgID}/teams':
+    parameters:
+      - $ref: 'https://raw.githubusercontent.com/ronin1972/ccs-scale-api-definitions/master/OCDS_Params.yaml#/components/parameters/OrgParam'
+    get:
+      description: Retrieve a list of CaT teams created by the organisation.
+      tags:
+        - Teams
+      operationId: Org Teams
+      responses:
+        '200':
+          description: ok
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: 'https://raw.githubusercontent.com/ronin1972/ccs-scale-api-definitions/master/CaTSchemas.yaml#/components/schemas/TeamList'
+        '401':
+          $ref: 'https://raw.githubusercontent.com/ronin1972/ccs-scale-api-definitions/master/CCS_Standard_API_Responses.yaml#/components/responses/401Unauthorized'
+        '403':
+          $ref: 'https://raw.githubusercontent.com/ronin1972/ccs-scale-api-definitions/master/CCS_Standard_API_Responses.yaml#/components/responses/403Forbidden'
+      summary: List of organisations teams
+      security:
+        - OAuth2:
+            - buyer
+    post:
+      description: Create a new Team.
+      tags:
+        - Teams
+      operationId: Create Team
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              $ref: 'https://raw.githubusercontent.com/ronin1972/ccs-scale-api-definitions/master/OCDS_Params.yaml#/components/schemas/Team'
+      responses:
+        '200':
+          description: ok
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: 'https://raw.githubusercontent.com/ronin1972/ccs-scale-api-definitions/master/CCS_Standard_API_Schema.yaml#/components/schemas/GenericID'
+        '401':
+          $ref: 'https://raw.githubusercontent.com/ronin1972/ccs-scale-api-definitions/master/CCS_Standard_API_Responses.yaml#/components/responses/401Unauthorized'
+        '403':
+          $ref: 'https://raw.githubusercontent.com/ronin1972/ccs-scale-api-definitions/master/CCS_Standard_API_Responses.yaml#/components/responses/403Forbidden'
+      security:
+        - OAuth2:
+            - buyer
+      summary: Create a new team
+  '/cat/organisation/{orgID}/teams/{teamID}':
+    parameters:
+      - $ref: 'https://raw.githubusercontent.com/ronin1972/ccs-scale-api-definitions/master/OCDS_Params.yaml#/components/parameters/OrgParam'
+      - $ref: 'https://raw.githubusercontent.com/ronin1972/ccs-scale-api-definitions/master/OCDS_Params.yaml#/components/parameters/TeamParam'
+    delete:
+      description: Delete the CaT team within the organisation.
+      tags:
+        - Teams
+      operationId: Delete Team
+      responses:
+        '200':
+          description: ok
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: 'https://raw.githubusercontent.com/ronin1972/ccs-scale-api-definitions/master/CCS_Standard_API_Schema#/components/schemas/TeamList'
+        '401':
+          $ref: 'https://raw.githubusercontent.com/ronin1972/ccs-scale-api-definitions/master/CCS_Standard_API_Responses.yaml#/components/responses/401Unauthorized'
+        '403':
+          $ref: 'https://raw.githubusercontent.com/ronin1972/ccs-scale-api-definitions/master/CCS_Standard_API_Responses.yaml#/components/responses/403Forbidden'
+      security:
+        - OAuth2:
+            - buyer
+      summary: Delete team
+  '/cat/organisation/{orgID}/teams/{teamID}/members':
+    parameters:
+      - $ref: 'https://raw.githubusercontent.com/ronin1972/ccs-scale-api-definitions/master/OCDS_Params.yaml#/components/parameters/OrgParam'
+      - $ref: 'https://raw.githubusercontent.com/ronin1972/ccs-scale-api-definitions/master/OCDS_Params.yaml#/components/parameters/TeamParam'
+    get:
+      description: Retrieve a list of members of a team..
+      tags:
+        - Teams
+      operationId: Team Members
+      responses:
+        '200':
+          description: ok
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: 'https://raw.githubusercontent.com/ronin1972/ccs-scale-api-definitions/master/CCS_Standard_API_Schema#/components/schemas/TeamList'
+        '401':
+          $ref: 'https://raw.githubusercontent.com/ronin1972/ccs-scale-api-definitions/master/CCS_Standard_API_Responses.yaml#/components/responses/401Unauthorized'
+        '403':
+          $ref: 'https://raw.githubusercontent.com/ronin1972/ccs-scale-api-definitions/master/CCS_Standard_API_Responses.yaml#/components/responses/403Forbidden'
+      security:
+        - OAuth2:
+            - buyer
+      summary: List of Team members
+    put:
+      description: Add a team member to a team.
+      tags:
+        - Teams
+      operationId: Add Team Member
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              $ref: 'https://raw.githubusercontent.com/ronin1972/ccs-scale-api-definitions/master/CCS_Standard_API_Schema#/components/schemas/Team'
+      responses:
+        '200':
+          description: ok
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: 'https://raw.githubusercontent.com/ronin1972/ccs-scale-api-definitions/master/CCS_Standard_API_Schema#/components/schemas/GenericID'
+        '401':
+          $ref: 'https://raw.githubusercontent.com/ronin1972/ccs-scale-api-definitions/master/CCS_Standard_API_Responses.yaml#/components/responses/401Unauthorized'
+        '403':
+          $ref: 'https://raw.githubusercontent.com/ronin1972/ccs-scale-api-definitions/master/CCS_Standard_API_Responses.yaml#/components/responses/403Forbidden'
+      security:
+        - OAuth2:
+            - buyer
+      summary: Add team member
+  '/cat/organisation/{orgID}/teams/{teamID}/members/{teamMemberID}':
+    parameters:
+      - $ref: 'https://raw.githubusercontent.com/ronin1972/ccs-scale-api-definitions/master/CCS_Standard_API_Params.yaml#/components/parameters/OrgParam'
+      - $ref: 'https://raw.githubusercontent.com/ronin1972/ccs-scale-api-definitions/master/CCS_Standard_API_Params.yaml#/components/parameters/TeamParam'
+      - $ref: 'https://raw.githubusercontent.com/ronin1972/ccs-scale-api-definitions/master/CCS_Standard_API_Params.yaml#/components/parameters/TeamMemberParam'
+    delete:
+      description: Delete the CaT team within the organisation.
+      tags:
+        - Teams
+      operationId: Delete Team Member
+      responses:
+        '200':
+          description: ok
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: 'https://raw.githubusercontent.com/ronin1972/ccs-scale-api-definitions/master/CCS_Standard_API_Schema#/components/schemas/TeamList'
+        '401':
+          $ref: 'https://raw.githubusercontent.com/ronin1972/ccs-scale-api-definitions/master/CCS_Standard_API_Responses.yaml#/components/responses/401Unauthorized'
+        '403':
+          $ref: 'https://raw.githubusercontent.com/ronin1972/ccs-scale-api-definitions/master/CCS_Standard_API_Responses.yaml#/components/responses/403Forbidden'
+      security:
+        - OAuth2:
+            - buyer
+      summary: List of Team members
+  '/cat/account/{self}/teams':
+    parameters:
+      - $ref: 'https://raw.githubusercontent.com/ronin1972/ccs-scale-api-definitions/master/CCS_Standard_API_Params.yaml#/components/parameters/SelfParam'
+    get:
+      description: Retrieve a list of CaT teams that the user is a member of.
+      tags:
+        - Teams
+      operationId: Users Teams
+      responses:
+        '200':
+          description: ok
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: 'https://raw.githubusercontent.com/ronin1972/ccs-scale-api-definitions/master/CaT_Schema.yaml#/components/schemas/TeamList'
+        '401':
+          $ref: 'https://raw.githubusercontent.com/ronin1972/ccs-scale-api-definitions/master/CCS_Standard_API_Responses.yaml#/components/responses/401Unauthorized'
+        '403':
+          $ref: 'https://raw.githubusercontent.com/ronin1972/ccs-scale-api-definitions/master/CCS_Standard_API_Responses.yaml#/components/responses/403Forbidden'
+      security:
+        - OAuth2:
+            - buyer
+      summary: List of users teams
+  /cat/rfxtypes:
+    get:
+      description: Retrieve a list of RFx Types we can choose from
+      tags:
+        - Base Data
+      operationId: rfx Types
+      responses:
+        '200':
+          description: ok
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: 'https://raw.githubusercontent.com/ronin1972/ccs-scale-api-definitions/master/OCDS_Schema.yaml#/components/schemas/RFxTypes'
+        '401':
+          $ref: 'https://raw.githubusercontent.com/ronin1972/ccs-scale-api-definitions/master/CCS_Standard_API_Responses.yaml#/components/responses/401Unauthorized'
+        '403':
+          $ref: 'https://raw.githubusercontent.com/ronin1972/ccs-scale-api-definitions/master/CCS_Standard_API_Responses.yaml#/components/responses/403Forbidden'
+      security:
+        - OAuth2:
+            - buyer
+      summary: List RFx types
+  '/cat/procurementCase/defaultName/agreements/{agreementID}/lots/{lotID}':
+    parameters:
+      - $ref: 'https://raw.githubusercontent.com/ronin1972/ccs-scale-api-definitions/master/OCDS_Params.yaml#/components/parameters/OrgParam'
+      - $ref: 'https://raw.githubusercontent.com/ronin1972/ccs-scale-api-definitions/master/OCDS_Params.yaml#/components/parameters/AgreementParam'
+      - $ref: 'https://raw.githubusercontent.com/ronin1972/ccs-scale-api-definitions/master/OCDS_Params.yaml#/components/parameters/LotParam'
+    get:
+      description: Retrieve a default name fora Procurement Case using a given agreement.
+      tags:
+        - Create Case
+      operationId: Default Name
+      responses:
+        '200':
+          description: ok
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: 'https://raw.githubusercontent.com/ronin1972/ccs-scale-api-definitions/master/OCDS_Params.yaml#/components/schemas/DefaultName'
+        '401':
+          $ref: 'https://raw.githubusercontent.com/ronin1972/ccs-scale-api-definitions/master/CCS_Standard_API_Responses.yaml#/components/responses/401Unauthorized'
+        '403':
+          $ref: 'https://raw.githubusercontent.com/ronin1972/ccs-scale-api-definitions/master/CCS_Standard_API_Responses.yaml#/components/responses/403Forbidden'
+      security:
+        - OAuth2:
+            - buyer
+      summary: Get Default Name
+  /cat/ProcurementCase/GMTransfer:
+    parameters:
+      - $ref: 'https://raw.githubusercontent.com/ronin1972/ccs-scale-api-definitions/master/CCS_Standard_API_Params.yaml#/components/parameters/OrgParam'
+    post:
+      description: Create a new Team.
+      tags:
+        - Create Case
+      operationId: CreateGMCase
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              $ref: 'https://raw.githubusercontent.com/ronin1972/ccs-scale-api-definitions/master/CCS_Standard_API_Schema.yaml#/components/schemas/GenericID'
+      responses:
+        '200':
+          description: ok
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: 'https://raw.githubusercontent.com/ronin1972/ccs-scale-api-definitions/master/OCDS_Params.yaml#/components/schemas/DefaultName'
+        '401':
+          $ref: 'https://raw.githubusercontent.com/ronin1972/ccs-scale-api-definitions/master/CCS_Standard_API_Responses.yaml#/components/responses/401Unauthorized'
+        '403':
+          $ref: 'https://raw.githubusercontent.com/ronin1972/ccs-scale-api-definitions/master/CCS_Standard_API_Responses.yaml#/components/responses/403Forbidden'
+      security:
+        - OAuth2:
+            - buyer
+      summary: Tranfer from Guided Match
+  /cat/ProcurementCase/FMTransfer:
+    parameters:
+      - $ref: 'https://raw.githubusercontent.com/ronin1972/ccs-scale-api-definitions/master/OCDS_Params.yaml#/components/parameters/FMParam'
+    post:
+      deprecated: true
+      description: Create Facilities Management procurement case.
+      tags:
+        - Create Case
+      operationId: CreateFMCase
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              $ref: 'https://raw.githubusercontent.com/ronin1972/ccs-scale-api-definitions/master/OCDS_Params.yaml#/components/schemas/DefaultName'
+      responses:
+        '200':
+          description: ok
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: 'https://raw.githubusercontent.com/ronin1972/ccs-scale-api-definitions/master/OCDS_Schema.yaml#/components/schemas/Release'
+        '401':
+          $ref: 'https://raw.githubusercontent.com/ronin1972/ccs-scale-api-definitions/master/CCS_Standard_API_Responses.yaml#/components/responses/401Unauthorized'
+        '403':
+          $ref: 'https://raw.githubusercontent.com/ronin1972/ccs-scale-api-definitions/master/CCS_Standard_API_Responses.yaml#/components/responses/403Forbidden'
+      security:
+        - OAuth2:
+            - buyer
+      summary: Tranfer from Facilities Managment
+  /cat/ProcurementCase/Agreement:
+    parameters:
+      - $ref: 'https://raw.githubusercontent.com/ronin1972/ccs-scale-api-definitions/master/OCDS_Params.yaml#/components/parameters/AgreementParam'
+    post:
+      description: Create a new procurement for the chosen Agreement.
+      tags:
+        - Create Case
+      operationId: CreateAgreementCase
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              $ref: 'https://raw.githubusercontent.com/ronin1972/ccs-scale-api-definitions/master/OCDS_Schema.yaml#/components/schemas/AgreementID'
+      responses:
+        '200':
+          description: ok
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: 'https://raw.githubusercontent.com/ronin1972/ccs-scale-api-definitions/master/OCDS_Schema.yaml#/components/schemas/ProcurementID'
+        '401':
+          $ref: 'https://raw.githubusercontent.com/ronin1972/ccs-scale-api-definitions/master/CCS_Standard_API_Responses.yaml#/components/responses/401Unauthorized'
+        '403':
+          $ref: 'https://raw.githubusercontent.com/ronin1972/ccs-scale-api-definitions/master/CCS_Standard_Responses.yaml#/components/responses/403Forbidden'
+      security:
+        - OAuth2:
+            - buyer
+      summary: Create from an Agreement
+  '/cat/ProcurementCase/{procID}/confirm':
+    parameters:
+      - $ref: 'https://raw.githubusercontent.com/ronin1972/ccs-scale-api-definitions/master/OCDS_Params.yaml#/components/parameters/ProcurementParam'
+    post:
+      description: Confirm the details transfered or created for the agreement are what the user wants.
+      tags:
+        - Create Case
+      operationId: ConfirmProcurementCase
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              $ref: 'https://raw.githubusercontent.com/ronin1972/ccs-scale-api-definitions/master/CCS_Standard_API_Schema.yaml#/components/schemas/GenericID'
+      responses:
+        '200':
+          description: ok
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: 'https://raw.githubusercontent.com/ronin1972/ccs-scale-api-definitions/master/CCS_Standard_API_Schema.yaml#/components/schemas/GenericID'
+        '401':
+          $ref: 'https://raw.githubusercontent.com/ronin1972/ccs-scale-api-definitions/master/CCS_Standard_Responses.yaml#/components/responses/401Unauthorized'
+        '403':
+          $ref: 'https://raw.githubusercontent.com/ronin1972/ccs-scale-api-definitions/master/CCS_Standard_Responses.yaml#/components/responses/403Forbidden'
+      security:
+        - OAuth2:
+            - buyer
+      summary: Confirm procurement case
+  '/CaT/ProcurementCase/{procID}/status':
+    parameters:
+      - $ref: 'https://raw.githubusercontent.com/ronin1972/ccs-scale-api-definitions/master/OCDS_Params.yaml#/components/parameters/ProcurementParam'
+    get:
+      description: Get RFx's status's for this case (Is this the same as get RFx's?)
+      tags:
+        - Define Case
+      operationId: RFXStatus
+      responses:
+        '200':
+          description: ok
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: 'https://raw.githubusercontent.com/ronin1972/ccs-scale-api-definitions/master/OCDS_Schema.yaml#/components/schemas/ProcessStage'
+        '401':
+          $ref: 'https://raw.githubusercontent.com/ronin1972/ccs-scale-api-definitions/master/CCS_Standard_Responses.yaml#/components/responses/401Unauthorized'
+        '403':
+          $ref: 'https://raw.githubusercontent.com/ronin1972/ccs-scale-api-definitions/master/CCS_Standard_Responses.yaml#/components/responses/403Forbidden'
+      security:
+        - OAuth2:
+            - buyer
+      summary: Get get RFx statuses on case
+  '/cat/ProcurementCase/{procID}/rfxs':
+    parameters:
+      - $ref: 'https://raw.githubusercontent.com/ronin1972/ccs-scale-api-definitions/master/OCDS_Params.yaml#/components/parameters/ProcurementParam'
+    get:
+      description: Get RFx's for this case. In OCDS this is the related cases of Type
+      tags:
+        - Define Case
+      operationId: caseRFXs
+      responses:
+        '200':
+          description: ok
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: 'https://raw.githubusercontent.com/ronin1972/ccs-scale-api-definitions/master/OCDS_Schema.yaml#/components/schemas/RFxStatus'
+        '401':
+          $ref: 'https://raw.githubusercontent.com/ronin1972/ccs-scale-api-definitions/master/CCS_Standard_Responses.yaml#/components/responses/401Unauthorized'
+        '403':
+          $ref: 'https://raw.githubusercontent.com/ronin1972/ccs-scale-api-definitions/master/CCS_Standard_Responses.yaml#/components/responses/403Forbidden'
+      security:
+        - OAuth2:
+            - buyer
+      summary: Get RFx's for case
+    post:
+      description: Creates a new RFx for the case.
+      tags:
+        - Define Case
+      operationId: createCaseRFx
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              $ref: 'https://raw.githubusercontent.com/ronin1972/ccs-scale-api-definitions/master/OCDS_Schema.yaml#/components/schemas/Tender'
+      responses:
+        '200':
+          description: ok
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: 'https://raw.githubusercontent.com/ronin1972/ccs-scale-api-definitions/master/CCS_Standard_API_Schema.yaml#/components/schemas/GenericID'
+        '401':
+          $ref: 'https://raw.githubusercontent.com/ronin1972/ccs-scale-api-definitions/master/CCS_Standard_API_Responses.yaml#/components/responses/401Unauthorized'
+        '403':
+          $ref: 'https://raw.githubusercontent.com/ronin1972/ccs-scale-api-definitions/master/CCS_Standard_API_Responses.yaml#/components/responses/403Forbidden'
+      security:
+        - OAuth2:
+            - buyer
+      summary: Confirm procurement case
+  '/cat/ProcurementCase/{procID}/rfxs/{rfxID}/HLNeeds':
+    parameters:
+      - $ref: 'https://raw.githubusercontent.com/ronin1972/ccs-scale-api-definitions/master/OCDS_Params.yaml#/components/parameters/ProcurementParam'
+      - $ref: 'https://raw.githubusercontent.com/ronin1972/ccs-scale-api-definitions/master/OCDS_Params.yaml#/components/parameters/RFxParam'
+    get:
+      description: Get the High Level needs requirted for the RFx for this case
+      tags:
+        - Define Case
+      operationId: HLNeeds
+      responses:
+        '200':
+          description: ok
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: 'https://raw.githubusercontent.com/ronin1972/ccs-scale-api-definitions/master/OCDS_Schema.yaml#/components/schemas/Criteria'
+        '401':
+          $ref: 'https://raw.githubusercontent.com/ronin1972/ccs-scale-api-definitions/master/CCS_Standard_API_Responses.yaml#/components/responses/401Unauthorized'
+        '403':
+          $ref: 'https://raw.githubusercontent.com/ronin1972/ccs-scale-api-definitions/master/CCS_Standard_API_Responses.yaml#/components/responses/403Forbidden'
+      security:
+        - OAuth2:
+            - buyer
+      summary: Get High Level Needs
+  '/cat/ProcurementCase/{procID}/rfxs/{rfxID}/HLNeeds/{hlNeedID}/forms':
+    parameters:
+      - $ref: 'https://raw.githubusercontent.com/ronin1972/ccs-scale-api-definitions/master/OCDS_Params.yaml#/components/parameters/ProcurementParam'
+      - $ref: 'https://raw.githubusercontent.com/ronin1972/ccs-scale-api-definitions/master/OCDS_Params.yaml#/components/parameters/RFxParam'
+      - $ref: 'https://raw.githubusercontent.com/ronin1972/ccs-scale-api-definitions/master/OCDS_Params.yaml#/components/parameters/HLNeedParam'
+    get:
+      description: Get form data for this high level need.
+      tags:
+        - Define Case
+      operationId: HLNeedForm
+      responses:
+        '200':
+          description: ok
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: 'https://raw.githubusercontent.com/ronin1972/ccs-scale-api-definitions/master/OCDS_Schema.yaml#/components/schemas/Criterion'
+        '401':
+          $ref: 'https://raw.githubusercontent.com/ronin1972/ccs-scale-api-definitions/master/CCS_Standard_API_Responses.yaml#/components/responses/401Unauthorized'
+        '403':
+          $ref: 'https://raw.githubusercontent.com/ronin1972/ccs-scale-api-definitions/master/CCS_Standard_API_Responses.yaml#/components/responses/403Forbidden'
+      security:
+        - OAuth2:
+            - buyer
+      summary: Get HL Need forms
+    put:
+      description: Updates form data for a High Level Need.
+      tags:
+        - Define Case
+      operationId: updateHLNeedForm
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              $ref: 'https://raw.githubusercontent.com/ronin1972/ccs-scale-api-definitions/master/OCDS_Schema.yaml#/components/schemas/Requirement'
+      responses:
+        '200':
+          description: ok
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: 'https://raw.githubusercontent.com/ronin1972/ccs-scale-api-definitions/master/CCS_Standard_API_Schema.yaml#/components/schemas/GenericID'
+        '401':
+          $ref: 'https://raw.githubusercontent.com/ronin1972/ccs-scale-api-definitions/master/CCS_Standard_Responses.yaml#/components/responses/401Unauthorized'
+        '403':
+          $ref: 'https://raw.githubusercontent.com/ronin1972/ccs-scale-api-definitions/master/CCS_Standard_Responses.yaml#/components/responses/403Forbidden'
+      security:
+        - OAuth2:
+            - buyer
+      summary: Confirm procurement case
+  '/cat/ProcurementCase/{procID}/rfxs/{rfxID}/HLNeeds/{hlNeedID}/documents':
+    parameters:
+      - $ref: 'https://raw.githubusercontent.com/ronin1972/ccs-scale-api-definitions/master/OCDS_Params.yaml#/components/parameters/ProcurementParam'
+      - $ref: 'https://raw.githubusercontent.com/ronin1972/ccs-scale-api-definitions/master/OCDS_Params.yaml#/components/parameters/RFxParam'
+      - $ref: 'https://raw.githubusercontent.com/ronin1972/ccs-scale-api-definitions/master/OCDS_Params.yaml#/components/parameters/HLNeedParam'
+    get:
+      description: Get RFx's for this case
+      tags:
+        - Define Case
+      operationId: HLNeedDocument
+      responses:
+        '200':
+          description: ok
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: 'https://raw.githubusercontent.com/ronin1972/ccs-scale-api-definitions/master/OCDS_Schema.yaml#/components/schemas/DocumentList'
+        '401':
+          $ref: 'https://raw.githubusercontent.com/ronin1972/ccs-scale-api-definitions/master/CCS_Standard_Responses.yaml#/components/responses/401Unauthorized'
+        '403':
+          $ref: 'https://raw.githubusercontent.com/ronin1972/ccs-scale-api-definitions/master/CCS_Standard_Responses.yaml#/components/responses/403Forbidden'
+      security:
+        - OAuth2:
+            - buyer
+      summary: Get Default Name
+    put:
+      description: Creates a new RFx for the case.
+      tags:
+        - Define Case
+      operationId: updateHLNeedDocument
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              $ref: 'https://raw.githubusercontent.com/ronin1972/ccs-scale-api-definitions/master/OCDS_Schema.yaml#/components/schemas/Document'
+      responses:
+        '200':
+          description: ok
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: 'https://raw.githubusercontent.com/ronin1972/ccs-scale-api-definitions/master/CCS_Standard_API_Schema.yaml#/components/schemas/GenericID'
+        '401':
+          $ref: 'https://raw.githubusercontent.com/ronin1972/ccs-scale-api-definitions/master/CCS_Standard_Responses.yaml#/components/responses/401Unauthorized'
+        '403':
+          $ref: 'https://raw.githubusercontent.com/ronin1972/ccs-scale-api-definitions/master/CCS_Standard_Responses.yaml#/components/responses/403Forbidden'
+      security:
+        - OAuth2:
+            - buyer
+      summary: Confirm procurement case
+  '/cat/ProcurementCase/{procID}/rfxs/{rfxID}/suppliers':
+    parameters:
+      - $ref: 'https://raw.githubusercontent.com/ronin1972/ccs-scale-api-definitions/master/OCDS_Params.yaml#/components/parameters/ProcurementParam'
+      - $ref: 'https://raw.githubusercontent.com/ronin1972/ccs-scale-api-definitions/master/OCDS_Params.yaml#/components/parameters/RFxParam'
+    get:
+      description: Get RFx's for this case
+      tags:
+        - Define Case
+      operationId: Suppliers
+      responses:
+        '200':
+          description: OK
+          content:
+            application/vnd.api+json:
+              schema:
+                type: array
+                items:
+                  $ref: 'https://raw.githubusercontent.com/ronin1972/ccs-scale-api-definitions/master/OCDS_Schema.yaml#/components/schemas/OrganizationReference'
+        '401':
+          $ref: 'https://raw.githubusercontent.com/ronin1972/ccs-scale-api-definitions/master/CCS_Standard_Responses.yaml#/components/responses/401Unauthorized'
+        '403':
+          $ref: 'https://raw.githubusercontent.com/ronin1972/ccs-scale-api-definitions/master/CCS_Standard_Responses.yaml#/components/responses/403Forbidden'
+      security:
+        - OAuth2:
+            - buyer
+      summary: List Suppliers on RFx
+    post:
+      description: Creates a new RFx for the case.
+      tags:
+        - Define Case
+      operationId: addSupplier
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              $ref: 'https://raw.githubusercontent.com/ronin1972/ccs-scale-api-definitions/master/OCDS_Schema.yaml#/components/schemas/OrganizationReference'
+      responses:
+        '201':
+          $ref: 'https://raw.githubusercontent.com/ronin1972/ccs-scale-api-definitions/master/CCS_Standard_Responses.yaml#/components/responses/201Success'
+        '401':
+          $ref: 'https://raw.githubusercontent.com/ronin1972/ccs-scale-api-definitions/master/CCS_Standard_Responses.yaml#/components/responses/401Unauthorized'
+        '403':
+          $ref: 'https://raw.githubusercontent.com/ronin1972/ccs-scale-api-definitions/master/CCS_Standard_Responses.yaml#/components/responses/403Forbidden'
+      security:
+        - OAuth2:
+            - buyer
+      summary: Update Suppliers on RFx
+  '/cat/ProcurementCase/{procID}/rfxs/{rfxID}/suppliers/{supplierID}':
+    parameters:
+      - $ref: 'https://raw.githubusercontent.com/ronin1972/ccs-scale-api-definitions/master/OCDS_Params.yaml#/components/parameters/ProcurementParam'
+      - $ref: 'https://raw.githubusercontent.com/ronin1972/ccs-scale-api-definitions/master/OCDS_Params.yaml#/components/parameters/RFxParam'
+      - $ref: 'https://raw.githubusercontent.com/ronin1972/ccs-scale-api-definitions/master/OCDS_Params.yaml#/components/parameters/SupplierParam'
+    delete:
+      description: Creates a new RFx for the case.
+      tags:
+        - Define Case
+      operationId: removeSuppliers
+      responses:
+        '200':
+          $ref: 'https://raw.githubusercontent.com/ronin1972/ccs-scale-api-definitions/master/CCS_Standard_Responses.yaml#/components/responses/200Success'
+        '401':
+          $ref: 'https://raw.githubusercontent.com/ronin1972/ccs-scale-api-definitions/master/CCS_Standard_Responses.yaml#/components/responses/401Unauthorized'
+        '403':
+          $ref: 'https://raw.githubusercontent.com/ronin1972/ccs-scale-api-definitions/master/CCS_Standard_Responses.yaml#/components/responses/403Forbidden'
+      security:
+        - OAuth2:
+            - buyer
+      summary: Update Suppliers on RFx
+  '/CaT/ProcurementCase/{procID}/rfxs/{rfxID}':
+    parameters:
+      - $ref: 'https://raw.githubusercontent.com/ronin1972/ccs-scale-api-definitions/master/OCDS_Params.yaml#/components/parameters/ProcurementParam'
+      - $ref: 'https://raw.githubusercontent.com/ronin1972/ccs-scale-api-definitions/master/OCDS_Params.yaml#/components/parameters/RFxParam'
+    get:
+      description: Gets Summary Data for RFx
+      tags:
+        - Define Case
+      operationId: RFxSummary
+      responses:
+        '200':
+          description: ok
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: 'https://raw.githubusercontent.com/ronin1972/ccs-scale-api-definitions/master/OCDS_Schema.yaml#/components/schemas/Tender'
+        '401':
+          $ref: 'https://raw.githubusercontent.com/ronin1972/ccs-scale-api-definitions/master/CCS_Standard_Responses.yaml#/components/responses/401Unauthorized'
+        '403':
+          $ref: 'https://raw.githubusercontent.com/ronin1972/ccs-scale-api-definitions/master/CCS_Standard_Responses.yaml#/components/responses/403Forbidden'
+      security:
+        - OAuth2:
+            - buyer
+      summary: Get RFx Summary
+  '/CaT/ProcurementCase/{procID}/rfx/{rfxID}/GotoMarket/options':
+    parameters:
+      - $ref: 'https://raw.githubusercontent.com/ronin1972/ccs-scale-api-definitions/master/OCDS_Params.yaml#/components/parameters/ProcurementParam'
+      - $ref: 'https://raw.githubusercontent.com/ronin1972/ccs-scale-api-definitions/master/OCDS_Params.yaml#/components/parameters/RFxParam'
+    get:
+      description: Get the options open to go to market
+      tags:
+        - Manage Case
+      operationId: GoToMarketOptions
+      responses:
+        '200':
+          description: ok
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: 'https://raw.githubusercontent.com/ronin1972/ccs-scale-api-definitions/master/OCDS_Schema.yaml#/components/schemas/ProcurementMethods'
+        '401':
+          $ref: 'https://raw.githubusercontent.com/ronin1972/ccs-scale-api-definitions/master/CCS_Standard_API_Responses.yaml#/components/responses/401Unauthorized'
+        '403':
+          $ref: 'https://raw.githubusercontent.com/ronin1972/ccs-scale-api-definitions/master/CCS_Standard_API_Responses.yaml#/components/responses/403Forbidden'
+      security:
+        - OAuth2:
+            - buyer
+      summary: Get Go to market options
+  '/CaT/ProcurementCase/{procID}/rfxs/{rfxID}/GotoMarket/':
+    parameters:
+      - $ref: 'https://raw.githubusercontent.com/ronin1972/ccs-scale-api-definitions/master/OCDS_Params.yaml#/components/parameters/ProcurementParam'
+      - $ref: 'https://raw.githubusercontent.com/ronin1972/ccs-scale-api-definitions/master/OCDS_Params.yaml#/components/parameters/RFxParam'
+    put:
+      description: Release the RFX to the market.
+      tags:
+        - Manage Case
+      operationId: GotoMarket
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              $ref: 'https://raw.githubusercontent.com/ronin1972/ccs-scale-api-definitions/master/OCDS_Schema.yaml#/components/schemas/TenderRelease'
+      responses:
+        '200':
+          description: ok
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: 'https://raw.githubusercontent.com/ronin1972/ccs-scale-api-definitions/master/CCS_Standard_API_Schema.yaml#/components/schemas/GenericID'
+        '401':
+          $ref: 'https://raw.githubusercontent.com/ronin1972/ccs-scale-api-definitions/master/CCS_Standard_Responses.yaml#/components/responses/401Unauthorized'
+        '403':
+          $ref: 'https://raw.githubusercontent.com/ronin1972/ccs-scale-api-definitions/master/CCS_Standard_Responses.yaml#/components/responses/403Forbidden'
+      security:
+        - OAuth2:
+            - buyer
+      summary: Go to market
+  '/CaT/ProcurementCase/{procID}/rfxs/{rfxID}/GotoMarket/extend':
+    parameters:
+      - $ref: 'https://raw.githubusercontent.com/ronin1972/ccs-scale-api-definitions/master/OCDS_Params.yaml#/components/parameters/ProcurementParam'
+      - $ref: 'https://raw.githubusercontent.com/ronin1972/ccs-scale-api-definitions/master/OCDS_Params.yaml#/components/parameters/RFxParam'
+    put:
+      description: Extend the end date for responses to the RFx.
+      tags:
+        - Manage Case
+      operationId: extendRFx
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              $ref: 'https://raw.githubusercontent.com/ronin1972/ccs-scale-api-definitions/master/OCDS_Schema.yaml#/components/schemas/ExtendCriteria'
+      responses:
+        '200':
+          $ref: 'https://raw.githubusercontent.com/ronin1972/ccs-scale-api-definitions/master/CCS_Standard_Responses.yaml#/components/responses/200Success'
+        '401':
+          $ref: 'https://raw.githubusercontent.com/ronin1972/ccs-scale-api-definitions/master/CCS_Standard_Responses.yaml#/components/responses/401Unauthorized'
+        '403':
+          $ref: 'https://raw.githubusercontent.com/ronin1972/ccs-scale-api-definitions/master/CCS_Standard_Responses.yaml#/components/responses/403Forbidden'
+      security:
+        - OAuth2:
+            - buyer
+      summary: Extend the RFx
+  '/CaT/ProcurementCase/{procID}/rfxs/{rfxID}/status':
+    parameters:
+      - $ref: 'https://raw.githubusercontent.com/ronin1972/ccs-scale-api-definitions/master/OCDS_Params.yaml#/components/parameters/ProcurementParam'
+      - $ref: 'https://raw.githubusercontent.com/ronin1972/ccs-scale-api-definitions/master/OCDS_Params.yaml#/components/parameters/RFxParam'
+    get:
+      description: Gets the status of a and RFX within a process.
+      tags:
+        - Manage Case
+      operationId: RFxStatus
+      responses:
+        '200':
+          description: ok
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: 'https://raw.githubusercontent.com/ronin1972/ccs-scale-api-definitions/master/OCDS_Schema.yaml#/components/schemas/ProcessStage'
+        '401':
+          $ref: 'https://raw.githubusercontent.com/ronin1972/ccs-scale-api-definitions/master/CCS_Standard_Responses.yaml#/components/responses/401Unauthorized'
+        '403':
+          $ref: 'https://raw.githubusercontent.com/ronin1972/ccs-scale-api-definitions/master/CCS_Standard_Responses.yaml#/components/responses/403Forbidden'
+      security:
+        - OAuth2:
+            - buyer
+      summary: Get RFx status
+  '/CaT/ProcurementCase/{procID}/rfxs/{rfxID}/responses':
+    parameters:
+      - $ref: 'https://raw.githubusercontent.com/ronin1972/ccs-scale-api-definitions/master/OCDS_Params.yaml#/components/parameters/ProcurementParam'
+      - $ref: 'https://raw.githubusercontent.com/ronin1972/ccs-scale-api-definitions/master/OCDS_Params.yaml#/components/parameters/RFxParam'
+    get:
+      description: Get responses from all suppliers
+      tags:
+        - Responses
+      operationId: allResponses
+      responses:
+        '200':
+          description: ok
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: 'https://raw.githubusercontent.com/ronin1972/ccs-scale-api-definitions/master/OCDS_Schema.yaml#/components/schemas/RequirementResponses'
+        '401':
+          $ref: 'https://raw.githubusercontent.com/ronin1972/ccs-scale-api-definitions/master/CCS_Standard_Responses.yaml#/components/responses/401Unauthorized'
+        '403':
+          $ref: 'https://raw.githubusercontent.com/ronin1972/ccs-scale-api-definitions/master/CCS_Standard_Responses.yaml#/components/responses/403Forbidden'
+      security:
+        - OAuth2:
+            - buyer
+      summary: Get all responses to an RFx
+  '/CaT/ProcurementCase/{procID}/rfxs/{rfxID}/responses/suppliers/{supplierID}':
+    parameters:
+      - $ref: 'https://raw.githubusercontent.com/ronin1972/ccs-scale-api-definitions/master/OCDS_Params.yaml#/components/parameters/ProcurementParam'
+      - $ref: 'https://raw.githubusercontent.com/ronin1972/ccs-scale-api-definitions/master/OCDS_Params.yaml#/components/parameters/RFxParam'
+      - $ref: 'https://raw.githubusercontent.com/ronin1972/ccs-scale-api-definitions/master/OCDS_Params.yaml#/components/parameters/SupplierParam'
+    get:
+      description: Get responses from a supplier
+      tags:
+        - Responses
+      operationId: SupplierResponses
+      responses:
+        '200':
+          description: ok
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: 'https://raw.githubusercontent.com/ronin1972/ccs-scale-api-definitions/master/OCDS_Schema.yaml#/components/schemas/RequirementResponses'
+        '401':
+          $ref: 'https://raw.githubusercontent.com/ronin1972/ccs-scale-api-definitions/master/CCS_Standard_Responses.yaml#/components/responses/401Unauthorized'
+        '403':
+          $ref: 'https://raw.githubusercontent.com/ronin1972/ccs-scale-api-definitions/master/CCS_Standard_Responses.yaml#/components/responses/403Forbidden'
+      security:
+        - OAuth2:
+            - buyer
+      summary: Get responses from a supplier to an RFx
+  '/CaT/ProcurementCase/{procID}/rfxs/{rfxID}/responses/{responseID}':
+    parameters:
+      - $ref: 'https://raw.githubusercontent.com/ronin1972/ccs-scale-api-definitions/master/OCDS_Params.yaml#/components/parameters/ProcurementParam'
+      - $ref: 'https://raw.githubusercontent.com/ronin1972/ccs-scale-api-definitions/master/OCDS_Params.yaml#/components/parameters/RFxParam'
+      - $ref: 'https://raw.githubusercontent.com/ronin1972/ccs-scale-api-definitions/master/OCDS_Params.yaml#/components/parameters/ResponseParam'
+    get:
+      description: Get responses Details
+      tags:
+        - Responses
+      operationId: ResponseDetail
+      responses:
+        '200':
+          description: ok
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: 'https://raw.githubusercontent.com/ronin1972/ccs-scale-api-definitions/master/OCDS_Schema.yaml#/components/schemas/RequirementResponse'
+        '401':
+          $ref: 'https://raw.githubusercontent.com/ronin1972/ccs-scale-api-definitions/master/CCS_Standard_Responses.yaml#/components/responses/401Unauthorized'
+        '403':
+          $ref: 'https://raw.githubusercontent.com/ronin1972/ccs-scale-api-definitions/master/CCS_Standard_Responses.yaml#/components/responses/403Forbidden'
+      security:
+        - OAuth2:
+            - buyer
+      summary: Get response details
+  '/CaT/ProcurementCase/{procID}/rfxs/{rfxID}/responses/{responseID}/HLNeeds':
+    parameters:
+      - $ref: 'https://raw.githubusercontent.com/ronin1972/ccs-scale-api-definitions/master/OCDS_Params.yaml#/components/parameters/ProcurementParam'
+      - $ref: 'https://raw.githubusercontent.com/ronin1972/ccs-scale-api-definitions/master/OCDS_Params.yaml#/components/parameters/RFxParam'
+      - $ref: 'https://raw.githubusercontent.com/ronin1972/ccs-scale-api-definitions/master/OCDS_Params.yaml#/components/parameters/ResponseParam'
+    get:
+      description: Get a list of HL Needs within the response for the RFx within the Procurement event. (May only ever be one in List). Indicates which have mandatory details complete. Offline will just verify file exists)
+      tags:
+        - Responses
+      operationId: HLNeedsResponse
+      responses:
+        '200':
+          description: ok
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: 'https://raw.githubusercontent.com/ronin1972/ccs-scale-api-definitions/master/OCDS_Schema.yaml#/components/schemas/RequirementResponses'
+        '401':
+          $ref: 'https://raw.githubusercontent.com/ronin1972/ccs-scale-api-definitions/master/CCS_Standard_Responses.yaml#/components/responses/401Unauthorized'
+        '403':
+          $ref: 'https://raw.githubusercontent.com/ronin1972/ccs-scale-api-definitions/master/CCS_Standard_Responses.yaml#/components/responses/403Forbidden'
+      security:
+        - OAuth2:
+            - buyer
+      summary: Get response HL Needs
+  '/CaT/ProcurementCase/{procID}/rfxs/{rfxID}/responses/{responseID}/HLNeeds/{hlNeedID}/forms':
+    parameters:
+      - $ref: 'https://raw.githubusercontent.com/ronin1972/ccs-scale-api-definitions/master/OCDS_Params.yaml#/components/parameters/ProcurementParam'
+      - $ref: 'https://raw.githubusercontent.com/ronin1972/ccs-scale-api-definitions/master/OCDS_Params.yaml#/components/parameters/RFxParam'
+      - $ref: 'https://raw.githubusercontent.com/ronin1972/ccs-scale-api-definitions/master/OCDS_Params.yaml#/components/parameters/ResponseParam'
+      - $ref: 'https://raw.githubusercontent.com/ronin1972/ccs-scale-api-definitions/master/OCDS_Params.yaml#/components/parameters/HLNeedParam'
+    get:
+      description: 'Gets the response data held within the needs form specified (May be blank, pre-populated or contain data previously entered)'
+      tags:
+        - Responses
+      operationId: HLNeedsFormResponse
+      responses:
+        '200':
+          description: ok
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: 'https://raw.githubusercontent.com/ronin1972/ccs-scale-api-definitions/master/OCDS_Schema.yaml#/components/schemas/RequirementResponse'
+        '401':
+          $ref: 'https://raw.githubusercontent.com/ronin1972/ccs-scale-api-definitions/master/CCS_Standard_Responses.yaml#/components/responses/401Unauthorized'
+        '403':
+          $ref: 'https://raw.githubusercontent.com/ronin1972/ccs-scale-api-definitions/master/CCS_Standard_Responses.yaml#/components/responses/403Forbidden'
+      security:
+        - OAuth2:
+            - buyer
+      summary: Get response details
+    put:
+      description: Updates Suppliers response to High Level needs fields
+      tags:
+        - Supplier
+      operationId: updateHLNeedFormResponse
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              $ref: 'https://raw.githubusercontent.com/ronin1972/ccs-scale-api-definitions/master/CCS_Standard_API_Schema.yaml#/components/schemas/GenericID'
+      responses:
+        '200':
+          description: ok
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: 'https://raw.githubusercontent.com/ronin1972/ccs-scale-api-definitions/master/CCS_Standard_API_Schema.yaml#/components/schemas/GenericID'
+        '401':
+          $ref: 'https://raw.githubusercontent.com/ronin1972/ccs-scale-api-definitions/master/CCS_Standard_Responses.yaml#/components/responses/401Unauthorized'
+        '403':
+          $ref: 'https://raw.githubusercontent.com/ronin1972/ccs-scale-api-definitions/master/CCS_Standard_Responses.yaml#/components/responses/403Forbidden'
+      security:
+        - OAuth2:
+            - buyer
+      summary: Update form response
+  '/CaT/ProcurementCase/{procID}/rfxs/{rfxID}/responses/{responseID}/HLNeeds/{hlNeedID}/documents':
+    parameters:
+      - $ref: 'https://raw.githubusercontent.com/ronin1972/ccs-scale-api-definitions/master/OCDS_Params.yaml#/components/parameters/ProcurementParam'
+      - $ref: 'https://raw.githubusercontent.com/ronin1972/ccs-scale-api-definitions/master/OCDS_Params.yaml#/components/parameters/RFxParam'
+      - $ref: 'https://raw.githubusercontent.com/ronin1972/ccs-scale-api-definitions/master/OCDS_Params.yaml#/components/parameters/ResponseParam'
+      - $ref: 'https://raw.githubusercontent.com/ronin1972/ccs-scale-api-definitions/master/OCDS_Params.yaml#/components/parameters/HLNeedParam'
+    get:
+      description: Gets a file that can be updated off line and then uploaded when complete. (Should this always be blank or only the first time?)
+      tags:
+        - Responses
+      operationId: HLNeedsDocumentResponse
+      responses:
+        '200':
+          description: ok
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: 'https://raw.githubusercontent.com/ronin1972/ccs-scale-api-definitions/master/OCDS_Schema.yaml#/components/schemas/DocumentList'
+        '401':
+          $ref: 'https://raw.githubusercontent.com/ronin1972/ccs-scale-api-definitions/master/CCS_Standard_Responses.yaml#/components/responses/401Unauthorized'
+        '403':
+          $ref: 'https://raw.githubusercontent.com/ronin1972/ccs-scale-api-definitions/master/CCS_Standard_Responses.yaml#/components/responses/403Forbidden'
+      security:
+        - OAuth2:
+            - buyer
+      summary: Get response details
+    post:
+      description: Replaces the response file stored against this need.
+      tags:
+        - Supplier
+      operationId: updateHLNeedDocumentResponse
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              $ref: 'https://raw.githubusercontent.com/ronin1972/ccs-scale-api-definitions/master/OCDS_Schema.yaml#/components/schemas/Document'
+      responses:
+        '200':
+          description: ok
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: 'https://raw.githubusercontent.com/ronin1972/ccs-scale-api-definitions/master/CCS_Standard_API_Schema.yaml#/components/schemas/GenericID'
+        '401':
+          $ref: 'https://raw.githubusercontent.com/ronin1972/ccs-scale-api-definitions/master/CCS_Standard_Responses.yaml#/components/responses/401Unauthorized'
+        '403':
+          $ref: 'https://raw.githubusercontent.com/ronin1972/ccs-scale-api-definitions/master/CCS_Standard_Responses.yaml#/components/responses/403Forbidden'
+      security:
+        - OAuth2:
+            - buyer
+      summary: Update document response
+  '/CaT/ProcurementCase/{procID}/rfxs/{rfxID}/responses/suppliers/{supplierID}/complete':
+    parameters:
+      - $ref: 'https://raw.githubusercontent.com/ronin1972/ccs-scale-api-definitions/master/OCDS_Params.yaml#/components/parameters/ProcurementParam'
+      - $ref: 'https://raw.githubusercontent.com/ronin1972/ccs-scale-api-definitions/master/OCDS_Params.yaml#/components/parameters/RFxParam'
+      - $ref: 'https://raw.githubusercontent.com/ronin1972/ccs-scale-api-definitions/master/OCDS_Params.yaml#/components/parameters/SupplierParam'
+    post:
+      description: Indicates that the Supplier is happy for the response to go to the Buyer
+      tags:
+        - Supplier
+      operationId: supplierResponseComplete
+      responses:
+        '200':
+          description: ok
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: 'https://raw.githubusercontent.com/ronin1972/ccs-scale-api-definitions/master/CCS_Standard_API_Schema.yaml#/components/schemas/GenericID'
+        '401':
+          $ref: 'https://raw.githubusercontent.com/ronin1972/ccs-scale-api-definitions/master/CCS_Standard_Responses.yaml#/components/responses/401Unauthorized'
+        '403':
+          $ref: 'https://raw.githubusercontent.com/ronin1972/ccs-scale-api-definitions/master/CCS_Standard_Responses.yaml#/components/responses/403Forbidden'
+      security:
+        - OAuth2:
+            - buyer
+      summary: Supplier Complete
+  '/CaT/ProcurementCase/{procID}/rfxs/{rfxID}/responses/furtherInfo':
+    parameters:
+      - $ref: 'https://raw.githubusercontent.com/ronin1972/ccs-scale-api-definitions/master/OCDS_Params.yaml#/components/parameters/ProcurementParam'
+      - $ref: 'https://raw.githubusercontent.com/ronin1972/ccs-scale-api-definitions/master/OCDS_Params.yaml#/components/parameters/RFxParam'
+    get:
+      description: 'Get a request for further information (includes free text and any files}'
+      tags:
+        - Further Information
+      operationId: furtherInfoRequest
+      responses:
+        '200':
+          description: ok
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: 'https://raw.githubusercontent.com/ronin1972/ccs-scale-api-definitions/master/OCDS_Schema.yaml#/components/schemas/Enquiries'
+        '401':
+          $ref: 'https://raw.githubusercontent.com/ronin1972/ccs-scale-api-definitions/master/CCS_Standard_Responses.yaml#/components/responses/401Unauthorized'
+        '403':
+          $ref: 'https://raw.githubusercontent.com/ronin1972/ccs-scale-api-definitions/master/CCS_Standard_Responses.yaml#/components/responses/403Forbidden'
+      security:
+        - OAuth2:
+            - buyer
+      summary: Request Further Info
+    post:
+      description: Create a new porocurement for the chosen Agreement.
+      tags:
+        - Further Information
+      operationId: createFurtherInfoRequest
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              $ref: 'https://raw.githubusercontent.com/ronin1972/ccs-scale-api-definitions/master/OCDS_Schema.yaml#/components/schemas/Enquiry'
+      responses:
+        '200':
+          description: ok
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: 'https://raw.githubusercontent.com/ronin1972/ccs-scale-api-definitions/master/CCS_Standard_API_Schema.yaml#/components/schemas/GenericID'
+        '401':
+          $ref: 'https://raw.githubusercontent.com/ronin1972/ccs-scale-api-definitions/master/CCS_Standard_Responses.yaml#/components/responses/401Unauthorized'
+        '403':
+          $ref: 'https://raw.githubusercontent.com/ronin1972/ccs-scale-api-definitions/master/CCS_Standard_Responses.yaml#/components/responses/403Forbidden'
+      security:
+        - OAuth2:
+            - buyer
+      summary: Create further info request
+  '/CaT/ProcurementCase/{procID}/rfxs/{rfxID}/responses/suppliers/{supplierID}/furtherInfo':
+    parameters:
+      - $ref: 'https://raw.githubusercontent.com/ronin1972/ccs-scale-api-definitions/master/OCDS_Params.yaml#/components/parameters/ProcurementParam'
+      - $ref: 'https://raw.githubusercontent.com/ronin1972/ccs-scale-api-definitions/master/OCDS_Params.yaml#/components/parameters/RFxParam'
+      - $ref: 'https://raw.githubusercontent.com/ronin1972/ccs-scale-api-definitions/master/OCDS_Params.yaml#/components/parameters/SupplierParam'
+    get:
+      description: 'Get a request for further information (includes free text and any files}'
+      tags:
+        - Further Information
+      operationId: supplierFurtherInfoRequest
+      responses:
+        '200':
+          description: ok
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: 'https://raw.githubusercontent.com/ronin1972/ccs-scale-api-definitions/master/OCDS_Schema.yaml#/components/schemas/Enquiries'
+        '401':
+          $ref: 'https://raw.githubusercontent.com/ronin1972/ccs-scale-api-definitions/master/CCS_Standard_Responses.yaml#/components/responses/401Unauthorized'
+        '403':
+          $ref: 'https://raw.githubusercontent.com/ronin1972/ccs-scale-api-definitions/master/CCS_Standard_Responses.yaml#/components/responses/403Forbidden'
+      security:
+        - OAuth2:
+            - buyer
+      summary: Request Supplier Further Info
+    post:
+      description: Create a new porocurement for the chosen Agreement.
+      tags:
+        - Further Information
+      operationId: createSupplierFurtherInfoRequest
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              $ref: 'https://raw.githubusercontent.com/ronin1972/ccs-scale-api-definitions/master/OCDS_Schema.yaml#/components/schemas/Enquiry'
+      responses:
+        '200':
+          description: ok
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: 'https://raw.githubusercontent.com/ronin1972/ccs-scale-api-definitions/master/CCS_Standard_API_Schema.yaml#/components/schemas/GenericID'
+        '401':
+          $ref: 'https://raw.githubusercontent.com/ronin1972/ccs-scale-api-definitions/master/CCS_Standard_Responses.yaml#/components/responses/401Unauthorized'
+        '403':
+          $ref: 'https://raw.githubusercontent.com/ronin1972/ccs-scale-api-definitions/master/CCS_Standard_Responses.yaml#/components/responses/403Forbidden'
+      security:
+        - OAuth2:
+            - buyer
+      summary: Create supplier further info request
+    put:
+      description: Respond to a Request for further information
+      tags:
+        - Supplier
+      operationId: supplierFurtherInfo
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              $ref: 'https://raw.githubusercontent.com/ronin1972/ccs-scale-api-definitions/master/CCS_Standard_API_Schema.yaml#/components/schemas/GenericID'
+      responses:
+        '200':
+          description: ok
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: 'https://raw.githubusercontent.com/ronin1972/ccs-scale-api-definitions/master/CCS_Standard_API_Schema.yaml#/components/schemas/GenericID'
+        '401':
+          $ref: 'https://raw.githubusercontent.com/ronin1972/ccs-scale-api-definitions/master/CCS_Standard_Responses.yaml#/components/responses/401Unauthorized'
+        '403':
+          $ref: 'https://raw.githubusercontent.com/ronin1972/ccs-scale-api-definitions/master/CCS_Standard_Responses.yaml#/components/responses/403Forbidden'
+      security:
+        - OAuth2:
+            - buyer
+      summary: Resturn Further Info
+  '/CaT/ProcurementCase/{procID}/rfxs/{rfxID}/responses/export':
+    parameters:
+      - $ref: 'https://raw.githubusercontent.com/ronin1972/ccs-scale-api-definitions/master/OCDS_Params.yaml#/components/parameters/ProcurementParam'
+      - $ref: 'https://raw.githubusercontent.com/ronin1972/ccs-scale-api-definitions/master/OCDS_Params.yaml#/components/parameters/RFxParam'
+    get:
+      description: Export all responses for all suppliers on an RFx
+      tags:
+        - Responses
+      operationId: exportAllResponses
+      responses:
+        '200':
+          description: ok
+          content:
+            application/octet-stream:
+              schema:
+                type: string
+                format: binary
+            application/msword:
+              schema:
+                type: string
+                format: binary
+            application/vnd.openxmlformats-officedocument.wordprocessingml.document:
+              schema:
+                type: string
+                format: binary
+        '401':
+          $ref: 'https://raw.githubusercontent.com/ronin1972/ccs-scale-api-definitions/master/CCS_Standard_Responses.yaml#/components/responses/401Unauthorized'
+        '403':
+          $ref: 'https://raw.githubusercontent.com/ronin1972/ccs-scale-api-definitions/master/CCS_Standard_Responses.yaml#/components/responses/403Forbidden'
+      security:
+        - OAuth2:
+            - buyer
+      summary: Export all responses
+  '/CaT/ProcurementCase/{procID}/rfxs/{rfxID}/scores':
+    parameters:
+      - $ref: 'https://raw.githubusercontent.com/ronin1972/ccs-scale-api-definitions/master/OCDS_Params.yaml#/components/parameters/ProcurementParam'
+      - $ref: 'https://raw.githubusercontent.com/ronin1972/ccs-scale-api-definitions/master/OCDS_Params.yaml#/components/parameters/RFxParam'
+    get:
+      description: Get scores for all suppliers on an RFx
+      tags:
+        - Scoring
+      operationId: allScores
+      responses:
+        '200':
+          description: ok
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: 'https://raw.githubusercontent.com/ronin1972/ccs-scale-api-definitions/master/CCS_Standard_API_Schema.yaml#/components/schemas/GenericID'
+        '400':
+          $ref: 'https://raw.githubusercontent.com/ronin1972/ccs-scale-api-definitions/master/CCS_Standard_Responses.yaml#/components/responses/400InvalidRequest'
+        '401':
+          $ref: 'https://raw.githubusercontent.com/ronin1972/ccs-scale-api-definitions/master/CCS_Standard_Responses.yaml#/components/responses/401Unauthorized'
+        '403':
+          $ref: 'https://raw.githubusercontent.com/ronin1972/ccs-scale-api-definitions/master/CCS_Standard_Responses.yaml#/components/responses/403Forbidden'
+      security:
+        - OAuth2:
+            - buyer
+      summary: Get all scores for an RFx
+  '/CaT/ProcurementCase/{procID}/rfxs/{rfxID}/scores/suppliers/{supplierID}/':
+    parameters:
+      - $ref: 'https://raw.githubusercontent.com/ronin1972/ccs-scale-api-definitions/master/OCDS_Params.yaml#/components/parameters/ProcurementParam'
+      - $ref: 'https://raw.githubusercontent.com/ronin1972/ccs-scale-api-definitions/master/OCDS_Params.yaml#/components/parameters/RFxParam'
+      - $ref: 'https://raw.githubusercontent.com/ronin1972/ccs-scale-api-definitions/master/OCDS_Params.yaml#/components/parameters/SupplierParam'
+    put:
+      description: Updates a suppliers score for an RFx
+      tags:
+        - Scoring
+      operationId: SupplierScore
+      responses:
+        '200':
+          description: ok
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: 'https://raw.githubusercontent.com/ronin1972/ccs-scale-api-definitions/master/CCS_Standard_API_Schema.yaml#/components/schemas/GenericID'
+        '401':
+          $ref: 'https://raw.githubusercontent.com/ronin1972/ccs-scale-api-definitions/master/CCS_Standard_Responses.yaml#/components/responses/401Unauthorized'
+        '403':
+          $ref: 'https://raw.githubusercontent.com/ronin1972/ccs-scale-api-definitions/master/CCS_Standard_Responses.yaml#/components/responses/403Forbidden'
+      security:
+        - OAuth2:
+            - buyer
+      summary: Update supplier score
+  /CaT/events:
+    get:
+      description: |
+        Gets Events that have not been responded to
+        * Procurements Events Issued (Supplier)
+        * Responses to Procurement events (Buyer)
+        * Procurement Events Closed (Buyer/Supplier)
+        * Procurement Events Terminated (Supplier)
+        * Request for further Information (Supplier)
+        * Response to further information (Buyer)
+        * Awards (Supplier)
+        * Procurement Cases Terminated (Supplier)
+        * Contract Signature (Buyer/Supplier) 
+      tags:
+        - Notification
+      operationId: events
+      responses:
+        '200':
+          description: ok
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: 'https://raw.githubusercontent.com/ronin1972/ccs-scale-api-definitions/master/CCS_Standard_API_Schema.yaml#/components/schemas/GenericID'
+        '401':
+          $ref: 'https://raw.githubusercontent.com/ronin1972/ccs-scale-api-definitions/master/CCS_Standard_API_Responses.yaml#/components/responses/401Unauthorized'
+        '403':
+          $ref: 'https://raw.githubusercontent.com/ronin1972/ccs-scale-api-definitions/master/CCS_Standard_API_Responses.yaml#/components/responses/403Forbidden'
+      security:
+        - OAuth2:
+            - buyer
+      summary: Get all scores for an RFx
+  '/CaT/ProcurementCase/{procID}/rfxs/{rfxID}/terminate/options':
+    parameters:
+      - $ref: 'https://raw.githubusercontent.com/ronin1972/ccs-scale-api-definitions/master/OCDS_Params.yaml#/components/parameters/ProcurementParam'
+      - $ref: 'https://raw.githubusercontent.com/ronin1972/ccs-scale-api-definitions/master/OCDS_Params.yaml#/components/parameters/RFxParam'
+      - $ref: 'https://raw.githubusercontent.com/ronin1972/ccs-scale-api-definitions/master/OCDS_Params.yaml#/components/parameters/SupplierParam'
+    get:
+      description: Respond to a Request for further information
+      tags:
+        - Manage Case
+      operationId: terminateOptions
+      responses:
+        '200':
+          description: ok
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: 'https://raw.githubusercontent.com/ronin1972/ccs-scale-api-definitions/master/OCDS_Schema.yaml#/components/schemas/TerminationTypes'
+        '401':
+          $ref: 'https://raw.githubusercontent.com/ronin1972/ccs-scale-api-definitions/master/CCS_Standard_Responses.yaml#/components/responses/401Unauthorized'
+        '403':
+          $ref: 'https://raw.githubusercontent.com/ronin1972/ccs-scale-api-definitions/master/CCS_Standard_Responses.yaml#/components/responses/403Forbidden'
+      security:
+        - OAuth2:
+            - buyer
+      summary: Request options for termination
+  '/CaT/ProcurementCase/{procID}/rfxs/{rfxID}/terminate/':
+    parameters:
+      - $ref: 'https://raw.githubusercontent.com/ronin1972/ccs-scale-api-definitions/master/OCDS_Params.yaml#/components/parameters/ProcurementParam'
+      - $ref: 'https://raw.githubusercontent.com/ronin1972/ccs-scale-api-definitions/master/OCDS_Params.yaml#/components/parameters/RFxParam'
+    put:
+      description: Terminate the RFx
+      tags:
+        - Manage Case
+      operationId: terminate
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              $ref: 'https://raw.githubusercontent.com/ronin1972/ccs-scale-api-definitions/master/OCDS_Schema.yaml#/components/schemas/TerminationType'
+      responses:
+        '200':
+          description: ok
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: 'https://raw.githubusercontent.com/ronin1972/ccs-scale-api-definitions/master/CCS_Standard_API_Schema.yaml#/components/schemas/GenericID'
+        '401':
+          $ref: 'https://raw.githubusercontent.com/ronin1972/ccs-scale-api-definitions/master/CCS_Standard_Responses.yaml#/components/responses/401Unauthorized'
+        '403':
+          $ref: 'https://raw.githubusercontent.com/ronin1972/ccs-scale-api-definitions/master/CCS_Standard_Responses.yaml#/components/responses/403Forbidden'
+      security:
+        - OAuth2:
+            - buyer
+      summary: Terminate RFx
+  '/CaT/ProcurementCase/{procID}/rfxs/{rfxID}/award/':
+    parameters:
+      - $ref: 'https://raw.githubusercontent.com/ronin1972/ccs-scale-api-definitions/master/OCDS_Params.yaml#/components/parameters/ProcurementParam'
+      - $ref: 'https://raw.githubusercontent.com/ronin1972/ccs-scale-api-definitions/master/OCDS_Params.yaml#/components/parameters/RFxParam'
+    put:
+      description: Awards the contract to a supplier. RFx must be of type RFP
+      tags:
+        - Manage Case
+      operationId: award
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              $ref: 'https://raw.githubusercontent.com/ronin1972/ccs-scale-api-definitions/master/OCDS_Schema.yaml#/components/schemas/Award'
+      responses:
+        '200':
+          description: ok
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: 'https://raw.githubusercontent.com/ronin1972/ccs-scale-api-definitions/master/CCS_Standard_API_Schema.yaml#/components/schemas/GenericID'
+        '401':
+          $ref: 'https://raw.githubusercontent.com/ronin1972/ccs-scale-api-definitions/master/CCS_Standard_Responses.yaml#/components/responses/401Unauthorized'
+        '403':
+          $ref: 'https://raw.githubusercontent.com/ronin1972/ccs-scale-api-definitions/master/CCS_Standard_Responses.yaml#/components/responses/403Forbidden'
+      security:
+        - OAuth2:
+            - buyer
+      summary: Award Procurement
+  '/CaT/ProcurementCase/{procID}/rfxs/{rfxID}/signed/':
+    parameters:
+      - $ref: 'https://raw.githubusercontent.com/ronin1972/ccs-scale-api-definitions/master/OCDS_Params.yaml#/components/parameters/ProcurementParam'
+      - $ref: 'https://raw.githubusercontent.com/ronin1972/ccs-scale-api-definitions/master/OCDS_Params.yaml#/components/parameters/RFxParam'
+    put:
+      description: Indicate the contract has been signed.
+      tags:
+        - Manage Case
+      operationId: signed
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              $ref: 'https://raw.githubusercontent.com/ronin1972/ccs-scale-api-definitions/master/OCDS_Schema.yaml#/components/schemas/Contract'
+      responses:
+        '200':
+          description: ok
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: 'https://raw.githubusercontent.com/ronin1972/ccs-scale-api-definitions/master/CCS_Standard_API_Schema.yaml#/components/schemas/GenericID'
+        '401':
+          $ref: 'https://raw.githubusercontent.com/ronin1972/ccs-scale-api-definitions/master/CCS_Standard_Responses.yaml#/components/responses/401Unauthorized'
+        '403':
+          $ref: 'https://raw.githubusercontent.com/ronin1972/ccs-scale-api-definitions/master/CCS_Standard_Responses.yaml#/components/responses/403Forbidden'
+      security:
+        - OAuth2:
+            - write
+        - openID:
+            - write
+      summary: Sign Procurement
+components:
+  securitySchemes:
+    openID:
+      type: openIdConnect
+      openIdConnectUrl: 'https://accounts.google.com/.well-known/openid-configuration'
+    OAuth2:
+      type: oauth2
+      flows:
+        authorizationCode:
+          authorizationUrl: 'https://accounts.google.com/o/oauth2/v2/auth'
+          tokenUrl: 'https://oauth2.googleapis.com/token'
+          scopes:
+            openid: Standard scope
+            email: email
+            profile: profile
+            supplier: Grants access to act as a supplier
+            buyer: Grants access to act as a buyer
+            admin: Grants access to admin operations

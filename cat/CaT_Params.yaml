@@ -40,7 +40,7 @@ components:
       required: true
       description: Procurement Case ID
       schema:
-        $ref: '#/components/schemas/ProcurementID'
+        $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_Updates_2/cat/CaT_Schema.yaml#/components/schemas/ProcurementID'
         
     RFxParam:
       name: rfxID
@@ -48,7 +48,7 @@ components:
       required: true
       description: RFx ID
       schema:
-        $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_Updates_2/common/CCS_Standard_API_Schema.yaml#/components/schemas/ProcurementID'
+        $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_Updates_2//cat/CaT_Schema.yaml#/components/schemas/ProcurementID'
         
     HLNeedParam:
       name: hlNeedID

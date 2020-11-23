@@ -1,7 +1,7 @@
 components:
   schemas:
 
-    GenericID:
+    Generic:
       type: number
       format: integer
       example: 1234

@@ -56,7 +56,7 @@ components:
         id:  
           type: string
           format: uuid
-          description: 1234
+          description: '1234'
         organisation:  
           type: string
           format: uuid

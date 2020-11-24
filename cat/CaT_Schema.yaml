@@ -45,7 +45,7 @@ components:
     TeamList:
       type: array
       items:
-        $ref: '#/components/schemas/Team'
+        $ref: '#/components/schemas/TeamMember'
         
     Team:
       type: object

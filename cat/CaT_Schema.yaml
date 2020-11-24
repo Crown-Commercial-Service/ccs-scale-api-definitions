@@ -5,6 +5,12 @@ components:
       format: integer
       example: 1234
       readOnly: true
+      
+    TeamMemberID:
+      type: number
+      format: integer
+      example: 1234
+      readOnly: true
 
     TeamList:
       type: array

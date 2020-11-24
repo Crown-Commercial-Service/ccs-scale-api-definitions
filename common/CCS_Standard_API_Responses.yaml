@@ -6,6 +6,7 @@ components:
         application/vnd.api+json:
           schema:
             properties:
+                type: string
                 example: OK
                 default: OK
                 

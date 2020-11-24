@@ -29,7 +29,7 @@ paths:
           content:
             application/vnd.api+json:
               schema:
-                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/OCDS_Schema.yaml#/components/schemas/TsAndCs'
+                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CCS_Standard_API_.yaml#/components/schemas/TsAndCs'
         '401':
           $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CCS_Standard_API_Responses.yaml#/components/responses/401Unauthorized'
         '403':
@@ -76,7 +76,7 @@ paths:
         content:
           multipart/form-data:
             schema:
-              $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/cat/CaT_Params.yaml#/components/parameters/TeamParam'
+              $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/cat/CaT_Schema.yaml#/components/schemas/Team'
       responses:
         '201':
           $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CCS_Standard_API_Responses.yaml#/components/responses/201Success'

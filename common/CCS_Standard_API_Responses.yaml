@@ -5,10 +5,9 @@ components:
       content:
         application/vnd.api+json:
           schema:
-            properties:
-                type: string
-                example: 'OK'
-                default: 'OK'
+            type: string
+            example: OK
+
                 
   201Success:
       description: Success (for object creation). Its information is available in the data field at the top level of the response body. The API URL where the object can be retrieved is also returned in the Location header of the response.

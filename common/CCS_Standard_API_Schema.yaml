@@ -75,7 +75,7 @@ components:
         agreements:
           type: array
           items:
-            $ref: '#/components/schemas/Release' 
+            $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/OCDS_Schema.yaml#/components/schemas/Release' 
         accepted:
           type: boolean
           example: false

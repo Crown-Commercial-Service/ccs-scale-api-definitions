@@ -16,14 +16,14 @@ components:
       content:
         application/vnd.api+json:
           schema:
-            $ref: '#/components/schemas/GenericID'
+            $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CCS_Standard_API_Schema.yaml#/components/schemas/GenericID'
             
   400InvalidRequest:
       description: Invalid request. This usually occurs because of a missing or malformed parameter. Check the documentation and the syntax of your request and try again.Success (for object creation). Its information is available in the data field at the top level of the response body. The API URL where the object can be retrieved is also returned in the Location header of the response.
       content:
         application/vnd.api+json:
           schema:
-            $ref: '#/components/schemas/Errors'
+            $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CCS_Standard_API_Schema.yaml#/components/schemas/Errors'
            
   
   401Unauthorized:

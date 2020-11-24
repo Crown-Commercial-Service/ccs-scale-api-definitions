@@ -68,7 +68,7 @@ components:
           description: Name given to the team within the organisation
           example: Procurment Team A
           
-    TeamMembers:
+    TeamMemberList:
       type: array
       items:
         $ref: '#/components/schemas/TeamMember'

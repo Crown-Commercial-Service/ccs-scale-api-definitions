@@ -8,7 +8,7 @@ components:
       
     OrgID:
       type: string
-      example: GB-COH-05684804
+      example: GB-COH-056848041
       readOnly: true
       
     AgreementID:

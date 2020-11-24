@@ -61,7 +61,7 @@ components:
     TermID:
       type: string 
       format: uri
-      example: 'http://agreementservice.crowncommercial.gov.uk/agreement/1234'
+      example: 'http://agreementservice.crowncommercial.gov.uk/agreements/1234/term/1'
   
     Term:
       type: object
@@ -84,7 +84,7 @@ components:
         link:
           type: string 
           format: uri
-          example: 'https://www.gov.uk/government/publications/uk-government-modern-slavery-statement'
+          example: 'http://www.gov.uk/government/publications/uk-government-modern-slavery-statement'
           
     Document:
       type: object

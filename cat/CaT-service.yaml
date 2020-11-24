@@ -148,6 +148,17 @@ paths:
         - OAuth2:
             - buyer
       summary: List of Team members
+    
+  '/cat/organisation/{orgID}/teams/{teamID}/members/{teamMemberID}':
+    parameters:
+      - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CCS_Standard_API_Params.yaml#/components/parameters/OrgParam'
+      - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/cat/CaT_Params.yaml#/components/parameters/TeamParam'
+      - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/cat/CaT_Params.yaml#/components/parameters/TeamMemberParam'
+      - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CCS_Standard_API_Params.yaml#/components/parameters/x-correlation-id'
+      - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CCS_Standard_API_Params.yaml#/components/parameters/x-causation-id'
+      - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CCS_Standard_API_Params.yaml#/components/parameters/x-channel'
+      - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CCS_Standard_API_Params.yaml#/components/parameters/x-client'
+      
     put:
       description: Add a team member to a team.
       tags:
@@ -175,15 +186,6 @@ paths:
         - OAuth2:
             - buyer
       summary: Add team member
-  '/cat/organisation/{orgID}/teams/{teamID}/members/{teamMemberID}':
-    parameters:
-      - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CCS_Standard_API_Params.yaml#/components/parameters/OrgParam'
-      - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/cat/CaT_Params.yaml#/components/parameters/TeamParam'
-      - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/cat/CaT_Params.yaml#/components/parameters/TeamMemberParam'
-      - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CCS_Standard_API_Params.yaml#/components/parameters/x-correlation-id'
-      - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CCS_Standard_API_Params.yaml#/components/parameters/x-causation-id'
-      - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CCS_Standard_API_Params.yaml#/components/parameters/x-channel'
-      - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CCS_Standard_API_Params.yaml#/components/parameters/x-client'
 
     delete:
       description: Delete the CaT team within the organisation.

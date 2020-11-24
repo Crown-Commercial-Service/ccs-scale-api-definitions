@@ -889,6 +889,7 @@ components:
        #   '^(description_(((([A-Za-z]{2,3}(-([A-Za-z]{3}(-[A-Za-z]{3}){0,2}))?)|[A-Za-z]{4}|[A-Za-z]{5,8})(-([A-Za-z]{4}))?(-([A-Za-z]{2}|[0-9]{3}))?(-([A-Za-z0-9]{5,8}|[0-9][A-Za-z0-9]{3}))*(-([0-9A-WY-Za-wy-z](-[A-Za-z0-9]{2,8})+))*(-(x(-[A-Za-z0-9]{1,8})+))?)|(x(-[A-Za-z0-9]{1,8})+)))$':
        #     type: string
        #     default: null
+       
     Implementation:
         type: object
         title: Implementation
@@ -918,6 +919,7 @@ components:
             allOf:
               - $ref: '#/components/schemas/Document'
             uniqueItems: true
+            
     Milestone:
         title: Milestone
         description: >-
@@ -1047,7 +1049,6 @@ components:
       items:
           $ref: '#/components/schemas/Document'
           
-    
        
     Document:
         type: object
@@ -1208,6 +1209,7 @@ components:
        #   '^(description_(((([A-Za-z]{2,3}(-([A-Za-z]{3}(-[A-Za-z]{3}){0,2}))?)|[A-Za-z]{4}|[A-Za-z]{5,8})(-([A-Za-z]{4}))?(-([A-Za-z]{2}|[0-9]{3}))?(-([A-Za-z0-9]{5,8}|[0-9][A-Za-z0-9]{3}))*(-([0-9A-WY-Za-wy-z](-[A-Za-z0-9]{2,8})+))*(-(x(-[A-Za-z0-9]{1,8})+))?)|(x(-[A-Za-z0-9]{1,8})+)))$':
        #     type: string
        #     default: null
+       
     Budget:
         type: object
         title: Budget information
@@ -1756,6 +1758,7 @@ components:
          # '^(description_(((([A-Za-z]{2,3}(-([A-Za-z]{3}(-[A-Za-z]{3}){0,2}))?)|[A-Za-z]{4}|[A-Za-z]{5,8})(-([A-Za-z]{4}))?(-([A-Za-z]{2}|[0-9]{3}))?(-([A-Za-z0-9]{5,8}|[0-9][A-Za-z0-9]{3}))*(-([0-9A-WY-Za-wy-z](-[A-Za-z0-9]{2,8})+))*(-(x(-[A-Za-z0-9]{1,8})+))?)|(x(-[A-Za-z0-9]{1,8})+)))$':
          #   type: string
          #   default: null
+         
     Amendment:
         title: Amendment
         type: object
@@ -1843,6 +1846,7 @@ components:
         #  '^(rationale_(((([A-Za-z]{2,3}(-([A-Za-z]{3}(-[A-Za-z]{3}){0,2}))?)|[A-Za-z]{4}|[A-Za-z]{5,8})(-([A-Za-z]{4}))?(-([A-Za-z]{2}|[0-9]{3}))?(-([A-Za-z0-9]{5,8}|[0-9][A-Za-z0-9]{3}))*(-([0-9A-WY-Za-wy-z](-[A-Za-z0-9]{2,8})+))*(-(x(-[A-Za-z0-9]{1,8})+))?)|(x(-[A-Za-z0-9]{1,8})+)))$':
         #    type: string
         #    default: null
+        
     Classification:
         title: Classification
         description: >-
@@ -1895,6 +1899,7 @@ components:
         pattern: '^(description_(((([A-Za-z]{2,3}(-([A-Za-z]{3}(-[A-Za-z]{3}){0,2}))?)|[A-Za-z]{4}|[A-Za-z]{5,8})(-([A-Za-z]{4}))?(-([A-Za-z]{2}|[0-9]{3}))?(-([A-Za-z0-9]{5,8}|[0-9][A-Za-z0-9]{3}))*(-([0-9A-WY-Za-wy-z](-[A-Za-z0-9]{2,8})+))*(-(x(-[A-Za-z0-9]{1,8})+))?)|(x(-[A-Za-z0-9]{1,8})+)))$'
          #   type: string
          #   default: null
+         
     Identifier:
         title: Identifier
         description: A unique identifier for a party (organization).
@@ -1954,6 +1959,7 @@ components:
         #  '^(legalName_(((([A-Za-z]{2,3}(-([A-Za-z]{3}(-[A-Za-z]{3}){0,2}))?)|[A-Za-z]{4}|[A-Za-z]{5,8})(-([A-Za-z]{4}))?(-([A-Za-z]{2}|[0-9]{3}))?(-([A-Za-z0-9]{5,8}|[0-9][A-Za-z0-9]{3}))*(-([0-9A-WY-Za-wy-z](-[A-Za-z0-9]{2,8})+))*(-(x(-[A-Za-z0-9]{1,8})+))?)|(x(-[A-Za-z0-9]{1,8})+)))$':
          #   type: string
          #   default: null
+         
     Address:
         title: Address
         description: An address.
@@ -1988,6 +1994,7 @@ components:
          # '^(countryName_(((([A-Za-z]{2,3}(-([A-Za-z]{3}(-[A-Za-z]{3}){0,2}))?)|[A-Za-z]{4}|[A-Za-z]{5,8})(-([A-Za-z]{4}))?(-([A-Za-z]{2}|[0-9]{3}))?(-([A-Za-z0-9]{5,8}|[0-9][A-Za-z0-9]{3}))*(-([0-9A-WY-Za-wy-z](-[A-Za-z0-9]{2,8})+))*(-(x(-[A-Za-z0-9]{1,8})+))?)|(x(-[A-Za-z0-9]{1,8})+)))$':
          #   type: string
          #   default: null
+         
     ContactPoint:
         title: Contact point
         type: object
@@ -2053,8 +2060,6 @@ components:
             nullable: true
             #codelist: currency.csv
             #openCodeList: false
-          
-             
 
     Period:
         title: Period
@@ -2274,6 +2279,7 @@ components:
           uniqueItems: true
           minItems: 1
       minProperties: 1
+      
     Requirement:
       type: object
       title: Requirement
@@ -2517,8 +2523,6 @@ components:
             description: If this question and answer forms part of a discussion thread (e.g. the question is a follow up to a previous answer) an optional thread identifier can be used to associate together multiple enquiries.
             type: string
             nullable: true
-    
-
  
             
     Lot:
@@ -2654,42 +2658,6 @@ components:
       minProperties: 1
   
 
-
-
-    GenericID:
-      type: number
-      format: integer
-      example: 1234
-      readOnly: true
-      
-    AgreementID:
-      type: string
-      pattern: RM[1-9]{4}
-      example: RM1234
-      readOnly: true
-      
-    AgreementOCID:
-      type: string
-      pattern: ocds-RM[1-9]{4}
-      example: ocds-b5fd17-RM1234
-      readOnly: true
-      
-    ProcurementID:
-      type: number
-      format: string
-      example: 12345
-      readOnly: true  
-      
-    ProcurementIDList:
-      type: array
-      items:
-        $ref: '#/components/schemas/ProcurementID' 
-      
-    ProcurementOCID:
-      type: number
-      format: string
-      example: ocds-b5fd17-12345
-      readOnly: true
       
     Timestamp:
       type: string
@@ -2703,78 +2671,7 @@ components:
       format: email
       example: support@crowncommercial.org.uk
       
-    TsAndCs:
-      type: array
-      items:
-        $ref: '#/components/schemas/Term'
-        
-    TermID:
-      type: string 
-      format: uri
-      example: 'http://agreementservice.crowncommercial.gov.uk/agreement/1234'
-  
-    Term:
-      type: object
-      properties:
-        id:
-          $ref: '#/components/schemas/TermID'
-        name:
-          type: string
-          description: Short name of the term or condition
-          example: Modern Slavery
-        agreements:
-          type: array
-          items:
-            $ref: '#/components/schemas/Release' 
-        accepted:
-          type: boolean
-          example: false
-          default: false
-        text:
-          type: string
-          description: Text of the terms and conditions that the user is asked to sign up to
-          example: The government’s task force on modern slavery has endorsed a government-wide strategy to tackle this issue. The strategy has identified actions to ensure modern slavery is tackled in government supply chains through public procurement and has committed to publishing its own modern slavery statement in December 2019
-          default: ''
-        link:
-          type: string 
-          format: uri
           
-    TeamList:
-      type: array
-      items:
-        $ref: '#/components/schemas/Team'
-        
-    Team:
-      type: object
-      description: Team who work together on bids or procurements
-      required:
-        - name
-      properties: 
-        id:  
-          type: string
-          format: uuid
-          description: Unique identifier for the team
-        organisation:  
-          type: string
-          format: uuid
-          description: Organisation that has defined the team
-        name:  
-          type: string
-          default: UAH
-          description: Name given to the team within the organisation
-          
-    ExtendCriteria:
-      description: >-
-        Data required to extend the period for tender submissions. It must not exceed the orginal extention limit defined on a tender.
-      type: object
-      properties:
-        endDate:
-            title: End date
-            description: >-
-              The new end date for the period. 
-            type: string
-            nullable: true
-            format: date-time
     
     TerminationTypes:
       description: >-
@@ -2812,115 +2709,11 @@ components:
         "direct"
         ]
         
-    RFxTypes:
-      description: >-
-        Generic term for an event put out to the market. There are several types-
 
-          * EOI - Expression of Interest
-          * RFI -  Request for Information
-          * RFP - Request for Proposal
-      type: array
-      items:
-        $ref: '#/components/schemas/RFxType'
-      example: [
-        "EOI",
-        "RFI",
-        "RFP"
-        ]
-        
-    RFxStatus:
-      description: >-
-        Generic term for an event put out to the market. Each is an optional procurement step in the procurement process. This casll shows the current status of each in the procurement process.
-      type: array
-      items:
-        type: object
-        properties:
-          id: 
-            type: string
-          ocid:
-            type: string
-          type:
-            allOf:
-              - $ref: '#/components/schemas/RFxType'
-            example: RFP
-          status:
-            type: string
-            allOf:
-              - $ref: '#/components/schemas/TenderStatus'
-              
-    DefaultName:
-      type: object
-      properties:
-        name:
-          type: string
-          example: <org>-<agreement>-<ID>
-        components:
-          type: object
-          properties:
-            org:
-              type: string
-              example: <org>
-            agreement:
-              type: string
-              example: <agreement>
-            identifier:
-              type: string
-              example: <ID>
-          
-    Errors:
-      type: object
-      properties:
-        status: 
-          type: string
-        errors:
-          $ref: '#/components/schemas/Error'
-        
 
-          
-    Error:
-      type: object
-      description: Single error on a HTTP request
-      properties:
-        location: 
-          type: string
-        name: 
-          type: string
-        description:
-          type: string
-          example: No JSON object could be decoded
 
 # Reusable Enums    
 
-    ProcurementMethod:
-      title: RFx types
-      description: >-
-        Different Options for procurement. There are several types-
-
-          * open
-          * selective
-          * limited
-          * direct
-      type: string
-      enum:
-            - open
-            - selective
-            - limited
-            - direct
-
-
-    RFxType:
-      title: RFx types
-      description: >-
-        Generic term for an event put out to the market. There are several types-
-
-          * EOI - Expression of Interest
-          * RFI -  Request for Information
-          * RFP - Request for Proposal
-      type: string
-      enum:
-          - EOI
-          - RFI
-          - RFP
           
     TerminationType:
       title: RFx types

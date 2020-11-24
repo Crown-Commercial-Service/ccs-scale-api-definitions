@@ -1,6 +1,6 @@
 components:
   schemas:
-    GenericID:
+    TeamID:
       type: number
       format: integer
       example: 1234
@@ -18,9 +18,9 @@ components:
         - name
       properties: 
         id:  
-          type: string
-          format: uuid
-          description: '1234'
+          allOf: 
+            - $ref: '#/components/schemas/TeamID'
+          description: 'Unique Identifier for the team.'
         organisation:  
           description: Organisation that has defined the team
           allOf: 

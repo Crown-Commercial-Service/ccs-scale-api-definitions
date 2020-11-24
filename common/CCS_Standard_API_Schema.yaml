@@ -6,6 +6,11 @@ components:
       example: 1234
       readOnly: true
       
+    OrgID:
+      type: string
+      example: GB-COH-05684804
+      readOnly: true
+      
     AgreementID:
       type: string
       pattern: RM[1-9]{4}

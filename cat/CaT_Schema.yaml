@@ -17,10 +17,11 @@ components:
       required:
         - name
       properties: 
-        id:  
+        id:
+          description: 'Unique Identifier for the team.'
           allOf: 
             - $ref: '#/components/schemas/TeamID'
-          description: 'Unique Identifier for the team.'
+          
         organisation:  
           description: Organisation that has defined the team
           allOf: 

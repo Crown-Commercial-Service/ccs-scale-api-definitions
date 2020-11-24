@@ -16,7 +16,6 @@ components:
       content:
         application/vnd.api+json:
           schema:
-            properties:
                 $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CCS_Standard_API_Schema.yaml#/components/schemas/GenericID'
            
             

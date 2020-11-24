@@ -19,6 +19,7 @@ components:
       properties: 
         id:
           description: 'Unique Identifier for the team.'
+          readOnly: true
           allOf: 
             - $ref: '#/components/schemas/TeamID'
           
@@ -41,23 +42,20 @@ components:
       type: object
       description: Team who work together on bids or procurements
       required:
+        - id
         - name
       properties: 
         id:  
           type: string
+          readOnly: true
           format: uuid
           description: 'ID of the team member'
           example: 222
-        organisation:  
-          type: string
-          format: uuid
-          description: Organisation that has defined the team
-          example: 111
         name:  
           type: string
           default: UAH
-          description: Name given to the team within the organisation
-          example: Procurment bbbb
+          description: Name of the tream member
+          example: Fred Bloggs
 
           
             

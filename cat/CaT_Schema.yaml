@@ -10,7 +10,6 @@ components:
       type: number
       format: integer
       example: 1234
-      readOnly: true
 
     TeamList:
       type: array

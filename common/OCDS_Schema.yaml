@@ -27,7 +27,7 @@ components:
     Release:
       title: OCDS Release
       allOf:
-        - $ref: 'https://raw.githubusercontent.com/ronin1972/ccs-scale-api-definitions/master/OCDS_Schema.yaml#/components/schemas/ReleaseSummary'
+        - $ref: '#/components/schemas/ReleaseSummary'
       properties:
         description:
           title: Description

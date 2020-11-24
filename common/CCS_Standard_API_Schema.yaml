@@ -84,6 +84,7 @@ components:
         link:
           type: string 
           format: uri
+          example: https://www.gov.uk/government/publications/uk-government-modern-slavery-statement
           
     Document:
       type: object

@@ -23,7 +23,7 @@ components:
           description: '1234'
         organisation:  
           description: Organisation that has defined the team
-          allof: 
+          allOf: 
             - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CCS_Standard_API_Schema.yaml#/components/schemas/OrgID'
         name:  
           type: string

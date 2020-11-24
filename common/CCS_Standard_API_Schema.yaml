@@ -105,7 +105,6 @@ components:
           type: string
           description: The type of document e.g. overview, t&cs, guidance, how to buy, contract notice etc
 
-#
     Errors:
       type: object
       properties:
@@ -113,7 +112,7 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Error'
-#
+            
     Error:
       type: object
       properties:

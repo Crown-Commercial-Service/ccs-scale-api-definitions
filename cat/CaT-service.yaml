@@ -453,7 +453,7 @@ paths:
       security:
         - OAuth2:
             - buyer
-      summary: Get get RFx statuses on case  
+      summary: Get options to close project  
       
       
       
@@ -489,7 +489,7 @@ paths:
       security:
         - OAuth2:
             - buyer
-      summary: Confirm procurement project
+      summary: Close procurement project
         
       
       

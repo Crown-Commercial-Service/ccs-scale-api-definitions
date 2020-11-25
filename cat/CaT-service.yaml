@@ -258,6 +258,7 @@ paths:
         - OAuth2:
             - buyer
       summary: List RFx types
+      
   '/cat/ProcurementProjects/defaultName/agreements/{agreementID}/lots/{lotID}':
     parameters:
       - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CCS_Standard_API_Params.yaml#/components/parameters/OrgParam'
@@ -288,7 +289,7 @@ paths:
         - OAuth2:
             - buyer
       summary: Get Default Name
-  /cat/ProcurementProjects/GMTransfer:
+  '/cat/ProcurementProjects/GMTransfer':
     parameters:
       - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CCS_Standard_API_Params.yaml#/components/parameters/OrgParam'
       - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CCS_Standard_API_Params.yaml#/components/parameters/x-correlation-id'
@@ -355,9 +356,10 @@ paths:
         - OAuth2:
             - buyer
       summary: Tranfer from Facilities Managment
-  /cat/ProcurementProjects/Agreement:
+  /CaT/ProcurementProject/Agreements{agreementID}/Lots/{LotID}:
     parameters:
       - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CCS_Standard_API_Params.yaml#/components/parameters/AgreementParam'
+      - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CCS_Standard_API_Params.yaml#/components/parameters/LotParam'
       - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CCS_Standard_API_Params.yaml#/components/parameters/x-correlation-id'
       - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CCS_Standard_API_Params.yaml#/components/parameters/x-causation-id'
       - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CCS_Standard_API_Params.yaml#/components/parameters/x-channel'
@@ -422,6 +424,75 @@ paths:
         - OAuth2:
             - buyer
       summary: Confirm procurement project
+      
+      
+  '/CaT/ProcurementProject/{procID}/close/options':
+    parameters:
+      - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CCS_Standard_API_Params.yaml#/components/parameters/ProcurementParam'
+      - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CCS_Standard_API_Params.yaml#/components/parameters/x-correlation-id'
+      - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CCS_Standard_API_Params.yaml#/components/parameters/x-causation-id'
+      - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CCS_Standard_API_Params.yaml#/components/parameters/x-channel'
+      - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CCS_Standard_API_Params.yaml#/components/parameters/x-client'
+
+    get:
+      description: Get the options available to close a project.
+      tags:
+        - Manage Case
+      operationId: ProcurementProjectCloseOptions
+      responses:
+        '200':
+          description: ok
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/OCDS_Schema.yaml#/components/schemas/ProcessStage'
+        '401':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CCS_Standard_Responses.yaml#/components/responses/401Unauthorized'
+        '403':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CCS_Standard_Responses.yaml#/components/responses/403Forbidden'
+      security:
+        - OAuth2:
+            - buyer
+      summary: Get get RFx statuses on case  
+      
+      
+      
+  '/CaT/ProcurementProject/{procID}/close':
+    parameters:
+      - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CCS_Standard_API_Params.yaml#/components/parameters/ProcurementParam'
+      - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CCS_Standard_API_Params.yaml#/components/parameters/x-correlation-id'
+      - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CCS_Standard_API_Params.yaml#/components/parameters/x-causation-id'
+      - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CCS_Standard_API_Params.yaml#/components/parameters/x-channel'
+      - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CCS_Standard_API_Params.yaml#/components/parameters/x-client'
+
+    put:
+      description: Close the Procurement Project with an option allowed.
+      tags:
+        - Manage Case
+      operationId: ProcurementProjectClose
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CCS_Standard_API_Schema.yaml#/components/schemas/GenericID'
+      responses:
+        '200':
+          description: ok
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CCS_Standard_API_Schema.yaml#/components/schemas/GenericID'
+        '401':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CCS_Standard_Responses.yaml#/components/responses/401Unauthorized'
+        '403':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CCS_Standard_Responses.yaml#/components/responses/403Forbidden'
+      security:
+        - OAuth2:
+            - buyer
+      summary: Confirm procurement project
+        
+      
+      
   '/CaT/ProcurementProjects/{procID}/status':
     parameters:
       - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CCS_Standard_API_Params.yaml#/components/parameters/ProcurementParam'

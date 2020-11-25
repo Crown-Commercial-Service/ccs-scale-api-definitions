@@ -40,7 +40,7 @@ paths:
             - write
       summary: Ts and Cs
       
-  '/cat/organisation/{orgID}/teams':
+  '/cat/organisations/{orgID}/teams':
     parameters:
       - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CCS_Standard_API_Params.yaml#/components/parameters/OrgParam'
       - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CCS_Standard_API_Params.yaml#/components/parameters/x-correlation-id'
@@ -93,7 +93,7 @@ paths:
         - OAuth2:
             - buyer
       summary: Create a new team
-  '/cat/organisation/{orgID}/teams/{teamID}':
+  '/cat/organisations/{orgID}/teams/{teamID}':
     parameters:
       - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CCS_Standard_API_Params.yaml#/components/parameters/OrgParam'
       - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/cat/CaT_Params.yaml#/components/parameters/TeamParam'
@@ -119,7 +119,7 @@ paths:
             - buyer
       summary: Delete team
       
-  '/cat/organisation/{orgID}/teams/{teamID}/members':
+  '/cat/organisations/{orgID}/teams/{teamID}/members':
     parameters:
       - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CCS_Standard_API_Params.yaml#/components/parameters/OrgParam'
       - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/cat/CaT_Params.yaml#/components/parameters/TeamParam'
@@ -149,7 +149,7 @@ paths:
             - buyer
       summary: List of Team members
     
-  '/cat/organisation/{orgID}/teams/{teamID}/members/{teamMemberID}':
+  '/cat/organisations/{orgID}/teams/{teamID}/members/{teamMemberID}':
     parameters:
       - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CCS_Standard_API_Params.yaml#/components/parameters/OrgParam'
       - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/cat/CaT_Params.yaml#/components/parameters/TeamParam'
@@ -207,7 +207,7 @@ paths:
         - OAuth2:
             - buyer
       summary: List of Team members
-  '/cat/account/{self}/teams':
+  '/cat/accounts/{self}/teams':
     parameters:
       - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CCS_Standard_API_Params.yaml#/components/parameters/SelfParam'
       - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CCS_Standard_API_Params.yaml#/components/parameters/x-correlation-id'

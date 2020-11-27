@@ -206,7 +206,8 @@ paths:
       security:
         - OAuth2:
             - buyer
-      summary: List of Team members
+      summary: Delete a team member from the team.
+      
   '/cat/accounts/{self}/teams':
     parameters:
       - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CCS_Standard_API_Params.yaml#/components/parameters/SelfParam'
@@ -257,7 +258,7 @@ paths:
       security:
         - OAuth2:
             - buyer
-      summary: List RFx types
+      summary: List Procurement Event types
       
   '/cat/ProcurementProjects/defaultName/agreements/{agreementID}/lots/{lotID}':
     parameters:
@@ -272,7 +273,7 @@ paths:
     get:
       description: Retrieve a default name fora Procurement Case using a given agreement.
       tags:
-        - Create Case
+        - Create Procurement Project
       operationId: Default Name
       responses:
         '200':
@@ -300,7 +301,7 @@ paths:
     post:
       description: Create a new Team.
       tags:
-        - Create Case
+        - Create Procurement Project
       operationId: CreateGMCase
       requestBody:
         content:
@@ -334,7 +335,7 @@ paths:
       deprecated: true
       description: Create Facilities Management procurement case.
       tags:
-        - Create Case
+        - Create Procurement Project
       operationId: CreateFMCase
       requestBody:
         content:
@@ -355,7 +356,44 @@ paths:
       security:
         - OAuth2:
             - buyer
-      summary: Tranfer from Facilities Managment
+      summary: Transfer from Facilities Managment
+      
+  /cat/ProcurementProjects/BaTTransfer:
+    parameters:
+      - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/cat/CaT_Schema.yaml#/components/parameters/BaTParam'
+      - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CCS_Standard_API_Params.yaml#/components/parameters/x-correlation-id'
+      - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CCS_Standard_API_Params.yaml#/components/parameters/x-causation-id'
+      - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CCS_Standard_API_Params.yaml#/components/parameters/x-channel'
+      - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CCS_Standard_API_Params.yaml#/components/parameters/x-client'
+
+    post:
+      deprecated: true
+      description: Create procurement case based on BaT data when it becomes apparent more suited to CaT.
+      tags:
+        - Create Procurement Project
+      operationId: CreateFMCase
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/cat/CaT_Schema.yaml#/components/schemas/DefaultName'
+      responses:
+        '200':
+          description: ok
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/OCDS_Schema.yaml#/components/schemas/Release'
+        '401':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CCS_Standard_API_Responses.yaml#/components/responses/401Unauthorized'
+        '403':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CCS_Standard_API_Responses.yaml#/components/responses/403Forbidden'
+      security:
+        - OAuth2:
+            - buyer
+      summary: Transferfrom Buy a Thing
+      
+      
   /CaT/ProcurementProject/agreements/{agreementID}/lots/{lotID}:
     parameters:
       - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CCS_Standard_API_Params.yaml#/components/parameters/AgreementParam'
@@ -368,7 +406,7 @@ paths:
     post:
       description: Create a new procurement for the chosen Agreement.
       tags:
-        - Create Case
+        - Create Procurement Project
       operationId: CreateAgreementCase
       requestBody:
         content:
@@ -402,7 +440,7 @@ paths:
     post:
       description: Confirm the details transfered or created for the agreement are what the user wants.
       tags:
-        - Create Case
+        - Create Procurement Project
       operationId: ConfirmProcurementProject
       requestBody:
         content:
@@ -437,7 +475,7 @@ paths:
     get:
       description: Get the options available to close a project.
       tags:
-        - Manage Case
+        - Manage Procurement Project
       operationId: ProcurementProjectCloseOptions
       responses:
         '200':
@@ -455,6 +493,60 @@ paths:
             - buyer
       summary: Get options to close project  
       
+  '/CaT/ProcurementProject/{procID}/users':
+    parameters:
+      - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/cat/CaT_Params.yaml#/components/parameters/ProcurementParam'
+      - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CCS_Standard_API_Params.yaml#/components/parameters/x-correlation-id'
+      - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CCS_Standard_API_Params.yaml#/components/parameters/x-causation-id'
+      - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CCS_Standard_API_Params.yaml#/components/parameters/x-channel'
+      - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CCS_Standard_API_Params.yaml#/components/parameters/x-client'
+
+    get:
+      description: Get the options available to close a project.
+      tags:
+        - Manage Procurement Project
+      operationId: ProcurementProjectCloseOptions
+      responses:
+        '200':
+          description: ok
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/OCDS_Schema.yaml#/components/schemas/ProcessStage'
+        '401':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CCS_Standard_Responses.yaml#/components/responses/401Unauthorized'
+        '403':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CCS_Standard_Responses.yaml#/components/responses/403Forbidden'
+      security:
+        - OAuth2:
+            - buyer
+      summary: Get options to close project
+      
+    put:
+      description: Confirm the details transfered or created for the agreement are what the user wants.
+      tags:
+        - Manage Procurement Project
+      operationId: ConfirmProcurementProject
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CCS_Standard_API_Schema.yaml#/components/schemas/GenericID'
+      responses:
+        '200':
+          description: ok
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CCS_Standard_API_Schema.yaml#/components/schemas/GenericID'
+        '401':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CCS_Standard_Responses.yaml#/components/responses/401Unauthorized'
+        '403':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CCS_Standard_Responses.yaml#/components/responses/403Forbidden'
+      security:
+        - OAuth2:
+            - buyer
+      summary: Confirm procurement project 
       
       
   '/CaT/ProcurementProject/{procID}/close':
@@ -468,7 +560,7 @@ paths:
     put:
       description: Close the Procurement Project with an option allowed.
       tags:
-        - Manage Case
+        - Manage Procurement Project
       operationId: ProcurementProjectClose
       requestBody:
         content:
@@ -502,9 +594,9 @@ paths:
       - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CCS_Standard_API_Params.yaml#/components/parameters/x-client'
 
     get:
-      description: Get RFx's status's for this case (Is this the same as get RFx's?)
+      description: Get Events status's for this Project (Is this the same as get RFx's?)
       tags:
-        - Define Case
+        - Define Procurement Event
       operationId: RFXStatus
       responses:
         '200':
@@ -520,7 +612,8 @@ paths:
       security:
         - OAuth2:
             - buyer
-      summary: Get get RFx statuses on case
+      summary: Get get Event statuses on Procurement Project
+      
   '/cat/ProcurementProjects/{procID}/events':
     parameters:
       - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/cat/CaT_Params.yaml#/components/parameters/ProcurementParam'
@@ -532,7 +625,7 @@ paths:
     get:
       description: Get Event's for this Project. In OCDS this is the related cases of Type
       tags:
-        - Define Case
+        - Define Procurement Event
       operationId: caseRFXs
       responses:
         '200':
@@ -548,11 +641,11 @@ paths:
       security:
         - OAuth2:
             - buyer
-      summary: Get Event's for the Project
+      summary: Get Event's for the Procurement Project
     post:
-      description: Creates a new RFx for the case.
+      description: Creates a new Event for the Procurement Project.
       tags:
-        - Define Case
+        - Define Procurement Event
       operationId: createCaseRFx
       requestBody:
         content:
@@ -573,9 +666,9 @@ paths:
       security:
         - OAuth2:
             - buyer
-      summary: Confirm procurement case
+      summary: Create a Procurement Event
       
-  '/cat/ProcurementProjects/{procID}/events/{eventID}/Needs':
+  '/cat/ProcurementProjects/{procID}/events/{eventID}/needs':
     parameters:
       - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/cat/CaT_Params.yaml#/components/parameters/ProcurementParam'
       - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/cat/CaT_Params.yaml#/components/parameters/EventParam'
@@ -585,10 +678,10 @@ paths:
       - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CCS_Standard_API_Params.yaml#/components/parameters/x-client'
 
     get:
-      description: Get the High Level needs requirted for the RFx for this case
+      description: Get the needs required for the Event for this Project
       tags:
-        - Define Case
-      operationId: HLNeeds
+        - Define Procurement Event
+      operationId: needs
       responses:
         '200':
           description: ok
@@ -603,13 +696,13 @@ paths:
       security:
         - OAuth2:
             - buyer
-      summary: Get High Level Needs
+      summary: Get Event Needs
       
-  '/cat/ProcurementProjects/{procID}/events/{eventID}/Needs/{hlNeedID}/forms':
+  '/cat/ProcurementProjects/{procID}/events/{eventID}/needs/{needID}/forms':
     parameters:
       - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/cat/CaT_Params.yaml#/components/parameters/ProcurementParam'
       - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/cat/CaT_Params.yaml#/components/parameters/EventParam'
-      - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/cat/CaT_Params.yaml#/components/parameters/HLNeedParam'
+      - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/cat/CaT_Params.yaml#/components/parameters/NeedParam'
       - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CCS_Standard_API_Params.yaml#/components/parameters/x-correlation-id'
       - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CCS_Standard_API_Params.yaml#/components/parameters/x-causation-id'
       - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CCS_Standard_API_Params.yaml#/components/parameters/x-channel'
@@ -618,7 +711,7 @@ paths:
     get:
       description: Get form data for this high level need.
       tags:
-        - Define Case
+        - Define Procurement Event
       operationId: HLNeedForm
       responses:
         '200':
@@ -638,7 +731,7 @@ paths:
     put:
       description: Updates form data for a High Level Need.
       tags:
-        - Define Case
+        - Define Procurement Event
       operationId: updateHLNeedForm
       requestBody:
         content:
@@ -674,7 +767,7 @@ paths:
     get:
       description: Get documents associated with the need for a given event in a Procurement Project.
       tags:
-        - Define Case
+        - Define Procurement Event
       operationId: HLNeedDocument
       responses:
         '200':
@@ -694,7 +787,7 @@ paths:
     put:
       description: Creates a new RFx for the case.
       tags:
-        - Define Case
+        - Define Procurement Event
       operationId: updateHLNeedDocument
       requestBody:
         content:
@@ -717,7 +810,7 @@ paths:
             - buyer
       summary: Confirm procurement case
       
-  '/cat/ProcurementProjects/{procID}/events/{EventID}/suppliers':
+  '/cat/ProcurementProjects/{procID}/events/{eventID}/suppliers':
     parameters:
       - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/cat/CaT_Params.yaml#/components/parameters/ProcurementParam'
       - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/cat/CaT_Params.yaml#/components/parameters/EventParam'
@@ -729,7 +822,7 @@ paths:
     get:
       description: Get RFx's for this case
       tags:
-        - Define Case
+        - Define Procurement Event
       operationId: Suppliers
       responses:
         '200':
@@ -751,7 +844,7 @@ paths:
     post:
       description: Creates a new RFx for the case.
       tags:
-        - Define Case
+        - Define Procurement Event
       operationId: addSupplier
       requestBody:
         content:
@@ -783,7 +876,7 @@ paths:
     delete:
       description: Creates a new RFx for the case.
       tags:
-        - Define Case
+        - Define Procurement Event
       operationId: removeSuppliers
       responses:
         '200':
@@ -808,7 +901,7 @@ paths:
     get:
       description: Gets Summary Data for RFx
       tags:
-        - Define Case
+        - Define Procurement Event
       operationId: RFxSummary
       responses:
         '200':
@@ -837,7 +930,7 @@ paths:
     get:
       description: Get the options open to go to market
       tags:
-        - Manage Case
+        - Manage Procurement Project
       operationId: GoToMarketOptions
       responses:
         '200':
@@ -867,7 +960,7 @@ paths:
     put:
       description: Release the Event to the market.
       tags:
-        - Manage Case
+        - Manage Procurement Project
       operationId: GotoMarket
       requestBody:
         content:
@@ -901,7 +994,7 @@ paths:
     put:
       description: Extend the end date for responses to the Event.
       tags:
-        - Manage Case
+        - Manage Procurement Project
       operationId: extendRFx
       requestBody:
         content:
@@ -932,7 +1025,7 @@ paths:
     get:
       description: Gets the status of a an event within a process.
       tags:
-        - Manage Case
+        - Manage Procurement Project
       operationId: RFxStatus
       responses:
         '200':
@@ -962,7 +1055,7 @@ paths:
     get:
       description: Get responses from all suppliers
       tags:
-        - Responses
+        - View Responses
       operationId: allResponses
       responses:
         '200':
@@ -992,7 +1085,7 @@ paths:
     get:
       description: Get responses from a supplier
       tags:
-        - Responses
+        - View Responses
       operationId: SupplierResponses
       responses:
         '200':
@@ -1022,7 +1115,7 @@ paths:
     get:
       description: Get responses Details
       tags:
-        - Responses
+        - View Responses
       operationId: ResponseDetail
       responses:
         '200':
@@ -1052,7 +1145,7 @@ paths:
     get:
       description: Get a list of HL Needs within the response for the RFx within the Procurement event. (May only ever be one in List). Indicates which have mandatory details complete. Offline will just verify file exists)
       tags:
-        - Responses
+        - View Responses
       operationId: HLNeedsResponse
       responses:
         '200':
@@ -1083,7 +1176,7 @@ paths:
     get:
       description: 'Gets the response data held within the needs form specified (May be blank, pre-populated or contain data previously entered)'
       tags:
-        - Responses
+        - View Responses
       operationId: HLNeedsFormResponse
       responses:
         '200':
@@ -1103,7 +1196,7 @@ paths:
     put:
       description: Updates Suppliers response to High Level needs fields
       tags:
-        - Supplier
+        - Supplier Responds
       operationId: updateHLNeedFormResponse
       requestBody:
         content:
@@ -1140,7 +1233,7 @@ paths:
     get:
       description: Gets a file that can be updated off line and then uploaded when complete. (Should this always be blank or only the first time?)
       tags:
-        - Responses
+        - View Responses
       operationId: HLNeedsDocumentResponse
       responses:
         '200':
@@ -1160,7 +1253,7 @@ paths:
     post:
       description: Replaces the response file stored against this need.
       tags:
-        - Supplier
+        - Supplier Responds
       operationId: updateHLNeedDocumentResponse
       requestBody:
         content:
@@ -1195,7 +1288,7 @@ paths:
     post:
       description: Indicates that the Supplier is happy for the response to go to the Buyer
       tags:
-        - Supplier
+        - Supplier Responds
       operationId: supplierResponseComplete
       responses:
         '200':
@@ -1224,7 +1317,7 @@ paths:
     get:
       description: 'Get a request for further information (includes free text and any files}'
       tags:
-        - Further Information
+        - Messaging
       operationId: furtherInfoRequest
       responses:
         '200':
@@ -1244,7 +1337,7 @@ paths:
     post:
       description: Create a new porocurement for the chosen Agreement.
       tags:
-        - Further Information
+        - Messaging
       operationId: createFurtherInfoRequest
       requestBody:
         content:
@@ -1280,7 +1373,7 @@ paths:
     get:
       description: 'Get a request for further information (includes free text and any files}'
       tags:
-        - Further Information
+        - Messaging
       operationId: supplierFurtherInfoRequest
       responses:
         '200':
@@ -1300,7 +1393,7 @@ paths:
     post:
       description: Create a new porocurement for the chosen Agreement.
       tags:
-        - Further Information
+        - Messaging
       operationId: createSupplierFurtherInfoRequest
       requestBody:
         content:
@@ -1325,7 +1418,7 @@ paths:
     put:
       description: Respond to a Request for further information
       tags:
-        - Supplier
+        - Supplier Responds
       operationId: supplierFurtherInfo
       requestBody:
         content:
@@ -1359,7 +1452,7 @@ paths:
     get:
       description: Export all responses for all suppliers on an RFx
       tags:
-        - Responses
+        - View Responses
       operationId: exportAllResponses
       responses:
         '200':
@@ -1490,7 +1583,7 @@ paths:
     get:
       description: Respond to a Request for further information
       tags:
-        - Manage Case
+        - Manage Procurement Project
       operationId: terminateOptions
       responses:
         '200':
@@ -1519,7 +1612,7 @@ paths:
     put:
       description: Terminate the RFx
       tags:
-        - Manage Case
+        - Manage Procurement Project
       operationId: terminate
       requestBody:
         content:
@@ -1553,7 +1646,7 @@ paths:
     put:
       description: Awards the contract to a supplier. RFx must be of type RFP
       tags:
-        - Manage Case
+        - Manage Procurement Project
       operationId: award
       requestBody:
         content:
@@ -1587,7 +1680,7 @@ paths:
     put:
       description: Indicate the contract has been signed.
       tags:
-        - Manage Case
+        - Manage Procurement Project
       operationId: signed
       requestBody:
         content:

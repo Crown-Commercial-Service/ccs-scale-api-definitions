@@ -1,1 +1,10 @@
+components:
+  schemas:
+    BaTID:
+      type: number
+      format: integer
+      example: 1234
+      readOnly: true
+      
+
 

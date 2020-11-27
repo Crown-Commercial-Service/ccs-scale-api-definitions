@@ -1,1 +1,11 @@
-
+omponents:
+  parameters:
+    
+    BaTParam:
+      name: batID
+      in: path
+      required: true
+      description: Team ID
+      schema:
+        $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/bat/bat-schema.yaml#/components/schemas/BaTID'
+        

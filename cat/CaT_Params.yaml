@@ -42,11 +42,11 @@ components:
       schema:
         $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/cat/CaT_Schema.yaml#/components/schemas/ProcurementID'
         
-    RFxParam:
-      name: rfxID
+    EventParam:
+      name: eventID
       in: path
       required: true
-      description: RFx ID
+      description: Procurement Event ID
       schema:
         $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/cat/CaT_Schema.yaml#/components/schemas/ProcurementID'
         
@@ -54,23 +54,24 @@ components:
       name: hlNeedID
       in: path
       required: true
-      description: High Level Need ID
+      description: High Level Procurement Need ID
       schema:
         $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CCS_Standard_API_Schema.yaml#/components/schemas/GenericID'
         
-    SupplierParam:
-      name: supplierID
+    NeedParam:
+      name: needID
       in: path
       required: true
-      description: Supplier ID
+      description: Procurement Need ID
       schema:
         $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CCS_Standard_API_Schema.yaml#/components/schemas/GenericID'
+
         
     ResponseParam:
       name: responseID
       in: path
       required: true
-      description: High Level Need ID
+      description: Response ID to a Procurement Need
       schema:
         $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CCS_Standard_API_Schema.yaml#/components/schemas/GenericID'
         

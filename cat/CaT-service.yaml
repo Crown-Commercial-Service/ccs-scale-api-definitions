@@ -356,7 +356,7 @@ paths:
         - OAuth2:
             - buyer
       summary: Tranfer from Facilities Managment
-  /CaT/ProcurementProject/Agreements{agreementID}/Lots/{LotID}:
+  /CaT/ProcurementProject/agreements/{agreementID}/lots/{lotID}:
     parameters:
       - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CCS_Standard_API_Params.yaml#/components/parameters/AgreementParam'
       - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CCS_Standard_API_Params.yaml#/components/parameters/LotParam'

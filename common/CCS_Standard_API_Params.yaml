@@ -14,23 +14,7 @@ components:
       required: true
       description: Organisation ID
       schema:
-        $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Schema.yaml#/components/schemas/GenericID'
-        
-    TeamParam:
-      name: teamID
-      in: path
-      required: true
-      description: Team ID
-      schema:
-        $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Schema.yaml#/components/schemas/GenericID'
-        
-    TeamMemberParam:
-      name: teamMemberID
-      in: path
-      required: true
-      description: Team member ID
-      schema:
-        $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Schema.yaml#/components/schemas/GenericID'
+        $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Schema.yaml#/components/schemas/OrgID'
         
     AgreementParam:
       name: agreementID
@@ -48,46 +32,6 @@ components:
       schema:
         $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Schema.yaml#/components/schemas/LotID'
         
-    GMParam:
-      name: GuidedMatchHistoryID
-      in: query
-      required: true
-      description: Guided Match ID
-      schema:
-        $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Schema.yaml#/components/schemas/GenericID'
-        
-    FMParam:
-      name: FMID
-      in: query
-      required: true
-      description: Facilities Management Transfer ID
-      schema:
-        $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Schema.yaml#/components/schemas/GenericID'
-        
-    ProcurementParam:
-      name: procID
-      in: path
-      required: true
-      description: Procurement Case ID
-      schema:
-        $ref: '#/components/schemas/ProcurementID'
-        
-    RFxParam:
-      name: rfxID
-      in: path
-      required: true
-      description: RFx ID
-      schema:
-        $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Schema.yaml#/components/schemas/ProcurementID'
-        
-    HLNeedParam:
-      name: hlNeedID
-      in: path
-      required: true
-      description: High Level Need ID
-      schema:
-        $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Schema.yaml#/components/schemas/GenericID'
-        
     SupplierParam:
       name: supplierID
       in: path
@@ -96,14 +40,7 @@ components:
       schema:
         $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Schema.yaml#/components/schemas/GenericID'
         
-    ResponseParam:
-      name: responseID
-      in: path
-      required: true
-      description: High Level Need ID
-      schema:
-        $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Schema.yaml#/components/schemas/GenericID'
-        
+    
     x-correlation-id:
       name: x-correlation-id
       in: header

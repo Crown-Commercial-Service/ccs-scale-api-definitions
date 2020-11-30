@@ -11,6 +11,11 @@ components:
       example: GB-COH-05684804
       readOnly: true
       
+    UserID:
+      type: string
+      example: 12345
+      readOnly: true
+      
     AgreementID:
       type: string
       pattern: RM[1-9]{4}

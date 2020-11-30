@@ -882,7 +882,7 @@ paths:
       description: Get form data for this high level need.
       tags:
         - Define Procurement Event
-      operationId: HLNeedForm
+      operationId: NeedForm
       responses:
         '200':
           description: ok
@@ -902,7 +902,7 @@ paths:
       description: Updates form data for a High Level Need.
       tags:
         - Define Procurement Event
-      operationId: updateHLNeedForm
+      operationId: updateNeedForm
       requestBody:
         content:
           multipart/form-data:
@@ -938,7 +938,7 @@ paths:
       description: Get documents associated with the need for a given event in a Procurement Project.
       tags:
         - Define Procurement Event
-      operationId: HLNeedDocument
+      operationId: NeedDocument
       responses:
         '200':
           description: ok
@@ -958,7 +958,7 @@ paths:
       description: Creates a new RFx for the case.
       tags:
         - Define Procurement Event
-      operationId: updateHLNeedDocument
+      operationId: updateNeedDocument
       requestBody:
         content:
           multipart/form-data:

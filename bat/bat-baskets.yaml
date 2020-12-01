@@ -42,7 +42,7 @@ paths:
   /basket:
     get:
       summary: Returns the Current Basket.
-      description: Returns the contents of the current Basket (products, variants, quantities)
+      description: Returns the contents of the current Basket for the signed in user (products, variants, quantities)
       tags:
       - Basket
       operationId: get-basket

@@ -1,10 +1,47 @@
 components:
   schemas:
-    BaTID:
+  
+    CatalogueID:
       type: number
       format: integer
       example: 1234
       readOnly: true
       
-
-
+    Catalogue:
+      allOf:
+        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/OCDS_Schema.yaml#/components/schemas/item'
+        
+    CatalogueList:
+      type: array
+      items:
+        $ref: '#/components/schemas/CatalogueID'
+        
+    ProdID:
+      type: number
+      format: integer
+      example: 1234
+      readOnly: true
+      
+    Product:
+      allOf:
+        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/OCDS_Schema.yaml#/components/schemas/item'
+        
+    ProductList:
+      type: array
+      items:
+        $ref: '#/components/schemas/Product'
+  
+    VarianID:
+      type: number
+      format: integer
+      example: 1234
+      readOnly: true
+      
+    Variant:
+      allOf:
+        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/OCDS_Schema.yaml#/components/schemas/item'
+        
+    VarianttList:
+      type: array
+      items:
+        $ref: '#/components/schemas/Product'

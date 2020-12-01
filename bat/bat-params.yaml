@@ -1,11 +1,28 @@
 omponents:
   parameters:
     
-    BaTParam:
-      name: batID
+    CatalogueParam:
+      name: catID
       in: path
       required: true
-      description: Team ID
+      description: Catalogue ID
       schema:
-        $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/bat/bat-schema.yaml#/components/schemas/BaTID'
+        $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/CCS_Standard_API_Schema.yaml#/components/schemas/GenericID'
+        
+    ProductParam:
+      name: prodID
+      in: path
+      required: true
+      description: Product ID
+      schema:
+        $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/CCS_Standard_API_Schema.yaml#/components/schemas/GenericID'
+        
+    VariantParam:
+      name: varID
+      in: path
+      required: true
+      description: Variant ID
+      schema:
+        $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/CCS_Standard_API_Schema.yaml#/components/schemas/GenericID'
+        
         

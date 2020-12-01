@@ -9,7 +9,7 @@ components:
       
     Catalogue:
       allOf:
-        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/OCDS_Schema.yaml#/components/schemas/item'
+        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/OCDS_Schema.yaml#/components/schemas/item'
         
     CatalogueList:
       type: array
@@ -24,7 +24,7 @@ components:
       
     Product:
       allOf:
-        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/OCDS_Schema.yaml#/components/schemas/item'
+        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/OCDS_Schema.yaml#/components/schemas/item'
         
     ProductList:
       type: array
@@ -39,7 +39,7 @@ components:
       
     Variant:
       allOf:
-        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/OCDS_Schema.yaml#/components/schemas/item'
+        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/OCDS_Schema.yaml#/components/schemas/item'
         
     VarianttList:
       type: array

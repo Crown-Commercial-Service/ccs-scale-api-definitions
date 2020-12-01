@@ -40,6 +40,7 @@ components:
     Variant:
       allOf:
         - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/OCDS_Schema.yaml#/components/schemas/Item'
+        - $ref: '#/components/schemas/StockList'
         
     VariantList:
       type: array

@@ -52,7 +52,7 @@ components:
       description: Items of stock
       required:
         - id
-        - name
+        - quantity
       properties: 
         id:  
           type: string
@@ -70,9 +70,9 @@ components:
             properties:
               address:
                 $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/OCDS_Schema.yaml#/components/schemas/Item'
-        qantitity:
+        quantity:
           type: number
-          format: float
+          format: int32
           description: 'Quantity of stock available'
           example: 222
         

@@ -1,0 +1,93 @@
+openapi: "3.0.1"
+info:
+  title: "SCALE BaT Basket Service"
+  version: v0.0.5
+  description: This API provides access to the Buy a Thing shopping basket functionality. It includes functions to add and remove products from the basket, to save and restore the basket, to manage product wishists, to convert baskets to quotes (and quotes to baskets).
+#  PLACEHOLDERs - to be uncommented when implemented
+  termsOfService: "http://api.crowncommercial.gov.uk/terms/"
+  contact:
+    email: "apiteam@crowncommercial.gov.uk"
+  license:
+    name: "Open Government Licence 3.0"
+    url: "https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/"
+#
+# TODO:
+# 1. Write the API
+#
+#security:
+#  - OAuth2:
+#    - read
+tags:
+- name: "Basket"
+  description: "Operations on Current Basket"
+  externalDocs:
+    description: "Find out more"
+    url: "http://apis.crowncommercial.gov.uk"
+- name: "Saved Basket"
+  description: "Operations on Saved Baskets"
+  externalDocs:
+    description: "Find out more"
+    url: "http://apis.crowncommercial.gov.uk"
+- name: "Wishlist"
+  description: "Operations on Product wishlists"
+  externalDocs:
+    description: "Find out more"
+    url: "http://apis.crowncommercial.gov.uk"
+- name: "Quote"
+  description: "Operations on Saved Baskets"
+  externalDocs:
+    description: "Find out more"
+    url: "http://apis.crowncommercial.gov.uk"
+paths:
+  /basket:
+    get:
+      summary: Returns the Current Basket
+      description: Returns the contents of the current Basket (products, variants, quantities)
+      tags:
+      - Basket
+      operationId: get-basket
+      parameters:
+        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Params.yaml#/components/parameters/x-correlation-id'
+        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Params.yaml#/components/parameters/x-causation-id'
+        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Params.yaml#/components/parameters/x-channel'
+        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Params.yaml#/components/parameters/x-client'
+      responses:
+        200:
+          description: Details of the Current Basket
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                    $ref: '#/components/schemas/Basket'
+        500:
+          description: Internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Schema.yaml#/components/schemas/Errors'
+                
+                
+                
+                
+#
+components:
+#  securitySchemes:
+#    OAuth2:
+#      type: oauth2
+#      flows:
+#        authorizationCode:
+#          authorizationUrl: http://ccsexample.com/oauth/auth
+#          tokenUrl: https://api.crowncommercial.gov.uk/oauth/token
+#          scopes:
+#            read: Grants read access
+#           only read for MVP
+  schemas:
+#
+    Basket:
+      type: object
+      properties:
+        updatedDate:
+          type: string
+          format: date-time
+          example: "2020-12-25T17:32:28Z"

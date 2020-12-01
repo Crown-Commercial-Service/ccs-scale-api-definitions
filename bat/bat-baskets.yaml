@@ -1,7 +1,7 @@
 openapi: "3.0.1"
 info:
   title: "SCALE BaT Basket Service"
-  version: v0.0.5
+  version: v0.0.1
   description: This API provides access to the Buy a Thing shopping basket functionality. It includes functions to add and remove products from the basket, to save and restore the basket, to manage product wishists, to convert baskets to quotes (and quotes to baskets).
 #  PLACEHOLDERs - to be uncommented when implemented
   termsOfService: "http://api.crowncommercial.gov.uk/terms/"
@@ -57,9 +57,7 @@ paths:
           content:
             application/json:
               schema:
-                type: array
-                items:
-                    $ref: '#/components/schemas/Basket'
+                $ref: '#/components/schemas/Basket'
         500:
           description: Internal server error.
           content:
@@ -67,13 +65,13 @@ paths:
               schema:
                 $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Schema.yaml#/components/schemas/Errors'
                 
-   /baskets/self:
+  /baskets/self:
     get:
       summary: Returns all Saved Baskets for the user (note not the current basket).
       description: Returns all Saved Baskets for the user (note not the current basket).
       tags:
-      - Basket
-      operationId: get-basket
+      - Saved Basket
+      operationId: get-saved-basket-list
       parameters:
         - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Params.yaml#/components/parameters/x-correlation-id'
         - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Params.yaml#/components/parameters/x-causation-id'
@@ -87,7 +85,7 @@ paths:
               schema:
                 type: array
                 items:
-                    $ref: '#/components/schemas/Basket'
+                    $ref: '#/components/schemas/SavedBasketSummary'
         500:
           description: Internal server error.
           content:
@@ -119,3 +117,21 @@ components:
           type: string
           format: date-time
           example: "2020-12-25T17:32:28Z"
+          
+          
+          
+    SavedBasketSummary:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Name given to the basket when it was saved
+          example: "Equipment for new starter"
+        createdDate:
+          type: string
+          format: date-time
+          example: "2020-12-25T17:32:28Z"
+servers:
+  # Added by API Auto Mocking Plugin
+  - description: SwaggerHub API Auto Mocking
+    url: https://virtserver.swaggerhub.com/davejhughes/BaT-Basket/v0.01

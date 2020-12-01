@@ -1,6 +1,6 @@
-omponents:
+components:
   parameters:
-    
+ 
     CatalogueParam:
       name: catID
       in: path

@@ -33,7 +33,7 @@ paths:
       - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Params.yaml#/components/parameters/x-channel'
       - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Params.yaml#/components/parameters/x-client'
     get:
-      description: Description of Service.
+      description: Lists all the Catalogues
       tags:
         - Tag to group
       operationId: CatalogueList
@@ -52,7 +52,7 @@ paths:
 #        - openID:
 #            - read
 #            - write
-      summary: Lists all the Catalogues
+      summary: Lists Catalogues
       
   '/catalogues/findVariants':
     parameters:
@@ -137,3 +137,115 @@ paths:
 #            - read
 #            - write
       summary: Returns Catalogue details
+
+'/catalogues/(catID}/products':
+    parameters:
+      - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Params.yaml#/components/parameters/x-correlation-id'
+      - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Params.yaml#/components/parameters/x-causation-id'
+      - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Params.yaml#/components/parameters/x-channel'
+      - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Params.yaml#/components/parameters/x-client'
+    get:
+      description: Lists all products within a catalogue.
+      tags:
+        - Tag to group
+      operationId: ProductList
+      responses:
+        '200':
+          description: ok
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CCS_Standard_API_Schema.yaml#/components/schemas/GeneridID'
+        '401':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CCS_Standard_API_Responses.yaml#/components/responses/401Unauthorized'
+        '403':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CCS_Standard_API_Responses.yaml#/components/responses/403Forbidden'
+#      security:
+#        - openID:
+#            - read
+#            - write
+      summary: List Catalogue Products
+      
+  '/catalogues/(catID}/products/{prodID}':
+    parameters:
+      - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Params.yaml#/components/parameters/x-correlation-id'
+      - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Params.yaml#/components/parameters/x-causation-id'
+      - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Params.yaml#/components/parameters/x-channel'
+      - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Params.yaml#/components/parameters/x-client'
+    get:
+      description: Provides details about a single Product.
+      tags:
+        - Tag to group
+      operationId: ProductList
+      responses:
+        '200':
+          description: ok
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CCS_Standard_API_Schema.yaml#/components/schemas/GeneridID'
+        '401':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CCS_Standard_API_Responses.yaml#/components/responses/401Unauthorized'
+        '403':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CCS_Standard_API_Responses.yaml#/components/responses/403Forbidden'
+#      security:
+#        - openID:
+#            - read
+#            - write
+      summary: List Catalogue Products
+      
+  '/catalogues/(catID}/products/{prodID}/variants':
+    parameters:
+      - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Params.yaml#/components/parameters/x-correlation-id'
+      - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Params.yaml#/components/parameters/x-causation-id'
+      - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Params.yaml#/components/parameters/x-channel'
+      - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Params.yaml#/components/parameters/x-client'
+    get:
+      description: Lists all variants of a product within a catalogue.
+      tags:
+        - Tag to group
+      operationId: ProductList
+      responses:
+        '200':
+          description: ok
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CCS_Standard_API_Schema.yaml#/components/schemas/GeneridID'
+        '401':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CCS_Standard_API_Responses.yaml#/components/responses/401Unauthorized'
+        '403':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CCS_Standard_API_Responses.yaml#/components/responses/403Forbidden'
+#      security:
+#        - openID:
+#            - read
+#            - write
+      summary: List Product variants
+      
+  '/catalogues/(catID}/products/{prodID}/variants/{varID}':
+    parameters:
+      - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Params.yaml#/components/parameters/x-correlation-id'
+      - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Params.yaml#/components/parameters/x-causation-id'
+      - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Params.yaml#/components/parameters/x-channel'
+      - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Params.yaml#/components/parameters/x-client'
+    get:
+      description: Provides details about a single Product.
+      tags:
+        - Tag to group
+      operationId: ProductList
+      responses:
+        '200':
+          description: ok
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CCS_Standard_API_Schema.yaml#/components/schemas/GeneridID'
+        '401':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CCS_Standard_API_Responses.yaml#/components/responses/401Unauthorized'
+        '403':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CCS_Standard_API_Responses.yaml#/components/responses/403Forbidden'
+#      security:
+#        - openID:
+#            - read
+#            - write
+      summary: Provide Variant Details

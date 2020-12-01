@@ -31,7 +31,7 @@ components:
       items:
         $ref: '#/components/schemas/Product'
   
-    VarianID:
+    VariantID:
       type: number
       format: integer
       example: 1234
@@ -52,7 +52,7 @@ components:
       description: Items of stock
       required:
         - id
-        - name
+        - quantity
       properties: 
         id:  
           type: string
@@ -67,9 +67,9 @@ components:
         location:
           type: object
           description: location of the stock
-            properties:
-              address:
-                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/OCDS_Schema.yaml#/components/schemas/Item'
+        properties:
+          address:
+            $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/OCDS_Schema.yaml#/components/schemas/Item'
         qantitity:
           type: number
           format: float

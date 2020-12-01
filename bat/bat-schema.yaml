@@ -68,9 +68,9 @@ components:
         location:
           type: object
           description: location of the stock
-        properties:
-          address:
-            $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/OCDS_Schema.yaml#/components/schemas/Item'
+          properties:
+            address:
+              $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/OCDS_Schema.yaml#/components/schemas/Address'
         qantitity:
           type: number
           format: float

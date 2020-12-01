@@ -16,7 +16,7 @@ components:
       items:
         $ref: '#/components/schemas/CatalogueID'
         
-    ProdID:
+    ProductID:
       type: number
       format: integer
       example: 1234
@@ -81,3 +81,24 @@ components:
       type: array
       items:
         $ref: '#/components/schemas/StockItem'
+        
+        
+    Cart:
+      type: object
+      description: Generic object for shopping cart which is used as the base for the various objects through the process
+      required:
+        - owner
+      properties:
+        owner:
+          oneOf:
+            - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/OCDS_Schema.yaml#/components/schemas/ContactPoint'
+            - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/OCDS_Schema.yaml#/components/schemas/Organization'
+        
+        
+    LineItem:
+      allOf:
+        # OCDS Item is id, description, classification, additionalClassifications, quantity, unit
+        # Classification is scheme, id, description, uri - see https://standard.open-contracting.org/latest/en/schema/codelists/#item-classification-scheme - we will probably use UNSPSC but specific scheme is to be determined. Note that this classification is different to Spree's Taxon.
+       - $ref:  'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/OCDS_Schema.yaml#/components/schemas/Item'
+       - type: object
+         # All of the other properties required for a Marketplace Basket item 

@@ -16,7 +16,7 @@ components:
       items:
         $ref: '#/components/schemas/CatalogueID'
         
-    ProdID:  #To be consistent this should be ProductID
+    ProdID:
       type: number
       format: integer
       example: 1234
@@ -40,6 +40,7 @@ components:
     Variant:
       allOf:
         - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/OCDS_Schema.yaml#/components/schemas/Item'
+        - $ref: '#/components/schemas/StockList'
         
     VariantList:
       type: array
@@ -67,12 +68,12 @@ components:
         location:
           type: object
           description: location of the stock
-            properties:
-              address:
-                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/OCDS_Schema.yaml#/components/schemas/Address'
-        quantity:
+          properties:
+            address:
+              $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/OCDS_Schema.yaml#/components/schemas/Address'
+        qantitity:
           type: number
-          format: int32
+          format: float
           description: 'Quantity of stock available'
           example: 222
         
@@ -80,25 +81,3 @@ components:
       type: array
       items:
         $ref: '#/components/schemas/StockItem'
-        
-        
-        
-    Cart:
-      type: object
-      description: Generic object for shopping cart which is used as the base for the various objects through the process
-      required:
-        - owner
-      properties:
-        owner:
-          oneOf:
-            - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/OCDS_Schema.yaml#/components/schemas/ContactPoint'
-            - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/OCDS_Schema.yaml#/components/schemas/Organization'
-        
-        
-    LineItem:
-      allOf:
-        # OCDS Item is id, description, classification, additionalClassifications, quantity, unit
-        # Classification is scheme, id, description, uri - see https://standard.open-contracting.org/latest/en/schema/codelists/#item-classification-scheme - we will probably use UNSPSC but specific scheme is to be determined. Note that this classification is different to Spree's Taxon.
-       - $ref:  'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/OCDS_Schema.yaml#/components/schemas/Item'
-       - type: object
-         # All of the other properties required for a Marketplace Basket item 

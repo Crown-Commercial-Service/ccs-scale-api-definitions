@@ -41,7 +41,7 @@ tags:
 paths:
   /basket:
     get:
-      summary: Returns the Current Basket
+      summary: Returns the Current Basket.
       description: Returns the contents of the current Basket (products, variants, quantities)
       tags:
       - Basket

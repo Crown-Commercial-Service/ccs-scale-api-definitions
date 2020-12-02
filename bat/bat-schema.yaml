@@ -67,20 +67,20 @@ components:
             allOf: 
               - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/OCDS_Schema.yaml#/components/schemas/FileFormat'
              
-#   CatalogueRecordUpdate:
-#      type: object
-#      description: Details of catalogue update
-#      properties: 
-#        date:  
-#          description: 'Time upload took place'
-#          oneOf:
-#            - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/agreements/agreements-service.yaml#/components/schemas/Timestamp'
-#        before:
-#          allOf:
-#             - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/OCDS_Schema.yaml#/components/schemas/Item'
-#        after:
-#          allOf:
-#            - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/OCDS_Schema.yaml#/components/schemas/Item'
+   CatalogueRecordUpdate:
+      type: object
+      description: Details of catalogue update
+      properties: 
+        date:  
+          description: 'Time upload took place'
+          oneOf:
+            - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/agreements/agreements-service.yaml#/components/schemas/Timestamp'
+        before:
+          allOf:
+            - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/OCDS_Schema.yaml#/components/schemas/Item'
+        after:
+          allOf:
+            - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/OCDS_Schema.yaml#/components/schemas/Item'
         
     ProductID:
       type: number

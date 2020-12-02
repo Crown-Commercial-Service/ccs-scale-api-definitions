@@ -56,13 +56,13 @@ components:
         name:
           type: string
           description: document name
-#        format:
-#            title: Format
+        format:
+#          title: Format
 #             description: >-
 #               The format of the document, using the open [IANA Media
 #               Types](http://www.iana.org/assignments/media-types/) codelist (see the values in the 'Template' column), or using the 'offline/print' code if the described document is published offline. For example, web pages have a format of 'text/html'.
-#            allOf: 
-#              - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/OCDS_Schema.yaml#/components/schemas/FileFormat'
+          allOf: 
+            - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/OCDS_Schema.yaml#/components/schemas/FileFormat'
 #
     CatalogueRecordUpdate:
       type: object

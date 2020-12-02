@@ -73,7 +73,7 @@ components:
       properties: 
         date:  
           description: 'Time upload took place'
-          oneOf:
+          allOf:
             - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/OCDS_Schema.yaml#/components/schemas/Timestamp'
         before:
           allOf:

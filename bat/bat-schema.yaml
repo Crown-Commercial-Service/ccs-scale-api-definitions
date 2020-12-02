@@ -59,7 +59,7 @@ components:
         fileformat:
           allOf: 
             - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/OCDS_Schema.yaml#/components/schemas/FileFormat'
-#
+
     CatalogueRecordUpdate:
       type: object
       description: Details of catalogue update

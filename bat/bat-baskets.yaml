@@ -1,7 +1,7 @@
 openapi: "3.0.1"
 info:
   title: "SCALE BaT Basket Service"
-  version: v0.0.1
+  version: v0.01
   description: This API provides access to the Buy a Thing shopping basket functionality. It includes functions to add and remove products from the basket, to save and restore the basket, to manage product wishists, to convert baskets to quotes (and quotes to baskets).
 #  PLACEHOLDERs - to be uncommented when implemented
   termsOfService: "http://api.crowncommercial.gov.uk/terms/"
@@ -19,7 +19,7 @@ info:
 #    - read
 tags:
 - name: "Basket"
-  description: "Operations on Current Basket"
+  description: "Operations on Active Basket"
   externalDocs:
     description: "Find out more"
     url: "http://apis.crowncommercial.gov.uk"
@@ -34,7 +34,7 @@ tags:
     description: "Find out more"
     url: "http://apis.crowncommercial.gov.uk"
 - name: "Quote"
-  description: "Operations on Saved Baskets"
+  description: "Operations on Quotes"
   externalDocs:
     description: "Find out more"
     url: "http://apis.crowncommercial.gov.uk"
@@ -51,9 +51,11 @@ paths:
         - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Params.yaml#/components/parameters/x-causation-id'
         - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Params.yaml#/components/parameters/x-channel'
         - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Params.yaml#/components/parameters/x-client'
+        - $ref: '#/components/parameters/DetailParam'
+        #- $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/CCS_Standard_API_Params.yaml#/components/parameters/DetailParam'
       responses:
         200:
-          description: Details of the Active Basket
+          description: Details of the Current Basket
           content:
             application/json:
               schema:
@@ -67,8 +69,8 @@ paths:
                 
   /baskets:
     get:
-      summary: Returns all Saved Baskets for the user or the org (note not the current basket).
-      description: Returns all Saved Baskets for the user or the org (note not the current basket).
+      summary: Returns all Saved Baskets for the user (note not the current basket).
+      description: Returns all Saved Baskets for the user (note not the current basket).
       tags:
       - Saved Basket
       operationId: get-saved-basket-list
@@ -77,15 +79,17 @@ paths:
         - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Params.yaml#/components/parameters/x-causation-id'
         - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Params.yaml#/components/parameters/x-channel'
         - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Params.yaml#/components/parameters/x-client'
+        - $ref: '#/components/parameters/DetailParam'
+        #- $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/CCS_Standard_API_Params.yaml#/components/parameters/DetailParam'
       responses:
         200:
           description: Details of the Current Basket
           content:
             application/json:
               schema:
-                type: array
-                items:
-                    $ref: '#/components/schemas/SavedBasketSummary'
+                oneOf:
+                  - $ref: '#/components/schemas/SavedBasketSummaries'
+                  - $ref: '#/components/schemas/SavedBasketDetails'
         500:
           description: Internal server error.
           content:
@@ -94,8 +98,6 @@ paths:
                 $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Schema.yaml#/components/schemas/Errors'
                 
                
-                
-                
 #
 components:
 #  securitySchemes:
@@ -111,14 +113,40 @@ components:
   schemas:
 #
     Basket:
+      allOf:
+        - $ref: '#/components/schemas/Order'
+
+
+  ############## TO BE MOVED TO CENTRAL FILE ############
+
+
+    Order:
       type: object
+      description: Basic object for a basket containing all data for the Active basket.
       properties:
-        updatedDate:
+        id:
+          #$ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/bat/bat-schema.yaml#/components/schemas/FileUpdate'
+          #$ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/CCS_Standard_API_Schema.yaml#/components/schemas/OrgID'
+          $ref: '#/components/schemas/OrderID'
+        name:
           type: string
-          format: date-time
-          example: "2020-12-25T17:32:28Z"
           
-          
+    OrderID:
+      type: string
+      description: The ID of the order within BaT
+      example: R793138650
+      readOnly: true
+
+    SavedBasketSummaries:
+      type: array
+      items:
+        $ref: '#/components/schemas/SavedBasketSummary'
+
+    SavedBasketDetails:
+      type: array
+      items:
+        $ref: '#/components/schemas/SavedBasketDetail'
+
           
     SavedBasketSummary:
       type: object
@@ -131,6 +159,33 @@ components:
           type: string
           format: date-time
           example: "2020-12-25T17:32:28Z"
+
+    SavedBasketDetail:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Name given to the basket when it was saved
+          example: "Equipment for new starter"
+        createdDate:
+          type: string
+          format: date-time
+          example: "2020-12-25T17:32:28Z"
+
+          
+  parameters:    
+  
+  
+  ############## TO BE MOVED TO CENTRAL FILE ############
+    DetailParam:
+      name: detail
+      in: query
+      description: full to provide full detail back in the call, else summary data is returned for list entities. Optional parameter, defaults to summary
+      schema: 
+        type: string
+        enum: [full,summary]
+
+          
 servers:
   # Added by API Auto Mocking Plugin
   - description: SwaggerHub API Auto Mocking

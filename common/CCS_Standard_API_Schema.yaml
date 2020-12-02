@@ -60,7 +60,11 @@ components:
       type: string
       format: email
       example: support@crowncommercial.org.uk
-      
+
+    DetailFlag:
+      type: string
+      enum: [full,summary]
+      readOnly: true      
       
     TsAndCs:
       type: array

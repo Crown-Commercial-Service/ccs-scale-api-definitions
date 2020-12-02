@@ -1,6 +1,11 @@
 components:
   schemas:
   
+    OrderID:
+      type: integer
+      example: 1234
+      readOnly: true 
+  
     CatalogueID:
       type: number
       format: integer
@@ -142,13 +147,6 @@ components:
       type: array
       items:
         $ref: '#/components/schemas/StockItem'
-
-
-      
-    OrderID:
-      type: integer
-      example: 1234
-      readOnly: true 
         
     LineItem:
       allOf:

@@ -8,8 +8,70 @@ components:
       readOnly: true
       
     Catalogue:
-      allOf:
-        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/OCDS_Schema.yaml#/components/schemas/Item'
+      type: object
+      description: Metadata about a Catalogue
+      required:
+        - id
+        - quantity
+      properties: 
+        id:  
+          type: string
+          readOnly: true
+          format: uuid
+          description: 'ID of the stock item'
+          example: 222
+        agreement:  
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/agreements/agreements-service.yaml#/components/schemas/AgreementSummary'
+        supplier:  
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/OCDS_Schema.yaml#/components/schemas/Organization'
+        
+    CatalogueUpdate:
+      type: object
+      description: location of the stock
+      properties:
+        oneOf
+          - $ref: '#/components/schemas/FileUpdate'
+          - $ref: '#/components/schemas/CatalogueRecordUpdate'
+             
+    FileUpdate:
+      type: object
+      description: Details of a file Upload
+      properties: 
+        date:  
+          description: 'Time upload took place'
+          oneOf
+            - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/agreements/agreements-service.yaml#/components/schemas/Timestamp'
+         url:
+          type: string
+          format: uri
+          description: URI for the file. Should be a perma-link and can be used as a key for file uploaded
+        name:
+          type: string
+          description: document name
+        format:
+            title: Format
+            description: >-
+              The format of the document, using the open [IANA Media
+              Types](http://www.iana.org/assignments/media-types/) codelist (see the values in the 'Template' column), or using the 'offline/print' code if the described document is published offline. For example, web pages have a format of 'text/html'.
+            allOf: 
+              - $ref: '#/components/schemas/FileFormat'
+             
+    CatalogueRecordUpdate:
+      type: object
+      description: Details of catalogue update
+      properties: 
+        date:  
+          description: 'Time upload took place'
+          oneOf
+            - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/agreements/agreements-service.yaml#/components/schemas/Timestamp'
+        before:
+          allOf:
+             - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/OCDS_Schema.yaml#/components/schemas/Item'
+        after:
+          allOf:
+            - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/OCDS_Schema.yaml#/components/schemas/Item'
+        
+    
         
     CatalogueList:
       type: array

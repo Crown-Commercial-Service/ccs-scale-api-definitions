@@ -157,8 +157,7 @@ components:
 
       
     OrderID:
-      type: number
-      format: integer
+      type: integer
       example: 1234
       readOnly: true 
         

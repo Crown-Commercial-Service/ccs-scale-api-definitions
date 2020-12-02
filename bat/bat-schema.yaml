@@ -26,10 +26,10 @@ components:
           format: uuid
           description: 'ID of the stock item'
           example: 222
-        agreement:  
-          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/agreements/agreements-service.yaml#/components/schemas/AgreementSummary'
-        supplier:  
-          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/OCDS_Schema.yaml#/components/schemas/Organization'
+#         agreement:  
+#           $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/agreements/agreements-service.yaml#/components/schemas/AgreementSummary'
+#         supplier:  
+#           $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/OCDS_Schema.yaml#/components/schemas/Organization'
        
     CatalogueUpdate:
       type: object

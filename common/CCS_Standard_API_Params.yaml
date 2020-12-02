@@ -85,8 +85,7 @@ components:
     DetailParam:
       name: detail
       in: query
-      description: 'full' to provide full detail back in the call, else summary data is returned for list entities. Optional parameter, defaults to 'summary'
+      description: '"full" to provide full detail back in the call, else summary data is returned for list entities. Optional parameter, defaults to "summary"'
       schema: 
         type: string
-        enum: ['full','summary']
         

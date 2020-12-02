@@ -5,6 +5,7 @@ components:
       type: string
       description: The ID of the order within BaT
       example: R793138650
+      readOnly: true
   
     CatalogueID:
       type: number

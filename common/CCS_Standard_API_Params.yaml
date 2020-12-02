@@ -85,7 +85,9 @@ components:
     DetailParam:
       name: detail
       in: query
+      required: true
       description: full to provide full detail back in the call, else summary data is returned for list entities. Optional parameter, defaults to summary
       schema: 
-        $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/CCS_Standard_API_Schema.yaml#/components/schemas/DetailFlag'
+        type: string
+        #$ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/CCS_Standard_API_Schema.yaml#/components/schemas/DetailFlag'
         

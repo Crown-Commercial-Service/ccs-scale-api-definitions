@@ -80,3 +80,13 @@ components:
       schema:
         type: string
         enum: [mobile-app,browser,client-apis,bot-app]
+
+
+    DetailParam:
+      name: detail
+      in: query
+      schema: 
+        type: string
+        description: 'full' to provide full detail back in the call, else summary data is returned for list entities. Optional parameter, defaults to 'summary'
+        enum: ['full','summary']
+        

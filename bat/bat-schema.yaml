@@ -29,7 +29,7 @@ components:
       type: object
       description: location of the stock
       properties:
-        oneOf
+        oneOf:
           - $ref: '#/components/schemas/FileUpdate'
           - $ref: '#/components/schemas/CatalogueRecordUpdate'
              
@@ -39,7 +39,7 @@ components:
       properties: 
         date:  
           description: 'Time upload took place'
-          oneOf
+          oneOf:
             - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/agreements/agreements-service.yaml#/components/schemas/Timestamp'
          url:
           type: string
@@ -54,7 +54,7 @@ components:
               The format of the document, using the open [IANA Media
               Types](http://www.iana.org/assignments/media-types/) codelist (see the values in the 'Template' column), or using the 'offline/print' code if the described document is published offline. For example, web pages have a format of 'text/html'.
             allOf: 
-              - $ref: '#/components/schemas/FileFormat'
+              - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/OCDS_Schema.yaml#/components/schemas/FileFormat'
              
     CatalogueRecordUpdate:
       type: object
@@ -62,7 +62,7 @@ components:
       properties: 
         date:  
           description: 'Time upload took place'
-          oneOf
+          oneOf:
             - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/agreements/agreements-service.yaml#/components/schemas/Timestamp'
         before:
           allOf:
@@ -71,7 +71,6 @@ components:
           allOf:
             - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/OCDS_Schema.yaml#/components/schemas/Item'
         
-    
         
     CatalogueList:
       type: array

@@ -64,14 +64,14 @@ components:
 #            allOf: 
 #              - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/OCDS_Schema.yaml#/components/schemas/FileFormat'
 #
-#            CatalogueRecordUpdate:
-#       type: object
-#      description: Details of catalogue update
-#      properties: 
-#        date:  
-#          description: 'Time upload took place'
-#          allOf:
-#            - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/OCDS_Schema.yaml#/components/schemas/Timestamp'
+    CatalogueRecordUpdate:
+      type: object
+      description: Details of catalogue update
+      properties: 
+        date:  
+          description: 'Time upload took place'
+          allOf:
+            - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/OCDS_Schema.yaml#/components/schemas/Timestamp'
 #        before:
 #          allOf:
 #            - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/OCDS_Schema.yaml#/components/schemas/Item'

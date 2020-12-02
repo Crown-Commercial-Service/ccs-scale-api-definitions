@@ -18,7 +18,7 @@ components:
       description: Metadata about a Catalogue
       required:
         - id
-        - quantity
+#         - quantity
       properties: 
         id:  
           type: string
@@ -30,7 +30,7 @@ components:
 #           $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/agreements/agreements-service.yaml#/components/schemas/AgreementSummary'
 #         supplier:  
 #           $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/OCDS_Schema.yaml#/components/schemas/Organization'
-       
+
     CatalogueUpdate:
       type: object
       description: location of the stock
@@ -73,7 +73,7 @@ components:
 #              - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/OCDS_Schema.yaml#/components/schemas/FileFormat'
              
 #   CatalogueRecordUpdate:
-      type: object
+#       type: object
 #      description: Details of catalogue update
 #      properties: 
 #        date:  

@@ -51,7 +51,7 @@ components:
         date:  
           description: 'Time upload took place'
           allOf:
-            - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/agreements/agreements-service.yaml#/components/schemas/Timestamp'
+            - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/OCDS_Schema.yaml#/components/schemas/Timestamp'
         url:
           type: string
           format: uri

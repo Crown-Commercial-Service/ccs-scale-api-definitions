@@ -23,3 +23,4 @@ build/
 
 ### VS Code ###
 .vscode/
+bat/.DS_Store

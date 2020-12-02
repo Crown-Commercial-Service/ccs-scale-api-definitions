@@ -56,6 +56,10 @@ components:
       example: '2020-02-16T07:14:54.617Z'
       readOnly: true
       
+    OrderID:
+      type: string
+      example: 12345
+      readOnly: true  
       
     Email:
       type: string
@@ -132,7 +136,4 @@ components:
           type: string
           
           
-    OrderID:
-      type: string
-      example: 12345
-      readOnly: true  
+

@@ -35,9 +35,14 @@ components:
       type: object
       description: location of the stock
       properties:
-        oneOf:
-          - $ref: '#/components/schemas/FileUpdate'
-          - $ref: '#/components/schemas/CatalogueRecordUpdate'
+        type: string
+          readOnly: true
+          format: uuid
+          description: 'ID of the stock item'
+          example: 222
+#        oneOf:
+#          - $ref: '#/components/schemas/FileUpdate'
+#          - $ref: '#/components/schemas/CatalogueRecordUpdate'
           
     CatalogueList:
       type: array

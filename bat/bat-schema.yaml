@@ -32,39 +32,30 @@ components:
 #           $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/OCDS_Schema.yaml#/components/schemas/Organization'
 
     CatalogueUpdate:
-      type: object
-      description: location of the stock
-      properties:
-        id:
-          type: string
-          readOnly: true
-          format: uuid
-          description: 'ID of the stock item'
-          example: 222
-#        oneOf:
-#          - $ref: '#/components/schemas/FileUpdate'
-#          - $ref: '#/components/schemas/CatalogueRecordUpdate'
+      oneOf:
+        - $ref: '#/components/schemas/FileUpdate'
+        - $ref: '#/components/schemas/CatalogueRecordUpdate'
           
     CatalogueList:
       type: array
       items:
         $ref: '#/components/schemas/CatalogueID'
              
-#    FileUpdate:
-#      type: object
-#      description: Details of a file Upload
-#      properties: 
-#        date:  
-#          description: 'Time upload took place'
-#          allOf:
-#            - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/OCDS_Schema.yaml#/components/schemas/Timestamp'
-#        url:
-#          type: string
-#          format: uri
-#          description: URI for the file. Should be a perma-link and can be used as a key for file uploaded
-#        name:
-#          type: string
-#          description: document name
+    FileUpdate:
+      type: object
+      description: Details of a file Upload
+      properties: 
+        date:  
+          description: 'Time upload took place'
+          allOf:
+            - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/OCDS_Schema.yaml#/components/schemas/Timestamp'
+        url:
+          type: string
+          format: uri
+          description: URI for the file. Should be a perma-link and can be used as a key for file uploaded
+        name:
+          type: string
+          description: document name
 #        format:
 #            title: Format
 #             description: >-

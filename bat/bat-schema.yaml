@@ -154,7 +154,12 @@ components:
           oneOf:
             - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/OCDS_Schema.yaml#/components/schemas/ContactPoint'
             - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/OCDS_Schema.yaml#/components/schemas/Organization'
-        
+
+      
+    OrderID:
+      type: string
+      example: 12345
+      readOnly: true  
         
     LineItem:
       allOf:

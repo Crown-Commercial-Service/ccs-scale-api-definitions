@@ -133,7 +133,6 @@ components:
           
           
     OrderID:
-      type: number
-      format: string
+      type: string
       example: 12345
       readOnly: true  

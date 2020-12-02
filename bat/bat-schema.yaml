@@ -142,18 +142,7 @@ components:
       type: array
       items:
         $ref: '#/components/schemas/StockItem'
-        
-        
-    Cart:
-      type: object
-      description: Generic object for shopping cart which is used as the base for the various objects through the process
-      required:
-        - owner
-      properties:
-        owner:
-          oneOf:
-            - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/OCDS_Schema.yaml#/components/schemas/ContactPoint'
-            - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/OCDS_Schema.yaml#/components/schemas/Organization'
+
 
       
     OrderID:

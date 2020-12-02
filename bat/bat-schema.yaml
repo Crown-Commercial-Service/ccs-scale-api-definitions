@@ -157,9 +157,10 @@ components:
 
       
     OrderID:
-      type: string
-      example: 12345
-      readOnly: true  
+      type: number
+      format: integer
+      example: 1234
+      readOnly: true 
         
     LineItem:
       allOf:

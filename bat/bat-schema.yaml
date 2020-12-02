@@ -2,9 +2,9 @@ components:
   schemas:
   
     OrderID:
-      type: integer
-      example: 1234
-      readOnly: true 
+      type: string
+      description: The ID of the order within BaT
+      example: R793138650
   
     CatalogueID:
       type: number

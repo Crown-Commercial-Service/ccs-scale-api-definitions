@@ -166,5 +166,5 @@ components:
         # OCDS Item is id, description, classification, additionalClassifications, quantity, unit
         # Classification is scheme, id, description, uri - see https://standard.open-contracting.org/latest/en/schema/codelists/#item-classification-scheme - we will probably use UNSPSC but specific scheme is to be determined. Note that this classification is different to Spree's Taxon.
        - $ref:  'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/OCDS_Schema.yaml#/components/schemas/Item'
-       - type: object
+      # - type: object
          # All of the other properties required for a Marketplace Basket item 

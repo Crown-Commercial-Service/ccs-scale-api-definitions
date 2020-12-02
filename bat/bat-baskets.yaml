@@ -39,9 +39,9 @@ tags:
     description: "Find out more"
     url: "http://apis.crowncommercial.gov.uk"
 paths:
-  /baskets/current:
+  /baskets/active:
     get:
-      summary: Returns the Current Basket.
+      summary: Returns the Active Basket.
       description: Returns the contents of the current Basket for the signed in user (products, variants, quantities)
       tags:
       - Basket
@@ -53,7 +53,7 @@ paths:
         - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Params.yaml#/components/parameters/x-client'
       responses:
         200:
-          description: Details of the Current Basket
+          description: Details of the Active Basket
           content:
             application/json:
               schema:
@@ -65,10 +65,10 @@ paths:
               schema:
                 $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Schema.yaml#/components/schemas/Errors'
                 
-  /baskets/self:
+  /baskets:
     get:
-      summary: Returns all Saved Baskets for the user (note not the current basket).
-      description: Returns all Saved Baskets for the user (note not the current basket).
+      summary: Returns all Saved Baskets for the user or the org (note not the current basket).
+      description: Returns all Saved Baskets for the user or the org (note not the current basket).
       tags:
       - Saved Basket
       operationId: get-saved-basket-list

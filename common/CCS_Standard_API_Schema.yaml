@@ -130,3 +130,10 @@ components:
           type: string
         detail:
           type: string
+          
+          
+    OrderID:
+      type: number
+      format: string
+      example: 12345
+      readOnly: true  

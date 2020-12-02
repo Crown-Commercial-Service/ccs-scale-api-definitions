@@ -157,7 +157,7 @@ paths:
           content:
             application/vnd.api+json:
               schema:
-                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/bat/bat-schema.yaml#/components/schemas/Catalogue'
+                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/bat/bat-schema.yaml#/components/schemas/CatalogueUpdate'
         '401':
           $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/CCS_Standard_API_Responses.yaml#/components/responses/401Unauthorized'
         '403':

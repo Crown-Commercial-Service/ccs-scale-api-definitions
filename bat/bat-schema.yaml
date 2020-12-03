@@ -131,9 +131,9 @@ components:
       items:
         $ref: '#/components/schemas/Product'
 
-    OrderScope:
+    ShareScope:
       type: string
-      description: The scope of the Orders to be returned. Defaults to the user.
+      description: The scope of the data to be returned or shared. Defaults to the user.
       enum: [user,organisation,buyergroup]
       readOnly: true
     

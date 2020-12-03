@@ -101,7 +101,7 @@ paths:
   /baskets/active/checkout:
     get:
       summary: Triggers the checkout process
-      description: For the Active Basket starts a 'checkout' (and hands over to the BAT Orders API)
+      description: For the Active Basket starts a 'checkout' (and returns an array pf per supplier Orders to hand over to the BAT Orders API)
       tags:
       - Basket
       operationId: checkout-basket
@@ -148,6 +148,8 @@ components:
         - $ref: '#/components/schemas/OrderBase'
 
     SavedBasket:
+      allOf:
+        - $ref: '#/components/schemas/OrderBase'
       type: object
       properties:
         name:
@@ -158,6 +160,8 @@ components:
           type: string
           format: date-time
           example: "2020-12-25T17:32:28Z"
+        shareLevel:
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/bat/bat-schema.yaml#/components/schemas/ShareScope'
 
   ############## TO BE MOVED TO CENTRAL FILE ############
 
@@ -178,6 +182,11 @@ components:
       properties:
         invoiceAddress:
           $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/OCDS_Schema.yaml#/components/schemas/Address'
+        
+        
+        
+        
+        
 servers:
   # Added by API Auto Mocking Plugin
   - description: SwaggerHub API Auto Mocking

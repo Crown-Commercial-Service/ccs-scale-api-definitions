@@ -106,9 +106,10 @@ components:
           type: string
           enum: [invoice,card]
           example: invoice
-        oneOf:
-          - $ref: '#/components/schemas/InvoicePayment'
-          - $ref: '#/components/schemas/CardPayment'
+        paymentMethod:
+          oneOf:
+            - $ref: '#/components/schemas/InvoicePayment'
+            - $ref: '#/components/schemas/CardPayment'
           
     # More fields to go in here
     InvoicePayment:
@@ -118,6 +119,10 @@ components:
         paymentAmount:
           type: number
           example: 399.99
+        paymentTerms:
+          type: string
+          description: payment terms e.g. days to pay
+          example: 60 day payment          
 
     # More fields to go in here
     CardPayment:

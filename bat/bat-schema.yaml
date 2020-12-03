@@ -81,15 +81,18 @@ components:
       readOnly: true
       
     Product:
-      id:  
-        allOf:
-          - $ref: '#/components/schemas/ProductID'
-      catalogue:  
-        allOf:
-          - $ref: '#/components/schemas/CatalogueID'
-      summary:
-        allOf:
-          - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/OCDS_Schema.yaml#/components/schemas/Item'
+      type: object
+      description: Details of catalogue update
+      properties: 
+        id:  
+          allOf:
+            - $ref: '#/components/schemas/ProductID'
+        catalogue:  
+          allOf:
+            - $ref: '#/components/schemas/CatalogueID'
+        summary:
+          allOf:
+            - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/OCDS_Schema.yaml#/components/schemas/Item'
         
     ProductList:
       type: array

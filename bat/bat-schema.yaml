@@ -131,7 +131,6 @@ components:
           description: The total price covered by this object
           example: 10.99
           
-    
         
     ProductID:
       type: number
@@ -143,10 +142,7 @@ components:
       type: object
       description: Details of catalogue update
       properties:
-        id:  
-          allOf:
-            - $ref: '#/components/schemas/variantID'
-        product:  
+        id:   
           allOf:
             - $ref: '#/components/schemas/ProductID'
         catalogue:  
@@ -161,7 +157,7 @@ components:
         
     ProductList:
       type: array
-      description: A list of unique variants within a catalogue. The total stock of that variant within the catalogue is without regard to loaction. The breakdown is provided in the variants stock list. 
+      description: A list of unique products within a catalogue. The total stock of that product within the catalogue is without regard to location. The breakdown is provided in the product stock list. 
       items:
         $ref: '#/components/schemas/Product'
 
@@ -184,8 +180,6 @@ components:
           format: uuid
           description: 'ID of the stock item'
           example: 222
-        variant:  
-          $ref: '#/components/schemas/VariantID'
         product:  
           $ref: '#/components/schemas/ProductID'
         catalogue:  

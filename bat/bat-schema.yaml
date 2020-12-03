@@ -132,6 +132,25 @@ components:
         paymentAmount:
           type: number
           example: 399.99
+
+    # Probably more here - does OCDS have a price?
+    Price:
+      type: object
+      description: Summary of prices. Total, product, delivery, VAT
+      properties:
+        totalPrice:
+          type: number
+          description: The total price covered by this object
+          example: 10.99
+        deliveryPrice:
+          type: number
+          description: The delivery price covered by this object
+          example: 10.99
+        tax:
+          type: number
+          description: The total price covered by this object
+          example: 10.99
+          
     
         
     ProductList:

@@ -172,6 +172,8 @@ components:
       properties:
         id:
           $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/bat/bat-schema.yaml#/components/schemas/OrderID'
+        price:
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/bat/bat-schema.yaml#/components/schemas/Price'
 
     SupplierOrder:
       allOf:

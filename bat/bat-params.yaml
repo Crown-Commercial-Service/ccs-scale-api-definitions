@@ -30,4 +30,4 @@ components:
       in: query
       description: For lists of Orders controls the scope of the request - for the User, Organisation or BuyerGroup
       schema: 
-        $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/bat-schema.yaml#/components/schemas/OrderScope'
+        $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/bat/bat-schema.yaml#/components/schemas/OrderScope'

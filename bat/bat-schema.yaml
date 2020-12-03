@@ -49,7 +49,7 @@ components:
           description: 'Time upload took place'
           allOf:
             - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/OCDS_Schema.yaml#/components/schemas/Timestamp'
-        myurl:
+        url:
           type: string
           format: uri
           description: URI for the file. Should be a perma-link and can be used as a key for file uploaded
@@ -81,13 +81,19 @@ components:
       readOnly: true
       
     Product:
-      allOf:
-        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/OCDS_Schema.yaml#/components/schemas/Item'
+      id:  
+        $ref: '#/components/schemas/ProductID'
+      catalogue:  
+          $ref: '#/components/schemas/CatalogueID'
+      summary:
+        allOf:
+          - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/OCDS_Schema.yaml#/components/schemas/Item'
         
     ProductList:
       type: array
       items:
         $ref: '#/components/schemas/Product'
+        
   
     VariantID:
       type: number
@@ -96,12 +102,25 @@ components:
       readOnly: true
       
     Variant:
-      allOf:
-        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/OCDS_Schema.yaml#/components/schemas/Item'
-        - $ref: '#/components/schemas/StockList'
+      type: object
+      description: Details of catalogue update
+      properties:
+        id:  
+          $ref: '#/components/schemas/variantID'
+        product:  
+          $ref: '#/components/schemas/ProductID'
+        catalogue:  
+          $ref: '#/components/schemas/CatalogueID'
+        summary:  
+          allOf:
+            - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/OCDS_Schema.yaml#/components/schemas/Item'
+        stock:
+          allOf:
+            - $ref: '#/components/schemas/StockList'
         
     VariantList:
       type: array
+      description: A list of unique variants within a catalogue. The total stock of that variant within the catalogue is without regard to loaction. The breakdown is provided in the variants stock list. 
       items:
         $ref: '#/components/schemas/Product'
 
@@ -128,6 +147,8 @@ components:
           $ref: '#/components/schemas/VariantID'
         product:  
           $ref: '#/components/schemas/ProductID'
+        catalogue:  
+          $ref: '#/components/schemas/CatalogueID'
         location:
           type: object
           description: location of the stock

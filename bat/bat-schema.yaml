@@ -82,11 +82,14 @@ components:
       
     Product:
       id:  
-        $ref: '#/components/schemas/ProductID'
+        allOf:
+            - $ref: '#/components/schemas/ProductID'
       catalogue:  
-        $ref: '#/components/schemas/CatalogueID'
+        allOf:
+            - $ref: '#/components/schemas/CatalogueID'
       summary:
-        $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/OCDS_Schema.yaml#/components/schemas/Item'
+        allOf:
+            - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/OCDS_Schema.yaml#/components/schemas/Item'
         
     ProductList:
       type: array
@@ -104,11 +107,14 @@ components:
       description: Details of catalogue update
       properties:
         id:  
-          $ref: '#/components/schemas/variantID'
+          allOf:
+            - $ref: '#/components/schemas/variantID'
         product:  
-          $ref: '#/components/schemas/ProductID'
+          allOf:
+            - $ref: '#/components/schemas/ProductID'
         catalogue:  
-          $ref: '#/components/schemas/CatalogueID'
+          allOf:
+            - $ref: '#/components/schemas/CatalogueID'
         summary:  
           allOf:
             - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/OCDS_Schema.yaml#/components/schemas/Item'

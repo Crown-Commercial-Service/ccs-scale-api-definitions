@@ -83,13 +83,13 @@ components:
     Product:
       id:  
         allOf:
-            - $ref: '#/components/schemas/ProductID'
+          - $ref: '#/components/schemas/ProductID'
       catalogue:  
         allOf:
-            - $ref: '#/components/schemas/CatalogueID'
+          - $ref: '#/components/schemas/CatalogueID'
       summary:
         allOf:
-            - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/OCDS_Schema.yaml#/components/schemas/Item'
+          - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/OCDS_Schema.yaml#/components/schemas/Item'
         
     ProductList:
       type: array

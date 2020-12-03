@@ -49,7 +49,7 @@ components:
           description: 'Time upload took place'
           allOf:
             - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/OCDS_Schema.yaml#/components/schemas/Timestamp'
-        myurl:
+        url:
           type: string
           format: uri
           description: URI for the file. Should be a perma-link and can be used as a key for file uploaded
@@ -88,6 +88,16 @@ components:
       type: array
       items:
         $ref: '#/components/schemas/Product'
+        
+    ProductCategory:
+      title: Format
+      description: >-
+              The format of the document, using the open [IANA Media
+              Types](http://www.iana.org/assignments/media-types/) codelist (see the values in the 'Template' column), or using the 'offline/print' code if the described document is published offline. For example, web pages have a format of 'text/html'.
+      type: string
+      enum:
+        - Category A
+        - Category B
   
     VariantID:
       type: number

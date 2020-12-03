@@ -51,8 +51,7 @@ paths:
         - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Params.yaml#/components/parameters/x-causation-id'
         - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Params.yaml#/components/parameters/x-channel'
         - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Params.yaml#/components/parameters/x-client'
-        - $ref: '#/components/parameters/DetailParam'
-        #- $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/CCS_Standard_API_Params.yaml#/components/parameters/DetailParam'
+        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/CCS_Standard_API_Params.yaml#/components/parameters/DetailParam'
       responses:
         200:
           description: Details of the Current Basket
@@ -79,8 +78,7 @@ paths:
         - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Params.yaml#/components/parameters/x-causation-id'
         - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Params.yaml#/components/parameters/x-channel'
         - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Params.yaml#/components/parameters/x-client'
-        - $ref: '#/components/parameters/DetailParam'
-        #- $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/CCS_Standard_API_Params.yaml#/components/parameters/DetailParam'
+        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/CCS_Standard_API_Params.yaml#/components/parameters/DetailParam'
       responses:
         200:
           description: Details of the Current Basket
@@ -125,17 +123,11 @@ components:
       description: Basic object for a basket containing all data for the Active basket.
       properties:
         id:
-          #$ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/bat/bat-schema.yaml#/components/schemas/FileUpdate'
-          #$ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/CCS_Standard_API_Schema.yaml#/components/schemas/OrgID'
-          $ref: '#/components/schemas/OrderID'
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/bat/bat-schema.yaml#/components/schemas/OrderID'
+          #$ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/CCS_Standard_API_Schema.yaml#/components/schemas/GenericID'
+          #$ref: '#/components/schemas/OrderID'
         name:
           type: string
-          
-    OrderID:
-      type: string
-      description: The ID of the order within BaT
-      example: R793138650
-      readOnly: true
 
     SavedBasketSummaries:
       type: array
@@ -159,6 +151,8 @@ components:
           type: string
           format: date-time
           example: "2020-12-25T17:32:28Z"
+        order:
+          $ref: '#/components/schemas/Order'
 
     SavedBasketDetail:
       type: object
@@ -172,18 +166,6 @@ components:
           format: date-time
           example: "2020-12-25T17:32:28Z"
 
-          
-  parameters:    
-  
-  
-  ############## TO BE MOVED TO CENTRAL FILE ############
-    DetailParam:
-      name: detail
-      in: query
-      description: full to provide full detail back in the call, else summary data is returned for list entities. Optional parameter, defaults to summary
-      schema: 
-        type: string
-        enum: [full,summary]
 
           
 servers:

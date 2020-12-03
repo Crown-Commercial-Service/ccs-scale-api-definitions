@@ -73,26 +73,6 @@ components:
         after:
           allOf:
             - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/OCDS_Schema.yaml#/components/schemas/Item'
-        
-    ProductID:
-      type: number
-      format: integer
-      example: 1234
-      readOnly: true
-      
-    Product:
-      type: object
-      description: Details of catalogue update
-      properties: 
-        id:  
-          allOf:
-            - $ref: '#/components/schemas/ProductID'
-        catalogue:  
-          allOf:
-            - $ref: '#/components/schemas/CatalogueID'
-        summary:
-          allOf:
-            - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/OCDS_Schema.yaml#/components/schemas/Item'
 
     Payment:
       type: object
@@ -153,18 +133,13 @@ components:
           
     
         
-    ProductList:
-      type: array
-      items:
-        $ref: '#/components/schemas/Product'
-        
-    VariantID:
+    ProductID:
       type: number
       format: integer
       example: 1234
       readOnly: true
       
-    Variant:
+    Product:
       type: object
       description: Details of catalogue update
       properties:
@@ -184,16 +159,17 @@ components:
           allOf:
             - $ref: '#/components/schemas/StockList'
         
-    VariantList:
+    ProductList:
       type: array
       description: A list of unique variants within a catalogue. The total stock of that variant within the catalogue is without regard to loaction. The breakdown is provided in the variants stock list. 
       items:
         $ref: '#/components/schemas/Product'
 
-    ShareScope:
+    OrderScope:
       type: string
-      description: The scope of the data to be returned or shared. Defaults to the user.
+      description: The scope of the Orders to be returned. Defaults to the user.
       enum: [user,organisation,buyergroup]
+      readOnly: true
     
     StockItem:
       type: object

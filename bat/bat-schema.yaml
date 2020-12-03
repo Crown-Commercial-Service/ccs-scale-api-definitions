@@ -102,11 +102,11 @@ components:
           type: string
           format: date-time
           example: "2020-12-25T17:32:28Z"
-        paymentType:
+        paymentMethod:
           type: string
           enum: [invoice,card]
           example: invoice
-        paymentMethod:
+        paymentMethodDetails:
           oneOf:
             - $ref: '#/components/schemas/InvoicePayment'
             - $ref: '#/components/schemas/CardPayment'

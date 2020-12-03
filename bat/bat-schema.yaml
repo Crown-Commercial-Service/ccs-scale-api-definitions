@@ -93,6 +93,41 @@ components:
         summary:
           allOf:
             - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/OCDS_Schema.yaml#/components/schemas/Item'
+
+    Payment:
+      type: object
+      description: Generic object to hold details of payment data through checkout
+      properties:
+        paymentDate:
+          type: string
+          format: date-time
+          example: "2020-12-25T17:32:28Z"
+        paymentType:
+          type: string
+          enum: [invoice,card]
+          example: invoice
+        oneOf:
+          - $ref: '#/components/schemas/InvoicePayment'
+          - $ref: '#/components/schemas/CardPayment'
+          
+    # More fields to go in here
+    InvoicePayment:
+      type: object
+      description: Data related to an invoice Payment
+      properties:
+        paymentAmount:
+          type: number
+          example: 399.99
+
+    # More fields to go in here
+    CardPayment:
+      type: object
+      description: Data related to an card Payment - to be PCI Compliant
+      properties:
+        paymentAmount:
+          type: number
+          example: 399.99
+    
         
     ProductList:
       type: array

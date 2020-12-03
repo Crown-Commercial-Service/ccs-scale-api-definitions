@@ -156,12 +156,13 @@ components:
           type: string
           description: Name given to the basket when it was saved
           example: "Equipment for new starter"
-        createdDate:
+        savedDate:
           type: string
           format: date-time
           example: "2020-12-25T17:32:28Z"
         shareLevel:
           $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/bat/bat-schema.yaml#/components/schemas/ShareScope'
+        
 
   ############## TO BE MOVED TO CENTRAL FILE ############
 
@@ -175,15 +176,22 @@ components:
     SupplierOrder:
       allOf:
         - $ref: '#/components/schemas/OrderBase'
-        - $ref: '#/components/schemas/Checkout'
-          
-    Checkout:
       type: object
       properties:
         invoiceAddress:
           $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/OCDS_Schema.yaml#/components/schemas/Address'
-        
-        
+        payment:
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/bat/bat-schema.yaml#/components/schemas/Payment'
+        purchaseOrderNumber:
+          type: string
+          description: Buyer purchase order number
+          example: PO1234
+        orderStatus:
+          type: string
+          description: The status of the order (through the checkout/sales process)
+          enum: [created,addressesDefined,paymentDefined,issuedToSupplier,accepted,completed]
+          readOnly: true
+
         
         
         

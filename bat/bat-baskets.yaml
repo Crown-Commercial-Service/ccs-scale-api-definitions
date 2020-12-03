@@ -39,32 +39,6 @@ tags:
     description: "Find out more"
     url: "http://apis.crowncommercial.gov.uk"
 paths:
-  /baskets/active:
-    get:
-      summary: Returns the Active Basket.
-      description: Returns the contents of the current Basket for the signed in user (products, variants, quantities)
-      tags:
-      - Basket
-      operationId: get-basket
-      parameters:
-        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Params.yaml#/components/parameters/x-correlation-id'
-        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Params.yaml#/components/parameters/x-causation-id'
-        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Params.yaml#/components/parameters/x-channel'
-        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Params.yaml#/components/parameters/x-client'
-        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/CCS_Standard_API_Params.yaml#/components/parameters/DetailParam'
-      responses:
-        200:
-          description: Details of the Active Basket
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Basket'
-        500:
-          description: Internal server error.
-          content:
-            application/json:
-              schema:
-                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Schema.yaml#/components/schemas/Errors'
                 
   /baskets:
     get:
@@ -79,7 +53,7 @@ paths:
         - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Params.yaml#/components/parameters/x-channel'
         - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Params.yaml#/components/parameters/x-client'
         - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/CCS_Standard_API_Params.yaml#/components/parameters/DetailParam'
-        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/bat-params.yaml#/components/parameters/OrderScopeParam'
+        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/bat/bat-params.yaml#/components/parameters/OrderScopeParam'
       responses:
         200:
           description: Array of Saved Baskets for the specified scope ([user],Organisation,BuyerGroup)
@@ -89,6 +63,63 @@ paths:
                 type: "array"
                 items:
                   $ref: '#/components/schemas/SavedBasket'
+        500:
+          description: Internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Schema.yaml#/components/schemas/Errors'
+
+  /baskets/active:
+    get:
+      summary: Returns the Active Basket.
+      description: Returns the contents of the current Basket for the signed in user (products, variants, quantities)
+      tags:
+      - Basket
+      operationId: get-basket
+      parameters:
+        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Params.yaml#/components/parameters/x-correlation-id'
+        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Params.yaml#/components/parameters/x-causation-id'
+        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Params.yaml#/components/parameters/x-channel'
+        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Params.yaml#/components/parameters/x-client'
+        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/CCS_Standard_API_Params.yaml#/components/parameters/DetailParam'
+        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/bat/bat-params.yaml#/components/parameters/OrderScopeParam'
+      responses:
+        200:
+          description: Details of the Active Basket
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Basket'
+        500:
+          description: Internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Schema.yaml#/components/schemas/Errors'
+                
+  /baskets/active/checkout:
+    get:
+      summary: Triggers the checkout process
+      description: For the Active Basket starts a 'checkout' (and hands over to the BAT Orders API)
+      tags:
+      - Basket
+      operationId: checkout-basket
+      parameters:
+        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Params.yaml#/components/parameters/x-correlation-id'
+        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Params.yaml#/components/parameters/x-causation-id'
+        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Params.yaml#/components/parameters/x-channel'
+        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Params.yaml#/components/parameters/x-client'
+        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/CCS_Standard_API_Params.yaml#/components/parameters/DetailParam'
+      responses:
+        200:
+          description: Order (in checkout process). One order returned per Supplier
+          content:
+            application/json:
+              schema:
+                type: "array"
+                items:
+                  $ref: '#/components/schemas/SupplierOrder'
         500:
           description: Internal server error.
           content:
@@ -114,7 +145,7 @@ components:
 # 1. remember to do oneOf for Detail/Summary for the depths of the Order object
     Basket:
       allOf:
-        - $ref: '#/components/schemas/Order'
+        - $ref: '#/components/schemas/OrderBase'
 
     SavedBasket:
       type: object
@@ -130,17 +161,23 @@ components:
 
   ############## TO BE MOVED TO CENTRAL FILE ############
 
-    Order:
+    OrderBase:
       type: object
       description: Basic object for a basket containing all data for the Active basket.
       properties:
         id:
           $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/bat/bat-schema.yaml#/components/schemas/OrderID'
 
-        name:
-          type: string
+    SupplierOrder:
+      allOf:
+        - $ref: '#/components/schemas/OrderBase'
+        - $ref: '#/components/schemas/Checkout'
           
-          
+    Checkout:
+      type: object
+      properties:
+        invoiceAddress:
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/OCDS_Schema.yaml#/components/schemas/Address'
 servers:
   # Added by API Auto Mocking Plugin
   - description: SwaggerHub API Auto Mocking

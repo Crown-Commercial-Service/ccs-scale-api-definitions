@@ -54,7 +54,7 @@ paths:
         - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/CCS_Standard_API_Params.yaml#/components/parameters/DetailParam'
       responses:
         200:
-          description: Details of the Current Basket
+          description: Details of the Active Basket
           content:
             application/json:
               schema:
@@ -79,15 +79,16 @@ paths:
         - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Params.yaml#/components/parameters/x-channel'
         - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Params.yaml#/components/parameters/x-client'
         - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/CCS_Standard_API_Params.yaml#/components/parameters/DetailParam'
+        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/bat-params.yaml#/components/parameters/OrderScopeParam'
       responses:
         200:
-          description: Details of the Current Basket
+          description: Array of Saved Baskets for the specified scope ([user],Organisation,BuyerGroup)
           content:
             application/json:
               schema:
-                oneOf:
-                  - $ref: '#/components/schemas/SavedBasketSummaries'
-                  - $ref: '#/components/schemas/SavedBasketDetails'
+                type: "array"
+                items:
+                  $ref: '#/components/schemas/SavedBasket'
         500:
           description: Internal server error.
           content:
@@ -109,14 +110,25 @@ components:
 #            read: Grants read access
 #           only read for MVP
   schemas:
-#
+# TODO
+# 1. remember to do oneOf for Detail/Summary for the depths of the Order object
     Basket:
       allOf:
         - $ref: '#/components/schemas/Order'
 
+    SavedBasket:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Name given to the basket when it was saved
+          example: "Equipment for new starter"
+        createdDate:
+          type: string
+          format: date-time
+          example: "2020-12-25T17:32:28Z"
 
   ############## TO BE MOVED TO CENTRAL FILE ############
-
 
     Order:
       type: object
@@ -124,49 +136,10 @@ components:
       properties:
         id:
           $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/bat/bat-schema.yaml#/components/schemas/OrderID'
-          #$ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/CCS_Standard_API_Schema.yaml#/components/schemas/GenericID'
-          #$ref: '#/components/schemas/OrderID'
+
         name:
           type: string
-
-    SavedBasketSummaries:
-      type: array
-      items:
-        $ref: '#/components/schemas/SavedBasketSummary'
-
-    SavedBasketDetails:
-      type: array
-      items:
-        $ref: '#/components/schemas/SavedBasketDetail'
-
           
-    SavedBasketSummary:
-      type: object
-      properties:
-        name:
-          type: string
-          description: Name given to the basket when it was saved
-          example: "Equipment for new starter"
-        createdDate:
-          type: string
-          format: date-time
-          example: "2020-12-25T17:32:28Z"
-        order:
-          $ref: '#/components/schemas/Order'
-
-    SavedBasketDetail:
-      type: object
-      properties:
-        name:
-          type: string
-          description: Name given to the basket when it was saved
-          example: "Equipment for new starter"
-        createdDate:
-          type: string
-          format: date-time
-          example: "2020-12-25T17:32:28Z"
-
-
           
 servers:
   # Added by API Auto Mocking Plugin

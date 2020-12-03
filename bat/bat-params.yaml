@@ -25,4 +25,10 @@ components:
       schema:
         $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Schema.yaml#/components/schemas/GenericID'
         
-        
+    OrderScopeParam:
+      name: scope
+      in: query
+      description: For lists of Orders controls the scope of the request - for the User, Organisation or BuyerGroup
+      schema: 
+        type: string
+        $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/bat-schema.yaml#/components/schemas/OrderScope'

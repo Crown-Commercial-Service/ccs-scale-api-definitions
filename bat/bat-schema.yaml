@@ -104,7 +104,11 @@ components:
       type: array
       items:
         $ref: '#/components/schemas/Product'
-        
+
+    OrderScope:
+      type: string
+      enum: [user,organisation,buyergroup]
+      readOnly: true          
     
     StockItem:
       type: object

@@ -107,8 +107,9 @@ components:
 
     OrderScope:
       type: string
+      description: The scope of the Orders to be returned. Defaults to the user.
       enum: [user,organisation,buyergroup]
-      readOnly: true          
+      readOnly: true
     
     StockItem:
       type: object

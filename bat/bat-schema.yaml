@@ -173,7 +173,6 @@ components:
       type: string
       description: The scope of the data to be returned/shared. Defaults to the user.
       enum: [user,organisation,buyergroup]
-      readOnly: true
     
     StockItem:
       type: object

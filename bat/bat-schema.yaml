@@ -208,11 +208,116 @@ components:
       type: array
       items:
         $ref: '#/components/schemas/StockItem'
-        
+
+    OrderBase:
+      type: object
+      description: Basic object for a basket containing all data for the Active basket.
+      properties:
+        id:
+          $ref: '#/components/schemas/OrderID'
+        totalPrice:
+          $ref: '#/components/schemas/Price'
+        ownerUser: # Do we make these 2 IDs for summary and full data for detail?
+          oneOf:
+            - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/OCDS_Schema.yaml#/components/schemas/ContactPoint'
+            - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/CCS_Standard_API_Schema.yaml#/components/schemas/UserID'
+        ownerOrganization:
+          oneOf:
+            - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/OCDS_Schema.yaml#/components/schemas/Organization'
+            - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/CCS_Standard_API_Schema.yaml#/components/schemas/OrgID'
+        lastUpdatedDate:
+          type: string
+          format: date-time
+          example: "2020-12-25T17:32:28Z"
+        deliveryAddresses:
+          type: array
+          items:
+            $ref: '#/components/schemas/DeliveryAddress'
+        lineItems:
+          type: array
+          items:
+            $ref: '#/components/schemas/LineItem'
+
     LineItem:
+      type: object
+      properties:
+        product:
+          oneOf:
+            - $ref: '#/components/schemas/ProductID'
+            - $ref: '#/components/schemas/Product'
+        mpn:
+          type: string
+          description: Manufacturer Part Number
+          example: ABC1234556
+        manufacturerID:
+          type: string
+          description: Manufacturer ID
+        itemDeliveryAddressID:
+          type: number
+          format: integer
+          example: 1234
+        itemPrice:
+          $ref: '#/components/schemas/Price'
+        quantity:
+          type: number
+          description: The number of the Item being purchased (for this delivery address)
+          format: integer
+          example: 5
+        supplierItems:
+          type: array
+          items:
+            $ref: '#/components/schemas/SupplierItem'
+
+    SupplierItem:
+      type: object
+      description: Supplier details for the line item
+      properties:
+        supplierOrganization:
+          oneOf:
+            - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/OCDS_Schema.yaml#/components/schemas/Organization'
+            - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/CCS_Standard_API_Schema.yaml#/components/schemas/OrgID'
+        quantity:
+          type: number
+          format: integer
+          description: The number of the product to be supplied by this supplier
+          example: 3
+        productCatalogID:
+          $ref: '#/components/schemas/ProductCatalogID'
+        supplierItemPrice:
+          $ref: '#/components/schemas/Price'         
+            
+    DeliveryAddress:
+      type: object
+      properties:
+        address:
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/OCDS_Schema.yaml#/components/schemas/Address'
+        deliveryNotes:
+          type: string
+          description: Notes supporting the delivery address
+          example: Leave delivery with Security
+        deliveryContact:
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/OCDS_Schema.yaml#/components/schemas/ContactPoint'
+        deliveryAddressID:
+          type: number
+          format: integer
+          example: 1234
+
+    SupplierOrder:
       allOf:
-        # OCDS Item is id, description, classification, additionalClassifications, quantity, unit
-        # Classification is scheme, id, description, uri - see https://standard.open-contracting.org/latest/en/schema/codelists/#item-classification-scheme - we will probably use UNSPSC but specific scheme is to be determined. Note that this classification is different to Spree's Taxon.
-       - $ref:  'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/OCDS_Schema.yaml#/components/schemas/Item'
-      # - type: object
-         # All of the other properties required for a Marketplace Basket item 
+        - $ref: '#/components/schemas/OrderBase'
+      type: object
+      properties:
+        invoiceAddress:
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/OCDS_Schema.yaml#/components/schemas/Address'
+        payment:
+          $ref: '#/components/schemas/Payment'
+        purchaseOrderNumber:
+          type: string
+          description: Buyer purchase order number
+          example: PO1234
+        orderStatus:
+          type: string
+          description: The status of the order (through the checkout/sales process)
+          enum: [created,addressesDefined,paymentDefined,issuedToSupplier,accepted,completed]
+          readOnly: true
+        

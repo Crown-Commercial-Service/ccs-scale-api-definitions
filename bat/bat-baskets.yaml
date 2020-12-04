@@ -119,7 +119,7 @@ paths:
               schema:
                 type: "array"
                 items:
-                  $ref: '#/components/schemas/SupplierOrder'
+                  $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/bat/bat-schema.yaml#/components/schemas/SupplierOrder'
         500:
           description: Internal server error.
           content:
@@ -145,11 +145,11 @@ components:
 # 1. remember to do oneOf for Detail/Summary for the depths of the Order object
     Basket:
       allOf:
-        - $ref: '#/components/schemas/OrderBase'
+        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/bat/bat-schema.yaml#/components/schemas/OrderBase'
 
     SavedBasket:
       allOf:
-        - $ref: '#/components/schemas/OrderBase'
+        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/bat/bat-schema.yaml#/components/schemas/OrderBase'
       type: object
       properties:
         name:
@@ -166,45 +166,7 @@ components:
 
   ############## TO BE MOVED TO CENTRAL FILE ############
 
-    OrderBase:
-      type: object
-      description: Basic object for a basket containing all data for the Active basket.
-      properties:
-        id:
-          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/bat/bat-schema.yaml#/components/schemas/OrderID'
-        price:
-          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/bat/bat-schema.yaml#/components/schemas/Price'
-        ownerUser: # Do we make these 2 IDs for summary and full data for detail?
-          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/OCDS_Schema.yaml#/components/schemas/ContactPoint'
-        ownerOrganization: 
-          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/OCDS_Schema.yaml#/components/schemas/Organization'
-        lastUpdatedDate:
-          type: string
-          format: date-time
-          example: "2020-12-25T17:32:28Z"
 
-
-    SupplierOrder:
-      allOf:
-        - $ref: '#/components/schemas/OrderBase'
-      type: object
-      properties:
-        invoiceAddress:
-          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/OCDS_Schema.yaml#/components/schemas/Address'
-        payment:
-          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/bat/bat-schema.yaml#/components/schemas/Payment'
-        purchaseOrderNumber:
-          type: string
-          description: Buyer purchase order number
-          example: PO1234
-        orderStatus:
-          type: string
-          description: The status of the order (through the checkout/sales process)
-          enum: [created,addressesDefined,paymentDefined,issuedToSupplier,accepted,completed]
-          readOnly: true
-
-        
-        
         
 servers:
   # Added by API Auto Mocking Plugin

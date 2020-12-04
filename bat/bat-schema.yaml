@@ -291,8 +291,14 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/SupplierItem'
+            
+    SupplierCatalogueItemList:
+      type: array
+      description: A list of items within a supplier catalogue.
+      items:
+        $ref: '#/components/schemas/SupplierItem'
 
-    SupplierItem:
+    SupplierCatalogueItem:
       type: object
       description: Supplier details for the line item
       properties:

@@ -237,6 +237,31 @@ components:
           items:
             $ref: '#/components/schemas/LineItem'
 
+    OrderBaseSummary:
+      type: object
+      description: Basic object for a basket containing all data for the Active basket.
+      properties:
+        id:
+          $ref: '#/components/schemas/OrderID'
+        totalPrice:
+          $ref: '#/components/schemas/Price'
+        ownerUserEmail: # Should this be name?
+            type: string
+            description: The email address of the user who created the order
+            example: Joe.Smith@crowncommercial.gov.uk
+        ownerOrganizationName:
+            type: string
+            description: The name of the Buyer Organisation
+            example: Crown Commercial Service
+        lastUpdatedDate:
+          type: string
+          format: date-time
+          example: "2020-12-25T17:32:28Z"
+        lineItemNumber:
+          type: number
+          format: integer
+          description: The number of line items in the order
+
     LineItem:
       type: object
       properties:

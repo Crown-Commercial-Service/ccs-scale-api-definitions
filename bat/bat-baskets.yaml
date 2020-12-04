@@ -42,8 +42,8 @@ paths:
                 
   /baskets:
     get:
-      summary: Returns all Saved Baskets for the user (note not the current basket).
-      description: Returns all Saved Baskets for the user (note not the current basket).
+      summary: Returns all Saved Baskets for the given scope (note not the current basket).
+      description: Returns all Saved Baskets for the given scope - user, organisation, buyer group (note not the current basket).
       tags:
       - Saved Basket
       operationId: get-saved-basket-list
@@ -62,7 +62,9 @@ paths:
               schema:
                 type: "array"
                 items:
-                  $ref: '#/components/schemas/SavedBasket'
+                  oneOf:
+                    - $ref: '#/components/schemas/SavedBasket'
+                    - $ref: '#/components/schemas/SavedBasketSummary'
         500:
           description: Internal server error.
           content:
@@ -148,20 +150,53 @@ paths:
               $ref: '#/components/schemas/SaveBasketParams'
       responses:
         200:
-          description: Order (in checkout process). One order returned per Supplier
+          description: Saved basket
           content:
             application/json:
               schema:
-                type: "array"
-                items:
-                  $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/bat/bat-schema.yaml#/components/schemas/SupplierOrder'
+                $ref: '#/components/schemas/SavedBasket'
         500:
           description: Internal server error.
           content:
             application/json:
               schema:
                 $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Schema.yaml#/components/schemas/Errors'
-                
+
+  /baskets/active/quote:
+    post:
+      summary: Creates quotes from the active basket
+      description: Creates one quote per supplier from the active basket
+      tags:
+      - Basket
+      operationId: save-as-quote
+      parameters:
+        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Params.yaml#/components/parameters/x-correlation-id'
+        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Params.yaml#/components/parameters/x-causation-id'
+        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Params.yaml#/components/parameters/x-channel'
+        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Params.yaml#/components/parameters/x-client'
+        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/CCS_Standard_API_Params.yaml#/components/parameters/DetailParam'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateQuoteParams'
+      responses:
+        200:
+          description: Quotes
+          content:
+            application/json:
+              schema:
+                type: "array"
+                items:
+                  $ref: '#/components/schemas/Quote'
+        500:
+          description: Internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Schema.yaml#/components/schemas/Errors'
+                   
                
 #
 components:
@@ -198,6 +233,23 @@ components:
         shareLevel:
           $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/bat/bat-schema.yaml#/components/schemas/ShareScope'
 
+    SavedBasketSummary:
+      allOf:
+        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/bat/bat-schema.yaml#/components/schemas/OrderBaseSummary'
+      type: object
+      properties:
+        name:
+          type: string
+          description: Name given to the basket when it was saved
+          example: "Equipment for new starter"
+        savedDate:
+          type: string
+          format: date-time
+          example: "2020-12-25T17:32:28Z"
+        shareLevel:
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/bat/bat-schema.yaml#/components/schemas/ShareScope'
+
+
     SaveBasketParams:
       type: object
       properties:
@@ -208,6 +260,69 @@ components:
         shareLevel:
           $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/bat/bat-schema.yaml#/components/schemas/ShareScope'
   
+    CreateQuoteParams:
+      type: object
+      properties:
+        name:
+          type: string
+          description: The name of the Quote
+          example: Standard Office Equipment
+        shareLevel:
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/bat/bat-schema.yaml#/components/schemas/ShareScope'
+        poNumber:
+          type: string
+          description: Purchase Order Number for the quote(s)
+          example: PO453726218
+  
+    Quote:
+      allOf:
+        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/bat/bat-schema.yaml#/components/schemas/OrderBase'
+      type: object
+      properties:
+        name:
+          type: string
+          description: the name of the quote
+          example: R123436
+        purchaseOrderNumber:
+          type: string
+          description: Buyer purchase order number
+          example: PO1234
+        shareLevel:
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/bat/bat-schema.yaml#/components/schemas/ShareScope'
+        supplierStatus:
+          $ref: '#/components/schemas/QuoteSupplierStatus'
+        buyerApprovalStatus:
+          $ref: '#/components/schemas/QuoteBuyerStatus'
+        
+        
+    QuoteSupplierStatus:
+      type: object
+      properties:
+        status:
+          description: The status of the quote (through the checkout/sales process)
+          enum: [created,accepted,rejected]
+        date:
+          type: string
+          format: date
+          description: The date at which the quote was accepted/rejected by the supplier
+          example: 2020-12-25
+        supplierContact:
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/OCDS_Schema.yaml#/components/schemas/ContactPoint'
+
+    QuoteBuyerStatus:
+      type: object
+      properties:
+        status:
+          description: The status of the quote (through the checkout/sales process)
+          enum: [created,approved,rejected]
+        date:
+          type: string
+          format: date
+          description: The date at which the quote was approved/rejected by the buyer
+          example: 2020-12-25
+        buyerContact:
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/OCDS_Schema.yaml#/components/schemas/ContactPoint'
+
 
   ############## TO BE MOVED TO CENTRAL FILE ############
 

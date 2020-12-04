@@ -136,28 +136,33 @@ components:
           description: The total price covered by this object
           example: 10.99
           
-        
     ProductID:
       type: number
       format: integer
       example: 1234
       readOnly: true
-
-    ProductCatalogID:
+        
+    ItemID:
       type: number
-      description: The ID of the instance of the Product in the specific Catalog (where the Catalogue is Supplier specific)
+      format: integer
+      example: 1234
+      readOnly: true
+
+    ItemCatalogID:
+      type: number
+      description: The ID of the instance of the Item in the specific Catalog (where the Catalogue is Supplier specific)
       format: integer
       example: 1234
       readOnly: true
 
       
-    Product:
+    Item:
       type: object
       description: Details of catalogue update
       properties:
         id:   
           allOf:
-            - $ref: '#/components/schemas/ProductID'
+            - $ref: '#/components/schemas/ItemID'
         catalogue:  
           allOf:
             - $ref: '#/components/schemas/CatalogueID'
@@ -270,17 +275,10 @@ components:
     LineItem:
       type: object
       properties:
-        product:
+        item:
           oneOf:
-            - $ref: '#/components/schemas/ProductID'
-            - $ref: '#/components/schemas/Product'
-        mpn:
-          type: string
-          description: Manufacturer Part Number
-          example: ABC1234556
-        manufacturerID:
-          type: string
-          description: Manufacturer ID
+            - $ref: '#/components/schemas/ItemID'
+            - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/OCDS_Schema.yaml#/components/schemas/Item'
         itemDeliveryAddressID:
           type: number
           format: integer
@@ -295,7 +293,7 @@ components:
         supplierItems:
           type: array
           items:
-            $ref: '#/components/schemas/SupplierItem'
+            $ref: '#/components/schemas/SupplierOrderItem'
             
     SupplierCatalogueItemList:
       type: array
@@ -303,7 +301,7 @@ components:
       items:
         $ref: '#/components/schemas/SupplierCatalogueItem'
 
-    SupplierCatalogueItem:
+    SupplierOrderItem:
       type: object
       description: Supplier details for the line item
       properties:
@@ -317,7 +315,8 @@ components:
           description: The number of the product to be supplied by this supplier
           example: 3
         productCatalogID:
-          $ref: '#/components/schemas/ProductCatalogID'
+          # Supplier information about the Item.  Not aware of any but if there's some then this should have a detail object that can be returned
+          $ref: '#/components/schemas/ItemCatalogID'
         supplierItemPrice:
           $ref: '#/components/schemas/Price'         
             

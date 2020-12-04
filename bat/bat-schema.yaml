@@ -137,6 +137,14 @@ components:
       format: integer
       example: 1234
       readOnly: true
+
+    ProductCatalogID:
+      type: number
+      description: The ID of the instance of the Product in the specific Catalog (where the Catalogue is Supplier specific)
+      format: integer
+      example: 1234
+      readOnly: true
+
       
     Product:
       type: object

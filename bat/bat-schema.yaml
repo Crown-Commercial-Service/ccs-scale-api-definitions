@@ -13,6 +13,11 @@ components:
       example: 1234
       readOnly: true
       
+    CatalogueHistory:
+      type: array
+      items:
+        $ref: '#/components/schemas/CatalogueUopdate'
+      
     Catalogue:
       type: object
       description: Metadata about a Catalogue

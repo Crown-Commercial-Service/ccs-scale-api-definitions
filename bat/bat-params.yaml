@@ -8,14 +8,6 @@ components:
       description: Catalogue ID
       schema:
         $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Schema.yaml#/components/schemas/GenericID'
-
-    SupplierItemParam:
-      name: supplierItemID
-      in: path
-      required: true
-      description: Catalogue Supplier Item ID
-      schema:
-        $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Schema.yaml#/components/schemas/GenericID'  
         
     ProductParam:
       name: prodID
@@ -25,11 +17,11 @@ components:
       schema:
         $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Schema.yaml#/components/schemas/GenericID'
         
-    VariantParam:
-      name: varID
+    SupplierItemParam:
+      name: supplierItemID
       in: path
       required: true
-      description: Variant ID
+      description: Catalogue Supplier Item ID
       schema:
         $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Schema.yaml#/components/schemas/GenericID'
         

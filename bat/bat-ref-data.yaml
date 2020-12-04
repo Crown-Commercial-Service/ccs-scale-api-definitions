@@ -54,8 +54,9 @@ paths:
 #            - write
       summary: Find products
       
-    '/products/{prodID}':
+  '/products/{prodID}':
     parameters:
+      - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/bat/bat-params.yaml#/components/parameters/ProductParam'
       - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Params.yaml#/components/parameters/x-correlation-id'
       - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Params.yaml#/components/parameters/x-causation-id'
       - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Params.yaml#/components/parameters/x-channel'
@@ -64,7 +65,7 @@ paths:
       description: Gets details of a product agnostic of Supplier
       tags:
         - Tag to group
-      operationId: FindProducts
+      operationId: Product
       responses:
         '200':
           description: ok
@@ -209,7 +210,7 @@ paths:
       description: Provides details about a single SupplierItem which matches the product.
       tags:
         - Tag to group
-      operationId: Product
+      operationId: ProductSupplierCatalogueItem
       responses:
         '200':
           description: ok
@@ -230,7 +231,7 @@ paths:
   '/catalogues/(catID}/items/{supplierItemID}':
     parameters:
       - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/bat/bat-params.yaml#/components/parameters/CatalogueParam'
-      - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/bat/bat-params.yaml#/components/parameters/ProductParam'
+      - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/bat/bat-params.yaml#/components/parameters/SupplierItemParam'
       - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Params.yaml#/components/parameters/x-correlation-id'
       - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Params.yaml#/components/parameters/x-causation-id'
       - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Params.yaml#/components/parameters/x-channel'
@@ -239,7 +240,7 @@ paths:
       description: Provides details about a single SupplierItem which matches the product.
       tags:
         - Tag to group
-      operationId: SupplierItem
+      operationId: SupplierCatalogueItem
       responses:
         '200':
           description: ok

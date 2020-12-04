@@ -296,7 +296,7 @@ components:
       type: array
       description: A list of items within a supplier catalogue.
       items:
-        $ref: '#/components/schemas/SupplierItem'
+        $ref: '#/components/schemas/SupplierCatalogueItem'
 
     SupplierCatalogueItem:
       type: object

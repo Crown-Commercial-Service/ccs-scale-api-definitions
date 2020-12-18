@@ -27,33 +27,6 @@ components:
       title: OCDS Release
       allOf:
         - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/OCDS_Schema.yaml#/components/schemas/Package'
-      properties:
-        number:
-          example: "RM3733"
-        uri:
-          example: "https://www.crowncommercial.gov.uk/agreements/RM3733"
-        publishedDate:
-          allOf:
-            - ref 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/CCS_Standard_API_Schema.yaml#/components/schemas/Timestamp'
-          title: Published date
-          description: 'The date that this package was published. If this package is generated ''on demand'', this date should reflect the date of the last change to the underlying contents of the package.'
-        releases:
-          description: An array of one or more OCDS releases.
-          items:
-            $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/OCDS_Schema.yaml#/components/schemas/ReleaseSummary'
-          uniqueItems: true
-        publisher:
-          properties:
-            name:
-              example: "Crown Commercial Services"
-            scheme:
-              example: "XX-CCS"
-            uid:
-              example: "123456789"
-            uri:
-              example: "https://www.crowncommercial.gov.uk/"
-        license:
-          example: "https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/"
 
 
         

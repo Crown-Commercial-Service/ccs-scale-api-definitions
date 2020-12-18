@@ -1,0 +1,408 @@
+components:
+#  securitySchemes:
+#    OAuth2:
+#      type: oauth2
+#      flows:
+#        authorizationCode:
+#          authorizationUrl: http://ccsexample.com/oauth/auth
+#          tokenUrl: https://api.crowncommercial.gov.uk/oauth/token
+#          scopes:
+#            read: Grants read access
+#           only read for MVP
+  schemas:
+#
+    AgreementSummary:
+      type: object
+      properties:
+        number:
+          type: string
+          description: Commercial Agreement Number
+          example: RM3733
+        name:
+          type: string
+          description: Commercial Agreement Name
+          example: "Technology Products 2"
+          
+    Agreement:
+      title: OCDS Release
+      allOf:
+        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/OCDS_Schema.yaml#/components/schemas/Package'
+      properties:
+        number:
+          example: "RM3733"
+        uri:
+          title: Package identifier
+          example: "https://www.crowncommercial.gov.uk/agreements/RM3733"
+        publishedDate:
+          allOf:
+            - ref
+          title: Published date
+          description: 'The date that this package was published. If this package is generated ''on demand'', this date should reflect the date of the last change to the underlying contents of the package.'
+        releases:
+          title: Releases
+          description: An array of one or more OCDS releases.
+          type: array
+          minItems: 1
+          items:
+            $ref: '#/components/schemas/ReleaseSummary'
+          uniqueItems: true
+        publisher:
+          title: Publisher
+          description: Information to uniquely identify the publisher of this package.
+          type: object
+          required:
+              - name
+          properties:
+            name:
+              title: Name
+              description: The name of the organization or department responsible for publishing this data.
+              type: string
+              example: "Crown Commercial Services"
+            scheme:
+              title: Scheme
+              description: The scheme that holds the unique identifiers used to identify the item being identified.
+              type: string
+              nullable: true
+              example: "XX-CCS"
+            uid:
+              title: uid
+              description: The unique ID for this entity under the given ID scheme.
+              type: string
+              nullable: true
+              example: "123456789"
+            uri:
+              title: URI
+              description: A URI to identify the publisher.
+              type: string
+              nullable: true
+              format: uri
+              example: "https://www.crowncommercial.gov.uk/"
+        license:
+          title: License
+          description: 'A link to the license that applies to the data in this package. A Public Domain Dedication or [Open Definition Conformant](http://opendefinition.org/licenses/) license is recommended. The canonical URI of the license should be used. Documents linked from this file may be under other license conditions.'
+          type: string
+          nullable: true
+          format: uri
+          example: "https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/"
+        publicationPolicy:
+          title: Publication policy
+          description: 'A link to a document describing the publishers [publication policy](https://standard.open-contracting.org/latest/en/implementation/publication_policy/).'
+          type: string
+          nullable: true
+          format: uri
+
+        
+#
+# Agreement Detail omits some Agreement data in the initial version.
+#  - Suppliers will be shown at a Lot level rather than Agreement level
+#  - CPV codes are omitted as noted above
+#
+    AgreementDetail:
+      type: object
+      properties:
+        number:
+          type: string
+          description: Commercial Agreement Number
+          example: "RM3733"
+        name:
+          type: string
+          description: Commercial Agreement Name
+          example: "Technology Products 2"
+        description:
+          type: string
+          description: Short textual description of the commercial agreement
+        startDate:
+          type: string
+          format: date
+          description: Effective start date of Commercial Agreement
+          example: yyyy-mm-dd
+        endDate:
+          type: string
+          format: date
+          example: yyyy-mm-dd
+          description: Effective start date of Commercial Agreement
+        detailUrl:
+          type: string
+          format: uri
+          description: URL of the Agreement detail page on the CCS website
+          example: "https://www.crowncommercial.gov.uk/agreements/RM3733"
+        contacts:
+          type: array
+          items:
+            $ref: '#/components/schemas/LotContact'
+        benefits:
+          type: array
+          items:
+            type: string
+            description: Short description of the benefit
+        lots:
+          type: array
+          items:
+            $ref: '#/components/schemas/LotSummary'
+#
+    LotDetail:
+      type: object
+      properties:
+        number:
+          type: string
+          description: Lot number
+          example: 1
+        name:
+          type: string
+          description: Lot name
+          example: Finance
+        startDate:
+          type: string
+          format: date
+          description: Effective start date of Lot
+          example: yyyy-mm-dd
+        endDate:
+          type: string
+          format: date
+          example: yyyy-mm-dd
+          description: Effective start date of Lot
+        description:
+          type: string
+          description: Short textual description of the Lot
+        type:
+          type: string
+          enum: ["product","service","product and service"]
+        routesToMarket:
+          type: array
+          description: Routes to Market for the Lot and associated bounds
+          items:
+            $ref: '#/components/schemas/RouteToMarket'
+        sectors:
+          type: array
+          items:
+            type: string
+            description: A sector permitted to buy using the Agreement/Lot
+        relatedAgreementLots:
+          type: array
+          items:
+            $ref: '#/components/schemas/RelatedAgreementLot'
+        buyerNeeds:
+          # Lot default text for buyer needs for CaT
+          type: array
+          items:
+            $ref: '#/components/schemas/BuyerNeed'
+        # Further to the rules model below can data drive the whole rules evaluation triggering the rules from events in CaT and BaT
+        # e.g. a list of events mapped to rules in config. When event happens, if Agreement has rule data then we evaluate the rule. All in a standard function passed event data and Agreement data
+        # Assumption that event mapping discussed above is required for MVP
+        rules:
+          type: array
+          items:
+                $ref: '#/components/schemas/LotRule'
+#
+    RelatedAgreementLot:
+      type: object
+      description: A simple reference to a related Agreement/Lot combination and relationship type
+      properties:
+        caNumber:
+          type: string
+          description: Commercial Agreement number
+          example: "RM3733"
+        lotNumber:
+          type: string
+          description: Lot number within the Commercial Agreement
+          example: "6"
+        relationship:
+          type: string
+          description: "The type of the relationship in machine readable form"
+          example: "FurtherCompetitionWhenBudgetExceeded"
+#
+    BuyingMethod:
+      type: string
+      enum: ["DirectAward" , "FurtherCompetition", "Marketplace", "EAuction"]
+      example: "DirectAward"
+#
+    RouteToMarket:
+      # Route to Market for the Lot complete with the rules which determine when it applies
+      type: object
+      properties:
+        buyingMethods:
+          type: array
+          items:
+            $ref: "#/components/schemas/BuyingMethod"
+        buyingSystemURL:
+          type: string
+          format: uri
+          description: The URL to use for the system to progress the procurement (e.g. BaT, CaT, other)
+        minimumValue:
+          type: number
+          format: float
+          description: The minimum value for which this Lot applies
+        maximumValue:
+          type: number
+          format: float
+          description: The maximum value for which this Lot applies
+        location:
+          # Need to understand what this is used for and how this is used to build it out
+          type: string
+          description: PLACEHOLDER. Needs to be an anyOf for National:Regional or individual Regions or even lowest level NUTS2
+        minContractLength:
+          type: object
+          properties:
+            unit:
+              type: string
+              enum: ["day","month","year"]
+              description: The unit of the length value
+            length:
+              type: integer
+              format: int64
+              description: The number of units
+        maxContractLength:
+          type: object
+          properties:
+            unit:
+              type: string
+              enum: ["day","month","year"]
+              description: The unit of the length value
+            length:
+              type: integer
+              format: int64
+              description: The number of units
+#
+    LotRule:
+      type: object
+      description: Rules such as 'Prices may not rise more than {x} times in any consecutive {y} day period' can be included in the 'other' element - in this case 2 data-points would be required. <br><br>In the above example:<br><br>name="max number of prices rises in period"<br>
+        ruleId="maxNumberPriceChangesInPeriod"<br>
+        lotAttributes=[ {"numberOfTimes","integer",,3,},{"daysInPeriod" ,"integer",,7,}]<br>
+        transactionData= ["priceRisesLastPeriod","product.priceRises"]<br>
+        evaluationType="complex"<br><br>
+        as here specific logic is required to obtain the number of price rises before evaluating.
+      properties:
+        name:
+          type: string
+          description: Name of the rule (3 or 4 word description)
+          example: "Price rise limit"
+        ruleId:
+          type: string
+          description: Unique identifier of the rule
+        lotAttributes:
+          type: array
+          items:
+            $ref: '#/components/schemas/NameValueType'
+        transactionData:
+          type: array
+          description: Data required from the relevant transaction to be able to evaluate the rule
+          items:
+            type: object
+            properties:
+              name:
+                type: string
+                description: name of the variable
+                example: "priceRisesLastPeriod"
+              location:
+                type: string
+                description: Path or other location of the data which can be evaluated by the application
+                example: "product.priceRises"
+        evaluationType:
+          type: string
+          description: How the rule should be evaluated -<br>
+            equal = rule is true if the lotAttribute is equal to the transactionData<br>
+            greater = rule is true if the lotAttribute is greater than the transactionData<br>
+            less = rule is true if the lotAttribute is less than the transactionData<br>
+            complex = rule specific code is required to evaluate (typically where there are multiple variables)<br>
+            flag = rule is always true. The presence of the rule is used to flag that certain behaviour is required. In some cases data may be passed in the lotAttributes.
+          enum: [equal , greater, less, complex, flag]
+          # regexp requires the expression. Left for post-MVP
+          # complex will require specific code to evaluate e.g. 'identify number of price rises in n days'
+        service:
+          type: string
+          description: Name of the service to which the rule applies (in future the Agreement Service may only return rules for the requested services)
+          example: "BaT"
+#
+    NameValueType:
+      type: object
+      properties:
+        name:
+          type: string
+          description: The name of the 'other' bound to be used as hashmap key
+        datatype:
+        # decided not to use date as this would actually be duration and that's an integer
+          type: string
+          enum: [string,integer,number]
+          description: the datatype of the 'other' lotBound value
+        valueText:
+          type: string
+        valueInteger:
+          type: integer
+        valueNumber:
+          type: number
+        units:
+          type: string
+          description: The unit of the value given in the value fields e.g. kg, mile, hour
+#
+    AgreementUpdate:
+      type: object
+      properties:
+        date:
+          type: string
+          format: date
+          description: Date that the update was added
+          example: yyyy-mm-dd
+        linkUrl:
+          type: string
+          format: uri
+          description: Link to further information regarding the update
+        text:
+          type: string
+          description: Actual update text
+#
+    LotSummary:
+      type: object
+      properties:
+        number:
+          type: string
+          description: Lot number
+          example: 1
+        name:
+          type: string
+          description: Lot name
+          example: "Finance"
+#
+    LotSupplier:
+      type: object
+      properties:
+        organization: 
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/OCDS_Schema.yaml#/components/schemas/Organization'
+        supplierStatus: 
+          type: string
+          enum: [active,suspended,excluded]
+        LotContacts:
+          type: array
+          items:
+            $ref: '#/components/schemas/LotContact'
+#
+    LotContact:
+      type: "object"
+      description: "Agreement/Lot specific contacts for the Organization"
+      properties:
+        contact:
+        #OCDS contactPoint as returned from the Org/Contact service
+          $ref: "https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/OCDS_Schema.yaml#/components/schemas/ContactPoint"
+        contactId:
+          type: string
+          description: "Unique identifier of the contact"
+        lotContactReason:
+        #Open Question: is there a more OCDS compliant term?
+          type: string
+          description: "Reason (usually application function) for which the contact should be contacted in the context of this Lot"
+          example: "batQuoteNotification"
+#
+    BuyerNeed:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          description: Id of the need (to allow alignment with CaT)
+        name:
+          type: string
+          description: Name of Buyer Need
+        text:
+          type: string
+          description: Text to be displayed for Buyer need
+
+

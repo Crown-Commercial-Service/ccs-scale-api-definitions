@@ -69,10 +69,10 @@ paths:
   /agreements/{agreementID}:
     get:
       summary: Returns details of the specified Commercial Agreement
-      description: Returns the definition of the specified Commercial Agreement
+      description: Returns the packager containing the definition of the specified Commercial Agreement
       tags:
       - Agreement
-      operationId: get-agreement-detail
+      operationId: get-agreement-package
       parameters:
         - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Params.yaml#/components/parameters/AgreementParam'
         - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Params.yaml#/components/parameters/x-correlation-id'
@@ -85,7 +85,73 @@ paths:
           content:
             application/json:
               schema:
-                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/CCS_Standard_API_Params.yaml#/components/schemas/Package'
+                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/agreements/agreements_schema.yaml#/components/schemas/Agreement'
+        404:
+          description: Commercial Agreement not found
+          content:
+            application/json:
+              schema:
+                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Schema.yaml#/components/schemas/Errors'
+        500:
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Schema.yaml#/components/schemas/Errors'
+#
+  /agreements/{agreementID}/latest:
+    get:
+      summary: Returns details of the specified Commercial Agreement
+      description: Returns the definition of the specified Commercial Agreement
+      tags:
+      - Agreement
+      operationId: get-agreement-detail-latest
+      parameters:
+        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Params.yaml#/components/parameters/AgreementParam'
+        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Params.yaml#/components/parameters/x-correlation-id'
+        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Params.yaml#/components/parameters/x-causation-id'
+        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Params.yaml#/components/parameters/x-channel'
+        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Params.yaml#/components/parameters/x-client'
+      responses:
+        200:
+          description: Commercial Agreement detail
+          content:
+            application/json:
+              schema:
+                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/OCDS_Schema.yaml#/components/schemas/Release'
+        404:
+          description: Commercial Agreement not found
+          content:
+            application/json:
+              schema:
+                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Schema.yaml#/components/schemas/Errors'
+        500:
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Schema.yaml#/components/schemas/Errors'
+#
+  /agreements/{agreementID}/releases/{OCID}:
+    get:
+      summary: Returns details of the specified Commercial Agreement
+      description: Returns the definition of the specified Commercial Agreement
+      tags:
+      - Agreement
+      operationId: get-agreement-detail-version
+      parameters:
+        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Params.yaml#/components/parameters/AgreementParam'
+        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Params.yaml#/components/parameters/x-correlation-id'
+        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Params.yaml#/components/parameters/x-causation-id'
+        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Params.yaml#/components/parameters/x-channel'
+        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Params.yaml#/components/parameters/x-client'
+      responses:
+        200:
+          description: Commercial Agreement detail
+          content:
+            application/json:
+              schema:
+                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/OCDS_Schema.yaml#/components/schemas/Release'
         404:
           description: Commercial Agreement not found
           content:
@@ -134,7 +200,7 @@ paths:
               schema:
                 $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Schema.yaml#/components/schemas/Errors'
  # The get-agreement-detail call explicitly omits CPV codes in the initial version. These will be added later if required. As there are potentially thousands of CPV codes it was felt that these would overwhelm the output and management of the underlying data.  Additional calls can be added to provide these if required in a similar way to the '/agreements/{ca-number}/updates' call below.
-  /agreements/{agreementID}/lots:
+  /agreements/{agreementID}/latest/lots:
     get:
       summary: Returns details of all of the Lots for this Commercial Agreement
       description: Returns data about the Lots, both general information and parameters required to govern the behaviour of applications using this data

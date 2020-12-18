@@ -33,10 +33,10 @@ components:
         $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Schema.yaml#/components/schemas/AgreementID'
     
     AgreementReleaseParam:
-      name: OCID
+      name: ocid
       in: path
       required: true
-      description: Agreement
+      description: Agreement Release
       schema:
         $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Schema.yaml#/components/schemas/AgreementOCID'
         

@@ -58,7 +58,7 @@ paths:
               schema:
                 type: array
                 items:
-                    $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/CCS_Standard_API_Params.yaml#/components/schemas/Package'
+                    $ref: '#/components/schemas/AgreementSummary'
         500:
           description: Internal server error.
           content:
@@ -85,7 +85,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/AgreementDetail'
+                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/CCS_Standard_API_Params.yaml#/components/schemas/Package'
         404:
           description: Commercial Agreement not found
           content:

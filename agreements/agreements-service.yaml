@@ -132,7 +132,7 @@ paths:
               schema:
                 $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Schema.yaml#/components/schemas/Errors'
 #
-  /agreements/{agreementID}/releases/{OCID}:
+  /agreements/{agreementID}/releases/{ocid}:
     get:
       summary: Returns details of the specified Commercial Agreement
       description: Returns the definition of the specified Commercial Agreement

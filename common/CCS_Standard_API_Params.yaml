@@ -31,6 +31,14 @@ components:
       description: Agreement
       schema:
         $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Schema.yaml#/components/schemas/AgreementID'
+    
+    AgreementReleaseParam:
+      name: OCID
+      in: path
+      required: true
+      description: Agreement
+      schema:
+        $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Schema.yaml#/components/schemas/AgreementOCID'
         
     LotParam:
       name: lotID

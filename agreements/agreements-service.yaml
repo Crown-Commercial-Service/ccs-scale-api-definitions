@@ -58,7 +58,7 @@ paths:
               schema:
                 type: array
                 items:
-                    $ref: '#/components/schemas/AgreementSummary'
+                    $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/CCS_Standard_API_Params.yaml#/components/schemas/Package'
         500:
           description: Internal server error.
           content:

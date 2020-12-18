@@ -24,13 +24,13 @@ components:
           example: "Technology Products 2"
           
     Agreement:
-    type: object
+      type: object
       properties:
-        number2:
+        number:
           type: string
           description: Commercial Agreement Number
           example: RM3733
-        name3:
+        name:
           type: string
           description: Commercial Agreement Name
           example: "Technology Products 2"

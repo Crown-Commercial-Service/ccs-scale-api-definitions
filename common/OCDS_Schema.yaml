@@ -38,7 +38,7 @@ components:
           type: array
           minItems: 1
           items:
-            $ref: '#/components/schemas/Release'
+            $ref: '#/components/schemas/ReleaseSummary'
           uniqueItems: true
         publisher:
           title: Publisher

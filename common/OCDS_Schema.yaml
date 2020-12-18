@@ -2800,7 +2800,7 @@ components:
 
           
     TerminationType:
-      title: RFx types
+      title: RFx Termination Types
       description: >-
         Subset of the codes in [tenderStatus](https://standard.open-contracting.org/1.1/en/schema/codelists/#tender-status) codelist.
         This subset are those used to terminate an RFx.
@@ -2813,6 +2813,19 @@ components:
             - unsuccessful
             - complete
             - withdrawn.
+            
+    ProcurementMethod:
+      title: Procurement Methods
+      description: >-
+        A contracting process aims to fulfill the requirements identified at the planning stage. The procurement method is the procedure 
+        used to purchase the relevant works, goods or services. The method codelist draws upon the definitions of open, selective and limited 
+        provided by the WTO Government Procurement Agreement, and adds an additional ‘direct’ code for awards without competition..
+      type: string
+      enum:
+        - open
+        - selective
+        - limited
+        - direct
           
 
     

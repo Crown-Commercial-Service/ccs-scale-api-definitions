@@ -34,8 +34,6 @@ components:
         releases:
           description: An array of versions of the Agreement (OCDS Releases)
           title: Agreement Release Summary
-            description: >-
-        '. A ''record'' of a contracting process follows the same structure as a release, but combines information from multiple points in time into a single summary.'
           type: object
           properties:
             ocid:

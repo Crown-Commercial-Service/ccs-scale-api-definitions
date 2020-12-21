@@ -36,7 +36,7 @@ components:
           title: Agreement Release Summary
             description: >-
         '. A ''record'' of a contracting process follows the same structure as a release, but combines information from multiple points in time into a single summary.'
-        type: object
+          type: object
           properties:
             ocid:
               description: 'A globally unique identifier for this Open Contracting Process. Composed of an ocid prefix and an identifier for the Agreement.'

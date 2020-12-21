@@ -90,30 +90,56 @@ components:
                 example: 'ocds-b5fd17-RM1234'
               title:
                 description: >-
-                    A null value that will be replaced by a title for this tender in any 
-                    call off tender from this agreemnt. This will often be used by 
-                    applications as a headline to attract interest, and to help analysts 
-                    understand the nature of this procurement.
+                  A null value that will be replaced by a title for this tender in any 
+                  call off tender from this agreemnt. This will often be used by 
+                  applications as a headline to attract interest, and to help analysts 
+                  understand the nature of this procurement.
                 pattern: 'null'
                 example: 'null'
               description:
                 description: >-
-                    A null value that will be replaced by a summary description of the 
-                    tender. This complements any structured information provided using the
-                    items array. Descriptions should be short and easy to read. 
-                    Avoid using ALL CAPS.
+                  A null value that will be replaced by a summary description of the 
+                  tender. This complements any structured information provided using the
+                  items array. Descriptions should be short and easy to read. 
+                  Avoid using ALL CAPS.
                 pattern: 'null'
                 example: 'null'
               status:
                 description: >-
-                    An agreement will allways be planning but will be replaced by the current status of the tender
+                  An agreement will allways be planning but will be replaced by the current status of the tender
                 example: 'planning'
               procuringEntity:
                 description: >-
-                  The entity managing the procurement. This may be different from the
+                  A null value that will be replaced by the entity managing the procurement. This may be different from the
                   buyer who pays for, or uses, the items being procured.
                 pattern: 'null'
                 example: 'null'
+                items:
+              title: Items to be procured
+                description: >-
+                  A null value that will be replaced by an array ofd goods and services to be purchased, broken into line items
+                  wherever possible. Items should not be duplicated, but the quantity
+                  specified instead.
+                pattern: 'null'
+                example: 'null'
+              value:
+                description: >-
+                  The total upper estimated value of the procurement aloud within the agreement. A negative value
+                  indicates that the contracting process may involve payments from the
+                  supplier to the buyer (commonly used in concession contracts).
+                  A null value can be replaced by a call off but cannot be exceeded. A null value is totally open.
+              minValue:
+                description: >-
+                  The minimum estimated value of the procurement aloud within the agreement.  A negative value
+                  indicates that the contracting process may involve payments from the
+                  supplier to the buyer (commonly used in concession contracts).
+                  A null value can be replaced by a call off but cannot be ubndercut. A null value is totally open.
+              procurementMethod:
+                title: Procurement method
+                description: >-
+                  The procurement method, from the closed
+                  [method](https://standard.open-contracting.org/1.1/en/schema/codelists/#method)
+                  codelist.
 
 
                 

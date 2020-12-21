@@ -28,10 +28,9 @@ components:
       allOf:
         - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/OCDS_Schema.yaml#/components/schemas/Package'
       type: object
-        properties:
-          uri:
-            example: "https://www.crowncommercial.gov.uk/agreements/RM3733"
-
+      properties:
+        uri:
+          example: "https://www.crowncommercial.gov.uk/agreements/RM3733"
 
       
 #

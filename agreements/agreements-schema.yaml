@@ -24,6 +24,7 @@ components:
           example: "Technology Products 2"
           
     Agreement:
+      title: Agreement (OCDS Release)
       allOf:
         - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/OCDS_Schema.yaml#/components/schemas/Package'
       type: object

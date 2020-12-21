@@ -106,8 +106,15 @@ components:
                 example: 'null'
               status:
                 description: >-
-                    An agreement will allways be 'planning' but will be replaced by the current status of the tender
+                    An agreement will allways be planning but will be replaced by the current status of the tender
                 example: 'planning'
+              procuringEntity:
+                description: >-
+                  The entity managing the procurement. This may be different from the
+                  buyer who pays for, or uses, the items being procured.
+                pattern: 'null'
+                example: 'null'
+
 
                 
 

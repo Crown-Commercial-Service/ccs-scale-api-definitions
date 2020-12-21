@@ -81,14 +81,14 @@ components:
           description: A overall title for this Agreements.
         tender:
             title: Tender
-              description: This is the template for Tenders in the agreement
-              type: object
-              properties:
-                id:
-                  title: Tender ID
-                  description: 'An identifier for this tender process. This WILL be the same as the ocid for an agreeement, and will be replaced by  an internal identifier for call off tender.'
-                  pattern: 'template'
-                  example: 'template'
+            description: This is the template for Tenders in the agreement
+            type: object
+            properties:
+              id:
+                title: Tender ID
+                description: 'An identifier for this tender process. This WILL be the same as the ocid for an agreeement, and will be replaced by  an internal identifier for call off tender.'
+                pattern: 'template'
+                example: 'template'
                 
 
 #

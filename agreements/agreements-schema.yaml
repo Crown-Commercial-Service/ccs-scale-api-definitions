@@ -86,68 +86,11 @@ components:
               properties:
                 id:
                   title: Tender ID
-                description: >-
-                  An identifier for this tender process. This WILL be the same as the
-                  ocid for an agreeement, and will be replaced by  an internal identifier for call off tender.
+                description: 'An identifier for this tender process. This WILL be the same as the ocid for an agreeement, and will be replaced by  an internal identifier for call off tender.'
                 pattern: 'template'
                 example: 'template'
-              title:
-                title: Tender title
-                description: >-
-                    A null value that will be replaced by a title for this tender in any 
-                    call off tender from this agreemnt. This will often be used by 
-                    applications as a headline to attract interest, and to help analysts 
-                    understand the nature of this procurement.
-                pattern: 'null'
-                example: 'null'
-              description:
-                title: Tender description
-                description: >-
-                    A null value that will be replaced by a  summary description of the 
-                    tender. This complements any structured information provided using the
-                    items array. Descriptions should be short and easy to read. 
-                    Avoid using ALL CAPS.
-                pattern: 'null'
-                example: 'null'
-        number:
-          type: string
-          description: Commercial Agreement Number
-          example: "RM3733"
-        name:
-          type: string
-          description: Commercial Agreement Name
-          example: "Technology Products 2"
-        description:
-          type: string
-          description: Short textual description of the commercial agreement
-        startDate:
-          type: string
-          format: date
-          description: Effective start date of Commercial Agreement
-          example: yyyy-mm-dd
-        endDate:
-          type: string
-          format: date
-          example: yyyy-mm-dd
-          description: Effective start date of Commercial Agreement
-        detailUrl:
-          type: string
-          format: uri
-          description: URL of the Agreement detail page on the CCS website
-          example: "https://www.crowncommercial.gov.uk/agreements/RM3733"
-        contacts:
-          type: array
-          items:
-            $ref: '#/components/schemas/LotContact'
-        benefits:
-          type: array
-          items:
-            type: string
-            description: Short description of the benefit
-        lots:
-          type: array
-          items:
-            $ref: '#/components/schemas/LotSummary'
+                
+
 #
     LotDetail:
       type: object

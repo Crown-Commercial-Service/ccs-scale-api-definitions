@@ -86,9 +86,9 @@ components:
               properties:
                 id:
                   title: Tender ID
-                description: 'An identifier for this tender process. This WILL be the same as the ocid for an agreeement, and will be replaced by  an internal identifier for call off tender.'
-                pattern: 'template'
-                example: 'template'
+                  description: 'An identifier for this tender process. This WILL be the same as the ocid for an agreeement, and will be replaced by  an internal identifier for call off tender.'
+                  pattern: 'template'
+                  example: 'template'
                 
 
 #

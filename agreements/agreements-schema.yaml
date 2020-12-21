@@ -24,14 +24,8 @@ components:
           example: "Technology Products 2"
           
     Agreement:
-      type: object
-      properties:
-        number:
-          type: string
-          description: Commercial Agreement Number
-          example: "RM3733"
-#      allOf:
-#        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/OCDS_Schema.yaml#/components/schemas/Package'
+      allOf:
+        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/OCDS_Schema.yaml#/components/schemas/Package'
       
 #
 # Agreement Detail omits some Agreement data in the initial version.

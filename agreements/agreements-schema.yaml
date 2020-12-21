@@ -31,6 +31,10 @@ components:
       properties:
         uri:
           example: "https://www.crowncommercial.gov.uk/agreements/RM3733"
+        publishedDate:
+          example: "01/01/2020"
+
+            
 
 #
 # Agreement Detail omits some Agreement data in the initial version.

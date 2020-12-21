@@ -136,9 +136,6 @@ components:
               procurementMethod:
                 description: >-
                   The procurement method, from the closed
-                  [method](https://standard.open-contracting.org/1.1/en/schema/codelists/#method)
-                  codelist.
-
 #
     LotDetail:
       type: object

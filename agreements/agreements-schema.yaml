@@ -87,6 +87,8 @@ components:
               id:
                 title: Tender ID
                 description: 'test'
+                pattern: 'template'
+                example: 'template'
                 
 
 #

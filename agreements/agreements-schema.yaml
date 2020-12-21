@@ -89,6 +89,24 @@ components:
                 description: 'An identifier for this tender process. This WILL be the same as the ocid for an agreeement, and will be replaced by  an internal identifier for call off tender.'
                 pattern: 'template'
                 example: 'template'
+              title:
+                title: Tender title
+                description: >-
+                    A null value that will be replaced by a title for this tender in any 
+                    call off tender from this agreemnt. This will often be used by 
+                    applications as a headline to attract interest, and to help analysts 
+                    understand the nature of this procurement.
+                pattern: 'null'
+                example: 'null'
+              description:
+                title: Tender description
+                description: >-
+                    A null value that will be replaced by a  summary description of the 
+                    tender. This complements any structured information provided using the
+                    items array. Descriptions should be short and easy to read. 
+                    Avoid using ALL CAPS.
+                pattern: 'null'
+                example: 'null'
                 
 
 #

@@ -114,8 +114,7 @@ components:
                   buyer who pays for, or uses, the items being procured.
                 pattern: 'null'
                 example: 'null'
-                items:
-              title: Items to be procured
+              items:
                 description: >-
                   A null value that will be replaced by an array ofd goods and services to be purchased, broken into line items
                   wherever possible. Items should not be duplicated, but the quantity
@@ -134,6 +133,11 @@ components:
                   indicates that the contracting process may involve payments from the
                   supplier to the buyer (commonly used in concession contracts).
                   A null value can be replaced by a call off but cannot be ubndercut. A null value is totally open.
+              procurementMethod:
+                description: >-
+                  The procurement method, from the closed
+                  [method](https://standard.open-contracting.org/1.1/en/schema/codelists/#method)
+                  codelist.
 
 #
     LotDetail:

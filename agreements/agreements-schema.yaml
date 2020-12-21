@@ -85,12 +85,10 @@ components:
             type: object
             properties:
               id:
-                title: Tender ID
                 description: 'An identifier for this tender process. This WILL be the same as the ocid for an agreeement, and will be replaced by  an internal identifier for call off tender.'
                 pattern: 'ocds-RM[1-9]{4}'
                 example: 'ocds-b5fd17-RM1234'
               title:
-                title: Tender title
                 description: >-
                     A null value that will be replaced by a title for this tender in any 
                     call off tender from this agreemnt. This will often be used by 
@@ -99,7 +97,6 @@ components:
                 pattern: 'null'
                 example: 'null'
               description:
-                title: Tender description
                 description: >-
                     A null value that will be replaced by a  summary description of the 
                     tender. This complements any structured information provided using the
@@ -108,11 +105,8 @@ components:
                 pattern: 'null'
                 example: 'null'
               status:
-                title: Tender status
                 description: >-
-                    An agreement will allways be planning but will be replaced by the current status of the tender, from the closed
-                    [tenderStatus](https://standard.open-contracting.org/1.1/en/schema/codelists/#tender-status)
-                    codelist.
+                    An agreement will allways be planning but will be replaced by the current status of the tender
                 example: 'planning'
 
                 

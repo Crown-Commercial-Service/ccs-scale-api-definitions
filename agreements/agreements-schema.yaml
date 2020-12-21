@@ -35,6 +35,7 @@ components:
           description: An array of versions of the Agreement (OCDS Releases)
         publisher:
           type: object
+          description: Information to uniquely identify the publisher of this Agreement.
           properties:
             name:
               example: "Crown Commercial Services"
@@ -44,6 +45,8 @@ components:
               example: "123456789"
             uri:
               example: "https://www.crowncommercial.gov.uk/"
+        licence:
+          example: "https://www.crowncommercial.gov.uk/publicationpolicyTBA"
 
 
 #

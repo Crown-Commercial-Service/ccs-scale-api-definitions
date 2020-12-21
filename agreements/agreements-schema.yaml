@@ -24,17 +24,16 @@ components:
           example: "Technology Products 2"
           
     Agreement:
-      title: Agreement (OCDS Release)
+      title: Agreement (OCDS Package)
       allOf:
         - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/OCDS_Schema.yaml#/components/schemas/Package'
       type: object
       properties:
         uri:
-          example: "https://www.crowncommercial.gov.uk/agreements/RM3733"
-        publishedDate:
-          example: "01/01/2020"
-
-            
+          example: "https://www.crowncommercial.gov.uk/agreements/RM3733"          
+        releases:
+          title: Releases
+          description: An array of versions of the Agreement (OCDS Releases)     
 
 #
 # Agreement Detail omits some Agreement data in the initial version.

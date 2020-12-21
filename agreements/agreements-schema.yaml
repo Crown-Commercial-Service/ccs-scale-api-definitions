@@ -134,15 +134,6 @@ components:
                   indicates that the contracting process may involve payments from the
                   supplier to the buyer (commonly used in concession contracts).
                   A null value can be replaced by a call off but cannot be ubndercut. A null value is totally open.
-              procurementMethod:
-                title: Procurement method
-                description: >-
-                  The procurement method, from the closed
-                  [method](https://standard.open-contracting.org/1.1/en/schema/codelists/#method)
-                  codelist.
-
-
-                
 
 #
     LotDetail:

@@ -33,6 +33,19 @@ components:
           example: "https://www.crowncommercial.gov.uk/agreements/RM3733"   
         releases:
           description: An array of versions of the Agreement (OCDS Releases)
+          title: Agreement Release Summary
+            description: >-
+        '. A ''record'' of a contracting process follows the same structure as a release, but combines information from multiple points in time into a single summary.'
+        type: object
+          properties:
+            ocid:
+              description: 'A globally unique identifier for this Open Contracting Process. Composed of an ocid prefix and an identifier for the Agreement.'
+              example: 'RM3733'
+            id:
+              description: 'Version of the Agreement'
+              example: 'V1'
+            title:
+              description: A overall title for this Agreemente.
         publisher:
           type: object
           description: Information to uniquely identify the publisher of this Agreement.

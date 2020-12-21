@@ -30,8 +30,13 @@ components:
       type: object
       properties:
         uri:
-          description: overridden
           example: "https://www.crowncommercial.gov.uk/agreements/RM3733"
+        title: Publisher
+          example: "Crown Commercial Services"
+        scheme:
+          example: "XX-CCS"
+        publishedDate:
+          example: "01/01/2020"
 
       
 #

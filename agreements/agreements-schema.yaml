@@ -32,7 +32,6 @@ components:
         uri:
           example: "https://www.crowncommercial.gov.uk/agreements/RM3733"   
         releases:
-          title: Releases
           description: An array of versions of the Agreement (OCDS Releases)
         publisher:
           type: object

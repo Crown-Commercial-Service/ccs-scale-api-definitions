@@ -38,7 +38,7 @@ components:
         scheme:
           example: "XX-CCS"
         publishedDate:
-          example: "01/01/2020
+          example: "01/01/2020"
           
 #
 # Agreement Detail omits some Agreement data in the initial version.

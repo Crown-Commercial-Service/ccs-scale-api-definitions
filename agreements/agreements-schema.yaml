@@ -32,9 +32,9 @@ components:
         uri:
           example: "https://www.crowncommercial.gov.uk/agreements/RM3733"   
         releases:
+          type: object
           description: An array of versions of the Agreement (OCDS Releases)
           title: Agreement Release Summary
-          type: object
           properties:
             ocid:
               description: 'A globally unique identifier for this Open Contracting Process. Composed of an ocid prefix and an identifier for the Agreement.'

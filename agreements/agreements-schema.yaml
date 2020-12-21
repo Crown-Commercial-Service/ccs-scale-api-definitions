@@ -30,6 +30,7 @@ components:
       type: object
       properties:
         uri:
+          description: overridden
           example: "https://www.crowncommercial.gov.uk/agreements/RM3733"
 
       

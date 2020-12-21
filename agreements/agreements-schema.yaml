@@ -98,7 +98,7 @@ components:
                 example: 'null'
               description:
                 description: >-
-                    A null value that will be replaced by a  summary description of the 
+                    A null value that will be replaced by a summary description of the 
                     tender. This complements any structured information provided using the
                     items array. Descriptions should be short and easy to read. 
                     Avoid using ALL CAPS.
@@ -106,7 +106,7 @@ components:
                 example: 'null'
               status:
                 description: >-
-                    An agreement will allways be planning but will be replaced by the current status of the tender
+                    An agreement will allways be 'planning' but will be replaced by the current status of the tender
                 example: 'planning'
 
                 

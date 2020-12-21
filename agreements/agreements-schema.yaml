@@ -36,7 +36,7 @@ components:
           description: An array of versions of the Agreement (OCDS Releases)
           type: array
           items:
-            $ref: '#/components/schemas/ReleaseSummary'
+            $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/OCDS_Schema.yaml#/components/schemas/ReleaseSummary'
           uniqueItems: true
         publisher:
           type: object

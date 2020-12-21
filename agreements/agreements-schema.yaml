@@ -31,14 +31,7 @@ components:
       properties:
         uri:
           example: "https://www.crowncommercial.gov.uk/agreements/RM3733"
-        publisher:
-          title: Publisher
-          description: 
-          example: "Crown Commercial Services"
-        scheme:
-          example: "XX-CCS"
-        publishedDate:
-          example: "01/01/2020"
+
 #
 # Agreement Detail omits some Agreement data in the initial version.
 #  - Suppliers will be shown at a Lot level rather than Agreement level

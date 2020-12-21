@@ -38,7 +38,7 @@ components:
           properties:
             ocid:
               description: 'A globally unique identifier for this Open Contracting Process. Composed of an ocid prefix and an identifier for the Agreement.'
-              example: 'RM3733'
+              example: 'ocds-b5fd17-RM3733'
             id:
               description: 'Version of the Agreement'
               example: 'V1'

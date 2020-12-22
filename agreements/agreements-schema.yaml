@@ -108,19 +108,6 @@ components:
                 description: >-
                   An agreement will allways be planning but will be replaced by the current status of the tender
                 example: 'planning'
-              procuringEntity:
-                description: >-
-                  A null value that will be replaced by the entity managing the procurement. This may be different from the
-                  buyer who pays for, or uses, the items being procured.
-                pattern: 'null'
-                example: 'null'
-              items:
-                description: >-
-                  A null value that will be replaced by an array ofd goods and services to be purchased, broken into line items
-                  wherever possible. Items should not be duplicated, but the quantity
-                  specified instead.
-                pattern: 'null'
-                example: 'null'
 
 #
     LotDetail:

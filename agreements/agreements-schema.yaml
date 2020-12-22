@@ -104,7 +104,9 @@ components:
                   Avoid using ALL CAPS.
                 pattern: 'null'
                 example: 'null'
-
+              status:
+                description: >-
+                  An agreement will allways be planning but will be replaced by the current status of the tender
               procuringEntity:
                 description: >-
                   A null value that will be replaced by the entity managing the procurement. This may be different from the

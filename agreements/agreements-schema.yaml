@@ -105,6 +105,47 @@ components:
                 pattern: 'null'
                 example: 'null'
 
+              procuringEntity:
+                description: >-
+                  A null value that will be replaced by the entity managing the procurement. This may be different from the
+                  buyer who pays for, or uses, the items being procured.
+                pattern: 'null'
+                example: 'null'
+              items:
+                description: >-
+                  A null value that will be replaced by an array ofd goods and services to be purchased, broken into line items
+                  wherever possible. Items should not be duplicated, but the quantity
+                  specified instead.
+                pattern: 'null'
+                example: 'null'
+              value:
+                description: >-
+                  The total upper estimated value of the procurement aloud within the agreement. A negative value
+                  indicates that the contracting process may involve payments from the
+                  supplier to the buyer (commonly used in concession contracts).
+                  A null value can be replaced by a call off but cannot be exceeded. A null value is totally open.
+                type: object
+                properties:
+                  amount:
+                    example: 'null'
+                  currency:
+                    example: 'null'
+              minValue:
+                description: >-
+                  The minimum estimated value of the procurement aloud within the agreement.  A negative value
+                  indicates that the contracting process may involve payments from the
+                  supplier to the buyer (commonly used in concession contracts).
+                  A null value can be replaced by a call off but cannot be ubndercut. A null value is totally open.
+                type: object
+                properties:
+                amount:
+                    example: 'null'
+                  currency:
+                    example: 'null'
+              procurementMethod:
+                description: >-
+                  The procurement method, from the closed
+                example: 'null'  
 #
     LotDetail:
       type: object

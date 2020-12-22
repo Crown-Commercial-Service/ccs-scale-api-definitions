@@ -73,81 +73,220 @@ components:
       properties:
         ocid:
           description: 'A globally unique identifier for this Open Contracting Process. Composed of an ocid prefix and an identifier for the Agreement.'
-          example: 'ocds-b5fd17-RM1234'
+          example: 'ocds-b5fd17-RM3733'
         id:
           description: 'Version of the Agreement'
-          example: 'RM1234_V1'
+          example: 'RM3733_V1'
         title:
           description: A overall title for this Agreements.
+          example: "Technology Products 2"
+        description:
+          description: Short textual description of the commercial agreement
+        date:
+          description: Effective start date of Commercial Agreement
         tender:
-            type: object
-            title: Tender
-            description: This is the template for Tenders in the agreement
-            properties:
-              id:
-                description: 'An identifier for this tender process. This WILL be the same as the ocid for an agreeement, and will be replaced by  an internal identifier for call off tender.'
-                pattern: 'ocds-RM[1-9]{4}'
-                example: 'ocds-b5fd17-RM1234'
-              title:
-                description: >-
-                  A null value that will be replaced by a title for this tender in any 
-                  call off tender from this agreemnt. This will often be used by 
-                  applications as a headline to attract interest, and to help analysts 
-                  understand the nature of this procurement.
-                pattern: 'null'
-                example: 'null'
-              description:
-                description: >-
-                  A null value that will be replaced by a summary description of the 
-                  tender. This complements any structured information provided using the
-                  items array. Descriptions should be short and easy to read. 
-                  Avoid using ALL CAPS.
-                pattern: 'null'
-                example: 'null'
-              status:
-                description: >-
-                  An agreement will allways be planning but will be replaced by the current status of the tender
-              procuringEntity:
-                description: >-
-                  A null value that will be replaced by the entity managing the procurement. This may be different from the
-                  buyer who pays for, or uses, the items being procured.
-                pattern: 'null'
-                example: 'null'
-              items:
-                description: >-
-                  A null value that will be replaced by an array ofd goods and services to be purchased, broken into line items
-                  wherever possible. Items should not be duplicated, but the quantity
-                  specified instead.
-                pattern: 'null'
-                example: 'null'
-              value:
-                description: >-
-                  The total upper estimated value of the procurement aloud within the agreement. A negative value
-                  indicates that the contracting process may involve payments from the
-                  supplier to the buyer (commonly used in concession contracts).
-                  A null value can be replaced by a call off but cannot be exceeded. A null value is totally open.
-                type: object
-                properties:
+          allOf:
+            - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/OCDS_Schema.yaml#/components/schemas/Tender'
+          type: object
+          title: Tender
+          description: This is the template for Tenders in the agreement
+          properties:
+            id:
+              description: 'An identifier for this tender process. This WILL be the same as the ocid for an agreeement, and will be replaced by  an internal identifier for call off tender.'
+              pattern: 'ocds-RM[1-9]{4}'
+              example: 'ocds-b5fd17-RM3733'
+            title:
+              description: >-
+                A null value that will be replaced by a title for this tender in any 
+                call off tender from this agreemnt. This will often be used by 
+                applications as a headline to attract interest, and to help analysts 
+                understand the nature of this procurement.
+              pattern: 'null'
+              example: 'null'
+            description:
+              description: >-
+                A null value that will be replaced by a summary description of the 
+                tender. This complements any structured information provided using the
+                items array. Descriptions should be short and easy to read. 
+                Avoid using ALL CAPS.
+              pattern: 'null'
+              example: 'null'
+            status:
+              description: >-
+                An agreement will allways be planning but will be replaced by the current status of the tender
+            procuringEntity:
+              description: >-
+                A null value that will be replaced by the entity managing the procurement. This may be different
+                from the buyer who pays for, or uses, the items being procured.
+              pattern: 'null'
+              example: 'null'
+            items:
+              description: >-
+                A null value that will be replaced by an array of goods and services to be purchased, broken into line items
+                wherever possible. Items should not be duplicated, but the quantity
+                specified instead.
+              pattern: 'null'
+              example: 'null'
+            value:
+              description: >-
+                The total upper estimated value of the procurement aloud within the agreement. A negative value
+                indicates that the contracting process may involve payments from the
+                supplier to the buyer (commonly used in concession contracts).
+                A null value can be replaced by a call off but cannot be exceeded. A null value is totally open.
+              type: object
+              properties:
                   amount:
                     example: 'null'
                   currency:
                     example: 'null'
-              minValue:
-                description: >-
-                  The minimum estimated value of the procurement aloud within the agreement.  A negative value
-                  indicates that the contracting process may involve payments from the
-                  supplier to the buyer (commonly used in concession contracts).
-                  A null value can be replaced by a call off but cannot be ubndercut. A null value is totally open.
-                type: object
-                properties:
+            minValue:
+              description: >-
+                The minimum estimated value of the procurement aloud within the agreement.  A negative value
+                indicates that the contracting process may involve payments from the
+                supplier to the buyer (commonly used in concession contracts).
+                A null value can be replaced by a call off but cannot be ubndercut. A null value is totally open.
+              type: object
+              properties:
                 amount:
-                    example: 'null'
-                  currency:
-                    example: 'null'
-              procurementMethod:
-                description: >-
-                  The procurement method, from the closed
-                example: 'null'  
+                  example: 'null'
+                currency:
+                  example: 'null'
+            procurementMethod:
+              description: >-
+                The procurement method, from the closed [method](https://standard.open-contracting.org/1.1/e
+                /schema/codelists/#method)
+                codelist. If null the this can be defined by the user of the Agreement.
+              example: 'open'
+            awardCriteria:
+              description: >-
+                The award criteria for the procurement, using the open
+                [awardCriteria](https://standard.open-contracting.org/1.1/en/schema/codelists/#award-criteria)
+                codelist.
+            
+                Deprecated Criteria -
+                - lowestCost
+                - bestProposal
+                - bestValueToGovernment  
+                - singleBidOnly
+                  
+                If null the this can be defined by the user of the Agreement.
+              example: 'null'
+            submissionMethod:
+              description: >-
+                The methods by which bids are submitted, using the open
+                [submissionMethod](https://standard.open-contracting.org/1.1/en/schema/codelists/#submission-metho)
+                codelist. If null the this can be defined by the user of the Agreement.
+              example: 'null'
+            tenderPeriod:
+              description: >-
+                The period when the tender is open for submissions. The end date is
+                the closing date for tender submissions. For an Agreement the dates will be null to allow 
+                the start dates to be specified for each call off. If the duration is specified then the
+                call off dates must span a time less than the time specified.
+              type: object
+              properties:
+                startDate:
+                  example: 'null'
+                endDate:
+                  example: 'null'
+                maxExtentDate:
+                  example: 'null'
+                durationInDays:
+                  example: 20
+            enquiryPeriod:
+              description: >-
+                The period during which potential bidders may submit questions and
+                requests for clarification to the entity managing procurement. Details
+                of how to submit enquiries should be provided in attached notices, or
+                in submissionMethodDetails. Structured dates for when responses to
+                questions will be made can be provided using tender milestones.
+                For an Agreement the dates will be null to allow 
+                the start dates to be specified for each call off. If the duration is specified then the
+                call off dates must span a time less than the time specified.
+              type: object
+              properties:
+                startDate:
+                  example: 'null'
+                endDate:
+                  example: 'null'
+                maxExtentDate:
+                  example: 'null'
+                durationInDays:
+                  example: 20
+            hasEnquiries:
+              description: >-
+                A true/false field to indicate whether any enquiries were received
+                during the tender process. Structured information on enquiries that
+                were received, and responses to them, can be provided using the
+                enquiries extension.
+              example: 'null'
+            awardPeriod:
+              description: >-
+                The period for decision making regarding the contract award. The end
+                date should be the date on which an award decision is due to be
+                finalized. The start date may be used to indicate the start of an
+                evaluation period.
+                For an Agreement the dates will be null to allow 
+                the start dates to be specified for each call off. If the duration is specified then the
+                call off dates must span a time less than the time specified.
+              type: object
+              properties:
+                startDate:
+                  example: 'null'
+                endDate:
+                  example: 'null'
+                maxExtentDate:
+                  example: 'null'
+                durationInDays:
+                  example: 20
+            contractPeriod:
+              description: >-
+                The period over which the contract is estimated or required to be
+                active. If the tender does not specify explicit dates, the duration
+                field may be used.
+                For an Agreement the dates will be null to allow 
+                the start dates to be specified for each call off. If the duration is specified then the
+                call off dates must span a time less than the time specified although it would be unusual for an agreement to define this..
+              type: object
+              properties:
+                startDate:
+                  example: 'null'
+                endDate:
+                  example: 'null'
+                maxExtentDate:
+                  example: 'null'
+                durationInDays:
+                  example: 'null'
+            numberOfTenderers:
+              description: >- 
+                This will not be defined in An Agreement. It will depend on the number of suppliers 
+                who join the tender
+              example: 'null'
+            milestones:
+              description: >-
+              allOf:
+                - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/OCDS_Schema.yaml#/components/schemas/Milestone'
+              type: object
+              properties:
+                dueDate:
+                  pattern: 'null'
+                  example: 'null'
+                dateMet:
+                  pattern: 'null'
+                  example: 'null'
+                dateModified:
+                  pattern: 'null'
+                  example: 'null'
+                status:
+                  pattern: 'null'
+                  example: 'null'
+            amendments:
+              description: >-
+                A tender amendment is a formal change to the tender, and generally
+                involves the publication of a new tender notice/release. The rationale
+                and a description of the changes made can be provided here. For an Agreement this will be null
+              example: 'null'
+              pattern: 'null'
 #
     LotDetail:
       type: object

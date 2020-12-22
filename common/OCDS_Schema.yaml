@@ -396,7 +396,7 @@ components:
           #codelist: method.csv
           #openCodelist: false
           allOf:
-            - $ref: '#/components/schemas/ProcurementMethods'
+            - $ref: '#/components/schemas/ProcurementMethod'
         procurementMethodDetails:
           title: Procurement method details
           description: >-

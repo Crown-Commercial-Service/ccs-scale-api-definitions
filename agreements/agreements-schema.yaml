@@ -104,10 +104,6 @@ components:
                   Avoid using ALL CAPS.
                 pattern: 'null'
                 example: 'null'
-              status:
-                description: >-
-                  An agreement will allways be planning but will be replaced by the current status of the tender
-                example: 'planning'
 
 #
     LotDetail:

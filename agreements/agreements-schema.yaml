@@ -127,15 +127,28 @@ components:
                   indicates that the contracting process may involve payments from the
                   supplier to the buyer (commonly used in concession contracts).
                   A null value can be replaced by a call off but cannot be exceeded. A null value is totally open.
+                type: object
+                properties:
+                  amount:
+                    example: 'null'
+                  currency:
+                    example: 'null'
               minValue:
                 description: >-
                   The minimum estimated value of the procurement aloud within the agreement.  A negative value
                   indicates that the contracting process may involve payments from the
                   supplier to the buyer (commonly used in concession contracts).
                   A null value can be replaced by a call off but cannot be ubndercut. A null value is totally open.
+                type: object
+                properties:
+                amount:
+                    example: 'null'
+                  currency:
+                    example: 'null'
               procurementMethod:
                 description: >-
                   The procurement method, from the closed
+                example: 'null'  
 #
     LotDetail:
       type: object

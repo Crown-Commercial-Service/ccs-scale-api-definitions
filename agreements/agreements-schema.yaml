@@ -84,6 +84,53 @@ components:
           description: Short textual description of the commercial agreement
         date:
           description: Effective start date of Commercial Agreement
+        tag:
+          description: >-
+            One or more values from the closed [releaseTag](https://standard.open-contracting.org/1.1/en/schema/codelists/#release-tag) codelist. 
+            Tags can be used to filter releases and to understand the kind of information that releases might contain. For an aggreement this
+            will always be in the planning stage. In call offs this may be something else from the codelist
+          type: array
+          items:
+            type: string
+            enum:
+              - planning
+              - planningUpdate
+        parties:
+          allOf:
+            - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/OCDS_Schema.yaml#/components/schemas/Organization'
+          type: object
+          properties:
+            roles:
+              type: array
+            nullable: true
+            items:
+              type: string
+              # need to DELETE as appropriate items never allowed int an agreement. Rest can be added as part of call off.
+              enum:
+                - buyer
+                - procuringEntity
+                - supplier
+                - tenderer
+                - funder
+                - enquirer
+                - payer
+                - payee
+                - reviewBody
+                - interestedParty
+        planning:
+          # Is planning related to the call off's, the agreement creations or both?
+          description: >-
+            Information from the planning phase of the contracting process. This includes information related 
+            to the process of deciding what to contract, when and how. For an Agreement this will be defined in the cqll off.
+          pattern: 'null'
+          example: 'null'
+        buyer:
+          description: >-
+            A buyer is an entity whose budget will be used to pay for goods, works or services related to a contract. 
+            This may be different from the procuring entity who may be specified in the tender data.
+            For an Agreement this is null because the call off will define the buyer             
+          pattern: 'null'
+          example: 'null'
         tender:
           allOf:
             - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/OCDS_Schema.yaml#/components/schemas/Tender'
@@ -287,6 +334,46 @@ components:
                 and a description of the changes made can be provided here. For an Agreement this will be null
               example: 'null'
               pattern: 'null'
+        awards:
+          description: >-
+            Information from the award phase of the contracting process. There can be more than one award per 
+            contracting process e.g. because the contract is split among different providers, or because 
+            it is a standing offer. For an Agreement this is null because the call off will define the Award.
+          pattern: 'null'
+          example: 'null'
+        contracts:
+          # Should Contracts contain a template contract?
+          description: >-
+            Information from the contract creation phase of the procurement process.
+            For an Agreement this is null because the call off will define the /contracts.
+          pattern: 'null'
+          example: 'null'
+        language:
+          # Should Contracts contain option for other home languages??
+          description: >-
+              The language of the linked document using either two-letter
+              [ISO639-1](https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes), or
+              extended [BCP47 language
+              tags](http://www.w3.org/International/articles/language-tags/). The
+              use of lowercase two-letter codes from
+              [ISO639-1](https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes) is
+              recommended unless there is a clear user need for distinguishing the
+              language subtype. CCS agreements will only be written in UK languages and generally English.
+          type: string
+          enum:
+              - en
+              - cy
+              - ga
+              - gd  
+          example: 'en'
+        RelatedProcesses:
+          description: >-
+            The details of related processes: for example, if this process follows on from one or more other 
+            processes, represented under a separate open contracting identifier (ocid). This is commonly used 
+            to relate mini-competitions to their parent frameworks or individual tenders to a broader planning 
+            process. For an Agreement no related processeses should exist. All processes will relate to agreeemnts. 
+          pattern: 'null'
+          example: 'null'
 #
     LotDetail:
       type: object

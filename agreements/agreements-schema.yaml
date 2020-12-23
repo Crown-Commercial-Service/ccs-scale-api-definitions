@@ -168,6 +168,8 @@ components:
               pattern: 'null'
               example: 'null'
             items:
+              allOf:
+                - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/OCDS_Schema.yaml#/components/schemas/Item'
               description: >-
                 A null value that will be replaced by an array of goods and services to be purchased, broken into line items
                 wherever possible. Items should not be duplicated, but the quantity
@@ -175,6 +177,8 @@ components:
               pattern: 'null'
               example: 'null'
             value:
+              allOf:
+                - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/OCDS_Schema.yaml#/components/schemas/Value'
               description: >-
                 The total upper estimated value of the procurement aloud within the agreement. A negative value
                 indicates that the contracting process may involve payments from the
@@ -187,6 +191,8 @@ components:
                   currency:
                     example: 'null'
             minValue:
+              allOf:
+                - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/OCDS_Schema.yaml#/components/schemas/Value'
               description: >-
                 The minimum estimated value of the procurement aloud within the agreement.  A negative value
                 indicates that the contracting process may involve payments from the
@@ -225,6 +231,8 @@ components:
                 codelist. If null the this can be defined by the user of the Agreement.
               example: 'null'
             tenderPeriod:
+              allOf:
+                - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/OCDS_Schema.yaml#/components/schemas/Period'
               description: >-
                 The period when the tender is open for submissions. The end date is
                 the closing date for tender submissions. For an Agreement the dates will be null to allow 
@@ -241,6 +249,8 @@ components:
                 durationInDays:
                   example: 20
             enquiryPeriod:
+              allOf:
+                - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/OCDS_Schema.yaml#/components/schemas/Period'
               description: >-
                 The period during which potential bidders may submit questions and
                 requests for clarification to the entity managing procurement. Details
@@ -268,6 +278,8 @@ components:
                 enquiries extension.
               example: 'null'
             awardPeriod:
+              allOf:
+                - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/OCDS_Schema.yaml#/components/schemas/Period'
               description: >-
                 The period for decision making regarding the contract award. The end
                 date should be the date on which an award decision is due to be
@@ -287,6 +299,8 @@ components:
                 durationInDays:
                   example: 20
             contractPeriod:
+              allOf:
+                - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/OCDS_Schema.yaml#/components/schemas/Period'
               description: >-
                 The period over which the contract is estimated or required to be
                 active. If the tender does not specify explicit dates, the duration
@@ -309,6 +323,12 @@ components:
                 This will not be defined in An Agreement. It will depend on the number of suppliers 
                 who join the tender
               example: 'null'
+            tenderers:
+              description: >-
+                All parties who submit a bid on a tender. More detailed information on bids and the bidding organization 
+                can be provided using the bid extension. For an Agreement
+              example: 'null'
+              pattern: 'null'             
             milestones:
               description: >-
               allOf:
@@ -331,7 +351,8 @@ components:
               description: >-
                 A tender amendment is a formal change to the tender, and generally
                 involves the publication of a new tender notice/release. The rationale
-                and a description of the changes made can be provided here. For an Agreement this will be null
+                and a description of the changes made can be provided here. For an Agreement this will be null and 
+                will be defined by the call off process
               example: 'null'
               pattern: 'null'
         awards:

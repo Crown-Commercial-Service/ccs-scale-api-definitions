@@ -1,29 +1,22 @@
-openapi: 3.0.0
-servers:
-  - url: 'https://demo.spreecommerce.org'
-    description: demo
-  - url: 'http://localhost:3000'
-    description: localhost
+openapi: "3.0.1"
 info:
-  version: 2.0.0
-  title: Storefront API v2
-  description: |-
-    Storefront API v2 is a modern REST API based on the [JSON API spec](https://jsonapi.org/) which provides you with necessary endpoints to build amazing user intefaces either in JavaScript frameworks or native mobile libraries.
-
-
-    Download [official JavaScript & TypeScript SDK](https://github.com/spree/spree-storefront-api-v2-js-sdk)
-
-
-    Import to [Postman](https://raw.githubusercontent.com/spree/spree/master/api/docs/v2/storefront/index.yaml)
+  title: "SCALE BaT Catalog Service"
+  version: v0.01
+  description: This API provides access to the CCS product catalog browse functionality. This API is a modified version of the Spree Storefront API
+#  PLACEHOLDERs - to be uncommented when implemented
+  termsOfService: "http://api.crowncommercial.gov.uk/terms/"
   contact:
-    name: Spark Solutions
-    url: 'https://sparksolutions.co'
-    email: we@sparksolutions.co
+    email: "apiteam@crowncommercial.gov.uk"
   license:
-    name: 'https://github.com/spree/spree/blob/master/license.md'
-    url: BSD-3-Clause
+    name: "Open Government Licence 3.0"
+    url: "https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/"
+    
+#  license:
+#    name: 'https://github.com/spree/spree/blob/master/license.md'
+#    url: BSD-3-Clause
+
 paths:
-  /api/v2/storefront/account:
+  /catalog/account:
     get:
       description: Returns current user information
       summary: Get an Account
@@ -192,7 +185,7 @@ paths:
                 $ref: '#/components/schemas/Error'
       security:
         - bearerAuth: []
-  '/api/v2/storefront/account/addresses':
+  '/catalog/account/addresses':
     get:
       description: >-
         Returns a list of Addresses for the signed in User
@@ -238,7 +231,7 @@ paths:
           $ref: '#/components/responses/403Forbidden'
       security:
         - bearerAuth: []
-  '/api/v2/storefront/account/addresses/{id}':
+  '/catalog/account/addresses/{id}':
     patch:
       description: >-
         Update selected Address for the signed in User
@@ -274,7 +267,7 @@ paths:
           $ref: '#/components/responses/403Forbidden'
       security:
         - bearerAuth: []
-  '/api/v2/storefront/account/credit_cards':
+  '/catalog/account/credit_cards':
     get:
       description: Returns a list of Credit Cards for the signed in User
       summary: List of Credit Cards
@@ -301,7 +294,7 @@ paths:
           description: Filter based on payment method ID
         - $ref: '#/components/parameters/CreditCardIncludeParam'
         - $ref: '#/components/parameters/SparseFieldsParam'
-  /api/v2/storefront/account/credit_cards/default:
+  /catalog/account/credit_cards/default:
     get:
       description: "Return the User's default Credit Card"
       summary: Get Default Credit Card
@@ -322,7 +315,7 @@ paths:
         - $ref: '#/components/parameters/SparseFieldsParam'
       security:
         - bearerAuth: []
-  /api/v2/storefront/account/orders:
+  /catalog/account/orders:
     get:
       description: Returns Orders placed by the User. Only completed ones.
       summary: List of Orders
@@ -345,7 +338,7 @@ paths:
         - $ref: '#/components/parameters/PerPageParam'
       security:
         - bearerAuth: []
-  '/api/v2/storefront/account/orders/{number}':
+  '/catalog/account/orders/{number}':
     get:
       description: "Return the User's completed Order"
       summary: Get an Order
@@ -367,7 +360,7 @@ paths:
         - $ref: '#/components/parameters/SparseFieldsParam'
       security:
         - bearerAuth: []
-  '/api/v2/storefront/order_status/{number}':
+  '/catalog/order_status/{number}':
     get:
       description: "Returns placed Order information. This endpoint is useful for fetching Order information for non-signed in Users. This way customers without an account can check their Order status (shipment/paymnet/processing/etc).\n\nTo fetch an Order you will need to use Order Token for authorization. "
       summary: Get an Order Status
@@ -389,7 +382,7 @@ paths:
         - $ref: '#/components/parameters/SparseFieldsParam'
       security:
         - orderToken: []
-  /api/v2/storefront/cart:
+  /catalog/cart:
     post:
       description: "Creates new Cart and returns it attributes.\n\nThe **token** attribute, can be used for authorization of all operations on this particular Cart and Checkout.\n\nIt is required to create a Cart befopre adding items to the Cart. After completing the Checkout you will need to create a new Cart. "
       tags:
@@ -478,7 +471,7 @@ paths:
         - $ref: '#/components/parameters/CartIncludeParam'
         - $ref: '#/components/parameters/SparseFieldsParam'
       summary: Get a Cart
-  /api/v2/storefront/cart/add_item:
+  /catalog/cart/add_item:
     post:
       description: |-
         Additional parameters passed in **options** hash must be registered in `config/initialiers/spree.rb`, eg.
@@ -522,7 +515,7 @@ paths:
                 variant_id: '1'
                 quantity: 5
       summary: Add an Item to Cart
-  /api/v2/storefront/cart/set_quantity:
+  /catalog/cart/set_quantity:
     patch:
       description: Sets the quantity of a given line item. It has to be a positive integer greater than 0.
       tags:
@@ -562,7 +555,7 @@ paths:
                 line_item_id: '1'
                 quantity: 5
       summary: Set Quantity of a Line Item
-  '/api/v2/storefront/cart/remove_line_item/{line_item_id}':
+  '/catalog/cart/remove_line_item/{line_item_id}':
     delete:
       description: 'Removes Line Item from Cart. After removing Item system will re-calculate taxes, promotions, shipments etc. Updated Cart will be returned.'
       tags:
@@ -585,7 +578,7 @@ paths:
         - orderToken: []
         - bearerAuth: []
       summary: Remove Line Item
-  /api/v2/storefront/cart/empty:
+  /catalog/cart/empty:
     patch:
       description: "All line items will be removed from the cart and the order’s information will be cleared. Inventory that was previously depleted by this order will be repleted.\n\nReturns updated Cart. "
       tags:
@@ -607,7 +600,7 @@ paths:
         - $ref: '#/components/parameters/CartIncludeParam'
         - $ref: '#/components/parameters/SparseFieldsParam'
       summary: Empty the Cart
-  /api/v2/storefront/cart/apply_coupon_code:
+  /catalog/cart/apply_coupon_code:
     patch:
       description: Applies a coupon code to the Cart
       tags:
@@ -643,7 +636,7 @@ paths:
                   type: string
                   example: DISCOUNT10
       summary: Apply Coupon Code
-  '/api/v2/storefront/cart/remove_coupon_code/{coupon_code}':
+  '/catalog/cart/remove_coupon_code/{coupon_code}':
     delete:
       description: 'Removes a coupon code from the Cart. If no `coupon_code` aprameter is passed , it will remove all applied coupon codes.'
       tags:
@@ -676,7 +669,7 @@ paths:
         - orderToken: []
         - bearerAuth: []
       summary: Remove Coupon Code(s)
-  /api/v2/storefront/cart/estimate_shipping_rates:
+  /catalog/cart/estimate_shipping_rates:
     get:
       description: Returns a list of Estimated Shipping Rates for Cart. Those are only estimates and can vary from the final shipping rates.
       tags:
@@ -703,7 +696,7 @@ paths:
         - orderToken: []
         - bearerAuth: []
       summary: Get estimated Shipping Rates
-  /api/v2/storefront/checkout:
+  /catalog/checkout:
     patch:
       description: "You can run multiple Checkout updates with different data types.\n\n\n### Update the Customer information\n\n```\nPATCH /checkout\n```\n\n```\n  order: {\n    email: 'john@snow.org',\n    bill_address_attributes: {\n      firstname: 'John',\n      lastname: 'Snow',\n      address1: '7735 Old Georgetown Road',\n      city: 'Bethesda',\n      phone: '3014445002',\n      zipcode: '20814',\n      state_name: 'MD',\n      country_iso: 'US'\n    },\n    ship_address_attributes: {\n      firstname: 'John',\n      lastname: 'Snow',\n      address1: '7735 Old Georgetown Road',\n      city: 'Bethesda',\n      phone: '3014445002',\n      zipcode: '20814',\n      state_name: 'MD',\n      country_iso: 'US'\n    }\n  }\n```\n  \n###  Fetch Shipping Rates\n\n```\nGET /checkout/shipping_rates\n```\n\nOrder can have multiple Shipments, eg. some Items will be shipped right away, and some needs to be backordered.\n\n\nEach Shipment can have different Shipping Method/Rate selected.\n\n\n### Select shipping method(s)\n\n```\nPATCH /checkout\n```\n\n```\n  order: {\n    shipments_attributes: [\n      {\n        id: 1,\n        selected_shipping_rate_id: 1\n      }\n    ]\n  }\n```\n\n`selected_shipping_rate_id` is the ID of a Shipping Rate. `id` is the ID of the Shipment itself. You can update multiple\n  Shipments at once.\n  \n  \n### Add Payment Source(s)\n\n```\nPATCH /checkout\n```\n\n```\n  {\n    order: {\n      payments_attributes: [\n        {\n          payment_method_id: 1\n        }\n      ]\n    },\n    payment_source: {\n      1: {\n        number: '4111111111111111',\n        month: '01',\n        year: '2022',\n        verification_value: '123',\n        name: 'John Doe'\n      }\n    }\n  }\n```\n\nYou can obtain `payment_method_id` by querying `GET /checkout/payment_methods` endpoint.\n\n### Complete checkout\n\n```\nPATCH /checkout/complete\n```\n\nThis will complete the Checout and will marke the Order as completed. You cannot execute any operations on this Order anymore via Storefront API. Further operations on the Order are possible via [Spree API v1](https://guides.spreecommerce.org/api/)."
       tags:
@@ -760,7 +753,7 @@ paths:
                 payment_source:
                   type: object
       summary: Update Checkout
-  /api/v2/storefront/checkout/next:
+  /catalog/checkout/next:
     patch:
       description: Goes to the next Checkout step
       tags:
@@ -788,7 +781,7 @@ paths:
         - $ref: '#/components/parameters/CartIncludeParam'
         - $ref: '#/components/parameters/SparseFieldsParam'
       summary: Next Checkout Step
-  /api/v2/storefront/checkout/advance:
+  /catalog/checkout/advance:
     patch:
       description: 'Advances Checkout to the furthest Checkout step validation allows, until the Complete step'
       tags:
@@ -816,7 +809,7 @@ paths:
         - $ref: '#/components/parameters/CartIncludeParam'
         - $ref: '#/components/parameters/SparseFieldsParam'
       summary: Advance Checkout
-  /api/v2/storefront/checkout/complete:
+  /catalog/checkout/complete:
     patch:
       description: Completes the Checkout
       tags:
@@ -843,7 +836,7 @@ paths:
       parameters:
         - $ref: '#/components/parameters/CartIncludeParam'
       summary: Complete Checkout
-  /api/v2/storefront/checkout/add_store_credit:
+  /catalog/checkout/add_store_credit:
     post:
       description: 'Adds Store Credit payment if the currently signed in User has any available. [Read more about Store Credits](https://guides.spreecommerce.org/user/users/editing_users.html#store-credits)'
       tags:
@@ -877,7 +870,7 @@ paths:
         - $ref: '#/components/parameters/CartIncludeParam'
         - $ref: '#/components/parameters/SparseFieldsParam'
       summary: Add Store Credit
-  /api/v2/storefront/checkout/remove_store_credit:
+  /catalog/checkout/remove_store_credit:
     post:
       description: Remove Store Credit payments if any applied
       tags:
@@ -905,7 +898,7 @@ paths:
         - $ref: '#/components/parameters/CartIncludeParam'
         - $ref: '#/components/parameters/SparseFieldsParam'
       summary: Remove Store Credit
-  /api/v2/storefront/checkout/payment_methods:
+  /catalog/checkout/payment_methods:
     get:
       description: Returns a list of available Payment Methods for this Checkout
       tags:
@@ -924,7 +917,7 @@ paths:
         - orderToken: []
         - bearerAuth: []
       summary: List of Payment Methods
-  /api/v2/storefront/checkout/shipping_rates:
+  /catalog/checkout/shipping_rates:
     get:
       description: >-
         Returns a list of available Shipping Rates for Checkout.
@@ -947,7 +940,7 @@ paths:
         - orderToken: []
         - bearerAuth: []
       summary: List of Shipping Rates
-  /api/v2/storefront/products:
+  /catalog/products:
     get:
       description: Returns a list of Products for the current Store.
       tags:
@@ -1014,19 +1007,19 @@ paths:
               schema:
                 $ref: '#/components/schemas/ProductsList'
       summary: List of Products
-  '/api/v2/storefront/products/{id}':
+  '/catalog/products/{id}':
     get:
       description: |-
         Returns Product details. You can use product permalink:
 
         ```
-        GET /api/v2/storefront/products/knitted-high-neck-sweater
+        GET /catalog/products/knitted-high-neck-sweater
         ```
 
         Or Product ID:
 
         ```
-        GET /api/v2/storefront/products/21
+        GET /catalog/products/21
         ```
 
         **Note** API will attempt a permalink lookup before an ID lookup.
@@ -3369,7 +3362,7 @@ paths:
         '404':
           $ref: '#/components/responses/404NotFound'
       summary: Get Product Details
-  /api/v2/storefront/taxons:
+  /catalog/taxons:
     get:
       description: 'Returns a list of Taxons. [Read more about Taxons](https://guides.spreecommerce.org/developer/core/products.html#taxons-and-taxonomies)'
       tags:
@@ -3408,9 +3401,9 @@ paths:
               schema:
                 $ref: '#/components/schemas/TaxonsList'
       summary: List of Taxons
-  '/api/v2/storefront/taxons/{id}':
+  '/catalog/taxons/{id}':
     get:
-      description: "Returns Taxon details. \n\n```\nGET /api/v2/storefront/taxons/women/tops-and-t-shirts\n```\n\nYou may also query by the Taxons's ID attribute\n\n```\nGET /api/v2/storefront/taxons/1\n```\n\n**Note** API will attempt a permalink lookup before an ID lookup."
+      description: "Returns Taxon details. \n\n```\nGET /catalog/taxons/women/tops-and-t-shirts\n```\n\nYou may also query by the Taxons's ID attribute\n\n```\nGET /catalog/taxons/1\n```\n\n**Note** API will attempt a permalink lookup before an ID lookup."
       tags:
         - Taxons
       operationId: Show Taxon
@@ -3678,7 +3671,7 @@ paths:
         '404':
           $ref: '#/components/responses/404NotFound'
       summary: Get a Taxon
-  /api/v2/storefront/countries:
+  /catalog/countries:
     get:
       description: Returns a list of all Countries
       tags:
@@ -3692,19 +3685,19 @@ paths:
               schema:
                 $ref: '#/components/schemas/CountriesList'
       summary: List of Countries
-  '/api/v2/storefront/countries/{iso}':
+  '/catalog/countries/{iso}':
     get:
       description: |-
         To view the details for a single Country, make a request using that Country's iso code:
 
         ```
-        GET /api/v2/storefront/countries/gb
+        GET /catalog/countries/gb
         ```
 
         You may also query by the Country's iso3 code:
 
         ```
-        GET /api/v2/storefront/coutries/gbr
+        GET /catalog/coutries/gbr
         ```
 
         **Note** API will attempt a iso lookup before an iso3 lookup.
@@ -3725,7 +3718,7 @@ paths:
         '404':
           $ref: '#/components/responses/404NotFound'
       summary: Get a Country
-  /api/v2/storefront/countries/default:
+  /catalog/countries/default:
     get:
       description: Returns the default Country for the application. By default this will be the US.
       tags:

@@ -94,7 +94,6 @@ components:
         - version
         - publisher
         - publishedDate
-        - records
       properties:
         uri:
           title: Package identifier
@@ -167,13 +166,7 @@ components:
           items:
             type: string
             format: uri
-        records:
-          title: Packages
-          description: An array of one or more OCDS releases.
-          type: array
-          minItems: 1
-          items:
-            $ref: '#/components/schemas/Record'
+
 
 
     Record:

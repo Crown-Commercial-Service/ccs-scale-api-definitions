@@ -194,8 +194,8 @@ components:
               - $ref: '#/components/schemas/Release'    
         compiledRelease:
           $ref: '#/components/schemas/Release'
-        versionesRelease:
-          $ref: '#/components/schemas/VersionedRelease'
+        #versionesRelease:
+        #  $ref: '#/components/schemas/VersionedRelease'
   
           
     LinkedRelease:
@@ -290,6 +290,16 @@ components:
                   - compiled
                   #codelist: releaseTag.csv
                   #openCodelist: false
+                  
+    StringNullVersioned:
+      title: String Null Versioned
+      description: >-
+        'This shows all the values that a string has held over time'
+      type: object
+      required:
+        - initiationType
+        - date
+      properties:
   
     ReleaseSummary:
       title: OCDS Release Summary

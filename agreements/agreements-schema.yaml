@@ -26,7 +26,7 @@ components:
     Agreement:
       title: Agreement (OCDS Record)
       allOf:
-        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/CCS-OCDS_Schema.yaml#/components/schemas/Release'
+        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/CCS-OCDS_Schema.yaml#/components/schemas/Record'
       type: object
       properties:
         uri:

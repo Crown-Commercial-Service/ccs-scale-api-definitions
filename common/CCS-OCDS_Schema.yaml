@@ -192,7 +192,12 @@ components:
             oneOf:
               - $ref: '#/components/schemas/LinkedRelease' 
               - $ref: '#/components/schemas/Release'    
-        
+        compiledRelease:
+          $ref: '#/components/schemas/Release'
+        versionesRelease:
+          $ref: '#/components/schemas/VersionedRelease'
+  
+          
     LinkedRelease:
       title: OCDS Linked Release
       description: >-

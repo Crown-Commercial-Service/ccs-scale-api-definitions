@@ -166,6 +166,13 @@ components:
           items:
             type: string
             format: uri
+        records:
+          title: uid
+          description: The unique ID for this entity under the given ID scheme.
+          type: string
+          nullable: true
+          example: "123456789"
+              
 
     Record:
       title: OCDS Record

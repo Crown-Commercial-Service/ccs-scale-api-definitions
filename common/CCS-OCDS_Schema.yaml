@@ -187,9 +187,11 @@ components:
           type: string
           minLength: 1
         releases:
-          oneOf:
-            - $ref: '#/components/schemas/LinkedRelease'
-            - $ref: '#/components/schemas/Release'
+          type: array
+            items:
+              oneOf:
+                - $ref: '#/components/schemas/LinkedRelease'
+                - $ref: '#/components/schemas/Release'
         compiledRelease:
           type: object
           description: 'This is the latest version of all the contracting data, it has the same schema as an open contracting release.'
@@ -200,7 +202,7 @@ components:
           $ref: '#/components/schemas/Release'
         
     LinkedRelease:
-      title: OCDS Record
+      title: OCDS Linked Release
       description: >-
         'A list of objects that identify the releases associated with this Open Contracting ID. The releases MUST be sorted into date order in the array, from oldest (at position 0) to newest (last).'
       type: object

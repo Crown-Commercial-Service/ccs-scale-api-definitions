@@ -189,17 +189,9 @@ components:
         releases:
           type: array
           items:
-            $ref: '#/components/schemas/Release'    
-        compiledRelease:
-          type: object
-            $ref: '#/components/schemas/Release'
-          description: 'This is the latest version of all the contracting data, it has the same schema as an open contracting release.'
-        versionesRelease:
-          type: object
-            $ref: '#/components/schemas/Release'
-          description: 'This is the latest version of all the contracting data, it has the same schema as an open contracting release.'
- 
-
+            oneOf:
+              - $ref: '#/components/schemas/Release' 
+              - $ref: '#/components/schemas/Release'    
         
     LinkedRelease:
       title: OCDS Linked Release

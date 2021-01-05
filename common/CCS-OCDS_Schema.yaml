@@ -195,7 +195,7 @@ components:
         compiledRelease:
           $ref: '#/components/schemas/Release'
         versionesRelease:
-          $ref: '#/components/schemas/Release'
+          $ref: '#/components/schemas/VersionedRelease'
   
           
     LinkedRelease:

@@ -189,9 +189,7 @@ components:
         releases:
           type: array
           items:
-            oneOf:
-              - $ref: '#/components/schemas/LinkedRelease'
-              - $ref: '#/components/schemas/Release'
+            $ref: '#/components/schemas/Release'
         compiledRelease:
           type: object
           description: 'This is the latest version of all the contracting data, it has the same schema as an open contracting release.'

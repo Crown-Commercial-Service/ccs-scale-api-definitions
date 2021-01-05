@@ -169,9 +169,13 @@ components:
         records:
           title: Packages
           description: An array of one or more OCDS releases
-          type: string
+          type: array
           nullable: true
-          
+          items:
+            type: string
+            format: uri
+
+
 
     Record:
       title: OCDS Record

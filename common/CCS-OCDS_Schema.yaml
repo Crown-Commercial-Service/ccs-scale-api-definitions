@@ -187,20 +187,7 @@ components:
           description: 'A globally unique identifier for this Open Contracting Process. Composed of an ocid prefix and an identifier for the contracting process. For more information see the [Open Contracting Identifier guidance](https://standard.open-contracting.org/1.1/en/schema/identifiers/)'
           type: string
           minLength: 1
-        releases:
-          type: array
-          items:
-              oneOf:
-                - $ref: '#/components/schemas/LinkedRelease'
-                - $ref: '#/components/schemas/Release'
-        compiledRelease:
-          type: object
-          description: 'This is the latest version of all the contracting data, it has the same schema as an open contracting release.'
-          $ref: '#/components/schemas/Release'
-        versionesRelease:
-          type: object
-          description: 'This is the latest version of all the contracting data, it has the same schema as an open contracting release.'
-          $ref: '#/components/schemas/VersionedRelease'
+
         
     LinkedRelease:
       title: OCDS Linked Release

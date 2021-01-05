@@ -158,6 +158,21 @@ components:
           type: string
           format: date-time
           example: "01/01/2020"
+        packages:
+          title: Packages
+          description: An array of one or more OCDS releases.
+          type: array
+          minItems: 1
+          items:
+            type: string
+            format: uri
+        records:
+          title: Packages
+          description: An array of one or more OCDS releases.
+          type: array
+          minItems: 1
+          items:
+            $ref: '#/components/schemas/Record'
 
 
 

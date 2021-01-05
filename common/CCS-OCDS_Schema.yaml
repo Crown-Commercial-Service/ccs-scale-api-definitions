@@ -167,7 +167,7 @@ components:
             type: string
             format: uri
         records:
-          title: Packages
+          title: Records
           description: An array of one or more OCDS releases
           type: array
           nullable: true

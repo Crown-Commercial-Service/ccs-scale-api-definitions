@@ -263,7 +263,7 @@ components:
               type: string
               minLength: 1
             releaseID:
-              type: array
+              type: string
             value:
               type: string
             releaseTag:

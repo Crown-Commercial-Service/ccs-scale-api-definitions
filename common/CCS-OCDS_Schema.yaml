@@ -199,7 +199,7 @@ components:
         versionesRelease:
           type: object
           description: 'This is the latest version of all the contracting data, it has the same schema as an open contracting release.'
-          $ref: '#/components/schemas/Release'
+          $ref: '#/components/schemas/VersionedRelease'
         
     LinkedRelease:
       title: OCDS Linked Release
@@ -249,7 +249,7 @@ components:
             #openCodelist: false
             
     VersionedRelease:
-      title: OCDS Record
+      title: OCDS Versioned Release
       description: >-
         'This contains the history of all the data in the compiled release.'
       type: object

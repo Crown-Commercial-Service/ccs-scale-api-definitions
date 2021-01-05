@@ -3002,6 +3002,20 @@ components:
         "direct"
         ]
         
+    ProcurementMethod:
+        description: >-
+          Different Options for procurement. There are several types-
+
+            * open
+            * selective
+            * limited
+            * direct
+        type: string
+        enum:
+          - open
+          - selective
+          - limited
+          - direct
 
 
 

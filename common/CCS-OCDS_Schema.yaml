@@ -188,7 +188,7 @@ components:
           minLength: 1
         releases:
           type: array
-            items:
+          items:
               oneOf:
                 - $ref: '#/components/schemas/LinkedRelease'
                 - $ref: '#/components/schemas/Release'

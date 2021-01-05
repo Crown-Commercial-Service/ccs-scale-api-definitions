@@ -157,7 +157,7 @@ components:
           description: 'The date that this package was published. If this package is generated ''on demand'', this date should reflect the date of the last change to the underlying contents of the package.'
           type: string
           format: date-time
-          example: "01/01/2021"
+          example: "01/01/2020"
         packages:
           title: Packages
           description: An array of one or more OCDS releases.

@@ -192,9 +192,11 @@ components:
             $ref: '#/components/schemas/Release'    
         compiledRelease:
           type: object
+            $ref: '#/components/schemas/Release'
           description: 'This is the latest version of all the contracting data, it has the same schema as an open contracting release.'
         versionesRelease:
           type: object
+            $ref: '#/components/schemas/Release'
           description: 'This is the latest version of all the contracting data, it has the same schema as an open contracting release.'
  
 

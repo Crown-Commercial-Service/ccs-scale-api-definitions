@@ -190,7 +190,7 @@ components:
           type: array
           items:
             oneOf:
-              - $ref: '#/components/schemas/Release' 
+              - $ref: '#/components/schemas/LinkedRelease' 
               - $ref: '#/components/schemas/Release'    
         
     LinkedRelease:

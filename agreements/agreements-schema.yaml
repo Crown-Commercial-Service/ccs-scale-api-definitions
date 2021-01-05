@@ -24,40 +24,9 @@ components:
           example: "Technology Products 2"
           
     Agreement:
-      title: Agreement (OCDS Package)
+      title: Agreement (OCDS Record)
       allOf:
         - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/CCS-OCDS_Schema.yaml#/components/schemas/RecordPackage'
-      type: object
-      properties:
-        uri:
-          example: "https://www.crowncommercial.gov.uk/agreements/RM3733"   
-        releases:
-          type: object
-          description: An array of versions of the Agreement (OCDS Releases)
-          title: Agreement Release Summary
-          properties:
-            ocid:
-              description: 'A globally unique identifier for this Open Contracting Process. Composed of an ocid prefix and an identifier for the Agreement.'
-              example: 'ocds-b5fd17-RM1234'
-            id:
-              description: 'Version of the Agreement'
-              example: 'RM1234_V1'
-            title:
-              description: A overall title for this Agreemente.
-        publisher:
-          type: object
-          description: Information to uniquely identify the publisher of this Agreement.
-          properties:
-            name:
-              example: "Crown Commercial Services"
-            scheme:
-              example: "XX-CCS"
-            uid:
-              example: "123456789"
-            uri:
-              example: "https://www.crowncommercial.gov.uk/"
-        licence:
-          example: "https://www.crowncommercial.gov.uk/publicationpolicyTBA"
 
 
 #

@@ -42,7 +42,100 @@ components:
       type: array
       items:
         allOf:
-          - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/CCS-OCDS_Schema.yaml#/components/schemas/ReleasePackage'
+          - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/CCS-OCDS_Schema.yaml#/components/schemas/Record'
+        type: object
+        properties:
+          ocid:
+            description: 'A globally unique identifier for this Agreement. Composed of an ocid prefix and an identifier for the Agreement.'
+            example: 'ocds-b5fd17-RM3733'
+          releases:
+            type: array
+            items:
+              $ref: '#/components/schemas/AgreementRelease'
+          compiledRelease:
+            $ref: '#/components/schemas/AgreementRelease'
+          versionesRelease:
+            example: 'null'
+        
+    AgreementRelease:
+      title: Agreement (OCDS Release Package)
+      type: array
+      items:
+        allOf:
+          - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/CCS-OCDS_Schema.yaml#/components/schemas/Release'
+        type: object
+        properties:
+          ocid:
+            description: 'A globally unique identifier for this Open Contracting Process. Composed of an ocid prefix and an identifier for the Agreement version.'
+            example: 'ocds-b5fd17-RM3733_V1'
+          id:
+            description: 'Version of the Agreement'
+            example: 'RM3733_V1'
+          title:
+            description: A overall title for this Agreements.
+            example: "Technology Products 2"
+          description:
+            description: Short textual description of the commercial agreement
+          date:
+            description: Effective start date of Commercial Agreement
+          tag:
+            description: >-
+              One or more values from the closed [releaseTag](https://standard.open-contracting.org/1.1/en/schema/codelists/#release-tag) codelist. 
+              Tags can be used to filter releases and to understand the kind of information that releases might contain. For an aggreement this
+              will always be in the planning stage. In call offs this may be something else from the codelist
+            type: array
+            items:
+              type: string
+              enum:
+                - planning
+                - planningUpdate
+          parties:
+            type: array
+            items:
+              $ref: '#/components/schemas/AgreementOrganization'
+          planning:
+            # Is planning related to the call off's, the agreement creations or both?
+            description: >-
+              Information from the planning phase of the contracting process. This includes information related 
+              to the process of deciding what to contract, when and how. For an Agreement this will be defined in the cqll off.
+            pattern: 'null'
+            example: 'null'
+          buyer:
+            description: >-
+              A buyer is an entity whose budget will be used to pay for goods, works or services related to a contract. 
+              This may be different from the procuring entity who may be specified in the tender data.
+              For an Agreement this is null because the call off will define the buyer             
+            pattern: 'null'
+            example: 'null'
+          tender:
+            allOf:
+              - $ref: '#/components/schemas/AgreementTender'
+          awards:
+            description: >-
+              Information from the award phase of the contracting process. There can be more than one award per 
+              contracting process e.g. because the contract is split among different providers, or because 
+              it is a standing offer. For an Agreement this is null because the call off will define the Award.
+            pattern: 'null'
+            example: 'null'
+          contracts:
+            # Should Contracts contain a template contract?
+            description: >-
+              Information from the contract creation phase of the procurement process.
+              For an Agreement this is null because the call off will define the /contracts.
+            pattern: 'null'
+            example: 'null'
+          language:
+            # Should Contracts contain option for other home languages??
+            allOf:
+              - $ref: '#/components/schemas/AgreementLanguage'
+          relatedProcesses:
+            description: >-
+              The details of related processes: for example, if this process follows on from one or more other 
+              processes, represented under a separate open contracting identifier (ocid). This is commonly used 
+              to relate mini-competitions to their parent frameworks or individual tenders to a broader planning 
+              process. For an Agreement no related processeses should exist. All processes will relate to agreeemnts. 
+            pattern: 'null'
+            example: 'null'
 
 #
 # Agreement Detail omits some Agreement data in the initial version.

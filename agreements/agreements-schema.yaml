@@ -34,7 +34,7 @@ components:
             example: "Technology Products 2"
           
     Agreement:
-      title: Agreement (OCDS Record)
+      title: Agreement (OCDS Release Package)
       type: array
       items:
         allOf:

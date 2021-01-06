@@ -57,7 +57,7 @@ components:
 
         
     AgreementRelease:
-      title: Agreement (OCDS Release Package)
+      title: Agreement (OCDS Release)
       type: array
       items:
         allOf:

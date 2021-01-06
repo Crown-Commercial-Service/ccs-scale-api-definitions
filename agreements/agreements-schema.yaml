@@ -32,7 +32,8 @@ components:
           
     Agreement:
       title: Agreement (OCDS Record)
-      array:
+      type: array
+      items:
         allOf:
           - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/CCS-OCDS_Schema.yaml#/components/schemas/ReleasePackage'
 

@@ -119,7 +119,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/agreements/agreements-schema.yaml#/components/schemas/AgreementDetail'
+                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/agreements/agreements-schema.yaml#/components/schemas/CompiledAgreementDetail'
         404:
           description: Commercial Agreement not found
           content:
@@ -167,7 +167,7 @@ paths:
               schema:
                 $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Schema.yaml#/components/schemas/Errors'
 #
-  /agreements/{agreementID}/documents:
+  /agreements/{agreementID}/latest/documents:
     get:
       summary: Returns details of the specified Commercial Agreement documents
       description: Returns the documents for the specified Commercial Agreement
@@ -201,6 +201,7 @@ paths:
             application/json:
               schema:
                 $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Schema.yaml#/components/schemas/Errors'
+ 
  # The get-agreement-detail call explicitly omits CPV codes in the initial version. These will be added later if required. As there are potentially thousands of CPV codes it was felt that these would overwhelm the output and management of the underlying data.  Additional calls can be added to provide these if required in a similar way to the '/agreements/{ca-number}/updates' call below.
   /agreements/{agreementID}/latest/lots:
     get:
@@ -214,6 +215,7 @@ paths:
           in: query
           schema:
               $ref: "#/components/schemas/BuyingMethod"
+        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/CCS_Standard_API_Params.yaml#/components/parameters/OCDSParam'
         - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Params.yaml#/components/parameters/AgreementParam'
         - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Params.yaml#/components/parameters/x-correlation-id'
         - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Params.yaml#/components/parameters/x-causation-id'
@@ -225,9 +227,9 @@ paths:
           content:
             application/json:
               schema:
-                type: array
-                items:
-                    $ref: '#/components/schemas/LotDetail'
+                oneOf:
+                  - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/agreements/agreements-schema.yaml#/components/schemas/Lots'
+                  - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/agreements/agreements-schema.yaml#/components/schemas/LotSummary'
         404:
           description: Commercial Agreement and/or Lot not found
           content:
@@ -241,7 +243,7 @@ paths:
               schema:
                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Schema.yaml#/components/schemas/Errors'
   #
-  /agreements/{agreementID}/lots/{lotID}:
+  /agreements/{agreementID}/latest/lots/{lotID}:
     get:
       summary: Returns details of the specified Lot for this Commercial Agreement
       description: Returns data about the Lot, both general information and parameters required to govern the behaviour of applications using this data
@@ -275,7 +277,7 @@ paths:
               schema:
                 $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Schema.yaml#/components/schemas/Errors'
   #
-  /agreements/{agreementID}/lots/{lotID}/suppliers:
+  /agreements/{agreementID}/latest/lots/{lotID}/suppliers:
     get:
       summary: Returns details of the suppliers for the specified Lot for this Commercial Agreement
       description: Returns the supplier list for the Lot
@@ -311,7 +313,7 @@ paths:
               schema:
                 $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Schema.yaml#/components/schemas/Errors'
 #
-  /agreements/{agreementID}/lots/{lotID}/documents:
+  /agreements/{agreementID}/latest/lots/{lotID}/documents:
     get:
       summary: Returns details of the documents for the specified Lot for this Commercial Agreement
       description: Returns the document list for the Lot

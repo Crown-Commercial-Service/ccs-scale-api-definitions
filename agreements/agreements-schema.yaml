@@ -49,14 +49,12 @@ components:
             description: 'A globally unique identifier for this Agreement. Composed of an ocid prefix and an identifier for the Agreement.'
             example: 'ocds-b5fd17-RM3733'
           releases:
-            type: array
-            items:
-              $ref: '#/components/schemas/AgreementRelease'
+            $ref: '#/components/schemas/AgreementReleases'
           compiledRelease:
             $ref: '#/components/schemas/AgreementDetail'
 
         
-    AgreementRelease:
+    AgreementReleases:
       title: Agreement (OCDS Release)
       type: array
       items:

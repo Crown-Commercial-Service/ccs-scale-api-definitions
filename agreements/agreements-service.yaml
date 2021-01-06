@@ -57,8 +57,8 @@ paths:
             application/json:
               schema:
                 oneOf:
-                  - $ref: '#/components/schemas/Agreements'
-                  - $ref: '#/components/schemas/AgreementSummary'
+                  - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/agreements/agreements-schema.yaml#/components/schemas/Agreements'
+                  - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/agreements/agreements-schema.yaml#/components/schemas/AgreementSummary'
         500:
           description: Internal server error.
           content:

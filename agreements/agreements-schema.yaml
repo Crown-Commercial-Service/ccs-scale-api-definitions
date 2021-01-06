@@ -12,11 +12,14 @@ components:
   schemas:
 #
     Agreements:
-      title: Agreement (OCDS Record)
+      title: Agreements (OCDS Record Package)
+      description: OCDS Package with the records for all Agreements
       allOf:
         - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/CCS-OCDS_Schema.yaml#/components/schemas/RecordPackage'
     
     AgreementSummary:
+      title: Agreements (Non OCDS)  
+      description: Array of summary information about all agreements
       type: array
       items:
         type: object

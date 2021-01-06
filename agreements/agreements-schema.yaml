@@ -18,17 +18,17 @@ components:
     
     AgreementSummary:
       type: array
-        items:
-          type: object
-            properties:
-              number:
-                type: string
-                description: Commercial Agreement Number
-                example: RM3733
-              name:
-                type: string
-                description: Commercial Agreement Name
-                example: "Technology Products 2"
+      items:
+        type: object
+        properties:
+          number:
+            type: string
+            description: Commercial Agreement Number
+            example: RM3733
+          name:
+            type: string
+            description: Commercial Agreement Name
+            example: "Technology Products 2"
           
     Agreement:
       title: Agreement (OCDS Record)

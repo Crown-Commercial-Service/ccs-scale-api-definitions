@@ -11,6 +11,11 @@ components:
 #           only read for MVP
   schemas:
 #
+    Agreements:
+      title: Agreement (OCDS Record)
+      allOf:
+        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/CCS-OCDS_Schema.yaml#/components/schemas/RecordPackage'
+    
     AgreementSummary:
       type: object
       properties:
@@ -25,8 +30,9 @@ components:
           
     Agreement:
       title: Agreement (OCDS Record)
-      allOf:
-        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/CCS-OCDS_Schema.yaml#/components/schemas/RecordPackage'
+      array:
+        allOf:
+          - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/CCS-OCDS_Schema.yaml#/components/schemas/ReleasePackage'
 
 #
 # Agreement Detail omits some Agreement data in the initial version.

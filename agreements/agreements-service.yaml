@@ -56,9 +56,9 @@ paths:
           content:
             application/json:
               schema:
-                type: array
-                items:
-                    $ref: '#/components/schemas/AgreementSummary'
+                oneOf:
+                  - $ref: '#/components/schemas/Agreements'
+                  - $ref: '#/components/schemas/AgreementSummary'
         500:
           description: Internal server error.
           content:

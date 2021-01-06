@@ -263,7 +263,9 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/LotDetail'
+                oneOf:
+                  - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/agreements/agreements-schema.yaml#/components/schemas/Lot'
+                  - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/agreements/agreements-schema.yaml#/components/schemas/LotDetail'
         404:
           description: Commercial Agreement and/or Lot not found
           content:

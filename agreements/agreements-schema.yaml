@@ -385,6 +385,11 @@ components:
       type: array
       items:
         allOf:
+          $ref: #/components/schemas/Lot
+        
+     Lot: 
+      title: Agreement Lot (OCDS Lot)
+      description: OCDS Package with the records for all Agreements  
           - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/OCDS_Schema.yaml#/components/schemas/Lot'
         type: object
         properties:

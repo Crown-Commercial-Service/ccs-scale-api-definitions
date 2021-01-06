@@ -28,7 +28,11 @@ components:
             type: string
             description: Commercial Agreement Number
             example: RM3733
-          name:
+          ocid:
+            type: string
+            description: Commercial Agreement Number
+            example: ocds-b5fd17-RM3733
+          title:
             type: string
             description: Commercial Agreement Name
             example: "Technology Products 2"
@@ -53,7 +57,7 @@ components:
       properties:
         ocid:
           description: 'A globally unique identifier for this Open Contracting Process. Composed of an ocid prefix and an identifier for the Agreement.'
-          example: 'ocds-b5fd17-RM3733'
+          example: 'ocds-b5fd17-RM3733_V1'
         id:
           description: 'Version of the Agreement'
           example: 'RM3733_V1'

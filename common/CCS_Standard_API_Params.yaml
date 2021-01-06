@@ -97,3 +97,11 @@ components:
       schema: 
         $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/CCS_Standard_API_Schema.yaml#/components/schemas/DetailFlag'
         
+    OCDSParam:
+      name: OCDS Flag
+      in: query
+      description: Default is to provide OCDS compliant response, if set to false a simple summary response will be returned.
+      schema: 
+        type: boolean
+        default: true
+        

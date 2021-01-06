@@ -38,7 +38,7 @@ components:
             example: "Technology Products 2"
           
     Agreement:
-      title: Agreement (OCDS Release Package)
+      title: Agreement (OCDS Release Record)
       type: array
       items:
         allOf:
@@ -142,7 +142,7 @@ components:
 #  - CPV codes are omitted as noted above
 #
     AgreementDetail:
-      title: Agreement (OCDS Release)
+      title: Agreement (OCDS Release D)
       allOf:
         - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/OCDS_Schema.yaml#/components/schemas/Release'
       type: object

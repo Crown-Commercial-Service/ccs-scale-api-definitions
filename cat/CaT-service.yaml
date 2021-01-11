@@ -238,7 +238,7 @@ paths:
       summary: List of users teams
       
       
-  '/cat/EventTypes':
+  '/tenders/EventTypes':
     get:
       description: Retrieve a list of Event (RFx) Types we can choose from
       tags:
@@ -260,7 +260,7 @@ paths:
             - buyer
       summary: List Procurement Event types
       
-  '/cat/ProcurementProjects/defaultName/agreements/{agreementID}/lots/{lotID}':
+  '/tenders/ProcurementProjects/defaultName/agreements/{agreementID}/lots/{lotID}':
     parameters:
       - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Params.yaml#/components/parameters/OrgParam'
       - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Params.yaml#/components/parameters/AgreementParam'
@@ -290,7 +290,7 @@ paths:
         - OAuth2:
             - buyer
       summary: Get Default Name
-  '/cat/ProcurementProjects/GMTransfer':
+  '/tenders/ProcurementProjects/GMTransfer':
     parameters:
       - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Params.yaml#/components/parameters/OrgParam'
       - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Params.yaml#/components/parameters/x-correlation-id'
@@ -323,7 +323,7 @@ paths:
         - OAuth2:
             - buyer
       summary: Tranfer from Guided Match
-  /cat/ProcurementProjects/FMTransfer:
+  /tenders/ProcurementProjects/FMTransfer:
     parameters:
       - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/cat/CaT_Schema.yaml#/components/parameters/FMParam'
       - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Params.yaml#/components/parameters/x-correlation-id'
@@ -358,7 +358,7 @@ paths:
             - buyer
       summary: Transfer from Facilities Managment
       
-  /cat/ProcurementProjects/BaTTransfer:
+  /tenders/ProcurementProjects/BaTTransfer:
     parameters:
       - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/bat/BaT_Schema.yaml#/components/parameters/BaTParam'
       - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Params.yaml#/components/parameters/x-correlation-id'
@@ -394,7 +394,7 @@ paths:
       summary: Transferfrom Buy a Thing
       
       
-  /CaT/ProcurementProject/agreements/{agreementID}/lots/{lotID}:
+  /tenders/ProcurementProject/agreements/{agreementID}/lots/{lotID}:
     parameters:
       - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Params.yaml#/components/parameters/AgreementParam'
       - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Params.yaml#/components/parameters/LotParam'
@@ -429,7 +429,7 @@ paths:
             - buyer
       summary: Create from an Agreement
       
-  '/cat/ProcurementProjects/{procID}/confirm':
+  /tenders/ProcurementProjects/{procID}/confirm:
     parameters:
       - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/cat/cat-params.yaml#/components/parameters/ProcurementParam'
       - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Params.yaml#/components/parameters/x-correlation-id'
@@ -464,7 +464,7 @@ paths:
       summary: Confirm procurement project
       
       
-  '/CaT/ProcurementProject/{procID}/close/options':
+  /tenders/ProcurementProject/{procID}/close/options:
     parameters:
       - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/cat/cat-params.yaml#/components/parameters/ProcurementParam'
       - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Params.yaml#/components/parameters/x-correlation-id'
@@ -493,7 +493,7 @@ paths:
             - buyer
       summary: Get options to close project  
       
-  '/CaT/ProcurementProject/{procID}/users':
+  /tenders/ProcurementProject/{procID}/users:
     parameters:
       - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/cat/cat-params.yaml#/components/parameters/ProcurementParam'
       - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Params.yaml#/components/parameters/x-correlation-id'
@@ -522,7 +522,7 @@ paths:
             - buyer
       summary: Get project users
       
-  '/CaT/ProcurementProject/{procID}/users/{userID}':
+  /tenders/ProcurementProject/{procID}/users/{userID}:
     parameters:
       - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/cat/cat-params.yaml#/components/parameters/ProcurementParam'
       - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/CCS_Standard_API_Params.yaml#/components/parameters/UserParam'
@@ -579,7 +579,7 @@ paths:
       summary: Add a project user 
       
     
-  '/cat/ProcurementProjects/{procID}/HLneeds':
+  /tenders/ProcurementProjects/{procID}/HLneeds:
     parameters:
       - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/cat/cat-params.yaml#/components/parameters/ProcurementParam'
       - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Params.yaml#/components/parameters/x-correlation-id'
@@ -608,7 +608,7 @@ paths:
             - buyer
       summary: Get Event Needs
       
-  '/cat/ProcurementProjects/{procID}/HLneeds/{needID}/forms':
+  /tenders/ProcurementProjects/{procID}/HLneeds/{needID}/forms:
     parameters:
       - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/cat/cat-params.yaml#/components/parameters/ProcurementParam'
       - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/cat/cat-params.yaml#/components/parameters/NeedParam'
@@ -663,7 +663,7 @@ paths:
             - buyer
       summary: Confirm procurement case
       
-  '/cat/ProcurementProjects/{procID}/HLNeeds/{needID}/documents':
+  /tenders/ProcurementProjects/{procID}/HLNeeds/{needID}/documents:
     parameters:
       - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/cat/cat-params.yaml#/components/parameters/ProcurementParam'
       - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/cat/cat-params.yaml#/components/parameters/NeedParam'
@@ -719,7 +719,7 @@ paths:
       summary: Update HL Need document
       
       
-  '/CaT/ProcurementProject/{procID}/close':
+  /tenders/ProcurementProject/{procID}/close:
     parameters:
       - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/cat/cat-params.yaml#/components/parameters/ProcurementParam'
       - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Params.yaml#/components/parameters/x-correlation-id'
@@ -755,7 +755,7 @@ paths:
         
       
       
-  '/CaT/ProcurementProjects/{procID}/status':
+  /tenders/ProcurementProjects/{procID}/status:
     parameters:
       - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/cat/cat-params.yaml#/components/parameters/ProcurementParam'
       - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Params.yaml#/components/parameters/x-correlation-id'
@@ -784,7 +784,7 @@ paths:
             - buyer
       summary: Get get Event statuses on Procurement Project
       
-  '/cat/ProcurementProjects/{procID}/events':
+  /tenders/ProcurementProjects/{procID}/events:
     parameters:
       - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/cat/cat-params.yaml#/components/parameters/ProcurementParam'
       - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Params.yaml#/components/parameters/x-correlation-id'
@@ -838,7 +838,7 @@ paths:
             - buyer
       summary: Create a Procurement Event
       
-  '/cat/ProcurementProjects/{procID}/events/{eventID}/needs':
+  /tenders/ProcurementProjects/{procID}/events/{eventID}/needs:
     parameters:
       - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/cat/cat-params.yaml#/components/parameters/ProcurementParam'
       - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/cat/cat-params.yaml#/components/parameters/EventParam'
@@ -868,7 +868,7 @@ paths:
             - buyer
       summary: Get Event Needs
       
-  '/cat/ProcurementProjects/{procID}/events/{eventID}/needs/{needID}/forms':
+  /tenders/ProcurementProjects/{procID}/events/{eventID}/needs/{needID}/forms:
     parameters:
       - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/cat/cat-params.yaml#/components/parameters/ProcurementParam'
       - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/cat/cat-params.yaml#/components/parameters/EventParam'
@@ -924,7 +924,7 @@ paths:
             - buyer
       summary: Confirm procurement case
       
-  '/cat/ProcurementProjects/{procID}/events/{eventID}/Needs/{needID}/documents':
+  /tenders/ProcurementProjects/{procID}/events/{eventID}/Needs/{needID}/documents:
     parameters:
       - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/cat/cat-params.yaml#/components/parameters/ProcurementParam'
       - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/cat/cat-params.yaml#/components/parameters/EventParam'
@@ -980,7 +980,7 @@ paths:
             - buyer
       summary: Confirm procurement case
       
-  '/cat/ProcurementProjects/{procID}/events/{eventID}/suppliers':
+  /tenders/ProcurementProjects/{procID}/events/{eventID}/suppliers:
     parameters:
       - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/cat/cat-params.yaml#/components/parameters/ProcurementParam'
       - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/cat/cat-params.yaml#/components/parameters/EventParam'
@@ -1033,7 +1033,7 @@ paths:
             - buyer
       summary: Update Suppliers on RFx
       
-  '/cat/ProcurementProjects/{procID}/events/{eventID}/suppliers/{supplierID}':
+  /tenders/ProcurementProjects/{procID}/events/{eventID}/suppliers/{supplierID}:
     parameters:
       - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/cat/cat-params.yaml#/components/parameters/ProcurementParam'
       - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/cat/cat-params.yaml#/components/parameters/EventParam'
@@ -1059,7 +1059,7 @@ paths:
         - OAuth2:
             - buyer
       summary: Update Suppliers on RFx
-  '/CaT/ProcurementProjects/{procID}/events/{eventID}':
+  /tenders/ProcurementProjects/{procID}/events/{eventID}:
     parameters:
       - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/cat/cat-params.yaml#/components/parameters/ProcurementParam'
       - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/cat/cat-params.yaml#/components/parameters/EventParam'
@@ -1088,7 +1088,7 @@ paths:
         - OAuth2:
             - buyer
       summary: Get RFx Summary
-  '/CaT/ProcurementProjects/{procID}/events/{eventID}/GotoMarket/options':
+  /tenders/ProcurementProjects/{procID}/events/{eventID}/GotoMarket/options:
     parameters:
       - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/cat/cat-params.yaml#/components/parameters/ProcurementParam'
       - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/cat/cat-params.yaml#/components/parameters/EventParam'
@@ -1118,7 +1118,7 @@ paths:
             - buyer
       summary: Get Go to market options for an event
       
-  '/CaT/ProcurementProjects/{procID}/events/{eventID}/GotoMarket/':
+  /tenders/ProcurementProjects/{procID}/events/{eventID}/GotoMarket/:
     parameters:
       - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/cat/cat-params.yaml#/components/parameters/ProcurementParam'
       - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/cat/cat-params.yaml#/components/parameters/EventParam'
@@ -1153,7 +1153,7 @@ paths:
             - buyer
       summary: Go to market for an event
       
-  '/CaT/ProcurementProjects/{procID}/events/{eventID}/GotoMarket/extend':
+  /tenders/ProcurementProjects/{procID}/events/{eventID}/GotoMarket/extend:
     parameters:
       - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/cat/cat-params.yaml#/components/parameters/ProcurementParam'
       - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/cat/cat-params.yaml#/components/parameters/EventParam'
@@ -1183,7 +1183,7 @@ paths:
             - buyer
       summary: Extend the event
       
-  '/CaT/ProcurementProjects/{procID}/events/{eventID}/status':
+  /tenders/ProcurementProjects/{procID}/events/{eventID}/status:
     parameters:
       - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/cat/cat-params.yaml#/components/parameters/ProcurementParam'
       - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/cat/cat-params.yaml#/components/parameters/EventParam'
@@ -1213,7 +1213,7 @@ paths:
             - buyer
       summary: Get Event status
       
-  '/CaT/ProcurementProjects/{procID}/events/{eventID}/responses':
+  /tenders/ProcurementProjects/{procID}/events/{eventID}/responses:
     parameters:
       - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/cat/cat-params.yaml#/components/parameters/ProcurementParam'
       - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/cat/cat-params.yaml#/components/parameters/EventParam'
@@ -1242,7 +1242,7 @@ paths:
         - OAuth2:
             - buyer
       summary: Get all responses to an RFx
-  '/CaT/ProcurementProjects/{procID}/events/{eventID}/responses/suppliers/{supplierID}':
+  /tenders/ProcurementProjects/{procID}/events/{eventID}/responses/suppliers/{supplierID}:
     parameters:
       - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/cat/cat-params.yaml#/components/parameters/ProcurementParam'
       - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/cat/cat-params.yaml#/components/parameters/EventParam'
@@ -1272,7 +1272,7 @@ paths:
         - OAuth2:
             - buyer
       summary: Get responses from a supplier to an RFx
-  '/CaT/ProcurementProjects/{procID}/events/{eventID}/responses/{responseID}':
+  /tenders/ProcurementProjects/{procID}/events/{eventID}/responses/{responseID}:
     parameters:
       - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/cat/cat-params.yaml#/components/parameters/ProcurementParam'
       - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/cat/cat-params.yaml#/components/parameters/EventParam'
@@ -1302,7 +1302,7 @@ paths:
         - OAuth2:
             - buyer
       summary: Get response details
-  '/CaT/ProcurementProjects/{procID}/events/{eventID}/responses/{responseID}/needs':
+  /tenders/ProcurementProjects/{procID}/events/{eventID}/responses/{responseID}/needs:
     parameters:
       - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/cat/cat-params.yaml#/components/parameters/ProcurementParam'
       - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/cat/cat-params.yaml#/components/parameters/EventParam'
@@ -1332,7 +1332,7 @@ paths:
         - OAuth2:
             - buyer
       summary: Get response HL Needs
-  '/CaT/ProcurementProjects/{procID}/events/{eventID}/responses/{responseID}/needs/{needID}/forms':
+  /tenders/ProcurementProjects/{procID}/events/{eventID}/responses/{responseID}/needs/{needID}/forms:
     parameters:
       - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/cat/cat-params.yaml#/components/parameters/ProcurementParam'
       - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/cat/cat-params.yaml#/components/parameters/EventParam'
@@ -1389,7 +1389,7 @@ paths:
             - buyer
       summary: Update form response
       
-  '/CaT/ProcurementProjects/{procID}/events/{eventID}/responses/{responseID}/needs/{needID}/documents':
+  /tenders/ProcurementProjects/{procID}/events/{eventID}/responses/{responseID}/needs/{needID}/documents:
     parameters:
       - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/cat/cat-params.yaml#/components/parameters/ProcurementParam'
       - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/cat/cat-params.yaml#/components/parameters/EventParam'
@@ -1445,7 +1445,7 @@ paths:
         - OAuth2:
             - buyer
       summary: Update document response
-  '/CaT/ProcurementProjects/{procID}/Events/{eventID}/responses/suppliers/{supplierID}/complete':
+  /tenders/ProcurementProjects/{procID}/Events/{eventID}/responses/suppliers/{supplierID}/complete:
     parameters:
       - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/cat/cat-params.yaml#/components/parameters/ProcurementParam'
       - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/cat/cat-params.yaml#/components/parameters/EventParam'
@@ -1475,7 +1475,7 @@ paths:
         - OAuth2:
             - buyer
       summary: Supplier Complete
-  '/CaT/ProcurementProjects/{procID}/events/{eventID}/responses/furtherInfo':
+  /tenders/ProcurementProjects/{procID}/events/{eventID}/responses/furtherInfo:
     parameters:
       - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/cat/cat-params.yaml#/components/parameters/ProcurementParam'
       - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/cat/cat-params.yaml#/components/parameters/EventParam'
@@ -1530,7 +1530,7 @@ paths:
             - buyer
       summary: Create further info request
       
-  '/CaT/ProcurementProjects/{procID}/events/{eventID}/responses/suppliers/{supplierID}/furtherInfo':
+  /tenders/ProcurementProjects/{procID}/events/{eventID}/responses/suppliers/{supplierID}/furtherInfo:
     parameters:
       - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/cat/cat-params.yaml#/components/parameters/ProcurementParam'
       - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/cat/cat-params.yaml#/components/parameters/EventParam'
@@ -1610,7 +1610,7 @@ paths:
         - OAuth2:
             - buyer
       summary: Resturn Further Info
-  '/CaT/ProcurementProjects/{procID}/events/{eventID}/responses/export':
+  /tenders/ProcurementProjects/{procID}/events/{eventID}/responses/export:
     parameters:
       - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/cat/cat-params.yaml#/components/parameters/ProcurementParam'
       - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/cat/cat-params.yaml#/components/parameters/EventParam'
@@ -1648,7 +1648,7 @@ paths:
         - OAuth2:
             - buyer
       summary: Export all responses
-  '/CaT/ProcurementProjects/{procID}/events/{eventID}/scores':
+  /tenders/ProcurementProjects/{procID}/events/{eventID}/scores:
     parameters:
       - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/cat/cat-params.yaml#/components/parameters/ProcurementParam'
       - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/cat/cat-params.yaml#/components/parameters/EventParam'
@@ -1679,7 +1679,7 @@ paths:
         - OAuth2:
             - buyer
       summary: Get all scores for an RFx
-  '/CaT/ProcurementProjects/{procID}/events/{eventID}/scores/suppliers/{supplierID}/':
+  /tenders/ProcurementProjects/{procID}/events/{eventID}/scores/suppliers/{supplierID}/':
     parameters:
       - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/cat/cat-params.yaml#/components/parameters/ProcurementParam'
       - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/cat/cat-params.yaml#/components/parameters/EventParam'
@@ -1709,7 +1709,7 @@ paths:
         - OAuth2:
             - buyer
       summary: Update supplier score
-  /CaT/events:
+  /tenders/events:
     get:
       description: |
         Gets Events that have not been responded to
@@ -1740,7 +1740,7 @@ paths:
         - OAuth2:
             - buyer
       summary: Get all scores for an RFx
-  '/CaT/ProcurementProjects/{procID}/events/{eventID}/terminate/options':
+  /tenders/ProcurementProjects/{procID}/events/{eventID}/terminate/options:
     parameters:
       - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/cat/cat-params.yaml#/components/parameters/ProcurementParam'
       - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/cat/cat-params.yaml#/components/parameters/EventParam'
@@ -1770,7 +1770,7 @@ paths:
         - OAuth2:
             - buyer
       summary: Request options for termination
-  '/CaT/ProcurementProjects/{procID}/events/{eventID}/terminate/':
+  /tenders/ProcurementProjects/{procID}/events/{eventID}/terminate/:
     parameters:
       - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/cat/cat-params.yaml#/components/parameters/ProcurementParam'
       - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/cat/cat-params.yaml#/components/parameters/EventParam'
@@ -1804,7 +1804,7 @@ paths:
         - OAuth2:
             - buyer
       summary: Terminate RFx
-  '/CaT/ProcurementProjects/{procID}/events/{eventID}/award/':
+  /tenders/ProcurementProjects/{procID}/events/{eventID}/award/:
     parameters:
       - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/cat/cat-params.yaml#/components/parameters/ProcurementParam'
       - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/cat/cat-params.yaml#/components/parameters/EventParam'
@@ -1838,7 +1838,7 @@ paths:
         - OAuth2:
             - buyer
       summary: Award Procurement
-  '/CaT/ProcurementProjects/{procID}/events/{eventID}/signed/':
+  /tenders/ProcurementProjects/{procID}/events/{eventID}/signed/:
     parameters:
       - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/cat/cat-params.yaml#/components/parameters/ProcurementParam'
       - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/cat/cat-params.yaml#/components/parameters/EventParam'

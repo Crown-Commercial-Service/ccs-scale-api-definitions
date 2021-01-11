@@ -61,6 +61,110 @@ components:
           default: UAH
           description: Name of the tream member
           example: Fred Bloggs
+          
+    ExtendCriteria:
+      description: >-
+        Data required to extend the period for tender submissions. It must not exceed the orginal extention limit defined on a tender.
+      type: object
+      properties:
+        endDate:
+            title: End date
+            description: >-
+              The new end date for the period. 
+            type: string
+            nullable: true
+            format: date-time
+    
+    TerminationTypes:
+      description: >-
+        Ways to terminate a tender. There are several types-
+
+          * cancelled
+          * unsucessful
+          * complete
+          * withdrawn
+      type: array
+      items:
+        $ref: '#/components/schemas/TerminationType'
+      example: [
+        "cancelled",
+        "unsuccessful",
+        "complete",
+        "withdrawn"
+        ]
+        
+    ProcurementMethods:
+      description: >-
+        Different Options for procurement. There are several types-
+
+          * open
+          * selective
+          * limited
+          * direct
+      type: array
+      items:
+        $ref: '#/components/schemas/ProcurementMethod'
+      example: [
+        "open",
+        "selective",
+        "limited",
+        "direct"
+        ]
+        
+    EventTypes:
+      description: >-
+        Generic term for an event put out to the market. There are several types-
+
+          * EOI - Expression of Interest
+          * RFI -  Request for Information
+          * RFP - Request for Proposal
+      type: array
+      items:
+        $ref: '#/components/schemas/RFxType'
+      example: [
+        "EOI",
+        "RFI",
+        "RFP"
+        ]
+        
+    EventStatus:
+      description: >-
+        Generic term for an event put out to the market. Each is an optional procurement step in the procurement process. This casll shows the current status of each in the procurement process.
+      type: array
+      items:
+        type: object
+        properties:
+          id: 
+            type: string
+          ocid:
+            type: string
+          type:
+            allOf:
+              - $ref: '#/components/schemas/RFxType'
+            example: RFP
+          status:
+            type: string
+            allOf:
+              - $ref: '#/components/schemas/TenderStatus'
+              
+    DefaultName:
+      type: object
+      properties:
+        name:
+          type: string
+          example: <org>-<agreement>-<ID>
+        components:
+          type: object
+          properties:
+            org:
+              type: string
+              example: <org>
+            agreement:
+              type: string
+              example: <agreement>
+            identifier:
+              type: string
+              example: <ID>
 
           
             

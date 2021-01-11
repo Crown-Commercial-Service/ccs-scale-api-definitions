@@ -16,6 +16,14 @@ components:
           schema:
             $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CCS_Standard_API_Schema.yaml#/components/schemas/GenericID'
             example: 1234
+            
+  202Accepted:
+      description: Success (for object creation). Its information is available in the data field at the top level of the response body. The API URL where the object can be retrieved is also returned in the Location header of the response.
+      content:
+        application/vnd.api+json:
+          schema:
+            $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CCS_Standard_API_Schema.yaml#/components/schemas/GenericID'
+            example: 1234
            
             
   400InvalidRequest:

@@ -38,7 +38,7 @@ components:
       name: procID
       in: path
       required: true
-      description: Procurement Case ID
+      description: Procurement Project ID
       schema:
         $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/cat/CaT_Schema.yaml#/components/schemas/ProcurementID'
         

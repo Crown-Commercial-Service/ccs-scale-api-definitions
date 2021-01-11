@@ -11,6 +11,109 @@ servers:
     description: Optional server description, e.g. Internal staging server for testing
 
 paths:
+# Start of end points for Salesforce to eSourcing Project
+
+  /tenders/ProcurementProjects/salesforce:
+    put:
+      tags:
+        - Procurement Case       
+      summary: "US 1.0 - Create a new case in Jaggaer - Salesforce will call Jaggaer"
+      operationId: app.createProcurementCase
+      parameters:
+      - in: query
+        name: "procurement_reference"
+        schema:
+          type: string
+        example: ""
+        required: true
+        description: "Procurement case reference - unique identifier"
+      - in: query
+        name: "subject"
+        schema:
+          type: string
+        example: ""          
+        required: true
+        description: "ITT status field"
+      - in: query
+        name: "procurementRoute"
+        schema:
+          type: string
+        example: ""         
+        required: true
+        description: ""   
+      responses:
+        '202':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/CCS_Standard_API_Responses.yaml#/components/responses/202Accepted'
+        '403':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/CCS_Standard_API_Responses.yaml#/components/responses/403Forbidden' 
+        '404':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/CCS_Standard_API_Responses.yaml#/components/responses/404NotFound' 
+        '500':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/CCS_Standard_API_Responses.yaml#/components/responses/500InternalServerError'          
+
+  /tenders/ProcurementProjects/deltas:
+    get:
+      tags:
+        - ITT Events  
+      summary: "US3-6 - Update an ITT event's details (in Salesforce) when it has been published on the eSourcing platform to the invited suppliers."
+      operationId: app.putstatus   
+      parameters:
+      - in: query
+        name: "lastSuccessRun"
+        schema:
+          type: string
+          format: date-time
+        example: "dd/mm/yy:hh:mm:ss"
+        required: true
+        description: "Date and Time stamp of last successful run."
+      responses:
+        '200':
+          content:
+            multipart/form-data:
+              schema:
+                type: array
+                
+                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/OCDS_Schema.yaml#/components/schemas/Release'        
+          description: "Accepted"
+        '403':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/CCS_Standard_API_Responses.yaml#/components/responses/403Forbidden'
+        '404':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/CCS_Standard_API_Responses.yaml#/components/responses/404NotFound'
+        '500':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/CCS_Standard_API_Responses.yaml#/components/responses/500InternalServerError'     
+# 
+  /tenders/ProcurementProjects/{procID}/events/{eventID}/terminate/:
+    parameters: 
+      - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/cat/cat-params.yaml#/components/parameters/ProcurementParam'
+      - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/cat/cat-params.yaml#/components/parameters/EventParam'
+    put:
+      description: Terminate the RFx
+      tags:
+        - ITT Events
+      operationId: terminate
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              $ref: 'https://raw.githubusercontent.com/ronin1972/ccs-scale-api-definitions/master/OCDS_Schema.yaml#/components/schemas/TerminationType'
+      responses:
+        '200':
+          description: ok
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/CCS_Standard_API_Schemas.yaml#/components/schemas/GenericID'
+        '401':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/CCS_Standard_API_Responses.yaml#/components/responses/401Unauthorized'
+        '403':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/CCS_Standard_API_Responses.yaml#/components/responses/403Forbidden'
+      summary: Terminate RFx
+
+
+# End of end points for Salesforce to eSourcing Project
+
+
+
   '/cat/account/{self}/tsandcs':
     parameters:
       - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Params.yaml#/components/parameters/SelfParam'
@@ -29,11 +132,11 @@ paths:
           content:
             application/vnd.api+json:
               schema:
-                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CCS_Standard_API_Schema.yaml#/components/schemas/TsAndCs'
+                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/CCS_Standard_API_Schema.yaml#/components/schemas/TsAndCs'
         '401':
-          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CCS_Standard_API_Responses.yaml#/components/responses/401Unauthorized'
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/CCS_Standard_API_Responses.yaml#/components/responses/401Unauthorized'
         '403':
-          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CCS_Standard_API_Responses.yaml#/components/responses/403Forbidden'
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/CCS_Standard_API_Responses.yaml#/components/responses/403Forbidden'
       security:
         - openID:
             - read
@@ -58,11 +161,11 @@ paths:
           content:
             application/vnd.api+json:
               schema:
-                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/cat/CaT_Schema.yaml#/components/schemas/TeamList'
+                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/cat/CaT_Schema.yaml#/components/schemas/TeamList'
         '401':
-          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CCS_Standard_API_Responses.yaml#/components/responses/401Unauthorized'
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/CCS_Standard_API_Responses.yaml#/components/responses/401Unauthorized'
         '403':
-          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CCS_Standard_API_Responses.yaml#/components/responses/403Forbidden'
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/CCS_Standard_API_Responses.yaml#/components/responses/403Forbidden'
       summary: List of organisations teams
       security:
         - OAuth2:
@@ -76,7 +179,7 @@ paths:
         content:
           multipart/form-data:
             schema:
-              $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/cat/CaT_Schema.yaml#/components/schemas/Team'
+              $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/cat/CaT_Schema.yaml#/components/schemas/Team'
                     
       responses:
         '201':
@@ -84,11 +187,11 @@ paths:
             content:
                 application/vnd.api+json:
                     schema:
-                        $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/cat/CaT_Schema.yaml#/components/schemas/TeamID'
+                        $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/cat/CaT_Schema.yaml#/components/schemas/TeamID'
         '401':
-          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CCS_Standard_API_Responses.yaml#/components/responses/401Unauthorized'
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/CCS_Standard_API_Responses.yaml#/components/responses/401Unauthorized'
         '403':
-          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CCS_Standard_API_Responses.yaml#/components/responses/403Forbidden'
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/CCS_Standard_API_Responses.yaml#/components/responses/403Forbidden'
       security:
         - OAuth2:
             - buyer
@@ -109,11 +212,11 @@ paths:
       operationId: Delete Team
       responses:
         '200':
-          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CCS_Standard_API_Responses.yaml#/components/responses/200Success'
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/CCS_Standard_API_Responses.yaml#/components/responses/200Success'
         '401':
-          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CCS_Standard_API_Responses.yaml#/components/responses/401Unauthorized'
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/CCS_Standard_API_Responses.yaml#/components/responses/401Unauthorized'
         '403':
-          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CCS_Standard_API_Responses.yaml#/components/responses/403Forbidden'
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/CCS_Standard_API_Responses.yaml#/components/responses/403Forbidden'
       security:
         - OAuth2:
             - buyer
@@ -139,11 +242,11 @@ paths:
           content:
             application/vnd.api+json:
               schema:
-                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/cat/CaT_Schema.yaml#/components/schemas/TeamMemberList'
+                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/cat/CaT_Schema.yaml#/components/schemas/TeamMemberList'
         '401':
-          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CCS_Standard_API_Responses.yaml#/components/responses/401Unauthorized'
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/CCS_Standard_API_Responses.yaml#/components/responses/401Unauthorized'
         '403':
-          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CCS_Standard_API_Responses.yaml#/components/responses/403Forbidden'
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/CCS_Standard_API_Responses.yaml#/components/responses/403Forbidden'
       security:
         - OAuth2:
             - buyer
@@ -168,20 +271,20 @@ paths:
         content:
           multipart/form-data:
             schema:
-              $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/cat/CaT_Schema.yaml#/components/schemas/TeamMember'
+              $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/cat/CaT_Schema.yaml#/components/schemas/TeamMember'
       responses:
         '200':
-          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CCS_Standard_API_Responses.yaml#/components/responses/200Success'
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/CCS_Standard_API_Responses.yaml#/components/responses/200Success'
         '201':
           description: Added the Team Member who didnt exist
           content:
             application/vnd.api+json:
               schema:
-                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/cat/CaT_Schema.yaml#/components/schemas/TeamMemberID'
+                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/cat/CaT_Schema.yaml#/components/schemas/TeamMemberID'
         '401':
-          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CCS_Standard_API_Responses.yaml#/components/responses/401Unauthorized'
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/CCS_Standard_API_Responses.yaml#/components/responses/401Unauthorized'
         '403':
-          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CCS_Standard_API_Responses.yaml#/components/responses/403Forbidden'
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/CCS_Standard_API_Responses.yaml#/components/responses/403Forbidden'
       security:
         - OAuth2:
             - buyer
@@ -198,11 +301,11 @@ paths:
           content:
             application/vnd.api+json:
               schema:
-                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/cat/CaT_Schema.yaml#/components/schemas/TeamList'
+                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/cat/CaT_Schema.yaml#/components/schemas/TeamList'
         '401':
-          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CCS_Standard_API_Responses.yaml#/components/responses/401Unauthorized'
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/CCS_Standard_API_Responses.yaml#/components/responses/401Unauthorized'
         '403':
-          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CCS_Standard_API_Responses.yaml#/components/responses/403Forbidden'
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/CCS_Standard_API_Responses.yaml#/components/responses/403Forbidden'
       security:
         - OAuth2:
             - buyer
@@ -227,11 +330,11 @@ paths:
           content:
             application/vnd.api+json:
               schema:
-                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/cat/CaT_Schema.yaml#/components/schemas/TeamList'
+                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/cat/CaT_Schema.yaml#/components/schemas/TeamList'
         '401':
-          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CCS_Standard_API_Responses.yaml#/components/responses/401Unauthorized'
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/CCS_Standard_API_Responses.yaml#/components/responses/401Unauthorized'
         '403':
-          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CCS_Standard_API_Responses.yaml#/components/responses/403Forbidden'
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/CCS_Standard_API_Responses.yaml#/components/responses/403Forbidden'
       security:
         - OAuth2:
             - buyer
@@ -250,11 +353,11 @@ paths:
           content:
             application/vnd.api+json:
               schema:
-                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/cat/CaT_Schema.yaml#/components/schemas/EventTypes'
+                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/cat/CaT_Schema.yaml#/components/schemas/EventTypes'
         '401':
-          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CCS_Standard_API_Responses.yaml#/components/responses/401Unauthorized'
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/CCS_Standard_API_Responses.yaml#/components/responses/401Unauthorized'
         '403':
-          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CCS_Standard_API_Responses.yaml#/components/responses/403Forbidden'
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/CCS_Standard_API_Responses.yaml#/components/responses/403Forbidden'
       security:
         - OAuth2:
             - buyer
@@ -281,11 +384,11 @@ paths:
           content:
             application/vnd.api+json:
               schema:
-                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/cat/CaT_Schema.yaml#/components/schemas/DefaultName'
+                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/cat/CaT_Schema.yaml#/components/schemas/DefaultName'
         '401':
-          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CCS_Standard_API_Responses.yaml#/components/responses/401Unauthorized'
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/CCS_Standard_API_Responses.yaml#/components/responses/401Unauthorized'
         '403':
-          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CCS_Standard_API_Responses.yaml#/components/responses/403Forbidden'
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/CCS_Standard_API_Responses.yaml#/components/responses/403Forbidden'
       security:
         - OAuth2:
             - buyer
@@ -307,25 +410,25 @@ paths:
         content:
           multipart/form-data:
             schema:
-              $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CCS_Standard_API_Schema.yaml#/components/schemas/GenericID'
+              $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/CCS_Standard_API_Schema.yaml#/components/schemas/GenericID'
       responses:
         '200':
           description: ok
           content:
             application/vnd.api+json:
               schema:
-                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/cat/CaT_Schema.yaml#/components/schemas/DefaultName'
+                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/cat/CaT_Schema.yaml#/components/schemas/DefaultName'
         '401':
-          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CCS_Standard_API_Responses.yaml#/components/responses/401Unauthorized'
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/CCS_Standard_API_Responses.yaml#/components/responses/401Unauthorized'
         '403':
-          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CCS_Standard_API_Responses.yaml#/components/responses/403Forbidden'
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/CCS_Standard_API_Responses.yaml#/components/responses/403Forbidden'
       security:
         - OAuth2:
             - buyer
       summary: Tranfer from Guided Match
   /tenders/ProcurementProjects/FMTransfer:
     parameters:
-      - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/cat/CaT_Schema.yaml#/components/parameters/FMParam'
+      - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/cat/CaT_Schema.yaml#/components/parameters/FMParam'
       - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Params.yaml#/components/parameters/x-correlation-id'
       - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Params.yaml#/components/parameters/x-causation-id'
       - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Params.yaml#/components/parameters/x-channel'
@@ -341,18 +444,18 @@ paths:
         content:
           multipart/form-data:
             schema:
-              $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/cat/CaT_Schema.yaml#/components/schemas/DefaultName'
+              $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/cat/CaT_Schema.yaml#/components/schemas/DefaultName'
       responses:
         '200':
           description: ok
           content:
             application/vnd.api+json:
               schema:
-                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/OCDS_Schema.yaml#/components/schemas/Release'
+                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/OCDS_Schema.yaml#/components/schemas/Release'
         '401':
-          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CCS_Standard_API_Responses.yaml#/components/responses/401Unauthorized'
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/CCS_Standard_API_Responses.yaml#/components/responses/401Unauthorized'
         '403':
-          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CCS_Standard_API_Responses.yaml#/components/responses/403Forbidden'
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/CCS_Standard_API_Responses.yaml#/components/responses/403Forbidden'
       security:
         - OAuth2:
             - buyer
@@ -376,18 +479,18 @@ paths:
         content:
           multipart/form-data:
             schema:
-              $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/cat/CaT_Schema.yaml#/components/schemas/DefaultName'
+              $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/cat/CaT_Schema.yaml#/components/schemas/DefaultName'
       responses:
         '200':
           description: ok
           content:
             application/vnd.api+json:
               schema:
-                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/OCDS_Schema.yaml#/components/schemas/Release'
+                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/OCDS_Schema.yaml#/components/schemas/Release'
         '401':
-          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CCS_Standard_API_Responses.yaml#/components/responses/401Unauthorized'
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/CCS_Standard_API_Responses.yaml#/components/responses/401Unauthorized'
         '403':
-          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CCS_Standard_API_Responses.yaml#/components/responses/403Forbidden'
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/CCS_Standard_API_Responses.yaml#/components/responses/403Forbidden'
       security:
         - OAuth2:
             - buyer
@@ -412,18 +515,18 @@ paths:
         content:
           multipart/form-data:
             schema:
-              $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/OCDS_Schema.yaml#/components/schemas/AgreementID'
+              $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/OCDS_Schema.yaml#/components/schemas/AgreementID'
       responses:
         '200':
           description: ok
           content:
             application/vnd.api+json:
               schema:
-                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/OCDS_Schema.yaml#/components/schemas/ProcurementID'
+                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/OCDS_Schema.yaml#/components/schemas/ProcurementID'
         '401':
-          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CCS_Standard_API_Responses.yaml#/components/responses/401Unauthorized'
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/CCS_Standard_API_Responses.yaml#/components/responses/401Unauthorized'
         '403':
-          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CCS_Standard_Responses.yaml#/components/responses/403Forbidden'
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/CCS_Standard_Responses.yaml#/components/responses/403Forbidden'
       security:
         - OAuth2:
             - buyer
@@ -446,18 +549,18 @@ paths:
         content:
           multipart/form-data:
             schema:
-              $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CCS_Standard_API_Schema.yaml#/components/schemas/GenericID'
+              $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/CCS_Standard_API_Schema.yaml#/components/schemas/GenericID'
       responses:
         '200':
           description: ok
           content:
             application/vnd.api+json:
               schema:
-                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CCS_Standard_API_Schema.yaml#/components/schemas/GenericID'
+                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/CCS_Standard_API_Schema.yaml#/components/schemas/GenericID'
         '401':
-          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CCS_Standard_Responses.yaml#/components/responses/401Unauthorized'
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/CCS_Standard_Responses.yaml#/components/responses/401Unauthorized'
         '403':
-          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CCS_Standard_Responses.yaml#/components/responses/403Forbidden'
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/CCS_Standard_Responses.yaml#/components/responses/403Forbidden'
       security:
         - OAuth2:
             - buyer
@@ -483,11 +586,11 @@ paths:
           content:
             application/vnd.api+json:
               schema:
-                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/OCDS_Schema.yaml#/components/schemas/ProcessStage'
+                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/OCDS_Schema.yaml#/components/schemas/ProcessStage'
         '401':
-          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CCS_Standard_Responses.yaml#/components/responses/401Unauthorized'
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/CCS_Standard_Responses.yaml#/components/responses/401Unauthorized'
         '403':
-          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CCS_Standard_Responses.yaml#/components/responses/403Forbidden'
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/CCS_Standard_Responses.yaml#/components/responses/403Forbidden'
       security:
         - OAuth2:
             - buyer
@@ -512,11 +615,11 @@ paths:
           content:
             application/vnd.api+json:
               schema:
-                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/OCDS_Schema.yaml#/components/schemas/ProcessStage'
+                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/OCDS_Schema.yaml#/components/schemas/ProcessStage'
         '401':
-          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CCS_Standard_Responses.yaml#/components/responses/401Unauthorized'
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/CCS_Standard_Responses.yaml#/components/responses/401Unauthorized'
         '403':
-          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CCS_Standard_Responses.yaml#/components/responses/403Forbidden'
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/CCS_Standard_Responses.yaml#/components/responses/403Forbidden'
       security:
         - OAuth2:
             - buyer
@@ -542,11 +645,11 @@ paths:
           content:
             application/vnd.api+json:
               schema:
-                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/OCDS_Schema.yaml#/components/schemas/ProcessStage'
+                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/OCDS_Schema.yaml#/components/schemas/ProcessStage'
         '401':
-          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CCS_Standard_Responses.yaml#/components/responses/401Unauthorized'
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/CCS_Standard_Responses.yaml#/components/responses/401Unauthorized'
         '403':
-          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CCS_Standard_Responses.yaml#/components/responses/403Forbidden'
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/CCS_Standard_Responses.yaml#/components/responses/403Forbidden'
       security:
         - OAuth2:
             - buyer
@@ -561,18 +664,18 @@ paths:
         content:
           multipart/form-data:
             schema:
-              $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CCS_Standard_API_Schema.yaml#/components/schemas/GenericID'
+              $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/CCS_Standard_API_Schema.yaml#/components/schemas/GenericID'
       responses:
         '200':
           description: ok
           content:
             application/vnd.api+json:
               schema:
-                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CCS_Standard_API_Schema.yaml#/components/schemas/GenericID'
+                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/CCS_Standard_API_Schema.yaml#/components/schemas/GenericID'
         '401':
-          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CCS_Standard_Responses.yaml#/components/responses/401Unauthorized'
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/CCS_Standard_Responses.yaml#/components/responses/401Unauthorized'
         '403':
-          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CCS_Standard_Responses.yaml#/components/responses/403Forbidden'
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/CCS_Standard_Responses.yaml#/components/responses/403Forbidden'
       security:
         - OAuth2:
             - buyer
@@ -598,11 +701,11 @@ paths:
           content:
             application/vnd.api+json:
               schema:
-                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/OCDS_Schema.yaml#/components/schemas/Criteria'
+                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/OCDS_Schema.yaml#/components/schemas/Criteria'
         '401':
-          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CCS_Standard_API_Responses.yaml#/components/responses/401Unauthorized'
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/CCS_Standard_API_Responses.yaml#/components/responses/401Unauthorized'
         '403':
-          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CCS_Standard_API_Responses.yaml#/components/responses/403Forbidden'
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/CCS_Standard_API_Responses.yaml#/components/responses/403Forbidden'
       security:
         - OAuth2:
             - buyer
@@ -628,11 +731,11 @@ paths:
           content:
             application/vnd.api+json:
               schema:
-                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/OCDS_Schema.yaml#/components/schemas/Criterion'
+                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/OCDS_Schema.yaml#/components/schemas/Criterion'
         '401':
-          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CCS_Standard_API_Responses.yaml#/components/responses/401Unauthorized'
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/CCS_Standard_API_Responses.yaml#/components/responses/401Unauthorized'
         '403':
-          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CCS_Standard_API_Responses.yaml#/components/responses/403Forbidden'
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/CCS_Standard_API_Responses.yaml#/components/responses/403Forbidden'
       security:
         - OAuth2:
             - buyer
@@ -646,18 +749,18 @@ paths:
         content:
           multipart/form-data:
             schema:
-              $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/OCDS_Schema.yaml#/components/schemas/Requirement'
+              $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/OCDS_Schema.yaml#/components/schemas/Requirement'
       responses:
         '200':
           description: ok
           content:
             application/vnd.api+json:
               schema:
-                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CCS_Standard_API_Schema.yaml#/components/schemas/GenericID'
+                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/CCS_Standard_API_Schema.yaml#/components/schemas/GenericID'
         '401':
-          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CCS_Standard_Responses.yaml#/components/responses/401Unauthorized'
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/CCS_Standard_Responses.yaml#/components/responses/401Unauthorized'
         '403':
-          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CCS_Standard_Responses.yaml#/components/responses/403Forbidden'
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/CCS_Standard_Responses.yaml#/components/responses/403Forbidden'
       security:
         - OAuth2:
             - buyer
@@ -683,11 +786,11 @@ paths:
           content:
             application/vnd.api+json:
               schema:
-                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/OCDS_Schema.yaml#/components/schemas/DocumentList'
+                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/OCDS_Schema.yaml#/components/schemas/DocumentList'
         '401':
-          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CCS_Standard_Responses.yaml#/components/responses/401Unauthorized'
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/CCS_Standard_Responses.yaml#/components/responses/401Unauthorized'
         '403':
-          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CCS_Standard_Responses.yaml#/components/responses/403Forbidden'
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/CCS_Standard_Responses.yaml#/components/responses/403Forbidden'
       security:
         - OAuth2:
             - buyer
@@ -701,18 +804,18 @@ paths:
         content:
           multipart/form-data:
             schema:
-              $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/OCDS_Schema.yaml#/components/schemas/Document'
+              $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/OCDS_Schema.yaml#/components/schemas/Document'
       responses:
         '200':
           description: ok
           content:
             application/vnd.api+json:
               schema:
-                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CCS_Standard_API_Schema.yaml#/components/schemas/GenericID'
+                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/CCS_Standard_API_Schema.yaml#/components/schemas/GenericID'
         '401':
-          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CCS_Standard_Responses.yaml#/components/responses/401Unauthorized'
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/CCS_Standard_Responses.yaml#/components/responses/401Unauthorized'
         '403':
-          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CCS_Standard_Responses.yaml#/components/responses/403Forbidden'
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/CCS_Standard_Responses.yaml#/components/responses/403Forbidden'
       security:
         - OAuth2:
             - buyer
@@ -736,18 +839,18 @@ paths:
         content:
           multipart/form-data:
             schema:
-              $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CCS_Standard_API_Schema.yaml#/components/schemas/GenericID'
+              $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/CCS_Standard_API_Schema.yaml#/components/schemas/GenericID'
       responses:
         '200':
           description: ok
           content:
             application/vnd.api+json:
               schema:
-                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CCS_Standard_API_Schema.yaml#/components/schemas/GenericID'
+                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/CCS_Standard_API_Schema.yaml#/components/schemas/GenericID'
         '401':
-          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CCS_Standard_Responses.yaml#/components/responses/401Unauthorized'
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/CCS_Standard_Responses.yaml#/components/responses/401Unauthorized'
         '403':
-          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CCS_Standard_Responses.yaml#/components/responses/403Forbidden'
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/CCS_Standard_Responses.yaml#/components/responses/403Forbidden'
       security:
         - OAuth2:
             - buyer
@@ -774,11 +877,11 @@ paths:
           content:
             application/vnd.api+json:
               schema:
-                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/OCDS_Schema.yaml#/components/schemas/ProcessStage'
+                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/OCDS_Schema.yaml#/components/schemas/ProcessStage'
         '401':
-          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CCS_Standard_Responses.yaml#/components/responses/401Unauthorized'
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/CCS_Standard_Responses.yaml#/components/responses/401Unauthorized'
         '403':
-          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CCS_Standard_Responses.yaml#/components/responses/403Forbidden'
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/CCS_Standard_Responses.yaml#/components/responses/403Forbidden'
       security:
         - OAuth2:
             - buyer
@@ -796,6 +899,7 @@ paths:
       description: Get Event's for this Project. In OCDS this is the related cases of Type
       tags:
         - Define Procurement Event
+        - ITT Events
       operationId: caseRFXs
       responses:
         '200':
@@ -803,11 +907,11 @@ paths:
           content:
             application/vnd.api+json:
               schema:
-                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/cat/CaT_Schema.yaml#/components/schemas/EventStatus'
+                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/cat/CaT_Schema.yaml#/components/schemas/EventStatus'
         '401':
-          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CCS_Standard_Responses.yaml#/components/responses/401Unauthorized'
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/CCS_Standard_Responses.yaml#/components/responses/401Unauthorized'
         '403':
-          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CCS_Standard_Responses.yaml#/components/responses/403Forbidden'
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/CCS_Standard_Responses.yaml#/components/responses/403Forbidden'
       security:
         - OAuth2:
             - buyer
@@ -821,18 +925,18 @@ paths:
         content:
           multipart/form-data:
             schema:
-              $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/OCDS_Schema.yaml#/components/schemas/Tender'
+              $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/OCDS_Schema.yaml#/components/schemas/Tender'
       responses:
         '200':
           description: ok
           content:
             application/vnd.api+json:
               schema:
-                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CCS_Standard_API_Schema.yaml#/components/schemas/GenericID'
+                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/CCS_Standard_API_Schema.yaml#/components/schemas/GenericID'
         '401':
-          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CCS_Standard_API_Responses.yaml#/components/responses/401Unauthorized'
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/CCS_Standard_API_Responses.yaml#/components/responses/401Unauthorized'
         '403':
-          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CCS_Standard_API_Responses.yaml#/components/responses/403Forbidden'
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/CCS_Standard_API_Responses.yaml#/components/responses/403Forbidden'
       security:
         - OAuth2:
             - buyer
@@ -858,11 +962,11 @@ paths:
           content:
             application/vnd.api+json:
               schema:
-                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/OCDS_Schema.yaml#/components/schemas/Criteria'
+                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/OCDS_Schema.yaml#/components/schemas/Criteria'
         '401':
-          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CCS_Standard_API_Responses.yaml#/components/responses/401Unauthorized'
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/CCS_Standard_API_Responses.yaml#/components/responses/401Unauthorized'
         '403':
-          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CCS_Standard_API_Responses.yaml#/components/responses/403Forbidden'
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/CCS_Standard_API_Responses.yaml#/components/responses/403Forbidden'
       security:
         - OAuth2:
             - buyer
@@ -889,11 +993,11 @@ paths:
           content:
             application/vnd.api+json:
               schema:
-                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/OCDS_Schema.yaml#/components/schemas/Criterion'
+                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/OCDS_Schema.yaml#/components/schemas/Criterion'
         '401':
-          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CCS_Standard_API_Responses.yaml#/components/responses/401Unauthorized'
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/CCS_Standard_API_Responses.yaml#/components/responses/401Unauthorized'
         '403':
-          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CCS_Standard_API_Responses.yaml#/components/responses/403Forbidden'
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/CCS_Standard_API_Responses.yaml#/components/responses/403Forbidden'
       security:
         - OAuth2:
             - buyer
@@ -907,18 +1011,18 @@ paths:
         content:
           multipart/form-data:
             schema:
-              $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/OCDS_Schema.yaml#/components/schemas/Requirement'
+              $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/OCDS_Schema.yaml#/components/schemas/Requirement'
       responses:
         '200':
           description: ok
           content:
             application/vnd.api+json:
               schema:
-                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CCS_Standard_API_Schema.yaml#/components/schemas/GenericID'
+                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/CCS_Standard_API_Schema.yaml#/components/schemas/GenericID'
         '401':
-          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CCS_Standard_Responses.yaml#/components/responses/401Unauthorized'
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/CCS_Standard_Responses.yaml#/components/responses/401Unauthorized'
         '403':
-          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CCS_Standard_Responses.yaml#/components/responses/403Forbidden'
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/CCS_Standard_Responses.yaml#/components/responses/403Forbidden'
       security:
         - OAuth2:
             - buyer
@@ -945,11 +1049,11 @@ paths:
           content:
             application/vnd.api+json:
               schema:
-                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/OCDS_Schema.yaml#/components/schemas/DocumentList'
+                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/OCDS_Schema.yaml#/components/schemas/DocumentList'
         '401':
-          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CCS_Standard_Responses.yaml#/components/responses/401Unauthorized'
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/CCS_Standard_Responses.yaml#/components/responses/401Unauthorized'
         '403':
-          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CCS_Standard_Responses.yaml#/components/responses/403Forbidden'
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/CCS_Standard_Responses.yaml#/components/responses/403Forbidden'
       security:
         - OAuth2:
             - buyer
@@ -963,18 +1067,18 @@ paths:
         content:
           multipart/form-data:
             schema:
-              $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/OCDS_Schema.yaml#/components/schemas/Document'
+              $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/OCDS_Schema.yaml#/components/schemas/Document'
       responses:
         '200':
           description: ok
           content:
             application/vnd.api+json:
               schema:
-                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CCS_Standard_API_Schema.yaml#/components/schemas/GenericID'
+                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/CCS_Standard_API_Schema.yaml#/components/schemas/GenericID'
         '401':
-          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CCS_Standard_Responses.yaml#/components/responses/401Unauthorized'
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/CCS_Standard_Responses.yaml#/components/responses/401Unauthorized'
         '403':
-          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CCS_Standard_Responses.yaml#/components/responses/403Forbidden'
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/CCS_Standard_Responses.yaml#/components/responses/403Forbidden'
       security:
         - OAuth2:
             - buyer
@@ -1002,11 +1106,11 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/OCDS_Schema.yaml#/components/schemas/OrganizationReference'
+                  $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/OCDS_Schema.yaml#/components/schemas/OrganizationReference'
         '401':
-          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CCS_Standard_Responses.yaml#/components/responses/401Unauthorized'
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/CCS_Standard_Responses.yaml#/components/responses/401Unauthorized'
         '403':
-          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CCS_Standard_Responses.yaml#/components/responses/403Forbidden'
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/CCS_Standard_Responses.yaml#/components/responses/403Forbidden'
       security:
         - OAuth2:
             - buyer
@@ -1020,14 +1124,14 @@ paths:
         content:
           multipart/form-data:
             schema:
-              $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/OCDS_Schema.yaml#/components/schemas/OrganizationReference'
+              $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/OCDS_Schema.yaml#/components/schemas/OrganizationReference'
       responses:
         '201':
-          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CCS_Standard_Responses.yaml#/components/responses/201Success'
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/CCS_Standard_Responses.yaml#/components/responses/201Success'
         '401':
-          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CCS_Standard_Responses.yaml#/components/responses/401Unauthorized'
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/CCS_Standard_Responses.yaml#/components/responses/401Unauthorized'
         '403':
-          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CCS_Standard_Responses.yaml#/components/responses/403Forbidden'
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/CCS_Standard_Responses.yaml#/components/responses/403Forbidden'
       security:
         - OAuth2:
             - buyer
@@ -1050,11 +1154,11 @@ paths:
       operationId: removeSuppliers
       responses:
         '200':
-          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CCS_Standard_Responses.yaml#/components/responses/200Success'
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/CCS_Standard_Responses.yaml#/components/responses/200Success'
         '401':
-          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CCS_Standard_Responses.yaml#/components/responses/401Unauthorized'
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/CCS_Standard_Responses.yaml#/components/responses/401Unauthorized'
         '403':
-          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CCS_Standard_Responses.yaml#/components/responses/403Forbidden'
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/CCS_Standard_Responses.yaml#/components/responses/403Forbidden'
       security:
         - OAuth2:
             - buyer
@@ -1079,11 +1183,11 @@ paths:
           content:
             application/vnd.api+json:
               schema:
-                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/OCDS_Schema.yaml#/components/schemas/Tender'
+                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/OCDS_Schema.yaml#/components/schemas/Tender'
         '401':
-          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CCS_Standard_Responses.yaml#/components/responses/401Unauthorized'
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/CCS_Standard_Responses.yaml#/components/responses/401Unauthorized'
         '403':
-          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CCS_Standard_Responses.yaml#/components/responses/403Forbidden'
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/CCS_Standard_Responses.yaml#/components/responses/403Forbidden'
       security:
         - OAuth2:
             - buyer
@@ -1108,11 +1212,11 @@ paths:
           content:
             application/vnd.api+json:
               schema:
-                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/OCDS_Schema.yaml#/components/schemas/ProcurementMethods'
+                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/OCDS_Schema.yaml#/components/schemas/ProcurementMethods'
         '401':
-          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CCS_Standard_API_Responses.yaml#/components/responses/401Unauthorized'
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/CCS_Standard_API_Responses.yaml#/components/responses/401Unauthorized'
         '403':
-          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CCS_Standard_API_Responses.yaml#/components/responses/403Forbidden'
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/CCS_Standard_API_Responses.yaml#/components/responses/403Forbidden'
       security:
         - OAuth2:
             - buyer
@@ -1136,18 +1240,18 @@ paths:
         content:
           multipart/form-data:
             schema:
-              $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/OCDS_Schema.yaml#/components/schemas/TenderRelease'
+              $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/OCDS_Schema.yaml#/components/schemas/TenderRelease'
       responses:
         '200':
           description: ok
           content:
             application/vnd.api+json:
               schema:
-                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CCS_Standard_API_Schema.yaml#/components/schemas/GenericID'
+                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/CCS_Standard_API_Schema.yaml#/components/schemas/GenericID'
         '401':
-          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CCS_Standard_Responses.yaml#/components/responses/401Unauthorized'
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/CCS_Standard_Responses.yaml#/components/responses/401Unauthorized'
         '403':
-          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CCS_Standard_Responses.yaml#/components/responses/403Forbidden'
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/CCS_Standard_Responses.yaml#/components/responses/403Forbidden'
       security:
         - OAuth2:
             - buyer
@@ -1170,14 +1274,14 @@ paths:
         content:
           multipart/form-data:
             schema:
-              $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/OCDS_Schema.yaml#/components/schemas/ExtendCriteria'
+              $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/OCDS_Schema.yaml#/components/schemas/ExtendCriteria'
       responses:
         '200':
-          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CCS_Standard_Responses.yaml#/components/responses/200Success'
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/CCS_Standard_Responses.yaml#/components/responses/200Success'
         '401':
-          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CCS_Standard_Responses.yaml#/components/responses/401Unauthorized'
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/CCS_Standard_Responses.yaml#/components/responses/401Unauthorized'
         '403':
-          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CCS_Standard_Responses.yaml#/components/responses/403Forbidden'
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/CCS_Standard_Responses.yaml#/components/responses/403Forbidden'
       security:
         - OAuth2:
             - buyer
@@ -1203,11 +1307,11 @@ paths:
           content:
             application/vnd.api+json:
               schema:
-                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/OCDS_Schema.yaml#/components/schemas/ProcessStage'
+                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/OCDS_Schema.yaml#/components/schemas/ProcessStage'
         '401':
-          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CCS_Standard_Responses.yaml#/components/responses/401Unauthorized'
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/CCS_Standard_Responses.yaml#/components/responses/401Unauthorized'
         '403':
-          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CCS_Standard_Responses.yaml#/components/responses/403Forbidden'
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/CCS_Standard_Responses.yaml#/components/responses/403Forbidden'
       security:
         - OAuth2:
             - buyer
@@ -1233,11 +1337,11 @@ paths:
           content:
             application/vnd.api+json:
               schema:
-                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/OCDS_Schema.yaml#/components/schemas/RequirementResponses'
+                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/OCDS_Schema.yaml#/components/schemas/RequirementResponses'
         '401':
-          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CCS_Standard_Responses.yaml#/components/responses/401Unauthorized'
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/CCS_Standard_Responses.yaml#/components/responses/401Unauthorized'
         '403':
-          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CCS_Standard_Responses.yaml#/components/responses/403Forbidden'
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/CCS_Standard_Responses.yaml#/components/responses/403Forbidden'
       security:
         - OAuth2:
             - buyer
@@ -1263,11 +1367,11 @@ paths:
           content:
             application/vnd.api+json:
               schema:
-                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/OCDS_Schema.yaml#/components/schemas/RequirementResponses'
+                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/OCDS_Schema.yaml#/components/schemas/RequirementResponses'
         '401':
-          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CCS_Standard_Responses.yaml#/components/responses/401Unauthorized'
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/CCS_Standard_Responses.yaml#/components/responses/401Unauthorized'
         '403':
-          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CCS_Standard_Responses.yaml#/components/responses/403Forbidden'
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/CCS_Standard_Responses.yaml#/components/responses/403Forbidden'
       security:
         - OAuth2:
             - buyer
@@ -1293,11 +1397,11 @@ paths:
           content:
             application/vnd.api+json:
               schema:
-                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/OCDS_Schema.yaml#/components/schemas/RequirementResponse'
+                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/OCDS_Schema.yaml#/components/schemas/RequirementResponse'
         '401':
-          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CCS_Standard_Responses.yaml#/components/responses/401Unauthorized'
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/CCS_Standard_Responses.yaml#/components/responses/401Unauthorized'
         '403':
-          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CCS_Standard_Responses.yaml#/components/responses/403Forbidden'
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/CCS_Standard_Responses.yaml#/components/responses/403Forbidden'
       security:
         - OAuth2:
             - buyer
@@ -1323,11 +1427,11 @@ paths:
           content:
             application/vnd.api+json:
               schema:
-                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/OCDS_Schema.yaml#/components/schemas/RequirementResponses'
+                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/OCDS_Schema.yaml#/components/schemas/RequirementResponses'
         '401':
-          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CCS_Standard_Responses.yaml#/components/responses/401Unauthorized'
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/CCS_Standard_Responses.yaml#/components/responses/401Unauthorized'
         '403':
-          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CCS_Standard_Responses.yaml#/components/responses/403Forbidden'
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/CCS_Standard_Responses.yaml#/components/responses/403Forbidden'
       security:
         - OAuth2:
             - buyer
@@ -1354,11 +1458,11 @@ paths:
           content:
             application/vnd.api+json:
               schema:
-                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/OCDS_Schema.yaml#/components/schemas/RequirementResponse'
+                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/OCDS_Schema.yaml#/components/schemas/RequirementResponse'
         '401':
-          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CCS_Standard_Responses.yaml#/components/responses/401Unauthorized'
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/CCS_Standard_Responses.yaml#/components/responses/401Unauthorized'
         '403':
-          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CCS_Standard_Responses.yaml#/components/responses/403Forbidden'
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/CCS_Standard_Responses.yaml#/components/responses/403Forbidden'
       security:
         - OAuth2:
             - buyer
@@ -1372,18 +1476,18 @@ paths:
         content:
           multipart/form-data:
             schema:
-              $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CCS_Standard_API_Schema.yaml#/components/schemas/GenericID'
+              $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/CCS_Standard_API_Schema.yaml#/components/schemas/GenericID'
       responses:
         '200':
           description: ok
           content:
             application/vnd.api+json:
               schema:
-                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CCS_Standard_API_Schema.yaml#/components/schemas/GenericID'
+                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/CCS_Standard_API_Schema.yaml#/components/schemas/GenericID'
         '401':
-          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CCS_Standard_Responses.yaml#/components/responses/401Unauthorized'
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/CCS_Standard_Responses.yaml#/components/responses/401Unauthorized'
         '403':
-          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CCS_Standard_Responses.yaml#/components/responses/403Forbidden'
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/CCS_Standard_Responses.yaml#/components/responses/403Forbidden'
       security:
         - OAuth2:
             - buyer
@@ -1411,11 +1515,11 @@ paths:
           content:
             application/vnd.api+json:
               schema:
-                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/OCDS_Schema.yaml#/components/schemas/DocumentList'
+                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/OCDS_Schema.yaml#/components/schemas/DocumentList'
         '401':
-          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CCS_Standard_Responses.yaml#/components/responses/401Unauthorized'
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/CCS_Standard_Responses.yaml#/components/responses/401Unauthorized'
         '403':
-          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CCS_Standard_Responses.yaml#/components/responses/403Forbidden'
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/CCS_Standard_Responses.yaml#/components/responses/403Forbidden'
       security:
         - OAuth2:
             - buyer
@@ -1429,18 +1533,18 @@ paths:
         content:
           multipart/form-data:
             schema:
-              $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/OCDS_Schema.yaml#/components/schemas/Document'
+              $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/OCDS_Schema.yaml#/components/schemas/Document'
       responses:
         '200':
           description: ok
           content:
             application/vnd.api+json:
               schema:
-                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CCS_Standard_API_Schema.yaml#/components/schemas/GenericID'
+                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/CCS_Standard_API_Schema.yaml#/components/schemas/GenericID'
         '401':
-          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CCS_Standard_Responses.yaml#/components/responses/401Unauthorized'
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/CCS_Standard_Responses.yaml#/components/responses/401Unauthorized'
         '403':
-          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CCS_Standard_Responses.yaml#/components/responses/403Forbidden'
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/CCS_Standard_Responses.yaml#/components/responses/403Forbidden'
       security:
         - OAuth2:
             - buyer
@@ -1466,11 +1570,11 @@ paths:
           content:
             application/vnd.api+json:
               schema:
-                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CCS_Standard_API_Schema.yaml#/components/schemas/GenericID'
+                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/CCS_Standard_API_Schema.yaml#/components/schemas/GenericID'
         '401':
-          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CCS_Standard_Responses.yaml#/components/responses/401Unauthorized'
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/CCS_Standard_Responses.yaml#/components/responses/401Unauthorized'
         '403':
-          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CCS_Standard_Responses.yaml#/components/responses/403Forbidden'
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/CCS_Standard_Responses.yaml#/components/responses/403Forbidden'
       security:
         - OAuth2:
             - buyer
@@ -1495,11 +1599,11 @@ paths:
           content:
             application/vnd.api+json:
               schema:
-                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/OCDS_Schema.yaml#/components/schemas/Enquiries'
+                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/OCDS_Schema.yaml#/components/schemas/Enquiries'
         '401':
-          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CCS_Standard_Responses.yaml#/components/responses/401Unauthorized'
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/CCS_Standard_Responses.yaml#/components/responses/401Unauthorized'
         '403':
-          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CCS_Standard_Responses.yaml#/components/responses/403Forbidden'
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/CCS_Standard_Responses.yaml#/components/responses/403Forbidden'
       security:
         - OAuth2:
             - buyer
@@ -1513,18 +1617,18 @@ paths:
         content:
           multipart/form-data:
             schema:
-              $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/OCDS_Schema.yaml#/components/schemas/Enquiry'
+              $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/OCDS_Schema.yaml#/components/schemas/Enquiry'
       responses:
         '200':
           description: ok
           content:
             application/vnd.api+json:
               schema:
-                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CCS_Standard_API_Schema.yaml#/components/schemas/GenericID'
+                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/CCS_Standard_API_Schema.yaml#/components/schemas/GenericID'
         '401':
-          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CCS_Standard_Responses.yaml#/components/responses/401Unauthorized'
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/CCS_Standard_Responses.yaml#/components/responses/401Unauthorized'
         '403':
-          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CCS_Standard_Responses.yaml#/components/responses/403Forbidden'
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/CCS_Standard_Responses.yaml#/components/responses/403Forbidden'
       security:
         - OAuth2:
             - buyer
@@ -1551,11 +1655,11 @@ paths:
           content:
             application/vnd.api+json:
               schema:
-                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/OCDS_Schema.yaml#/components/schemas/Enquiries'
+                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/OCDS_Schema.yaml#/components/schemas/Enquiries'
         '401':
-          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CCS_Standard_Responses.yaml#/components/responses/401Unauthorized'
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/CCS_Standard_Responses.yaml#/components/responses/401Unauthorized'
         '403':
-          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CCS_Standard_Responses.yaml#/components/responses/403Forbidden'
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/CCS_Standard_Responses.yaml#/components/responses/403Forbidden'
       security:
         - OAuth2:
             - buyer
@@ -1569,18 +1673,18 @@ paths:
         content:
           multipart/form-data:
             schema:
-              $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/OCDS_Schema.yaml#/components/schemas/Enquiry'
+              $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/OCDS_Schema.yaml#/components/schemas/Enquiry'
       responses:
         '200':
           description: ok
           content:
             application/vnd.api+json:
               schema:
-                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CCS_Standard_API_Schema.yaml#/components/schemas/GenericID'
+                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/CCS_Standard_API_Schema.yaml#/components/schemas/GenericID'
         '401':
-          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CCS_Standard_Responses.yaml#/components/responses/401Unauthorized'
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/CCS_Standard_Responses.yaml#/components/responses/401Unauthorized'
         '403':
-          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CCS_Standard_Responses.yaml#/components/responses/403Forbidden'
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/CCS_Standard_Responses.yaml#/components/responses/403Forbidden'
       security:
         - OAuth2:
             - buyer
@@ -1594,18 +1698,18 @@ paths:
         content:
           multipart/form-data:
             schema:
-              $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CCS_Standard_API_Schema.yaml#/components/schemas/GenericID'
+              $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/CCS_Standard_API_Schema.yaml#/components/schemas/GenericID'
       responses:
         '200':
           description: ok
           content:
             application/vnd.api+json:
               schema:
-                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CCS_Standard_API_Schema.yaml#/components/schemas/GenericID'
+                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/CCS_Standard_API_Schema.yaml#/components/schemas/GenericID'
         '401':
-          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CCS_Standard_Responses.yaml#/components/responses/401Unauthorized'
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/CCS_Standard_Responses.yaml#/components/responses/401Unauthorized'
         '403':
-          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CCS_Standard_Responses.yaml#/components/responses/403Forbidden'
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/CCS_Standard_Responses.yaml#/components/responses/403Forbidden'
       security:
         - OAuth2:
             - buyer
@@ -1641,9 +1745,9 @@ paths:
                 type: string
                 format: binary
         '401':
-          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CCS_Standard_Responses.yaml#/components/responses/401Unauthorized'
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/CCS_Standard_Responses.yaml#/components/responses/401Unauthorized'
         '403':
-          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CCS_Standard_Responses.yaml#/components/responses/403Forbidden'
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/CCS_Standard_Responses.yaml#/components/responses/403Forbidden'
       security:
         - OAuth2:
             - buyer
@@ -1668,13 +1772,13 @@ paths:
           content:
             application/vnd.api+json:
               schema:
-                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CCS_Standard_API_Schema.yaml#/components/schemas/GenericID'
+                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/CCS_Standard_API_Schema.yaml#/components/schemas/GenericID'
         '400':
-          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CCS_Standard_Responses.yaml#/components/responses/400InvalidRequest'
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/CCS_Standard_Responses.yaml#/components/responses/400InvalidRequest'
         '401':
-          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CCS_Standard_Responses.yaml#/components/responses/401Unauthorized'
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/CCS_Standard_Responses.yaml#/components/responses/401Unauthorized'
         '403':
-          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CCS_Standard_Responses.yaml#/components/responses/403Forbidden'
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/CCS_Standard_Responses.yaml#/components/responses/403Forbidden'
       security:
         - OAuth2:
             - buyer
@@ -1700,11 +1804,11 @@ paths:
           content:
             application/vnd.api+json:
               schema:
-                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CCS_Standard_API_Schema.yaml#/components/schemas/GenericID'
+                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/CCS_Standard_API_Schema.yaml#/components/schemas/GenericID'
         '401':
-          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CCS_Standard_Responses.yaml#/components/responses/401Unauthorized'
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/CCS_Standard_Responses.yaml#/components/responses/401Unauthorized'
         '403':
-          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CCS_Standard_Responses.yaml#/components/responses/403Forbidden'
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/CCS_Standard_Responses.yaml#/components/responses/403Forbidden'
       security:
         - OAuth2:
             - buyer
@@ -1731,11 +1835,11 @@ paths:
           content:
             application/vnd.api+json:
               schema:
-                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CCS_Standard_API_Schema.yaml#/components/schemas/GenericID'
+                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/CCS_Standard_API_Schema.yaml#/components/schemas/GenericID'
         '401':
-          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CCS_Standard_API_Responses.yaml#/components/responses/401Unauthorized'
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/CCS_Standard_API_Responses.yaml#/components/responses/401Unauthorized'
         '403':
-          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CCS_Standard_API_Responses.yaml#/components/responses/403Forbidden'
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/CCS_Standard_API_Responses.yaml#/components/responses/403Forbidden'
       security:
         - OAuth2:
             - buyer
@@ -1761,11 +1865,11 @@ paths:
           content:
             application/vnd.api+json:
               schema:
-                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/OCDS_Schema.yaml#/components/schemas/TerminationTypes'
+                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/OCDS_Schema.yaml#/components/schemas/TerminationTypes'
         '401':
-          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CCS_Standard_Responses.yaml#/components/responses/401Unauthorized'
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/CCS_Standard_Responses.yaml#/components/responses/401Unauthorized'
         '403':
-          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CCS_Standard_Responses.yaml#/components/responses/403Forbidden'
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/CCS_Standard_Responses.yaml#/components/responses/403Forbidden'
       security:
         - OAuth2:
             - buyer
@@ -1783,23 +1887,24 @@ paths:
       description: Terminate the RFx
       tags:
         - Manage Procurement Project
+        - ITT Events
       operationId: terminate
       requestBody:
         content:
           multipart/form-data:
             schema:
-              $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/OCDS_Schema.yaml#/components/schemas/TerminationType'
+              $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/OCDS_Schema.yaml#/components/schemas/TerminationType'
       responses:
         '200':
           description: ok
           content:
             application/vnd.api+json:
               schema:
-                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CCS_Standard_API_Schema.yaml#/components/schemas/GenericID'
+                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/CCS_Standard_API_Schema.yaml#/components/schemas/GenericID'
         '401':
-          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CCS_Standard_Responses.yaml#/components/responses/401Unauthorized'
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/CCS_Standard_Responses.yaml#/components/responses/401Unauthorized'
         '403':
-          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CCS_Standard_Responses.yaml#/components/responses/403Forbidden'
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/CCS_Standard_Responses.yaml#/components/responses/403Forbidden'
       security:
         - OAuth2:
             - buyer
@@ -1822,18 +1927,18 @@ paths:
         content:
           multipart/form-data:
             schema:
-              $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/OCDS_Schema.yaml#/components/schemas/Award'
+              $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/OCDS_Schema.yaml#/components/schemas/Award'
       responses:
         '200':
           description: ok
           content:
             application/vnd.api+json:
               schema:
-                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CCS_Standard_API_Schema.yaml#/components/schemas/GenericID'
+                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/CCS_Standard_API_Schema.yaml#/components/schemas/GenericID'
         '401':
-          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CCS_Standard_Responses.yaml#/components/responses/401Unauthorized'
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/CCS_Standard_Responses.yaml#/components/responses/401Unauthorized'
         '403':
-          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CCS_Standard_Responses.yaml#/components/responses/403Forbidden'
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/CCS_Standard_Responses.yaml#/components/responses/403Forbidden'
       security:
         - OAuth2:
             - buyer
@@ -1856,18 +1961,18 @@ paths:
         content:
           multipart/form-data:
             schema:
-              $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/OCDS_Schema.yaml#/components/schemas/Contract'
+              $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/OCDS_Schema.yaml#/components/schemas/Contract'
       responses:
         '200':
           description: ok
           content:
             application/vnd.api+json:
               schema:
-                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CCS_Standard_API_Schema.yaml#/components/schemas/GenericID'
+                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/CCS_Standard_API_Schema.yaml#/components/schemas/GenericID'
         '401':
-          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CCS_Standard_Responses.yaml#/components/responses/401Unauthorized'
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/CCS_Standard_Responses.yaml#/components/responses/401Unauthorized'
         '403':
-          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/common/CCS_Standard_Responses.yaml#/components/responses/403Forbidden'
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/CCS_Standard_Responses.yaml#/components/responses/403Forbidden'
       security:
         - OAuth2:
             - write

@@ -40,7 +40,7 @@ components:
       required: true
       description: Procurement Project ID
       schema:
-        $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/cat/CaT_Schema.yaml#/components/schemas/ProcurementID'
+        $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/cat/CaT_Schema.yaml#/components/schemas/ProcurementID'
         
     EventParam:
       name: eventID
@@ -48,7 +48,7 @@ components:
       required: true
       description: Procurement Event ID
       schema:
-        $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/ronin1972-patch-1/cat/CaT_Schema.yaml#/components/schemas/ProcurementID'
+        $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/cat/CaT_Schema.yaml#/components/schemas/ProcurementID'
         
     HLNeedParam:
       name: hlNeedID

@@ -72,8 +72,8 @@ paths:
             multipart/form-data:
               schema:
                 type: array
-                
-                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/OCDS_Schema.yaml#/components/schemas/Release'        
+                items:
+                  $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/OCDS_Schema.yaml#/components/schemas/Release'        
           description: "Accepted"
         '403':
           $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/CCS_Standard_API_Responses.yaml#/components/responses/403Forbidden'
@@ -81,33 +81,6 @@ paths:
           $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/CCS_Standard_API_Responses.yaml#/components/responses/404NotFound'
         '500':
           $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/CCS_Standard_API_Responses.yaml#/components/responses/500InternalServerError'     
-# 
-  /tenders/ProcurementProjects/{procID}/events/{eventID}/terminate/:
-    parameters: 
-      - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/cat/cat-params.yaml#/components/parameters/ProcurementParam'
-      - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/cat/cat-params.yaml#/components/parameters/EventParam'
-    put:
-      description: Terminate the RFx
-      tags:
-        - ITT Events
-      operationId: terminate
-      requestBody:
-        content:
-          multipart/form-data:
-            schema:
-              $ref: 'https://raw.githubusercontent.com/ronin1972/ccs-scale-api-definitions/master/OCDS_Schema.yaml#/components/schemas/TerminationType'
-      responses:
-        '200':
-          description: ok
-          content:
-            application/vnd.api+json:
-              schema:
-                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/CCS_Standard_API_Schemas.yaml#/components/schemas/GenericID'
-        '401':
-          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/CCS_Standard_API_Responses.yaml#/components/responses/401Unauthorized'
-        '403':
-          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/CCS_Standard_API_Responses.yaml#/components/responses/403Forbidden'
-      summary: Terminate RFx
 
 
 # End of end points for Salesforce to eSourcing Project
@@ -1902,9 +1875,10 @@ paths:
               schema:
                 $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/CCS_Standard_API_Schema.yaml#/components/schemas/GenericID'
         '401':
-          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/CCS_Standard_Responses.yaml#/components/responses/401Unauthorized'
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/CCS_Standard_API_Responses.yaml#/components/responses/401Unauthorized'
         '403':
-          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/CCS_Standard_Responses.yaml#/components/responses/403Forbidden'
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/CCS_Standard_API_Responses.yaml#/components/responses/403Forbidden'
+
       security:
         - OAuth2:
             - buyer

@@ -872,7 +872,6 @@ paths:
       description: Get Event's for this Project. In OCDS this is the related cases of Type
       tags:
         - Define Procurement Event
-        - ITT Events
       operationId: caseRFXs
       responses:
         '200':
@@ -893,6 +892,7 @@ paths:
       description: Creates a new Event for the Procurement Project.
       tags:
         - Define Procurement Event
+        - ITT Events
       operationId: createCaseRFx
       requestBody:
         content:

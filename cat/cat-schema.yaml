@@ -120,12 +120,27 @@ components:
           * RFP - Request for Proposal
       type: array
       items:
-        $ref: '#/components/schemas/RFxType'
+        $ref: '#/components/schemas/EventType'
       example: [
         "EOI",
         "RFI",
         "RFP"
         ]
+        
+        
+    EventType:
+      title: Event types
+      description: >-
+        Generic term for an event put out to the market. There are several types-
+
+          * EOI - Expression of Interest
+          * RFI -  Request for Information
+          * RFP - Request for Proposal
+      type: string
+      enum:
+          - EOI
+          - RFI
+          - RFP
         
     EventStatus:
       description: >-
@@ -140,7 +155,7 @@ components:
             type: string
           type:
             allOf:
-              - $ref: '#/components/schemas/RFxType'
+              - $ref: '#/components/schemas/EventType'
             example: RFP
           status:
             type: string

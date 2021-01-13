@@ -338,7 +338,6 @@ paths:
       
   '/tenders/ProcurementProjects/defaultName/agreements/{agreementID}/lots/{lotID}':
     parameters:
-      - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Params.yaml#/components/parameters/OrgParam'
       - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Params.yaml#/components/parameters/AgreementParam'
       - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Params.yaml#/components/parameters/LotParam'
       - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Params.yaml#/components/parameters/x-correlation-id'
@@ -401,7 +400,7 @@ paths:
       summary: Tranfer from Guided Match
   /tenders/ProcurementProjects/FMTransfer:
     parameters:
-      - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/cat/cat-schema.yaml#/components/parameters/FMParam'
+      - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/cat/cat-params.yaml#/components/parameters/FMParam'
       - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Params.yaml#/components/parameters/x-correlation-id'
       - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Params.yaml#/components/parameters/x-causation-id'
       - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Params.yaml#/components/parameters/x-channel'
@@ -495,11 +494,11 @@ paths:
           content:
             application/vnd.api+json:
               schema:
-                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/OCDS_Schema.yaml#/components/schemas/ProcurementID'
+              $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/cat/cat-schema.yaml#/components/schemas/DefaultName'
         '401':
           $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/CCS_Standard_API_Responses.yaml#/components/responses/401Unauthorized'
         '403':
-          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/CCS_Standard_Responses.yaml#/components/responses/403Forbidden'
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/CCS_Standard_API_Responses.yaml#/components/responses/403Forbidden'
       security:
         - OAuth2:
             - buyer
@@ -531,9 +530,9 @@ paths:
               schema:
                 $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/CCS_Standard_API_Schema.yaml#/components/schemas/GenericID'
         '401':
-          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/CCS_Standard_Responses.yaml#/components/responses/401Unauthorized'
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/CCS_Standard_API_Responses.yaml#/components/responses/401Unauthorized'
         '403':
-          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/CCS_Standard_Responses.yaml#/components/responses/403Forbidden'
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/CCS_Standard_API_Responses.yaml#/components/responses/403Forbidden'
       security:
         - OAuth2:
             - buyer
@@ -561,9 +560,9 @@ paths:
               schema:
                 $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/OCDS_Schema.yaml#/components/schemas/ProcessStage'
         '401':
-          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/CCS_Standard_Responses.yaml#/components/responses/401Unauthorized'
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/CCS_Standard_API_Responses.yaml#/components/responses/401Unauthorized'
         '403':
-          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/CCS_Standard_Responses.yaml#/components/responses/403Forbidden'
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/CCS_Standard_API_Responses.yaml#/components/responses/403Forbidden'
       security:
         - OAuth2:
             - buyer

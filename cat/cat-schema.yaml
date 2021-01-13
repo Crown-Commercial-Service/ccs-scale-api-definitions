@@ -164,7 +164,7 @@ components:
               
     DraftProcurementProject:
       type: object
-      propoerties:
+      properties:
         identifier:
           $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/CCS_Standard_API_Schema.yaml#/components/schemas/GenericID'
         defaultName:

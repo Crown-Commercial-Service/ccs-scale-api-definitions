@@ -1,14 +1,14 @@
 components:
   parameters:
- 
-    CatalogueParam:
-      name: catID
+  
+    BasketParam:
+      name: basketID
       in: path
       required: true
       description: Catalogue ID
       schema:
         $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Schema.yaml#/components/schemas/GenericID'
-        
+ 
     ProductParam:
       name: prodID
       in: path

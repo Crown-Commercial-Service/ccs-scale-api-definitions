@@ -150,7 +150,7 @@ paths:
       operationId: Create Team
       requestBody:
         content:
-          multipart/form-data:
+          application/vnd.api+json::
             schema:
               $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/cat/cat-schema.yaml#/components/schemas/Team'
                     
@@ -494,7 +494,7 @@ paths:
           content:
             application/vnd.api+json:
               schema:
-              $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/cat/cat-schema.yaml#/components/schemas/DefaultName'
+                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/cat/cat-schema.yaml#/components/schemas/DefaultName'
         '401':
           $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/CCS_Standard_API_Responses.yaml#/components/responses/401Unauthorized'
         '403':
@@ -719,7 +719,7 @@ paths:
       operationId: updateHLNeedForm
       requestBody:
         content:
-          multipart/form-data:
+          application/vnd.api+json:
             schema:
               $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/OCDS_Schema.yaml#/components/schemas/Requirement'
       responses:
@@ -774,7 +774,7 @@ paths:
       operationId: updateHLNeedDocument
       requestBody:
         content:
-          multipart/form-data:
+          application/vnd.api+json:
             schema:
               $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/OCDS_Schema.yaml#/components/schemas/Document'
       responses:
@@ -895,7 +895,7 @@ paths:
       operationId: createCaseRFx
       requestBody:
         content:
-          multipart/form-data:
+          application/vnd.api+json:
             schema:
               $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/OCDS_Schema.yaml#/components/schemas/Tender'
       responses:
@@ -981,7 +981,7 @@ paths:
       operationId: updateNeedForm
       requestBody:
         content:
-          multipart/form-data:
+          application/vnd.api+json::
             schema:
               $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/OCDS_Schema.yaml#/components/schemas/Requirement'
       responses:
@@ -1037,7 +1037,7 @@ paths:
       operationId: updateNeedDocument
       requestBody:
         content:
-          multipart/form-data:
+          application/vnd.api+json:
             schema:
               $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/OCDS_Schema.yaml#/components/schemas/Document'
       responses:
@@ -1094,7 +1094,7 @@ paths:
       operationId: addSupplier
       requestBody:
         content:
-          multipart/form-data:
+          application/vnd.api+json:
             schema:
               $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/OCDS_Schema.yaml#/components/schemas/OrganizationReference'
       responses:
@@ -1210,7 +1210,7 @@ paths:
       operationId: GotoMarket
       requestBody:
         content:
-          multipart/form-data:
+          application/vnd.api+json:
             schema:
               $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/OCDS_Schema.yaml#/components/schemas/TenderRelease'
       responses:
@@ -1244,7 +1244,7 @@ paths:
       operationId: extendRFx
       requestBody:
         content:
-          multipart/form-data:
+          application/vnd.api+json::
             schema:
               $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/OCDS_Schema.yaml#/components/schemas/ExtendCriteria'
       responses:
@@ -1503,7 +1503,7 @@ paths:
       operationId: updateHLNeedDocumentResponse
       requestBody:
         content:
-          multipart/form-data:
+          application/vnd.api+json:
             schema:
               $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/OCDS_Schema.yaml#/components/schemas/Document'
       responses:
@@ -1587,7 +1587,7 @@ paths:
       operationId: createFurtherInfoRequest
       requestBody:
         content:
-          multipart/form-data:
+          application/vnd.api+json:
             schema:
               $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/OCDS_Schema.yaml#/components/schemas/Enquiry'
       responses:
@@ -1643,7 +1643,7 @@ paths:
       operationId: createSupplierFurtherInfoRequest
       requestBody:
         content:
-          multipart/form-data:
+          application/vnd.api+json:
             schema:
               $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/OCDS_Schema.yaml#/components/schemas/Enquiry'
       responses:
@@ -1863,7 +1863,7 @@ paths:
       operationId: terminate
       requestBody:
         content:
-          multipart/form-data:
+          application/vnd.api+json:
             schema:
               $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/OCDS_Schema.yaml#/components/schemas/TerminationType'
       responses:
@@ -1898,7 +1898,7 @@ paths:
       operationId: award
       requestBody:
         content:
-          multipart/form-data:
+          application/vnd.api+json:
             schema:
               $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/OCDS_Schema.yaml#/components/schemas/Award'
       responses:
@@ -1932,7 +1932,7 @@ paths:
       operationId: signed
       requestBody:
         content:
-          multipart/form-data:
+          application/vnd.api+json:
             schema:
               $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/OCDS_Schema.yaml#/components/schemas/Contract'
       responses:

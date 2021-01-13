@@ -5,9 +5,9 @@ components:
       name: basketID
       in: path
       required: true
-      description: Catalogue ID
+      description: Basket ID
       schema:
-        $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Schema.yaml#/components/schemas/GenericID'
+        $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/bat/bat-Schema.yaml#/components/schemas/BasketID'
  
     ProductParam:
       name: prodID

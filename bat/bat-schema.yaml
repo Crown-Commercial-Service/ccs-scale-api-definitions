@@ -7,6 +7,12 @@ components:
       example: R793138650
       readOnly: true
     
+    BasketID:
+      type: string
+      description: The ID of the basket within BaT
+      example: R793138650
+      readOnly: true
+    
     CatalogueID:
       type: number
       format: integer

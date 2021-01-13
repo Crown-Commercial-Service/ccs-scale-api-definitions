@@ -160,7 +160,7 @@ components:
           status:
             type: string
             allOf:
-              - $ref: '#/components/schemas/TenderStatus'
+              - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/OCDS_Schema.yaml#/components/schemas/TenderStatus'
               
     DefaultName:
       type: object

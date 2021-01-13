@@ -7,7 +7,7 @@ components:
       required: true
       description: Basket ID
       schema:
-        $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/bat/bat-Schema.yaml#/components/schemas/BasketID'
+        $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/bat/bat-Schema.yaml#/components/schemas/BasketID'
  
     ProductParam:
       name: prodID

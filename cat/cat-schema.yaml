@@ -165,6 +165,9 @@ components:
     DefaultName:
       type: object
       properties:
+        identifier:
+          type: string
+          example: <ID>
         name:
           type: string
           example: <org>-<agreement>-<ID>

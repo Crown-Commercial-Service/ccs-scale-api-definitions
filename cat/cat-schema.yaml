@@ -163,10 +163,12 @@ components:
               - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/OCDS_Schema.yaml#/components/schemas/TenderStatus'
               
     DraftProcurementProject:
-      identifier:
-        $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/CCS_Standard_API_Schema.yaml#/components/schemas/GenericID'
-      defaultName:
-        $ref: '#/components/schemas/DefaultName'
+      type: object
+      propoerties:
+        identifier:
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/CCS_Standard_API_Schema.yaml#/components/schemas/GenericID'
+        defaultName:
+          $ref: '#/components/schemas/DefaultName'
               
     DefaultName:
       type: object

@@ -186,8 +186,7 @@ components:
               type: string
               example: <agreement>
             identifier:
-              type: string
-              example: <ID>
+              $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/CCS_Standard_API_Schema.yaml#/components/schemas/GenericID'
 
           
             

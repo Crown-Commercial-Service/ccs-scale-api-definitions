@@ -17,7 +17,7 @@ info:
 
 
 paths:
-  /api/v2/storefront/account:
+  /catalog/account:
     get:
       description: Returns current user information
       summary: Get an Account
@@ -33,58 +33,6 @@ paths:
             application/vnd.api+json:
               schema:
                 $ref: '#/components/schemas/Account'
-              examples:
-                example-1:
-                  value:
-                    data:
-                      id: '1'
-                      type: user
-                      attributes:
-                        email: spree@example.com
-                        store_credits: 0
-                        completed_orders: 0
-                      relationships:
-                        default_billing_address:
-                          data:
-                            id: '2'
-                            type: address
-                        default_shipping_address:
-                          data:
-                            id: '1'
-                            type: address
-                    included:
-                      - id: '2'
-                        type: address
-                        attributes:
-                          firstname: Destiny
-                          lastname: Maggio
-                          address1: 12775 Runolfsdottir Greens
-                          address2: Apt. 704
-                          city: Kochmouth
-                          zipcode: '16804'
-                          phone: 1-257-860-8433
-                          state_name: New York
-                          company: null
-                          country_name: United States
-                          country_iso3: USA
-                          country_iso: US
-                          state_code: NY
-                      - id: '1'
-                        type: address
-                        attributes:
-                          firstname: Aimee
-                          lastname: Jast
-                          address1: 56593 Baumbach Meadows
-                          address2: Suite 632
-                          city: Port Michaelafort
-                          zipcode: '16804'
-                          phone: (846)556-4478
-                          state_name: New York
-                          company: null
-                          country_name: United States
-                          country_iso3: USA
-                          country_iso: US
-                          state_code: NY
         '403':
           $ref: '#/components/responses/403Forbidden'
       security:
@@ -173,7 +121,7 @@ paths:
                 $ref: '#/components/schemas/Error'
       security:
         - bearerAuth: []
-  /api/v2/storefront/products:
+  /catalog/products:
     get:
       description: Returns a list of Products for the current Store.
       tags:
@@ -382,20 +330,20 @@ paths:
                               count: 1
                       breadcrumbs: null
                     links:
-                      self: http://www.example.com/api/v2/storefront/products
-                      next: http://www.example.com/api/v2/storefront/products?page=1
-                      prev: http://www.example.com/api/v2/storefront/products?page=1
-                      last: http://www.example.com/api/v2/storefront/products?page=1
-                      first: http://www.example.com/api/v2/storefront/products?page=1
+                      self: http://www.example.com/catalog/products
+                      next: http://www.example.com/catalog/products?page=1
+                      prev: http://www.example.com/catalog/products?page=1
+                      last: http://www.example.com/catalog/products?page=1
+                      first: http://www.example.com/catalog/products?page=1
       summary: List of Products
       
-  '/api/v2/storefront/products/{id}':
+  '/catalog/products/{id}':
     get:
       description: |-
         Returns Product details. You can use product ID:
 
         ```
-        GET /api/v2/storefront/products/21
+        GET /catalog/products/21
         ```
       tags:
         - Products

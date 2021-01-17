@@ -24,8 +24,6 @@ paths:
       tags:
         - Account
       operationId: Account Information
-      parameters:
-        - $ref: '#/components/parameters/SparseFieldsParam'
       responses:
         '200':
           description: ok
@@ -187,154 +185,6 @@ paths:
             application/vnd.api+json:
               schema:
                 $ref: '#/components/schemas/ProductsList'
-              examples:
-                list of products:
-                  value:
-                    data:
-                      - id: '1'
-                        type: product
-                        attributes:
-                          name: Product 14609
-                          description: Magnam saepe sit unde magni omnis vero.
-                          active: true
-                          created_at: 2021-01-04T15:14:42.927+00:00
-                          updated_at: 2021-01-04T15:14:46.925+00:00
-                          currency: GBP
-                          available: true
-                          total_on_hand: 20
-                          display_price: £19.99
-                          display_delivery_included_price: £20.99
-                          in_stock: true
-                          purchasable: true
-                          backorderable: false
-                          key_selling_points: ''
-                          unspsc: ''
-                          manufacturer: Hoppe
-                          cnet_id: C0001
-                          slug: 9719b858-1877-4c41-8888-ab43dc852ffc
-                          mpn_number: MPN1
-                          available_on: 2021-01-03T00:00:00.000+00:00
-                          price: 19.99
-                          delivery_included_price: 20.99
-                          image_id: 1
-                          default_variant_id: 18
-                        relationships:
-                          image:
-                            data:
-                      - id: '2'
-                        type: product
-                        attributes:
-                          name: Product 21656
-                          description: Totam corrupti excepturi similique at repellendus assumenda qui.
-                          active: true
-                          created_at: 2021-01-04T15:14:43.044+00:00
-                          updated_at: 2021-01-04T15:14:47.220+00:00
-                          currency: GBP
-                          available: true
-                          total_on_hand: 20
-                          display_price: £19.99
-                          display_delivery_included_price: £20.99
-                          in_stock: true
-                          purchasable: true
-                          backorderable: false
-                          key_selling_points: ''
-                          unspsc: ''
-                          manufacturer: Smitham-Bayer
-                          cnet_id: C0002
-                          slug: 89a82326-bb0e-4e30-8bb5-1e831b2e63b3
-                          mpn_number: MPN2
-                          available_on: 2021-01-03T00:00:00.000+00:00
-                          price: 19.99
-                          delivery_included_price: 20.99
-                          image_id:
-                          default_variant_id: 19
-                          relationships:
-                            image:
-                              data:
-                      - id: '3'
-                        type: product
-                        attributes:
-                          name: Product 36238
-                          description: Officia deserunt dolore molestiae ea sint.
-                          active: true
-                          created_at: 2021-01-04T15:14:43.171+00:00
-                          updated_at: 2021-01-04T15:14:47.498+00:00
-                          currency: GBP
-                          available: true
-                          total_on_hand: 20
-                          display_price: £19.99
-                          display_delivery_included_price: £20.99
-                          in_stock: true
-                          purchasable: true
-                          backorderable: false
-                          key_selling_points: ''
-                          unspsc: ''
-                          manufacturer: Abshire LLC2
-                          cnet_id: C0003
-                          slug: d9c45e39-a1cb-4844-b849-a5ba834bc00a
-                          mpn_number: MPN3
-                          available_on: 2021-01-03T00:00:00.000+00:00
-                          price: 19.99
-                          delivery_included_price: 20.99
-                          image_id: ''
-                          default_variant_id: '20'
-                          relationships:
-                            image:
-                              data:
-                    meta:
-                      count: 9
-                      total_count: 9
-                      total_pages: 1
-                      filters:
-                        taxons: []
-                        manufacturers:
-                          - id: '1'
-                            name: Hoppe
-                            count: 1
-                          - id: '2'
-                            name: Smitham-Bayer
-                            count: 1
-                          - id: '3'
-                            name: Abshire LLC2
-                            count: 1
-                          - id: '4'
-                            name: Hudson-Turcotte
-                            count: 1
-                          - id: '5'
-                            name: Gislason, Greenfelder and Hermann
-                            count: 1
-                          - id: '6'
-                            name: O'Reilly-Torp
-                            count: 1
-                          - id: '7'
-                            name: Jacobi-Mosciski
-                            count: 1
-                          - id: '8'
-                            name: Kihn, Bins and McGlynn
-                            count: 1
-                          - id: '9'
-                            name: Dietrich-Becker
-                            count: 1
-                        properties:
-                          - id: '1'
-                            name: dimentions
-                            count: 1
-                            values:
-                              name: 20x30
-                              count: 1
-                          - id: '2'
-                            name: weight
-                            count: 1
-                            values:
-                              name: 3kg
-                              count: 1
-                      breadcrumbs: null
-                    links:
-                      self: http://www.example.com/catalog/products
-                      next: http://www.example.com/catalog/products?page=1
-                      prev: http://www.example.com/catalog/products?page=1
-                      last: http://www.example.com/catalog/products?page=1
-                      first: http://www.example.com/catalog/products?page=1
       summary: List of Products
       
   '/catalog/products/{id}':
@@ -420,7 +270,7 @@ components:
     ListFilters:
       type: object
       properties:
-        taxons:
+        categories:
           type: array
           items:
             $ref: '#/components/schemas/CategoryFilter'
@@ -448,15 +298,17 @@ components:
         values:
           type: array
           items:
-            type: object
-            properties:
-              name:
-                type: string
-                example: "Limited warranty - parts - 1 year"
-              count:
-                type: number
-                example: 9
-            
+            $ref: '#/components/schemas/PropertyFilterValue'
+    PropertyFilterValue:
+      type: object
+      properties:
+            name:
+              type: string
+              example: "Limited warranty - parts - 1 year"
+            count:
+              type: number
+              example: 9
+      
     ManufacturerFilter:
       type: object
       properties:
@@ -469,18 +321,6 @@ components:
         count:
           type: number
           example: 20
-      
-    ProductMeta:
-      type: object
-      properties:
-        breadcrumbs:
-          type: array
-          items:
-            $ref: '#/components/schemas/Breadcrumb'
-        filters:
-          type: object
-          items:
-            $ref: '#/components/schemas/ListFilters'
         
     Breadcrumb:
       type: object
@@ -496,56 +336,54 @@ components:
       type: string
       format: date-time
       example: '2020-02-16T07:14:54.617Z'
+      
     Address:
       type: object
       properties:
         id:
           type: string
           example: '1'
-        type:
+        firstname:
           type: string
-          default: address
-        attributes:
-          type: object
-          properties:
-            firstname:
-              type: string
-              example: John
-            lastname:
-              type: string
-              example: Doe
-            address1:
-              type: string
-              example: 1600 Amphitheatre Pkwy
-            address2:
-              type: string
-              example: Suite 1
-            city:
-              type: string
-              example: Mountain View
-            zipcode:
-              type: string
-              example: '94043'
-            phone:
-              type: string
-              example: (+1) 123 456 789
-            state_name:
-              type: string
-              example: California
-            state_code:
-              type: string
-              example: CA
-              description: State abbrevation
-            country_name:
-              type: string
-              example: United States of America
-            country_iso3:
-              type: string
-              example: USA
-              description: Country ISO3 code
-            company:
-              type: string
-              example: 'Google Inc.'
+          example: John
+        lastname:
+          type: string
+          example: Doe
+        address1:
+          type: string
+          example: 1600 Amphitheatre Pkwy
+        address2:
+          type: string
+          example: Suite 1
+        city:
+          type: string
+          example: Mountain View
+        postcode:
+          type: string
+          example: 'SW1 6TF'
+        phone:
+          type: string
+          example: (+1) 123 456 789
+        county:
+          type: string
+          example: California
+        country_name:
+          type: string
+          example: United Kingdom
+        country_iso3:
+          type: string
+          example: UK
+          description: Country ISO3 code
+        company:
+          type: string
+          example: 'Google Inc.'
+        default_billing_address:
+          type: string
+          format: boolean
+        default_shipping_address:
+          type: string
+          format: boolean
+
 
     Document:
       type: object
@@ -584,6 +422,31 @@ components:
           example: 1080
           description: Actual height of image
     Product:
+      allOf:
+        - $ref: '#/components/schemas/ProductAttributes'
+        - type: object
+          properties:
+            meta:
+              type: object
+              properties:
+                breadcrumbs:
+                  type: array
+                  items:
+                    $ref: '#/components/schemas/Breadcrumb'
+            suppliersCatalogues: # May need a better name - this means Supplier/catalogue      
+              type: array
+              items:
+                $ref: '#/components/schemas/SupplierCatalog' # Renamed Variant
+            documents:
+              type: array
+              items:
+                $ref: '#/components/schemas/Document'
+            productProperties:
+              type: array
+              items:
+                $ref: '#/components/schemas/ProductProperty'
+
+    ProductAttributes:
       type: object
       properties:
         name:
@@ -613,9 +476,9 @@ components:
         available_on:
           type: string
           example: '2012-10-17T03:43:57Z'
-        active:
-          type: boolean
-          example: true
+#        active:
+#          type: boolean
+#          example: true
         available:
           type: boolean
           example: true
@@ -665,31 +528,10 @@ components:
           $ref: '#/components/schemas/Timestamp'
         updated_at:
           $ref: '#/components/schemas/Timestamp'
-        breadcrumbs:
-          type: array
-          items:
-            $ref: '#/components/schemas/Breadcrumb'
-        suppliersCatalogues: # May need a better name - this means supplier/catalogue      
-          type: array
-          items:
-            $ref: '#/components/schemas/SupplierCatalog' # Renamed Variant
         images:
           type: array
           items:
-            $ref: '#/components/schemas/Image'
-        documents:
-          type: array
-          items:
-            $ref: '#/components/schemas/Document'
-        productProperties:
-          type: array
-          items:
-            $ref: '#/components/schemas/ProductProperty'
-        meta:
-          type: object
-          items:
-            $ref: '#/components/schemas/ProductMeta'
-            
+            $ref: '#/components/schemas/Image'   
             
     ProductsList:
       properties:
@@ -697,79 +539,10 @@ components:
           $ref: '#/components/schemas/ListLinks'
         meta:
           $ref: '#/components/schemas/ListMeta'
-        data:
+        products:
           type: array
           items:
-            $ref: '#/components/schemas/ProductAttributesAndRelationships'
-        included:
-          type: array
-          items:
-            oneOf:
-              - $ref: '#/components/schemas/ProductProperty'
-              - $ref: '#/components/schemas/Property'
-              - $ref: '#/components/schemas/Image'
-              - $ref: '#/components/schemas/TaxonAttributesAndRelationships'
-# Continue with ProductList - add attrs, includes and validate
-    ProductRelationships:
-      type: object
-      properties:
-        default_variant:
-          type: object
-          description: The default Variant for given product
-          properties:
-            data:
-              $ref: '#/components/schemas/Relation'
-        product_properties:
-          type: object
-          description: List of Product Properties
-          properties:
-            data:
-              type: array
-              items:
-                $ref: '#/components/schemas/Relation'
-        option_types:
-          type: object
-          description: List of Product Option Types
-          properties:
-            data:
-              type: array
-              items:
-                $ref: '#/components/schemas/Relation'
-        variants:
-          type: object
-          description: 'List of Product Variants, excluding Master Variant'
-          properties:
-            data:
-              type: array
-              items:
-                $ref: '#/components/schemas/Relation'
-        taxons:
-          type: object
-          description: List of Taxons associated with Product
-          properties:
-            data:
-              type: array
-              items:
-                $ref: '#/components/schemas/Relation'
-    ProductAttributesAndRelationships:
-      properties:
-        id:
-          type: string
-          example: '1'
-        type:
-          type: string
-          default: product
-        relationships:
-          $ref: '#/components/schemas/ProductRelationships'
-    Relation:
-      required:
-        - id
-        - type
-      properties:
-        id:
-          type: string
-        type:
-          type: string
+            $ref: '#/components/schemas/ProductAttributes'
 
     CategoryFilter:
       type: object
@@ -789,312 +562,6 @@ components:
         count:
           type: number
           example: 5
-        
-          
-    Category:
-      required:
-        - data
-        - included
-      properties:
-        name:
-          type: string
-          example: Laptops
-        pretty_name:
-          type: string
-          example: 'Laptops'
-        permalink:
-          type: string
-          example: laptops
-        seo_title:
-          type: string
-          example: Laptops
-        meta_title:
-          type: string
-          example: Laptops
-        meta_description:
-          type: string
-          example: 'Laptops '
-        meta_keywords:
-          type: string
-          example: 'laptops'
-        left:
-          type: integer
-          example: 1
-        right:
-          type: integer
-          example: 2
-        position:
-          type: integer
-          example: 0
-        depth:
-          type: integer
-          example: 1
-        is_root:
-          type: boolean
-          example: true
-          description: Indicates if the category is the root node of this Taxonomy tree
-        is_child:
-          type: boolean
-          example: true
-          description: Returns true is this is a child node of this Taxonomy tree
-        is_leaf:
-          type: boolean
-          example: false
-          description: Returns true if this is the end of a branch of this Taxonomy tree
-        updated_at:
-          type: string
-          example: '2018-06-18T10:57:29.704Z'
-
-        included:
-          type: array
-          items:
-            oneOf:
-              - $ref: '#/components/schemas/ProductAttributesAndRelationships'
-              - $ref: '#/components/schemas/TaxonAttributesAndRelationships'
-              - $ref: '#/components/schemas/TaxonomyAttributesAndRelationships'
-              - $ref: '#/components/schemas/Image'
-              
-    TaxonAttributes:
-      type: object
-      properties:
-        name:
-          type: string
-          example: T-shirts
-        pretty_name:
-          type: string
-          example: 'Clothes > T-shirts'
-        permalink:
-          type: string
-          example: t-shirts
-        seo_title:
-          type: string
-          example: Clothes - T-shirts
-        meta_title:
-          type: string
-          example: T-shirts
-        meta_description:
-          type: string
-          example: 'A list of cool t-shirts '
-        meta_keywords:
-          type: string
-          example: 't-shirts, cool'
-        left:
-          type: integer
-          example: 1
-        right:
-          type: integer
-          example: 2
-        position:
-          type: integer
-          example: 0
-        depth:
-          type: integer
-          example: 1
-        is_root:
-          type: boolean
-          example: true
-          description: Indicates if the Taxon is the root node of this Taxonomy tree
-        is_child:
-          type: boolean
-          example: true
-          description: Returns true is this is a child node of this Taxonomy tree
-        is_leaf:
-          type: boolean
-          example: false
-          description: Returns true if this is the end of a branch of this Taxonomy tree
-        updated_at:
-          type: string
-          example: '2018-06-18T10:57:29.704Z'
-    TaxonRelationships:
-      type: object
-      properties:
-        parent:
-          type: object
-          description: Parent node
-          properties:
-            data:
-              $ref: '#/components/schemas/Relation'
-        children:
-          type: object
-          description: List of child nodes
-          properties:
-            data:
-              type: array
-              items:
-                $ref: '#/components/schemas/Relation'
-        taxonomy:
-          type: object
-          description: Taxonomy associated with this Taxon
-          properties:
-            data:
-              $ref: '#/components/schemas/Relation'
-        image:
-          type: object
-          description: Image associated with Taxon
-          properties:
-            data:
-              $ref: '#/components/schemas/Relation'
-        products:
-          type: object
-          description: List of active and available Products associated with this Taxon
-          properties:
-            data:
-              type: array
-              items:
-                $ref: '#/components/schemas/Relation'
-    TaxonAttributesAndRelationships:
-      properties:
-        id:
-          type: string
-          example: '1'
-        type:
-          type: string
-          default: taxon
-        attributes:
-          $ref: '#/components/schemas/TaxonAttributes'
-        relationships:
-          $ref: '#/components/schemas/TaxonRelationships'
-      x-examples: {}
-    TaxonsList:
-      required:
-        - links
-        - data
-        - included
-      properties:
-        links:
-          $ref: '#/components/schemas/ListLinks'
-        meta:
-          $ref: '#/components/schemas/ListMeta'
-        data:
-          type: array
-          items:
-            $ref: '#/components/schemas/TaxonAttributesAndRelationships'
-        included:
-          type: array
-          items:
-            oneOf:
-              - $ref: '#/components/schemas/TaxonAttributesAndRelationships'
-              - $ref: '#/components/schemas/TaxonImage'
-              - $ref: '#/components/schemas/TaxonomyAttributesAndRelationships'
-              - $ref: '#/components/schemas/ProductAttributesAndRelationships'
-    TaxonImage:
-      required:
-        - data
-      properties:
-        data:
-          type: object
-          properties:
-            id:
-              type: string
-              example: '1'
-            type:
-              type: string
-              default: taxon_image
-            attributes:
-              type: object
-              properties:
-                position:
-                  type: integer
-                  example: 0
-                  description: Sort order of images set in the Admin Panel
-                styles:
-                  type: array
-                  description: An array of pre-scaled image styles
-                  items:
-                    $ref: '#/components/schemas/ImageStyle'
-    TaxonomyAttributesAndRelationships:
-      type: object
-      properties:
-        id:
-          type: string
-          example: '1'
-        type:
-          type: string
-          default: taxonomy
-        attributes:
-          $ref: '#/components/schemas/TaxonomyAttributes'
-    TaxonomyAttributes:
-      type: object
-      properties:
-        name:
-          type: string
-          example: Categories
-        position:
-          type: integer
-          example: 0
-    OptionType:
-      required:
-        - data
-      properties:
-        data:
-          type: object
-          properties:
-            id:
-              type: string
-              example: '1'
-            type:
-              type: string
-              default: option_type
-            attributes:
-              type: object
-              properties:
-                name:
-                  type: string
-                  example: color
-                presentation:
-                  type: string
-                  example: Color
-                position:
-                  type: integer
-                  example: 1
-    OptionValue:
-      required:
-        - data
-      properties:
-        data:
-          type: object
-          properties:
-            id:
-              type: string
-              example: '1'
-            type:
-              type: string
-              default: option_value
-            attributes:
-              type: object
-              properties:
-                name:
-                  type: string
-                  example: red
-                presentation:
-                  type: string
-                  example: Red
-                position:
-                  type: integer
-                  example: 1
-            relationships:
-              type: object
-              properties:
-                option_type:
-                  type: object
-                  properties:
-                    data:
-                      $ref: '#/components/schemas/Relation'
-    Property:
-      type: object
-      properties:
-        id: # Need to keep the ID as it is used in the Filter parameter (with the 'value.name' from the underlying array - which isn't in the Spree yaml)
-          type: string
-          example: '1'
-        attributes:
-          type: object
-          properties:
-            name:
-              type: string
-              example: material
-            presentation:
-              type: string
-              example: Material
 
     ProductProperty:
       type: object
@@ -1156,48 +623,44 @@ components:
           type: boolean
           example: true
           description: Indicates if Variant is backorderable
-        catalogs: # placeholders until Spark define. ASSUMPTION - only 1 vendor/catalog per 'variant'
-          type: object
-          items:
+        catalog: # placeholders until Spark define. ASSUMPTION - only 1 vendor/catalog per 'variant'
             $ref: '#/components/schemas/Catalog'
-        product_delivery_charges:
-          type: array
-          items:
+        product_delivery_charges: # Doesn't make sense to have > 1
             $ref: '#/components/schemas/ProductDeliveryCharges'
-        suppliers:
-          type: object
-          items:
+        supplier:
             $ref: '#/components/schemas/Supplier'
 
     Account:
       type: object
       properties:
-        data:
-          $ref: '#/components/schemas/AccountAttributesAndRelationships'
-        included:
+        email:
+          type: string
+          example: buyer@cabinetoffice.gov.uk
+        addresses:
           type: array
           items:
             oneOf:
               - $ref: '#/components/schemas/Address'
-      required:
-        - data
-        - included
-
       
     Supplier:
+      type: object
       properties:
         id:
           type: string
+          example: '1234'
         name:
           type: string
           example: 'Acme Inc'
         about_us:
           type: string
+          example: 'About us'
           
     Catalog:
+      type: object
       properties:
         id:
           type: string
+          example: '1'
         full_name:
           type: string
           example: 'RM6147 Tech Products Lot 6'
@@ -1214,10 +677,13 @@ components:
           type: string
           format: date
           example: '2021-10-31'
+          
     ProductDeliveryCharges:
+      type: object
       properties:
         id:
           type: string
+          example: '1'
         standard_charge_product_uk_mainland: 
           type: string
           example: '1.99'
@@ -1245,47 +711,7 @@ components:
         display_next_day_charge_product_uk_mainland":
           type: string
           example: '£2.99'
-    
-    AccountAttributes:
-      type: object
-      properties:
-        email:
-          type: string
-          example: spree@example.com
-        store_credits:
-          type: number
-          example: 150.75
-        completed_orders:
-          type: number
-          example: 3
-          description: Number of placed Orders by this User
-    AccountRelationships:
-      type: object
-      properties:
-        default_billing_address:
-          type: object
-          description: Default billing address associated with this Account
-          properties:
-            data:
-              $ref: '#/components/schemas/Relation'
-        default_shipping_address:
-          type: object
-          description: Default shipping address associated with this Account
-          properties:
-            data:
-              $ref: '#/components/schemas/Relation'
-    AccountAttributesAndRelationships:
-      properties:
-        id:
-          type: string
-          example: '1'
-        type:
-          type: string
-          default: user
-        attributes:
-          $ref: '#/components/schemas/AccountAttributes'
-        relationships:
-          $ref: '#/components/schemas/AccountRelationships'
+
   parameters:
     IdOrPermalink:
       name: id
@@ -1295,14 +721,6 @@ components:
       schema:
         type: string
       example: knitted-high-neck-sweater
-    LineItemId:
-      name: line_item_id
-      in: path
-      required: true
-      description: Line Item ID
-      schema:
-        type: string
-      example: '1'
     PageParam:
       name: page
       in: query
@@ -1317,34 +735,6 @@ components:
       schema:
         type: integer
       example: null
-    ProductIncludeParam:
-      name: include
-      in: query
-      schema:
-        type: string
-      description: |-
-        Specify what related resources (relationships) you would like to receive in the response body. Eg.
-
-        ```
-        default_variant,variants,option_types,product_properties,taxons,images,documents
-        ```
-
-        [More information](https://jsonapi.org/format/#fetching-includes)
-      example: 'default_variant,variants,variants:catalog,variants:vendor,option_types,product_properties,taxons,images,documents'
-    TaxonIncludeParam:
-      name: include
-      in: query
-      schema:
-        type: string
-      description: |-
-        Specify what related resources (relationships) you would like to receive in the response body. Eg.
-
-        ```
-        parent,taxonomy,children,image,products
-        ```
-
-        [More information](https://jsonapi.org/format/#fetching-includes)
-      example: 'parent,taxonomy,children,image,products'
     FilterByIds:
       in: query
       name: 'filter[ids]'
@@ -1364,22 +754,9 @@ components:
       name: 'filter[name]'
       schema:
         type: string
-      example: rails
+      example: laptop
       description: 'Find resources with matching name (supports wild-card, partial-word match search)'
-    SparseFieldsParam:
-      in: query
-      name: fields
-      style: deepObject
-      description: |-
-        Specify what attributes for given types you would like to receive in the response body, eg.
-        ```
-        fields[cart]=total,currency,number
-        ```
 
-        [More information](https://jsonapi.org/format/#fetching-sparse-fieldsets)
-      example: '[cart]=total,currency,number'
-      schema:
-        type: object
   responses:
     404NotFound:
       description: Resource not found

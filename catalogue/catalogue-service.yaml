@@ -184,7 +184,7 @@ paths:
           content:
             application/vnd.api+json:
               schema:
-                $ref: '#/components/schemas/ProductsList'
+                $ref: '#/components/schemas/ProductList'
       summary: List of Products
       
   '/catalog/products/{id}':
@@ -260,14 +260,138 @@ components:
           type: number
           example: 10
           description: Number of all pages containing items matching the criteria
-        breadcrumbs:
+    Timestamp:
+      type: string
+      format: date-time
+      example: '2020-02-16T07:14:54.617Z'
+    Breadcrumb:
+      type: object
+      properties:
+        id:
+          type: number
+          format: integer
+          example: 1
+        name:
+          type: string
+          example: 'Tech Products'
+
+    Account:
+      type: object
+      properties:
+        email:
+          type: string
+          example: buyer@cabinetoffice.gov.uk
+        addresses:
           type: array
           items:
-            $ref: '#/components/schemas/Breadcrumb'
-        filters:
-          $ref: '#/components/schemas/ListFilters'
+            oneOf:
+              - $ref: '#/components/schemas/Address'
+    Address:
+      type: object
+      properties:
+        id:
+          type: string
+          example: '1'
+        firstname:
+          type: string
+          example: John
+        lastname:
+          type: string
+          example: Doe
+        address1:
+          type: string
+          example: 5th floor
+        address2:
+          type: string
+          example: 151 Buckingham Palace Road
+        city:
+          type: string
+          example: London
+        postcode:
+          type: string
+          example: 'SW1 6TF'
+        phone:
+          type: string
+          example: '(+44) 207 345 2567'
+        county:
+          type: string
+          example: City of Westminster
+        country_name:
+          type: string
+          example: United Kingdom
+        country_iso3:
+          type: string
+          example: GBR
+          description: Country ISO3 code
+        company:
+          type: string
+          example: 'Crown Commercial Services'
+        default_billing_address:
+          type: string
+          format: boolean
+        default_shipping_address:
+          type: string
+          format: boolean          
           
-    ListFilters:
+    Document:
+      type: object
+      properties:
+        group:
+          type: string
+          example: 'User Manual'
+        url:
+          type: string
+          format: url
+        content_type:
+          type: string
+          example: 'application/pdf'
+    Image:
+      type: object
+      properties:
+        styles:
+          type: array
+          description: An array of pre-scaled image styles
+          items:
+            $ref: '#/components/schemas/ImageStyle'
+    ImageStyle:
+      properties:
+        url:
+          type: string
+          example: 'http://localhost:3000/rails/active_storage/disk/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaEpJbWQyWVhKcFlXNTBjeTltWm1sMmRURlNORFpZWjJaSFpYUkdZMjk2WWsxM1RHWXZNVGs1T1RCak5XVmlNamN4TlRnd1pqVTBabUpqTWpCbFkyVXhZMlZpTTJFd05ERTJZemMzT0dKaE5tSTFNREkyT0dKaFpqa3paV1JtWTJWaE16aGxaQVk2QmtWVSIsImV4cCI6IjIwMTgtMDYtMjRUMTM6NTk6NTguOTY5WiIsInB1ciI6ImJsb2Jfa2V5In19--5e9ff358dc747f73754e332678c5762114ac6f3f/ror_jr_spaghetti.jpeg?content_type=image%2Fjpeg&disposition=inline%3B+filename%3D%22ror_jr_spaghetti.jpeg%22%3B+filename%2A%3DUTF-8%27%27ror_jr_spaghetti.jpeg'
+          description: Absolute URL of the uploaded image in selected style (width/height)
+        width:
+          type: integer
+          example: 1920
+          description: Actual width of image
+        height:
+          type: integer
+          example: 1080
+          description: Actual height of image
+          
+    CommercialAgreementLot:
+      type: object
+      properties:
+        id:
+          type: string
+          example: '1'
+        full_name:
+          type: string
+          example: 'RM6147 Tech Products Lot 6'
+        ca_name:
+          type: string
+          example: 'Tech Products'
+        ca_ref:
+          type: string
+          example: 'RM6147'
+        lot_number:
+          type: string
+          example: 'Lot 6'
+        lot_expiry_date:
+          type: string
+          format: date
+          example: '2021-10-31'
+
+    ProductListFilters:
       type: object
       properties:
         categories:
@@ -282,7 +406,6 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/PropertyFilter'
-            
     PropertyFilter:
       type: object
       properties:
@@ -308,7 +431,6 @@ components:
             count:
               type: number
               example: 9
-      
     ManufacturerFilter:
       type: object
       properties:
@@ -321,106 +443,25 @@ components:
         count:
           type: number
           example: 20
-        
-    Breadcrumb:
+    CategoryFilter:
       type: object
       properties:
         id:
           type: number
-          format: integer
-          example: 1
+          example: 37
         name:
           type: string
-          example: 'Tech Products'
-    Timestamp:
-      type: string
-      format: date-time
-      example: '2020-02-16T07:14:54.617Z'
-      
-    Address:
-      type: object
-      properties:
-        id:
-          type: string
-          example: '1'
-        firstname:
-          type: string
-          example: John
-        lastname:
-          type: string
-          example: Doe
-        address1:
-          type: string
-          example: 1600 Amphitheatre Pkwy
-        address2:
-          type: string
-          example: Suite 1
-        city:
-          type: string
-          example: Mountain View
-        postcode:
-          type: string
-          example: 'SW1 6TF'
-        phone:
-          type: string
-          example: (+1) 123 456 789
-        county:
-          type: string
-          example: California
-        country_name:
-          type: string
-          example: United Kingdom
-        country_iso3:
-          type: string
-          example: UK
-          description: Country ISO3 code
-        company:
-          type: string
-          example: 'Google Inc.'
-        default_billing_address:
-          type: string
-          format: boolean
-        default_shipping_address:
-          type: string
-          format: boolean
-
-
-    Document:
-      type: object
-      properties:
-        group:
-          type: string
-          example: 'User Manual'
-        url:
-          type: string
-          format: url
-        content_type:
-          type: string
-          example: 'application/pdf'
+          example: 'Hardware'
+        taxonomy_id:
+          type: number
+          example: 1
+        parent_id:
+          type: number
+          example: 2
+        count:
+          type: number
+          example: 5
         
-    Image:
-      type: object
-      properties:
-        styles:
-          type: array
-          description: An array of pre-scaled image styles
-          items:
-            $ref: '#/components/schemas/ImageStyle'
-
-    ImageStyle:
-      properties:
-        url:
-          type: string
-          example: 'http://localhost:3000/rails/active_storage/disk/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaEpJbWQyWVhKcFlXNTBjeTltWm1sMmRURlNORFpZWjJaSFpYUkdZMjk2WWsxM1RHWXZNVGs1T1RCak5XVmlNamN4TlRnd1pqVTBabUpqTWpCbFkyVXhZMlZpTTJFd05ERTJZemMzT0dKaE5tSTFNREkyT0dKaFpqa3paV1JtWTJWaE16aGxaQVk2QmtWVSIsImV4cCI6IjIwMTgtMDYtMjRUMTM6NTk6NTguOTY5WiIsInB1ciI6ImJsb2Jfa2V5In19--5e9ff358dc747f73754e332678c5762114ac6f3f/ror_jr_spaghetti.jpeg?content_type=image%2Fjpeg&disposition=inline%3B+filename%3D%22ror_jr_spaghetti.jpeg%22%3B+filename%2A%3DUTF-8%27%27ror_jr_spaghetti.jpeg'
-          description: Absolute URL of the uploaded image in selected style (width/height)
-        width:
-          type: integer
-          example: 1920
-          description: Actual width of image
-        height:
-          type: integer
-          example: 1080
-          description: Actual height of image
     Product:
       allOf:
         - $ref: '#/components/schemas/ProductAttributes'
@@ -433,15 +474,15 @@ components:
                   type: array
                   items:
                     $ref: '#/components/schemas/Breadcrumb'
-            suppliersCatalogues: # May need a better name - this means Supplier/catalogue      
+            supplier_catalog_product_instances:      
               type: array
               items:
-                $ref: '#/components/schemas/SupplierCatalog' # Renamed Variant
+                $ref: '#/components/schemas/SupplierCatalogProductInstance' # Renamed Variant
             documents:
               type: array
               items:
                 $ref: '#/components/schemas/Document'
-            productProperties:
+            product_properties:
               type: array
               items:
                 $ref: '#/components/schemas/ProductProperty'
@@ -476,9 +517,9 @@ components:
         available_on:
           type: string
           example: '2012-10-17T03:43:57Z'
-#        active:
-#          type: boolean
-#          example: true
+        active:
+          type: boolean
+          example: true
         available:
           type: boolean
           example: true
@@ -528,40 +569,30 @@ components:
           $ref: '#/components/schemas/Timestamp'
         updated_at:
           $ref: '#/components/schemas/Timestamp'
-        images:
-          type: array
-          items:
-            $ref: '#/components/schemas/Image'   
+        images: #Moved images here as it is needed by single and list calls. Alternative would have been array of Product for the list and null out the detailed fields on the list call.
+              type: array
+              items:
+                $ref: '#/components/schemas/Image'
             
-    ProductsList:
+    ProductList:
       properties:
         links:
           $ref: '#/components/schemas/ListLinks'
         meta:
-          $ref: '#/components/schemas/ListMeta'
+          allOf:
+            - $ref: '#/components/schemas/ListMeta'
+            - type: object
+              properties:
+                breadcrumbs:
+                  type: array
+                  items:
+                    $ref: '#/components/schemas/Breadcrumb'
+                filters:
+                  $ref: '#/components/schemas/ProductListFilters'
         products:
           type: array
           items:
             $ref: '#/components/schemas/ProductAttributes'
-
-    CategoryFilter:
-      type: object
-      properties:
-        id:
-          type: number
-          example: 37
-        name:
-          type: string
-          example: 'Hardware'
-        taxonomy_id:
-          type: number
-          example: 1
-        parent_id:
-          type: number
-          example: 2
-        count:
-          type: number
-          example: 5
 
     ProductProperty:
       type: object
@@ -579,7 +610,7 @@ components:
           type: string
           example: 'Processor / Chipset'
 
-    SupplierCatalog: #Renamed Variant
+    SupplierCatalogProductInstance: #Renamed Variant
       description: |-
         The combination of Supplier and Catalogue for this product. One record for each Supplier with appropriate pricing for each Catalogue on which the supplier offers the product.
       properties:
@@ -623,25 +654,13 @@ components:
           type: boolean
           example: true
           description: Indicates if Variant is backorderable
-        catalog: # placeholders until Spark define. ASSUMPTION - only 1 vendor/catalog per 'variant'
-            $ref: '#/components/schemas/Catalog'
+        commercial_agreement_lot: # placeholders until Spark define - maps to what Spree call 'catalog' in their API
+            $ref: '#/components/schemas/CommercialAgreementLot'
         product_delivery_charges: # Doesn't make sense to have > 1
             $ref: '#/components/schemas/ProductDeliveryCharges'
         supplier:
             $ref: '#/components/schemas/Supplier'
 
-    Account:
-      type: object
-      properties:
-        email:
-          type: string
-          example: buyer@cabinetoffice.gov.uk
-        addresses:
-          type: array
-          items:
-            oneOf:
-              - $ref: '#/components/schemas/Address'
-      
     Supplier:
       type: object
       properties:
@@ -654,30 +673,7 @@ components:
         about_us:
           type: string
           example: 'About us'
-          
-    Catalog:
-      type: object
-      properties:
-        id:
-          type: string
-          example: '1'
-        full_name:
-          type: string
-          example: 'RM6147 Tech Products Lot 6'
-        ca_name:
-          type: string
-          example: 'Tech Products'
-        ca_ref:
-          type: string
-          example: 'RM6147'
-        lot_number:
-          type: string
-          example: 'Lot 6'
-        lot_expiry_date:
-          type: string
-          format: date
-          example: '2021-10-31'
-          
+        
     ProductDeliveryCharges:
       type: object
       properties:

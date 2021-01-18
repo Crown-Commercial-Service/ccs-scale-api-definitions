@@ -267,7 +267,7 @@ components:
     Breadcrumb:
       type: object
       properties:
-        id:
+        category_id:
           type: number
           format: integer
           example: 1

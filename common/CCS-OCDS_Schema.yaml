@@ -1,19 +1,6 @@
 components:
   schemas:
-  
-    DemoSchema:
-      field1:
-          title: Demo Field 1 OCDS
-          description: 'Demo field 1 defined in CCS-ODS_Schema File '
-          type: string
-          format: uri
-          example: "OCDS Example Text"
-      field2:
-          title: Demo Field 2 OCDS
-          description: 'Demo field 2 defined in CCS-ODS_Schema File '
-          type: string
-          pattern: ^(\d+\.)(\d+)$
-          example: "1.0"
+
     
     ReleasePackage:
       type: object

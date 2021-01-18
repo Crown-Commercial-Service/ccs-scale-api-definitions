@@ -11,18 +11,7 @@ servers:
     description: Optional server description, e.g. Internal staging server for testing
 
 paths:
-# Start of end points for Salesforce to eSourcing Project
-
- /demoService:
-    get:
-      tags:
-        - Demo       
-      summary: "US 1.0 - Create a new case in Jaggaer - Salesforce will call Jaggaer"
-      operationId: app.createProcurementCase
-      responses:
-        '200':
-          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/CCS-OCDS_Schema_API_Responses.yaml#/components/schema/DemoSchema'
-               
+# Start of end points for Salesforce to eSourcing Project 
 
   /tenders/ProcurementProjects/salesforce:
     put:

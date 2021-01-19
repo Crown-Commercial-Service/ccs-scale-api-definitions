@@ -491,7 +491,7 @@ components:
             #codelist: submissionMethod.csv
             #openCodeList: true
             allOf:
-            - $ref: '#/components/schemas/SubmissiontMethod'
+            - $ref: '#/components/schemas/SubmissionMethod'
         submissionMethodDetails:
             title: Submission method details
             description: >-

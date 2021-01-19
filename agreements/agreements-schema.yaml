@@ -243,7 +243,7 @@ components:
           
     
 #
-    LotSummary:
+    LotDetailSummary:
       title: Lot Detail (Non OCDS)
       type: object
       properties:
@@ -524,22 +524,7 @@ components:
               type: array
               items:
                 $ref: '#/components/schemas/LotContact'
-#
-    LotContact:
-      type: "object"
-      description: "Agreement/Lot specific contacts for the Organization"
-      properties:
-        contact:
-        #OCDS contactPoint as returned from the Org/Contact service
-          $ref: "https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/OCDS_Schema.yaml#/components/schemas/ContactPoint"
-        contactId:
-          type: string
-          description: "Unique identifier of the contact"
-        lotContactReason:
-        #Open Question: is there a more OCDS compliant term?
-          type: string
-          description: "Reason (usually application function) for which the contact should be contacted in the context of this Lot"
-          example: "batQuoteNotification"
+
 #
     BuyerNeed:
       type: object

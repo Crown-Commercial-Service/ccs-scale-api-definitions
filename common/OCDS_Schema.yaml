@@ -490,6 +490,8 @@ components:
             type: string
             #codelist: submissionMethod.csv
             #openCodeList: true
+            allOf:
+            - $ref: '#/components/schemas/SubmissiontMethod'
         submissionMethodDetails:
             title: Submission method details
             description: >-
@@ -2793,6 +2795,24 @@ components:
         "direct"
         ]
         
+    SubmissionMethods:
+      description: >-
+        Different Options for submission. There are several types-
+
+          * electronicSubmission
+          * electronicAuction
+          * written
+          * inPerson
+      type: array
+      items:
+        $ref: '#/components/schemas/ProcurementMethod'
+      example: [
+        "electronicSubmission",
+        "electronicAuction",
+        "written",
+        "inPerson"
+        ]
+        
 
 
 
@@ -2819,13 +2839,24 @@ components:
       description: >-
         A contracting process aims to fulfill the requirements identified at the planning stage. The procurement method is the procedure 
         used to purchase the relevant works, goods or services. The method codelist draws upon the definitions of open, selective and limited 
-        provided by the WTO Government Procurement Agreement, and adds an additional ‘direct’ code for awards without competition..
+        provided by the WTO Government Procurement Agreement, and adds an additional ‘direct’ code for awards without competition.
       type: string
       enum:
         - open
         - selective
         - limited
         - direct
+        
+    SubmissionMethod:
+      title: Submission Methods
+      description: >-
+        The submission method codelist is used to identify the mechanism through which a submission can be made.
+      type: string
+      enum:
+        - electronicSubmission
+        - electronicAuction
+        - written
+        - inPerson
           
 
     

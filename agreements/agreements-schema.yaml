@@ -17,7 +17,7 @@ components:
       allOf:
         - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/CCS-OCDS_Schema.yaml#/components/schemas/RecordPackage'
     
-    AgreementSummary:
+    AgreementsSummary:
       title: Agreements (Non OCDS)  
       description: Array of summary information about all agreements
       type: array
@@ -75,6 +75,80 @@ components:
             type: string
             enum:
               - compiled
+              
+    AgreementDetailSummary:
+      title: Agreement Detail (Non OCDS)
+      type: object
+      properties:
+        number:
+          type: string
+          description: Commercial Agreement Number
+          example: "RM3733"
+        name:
+          type: string
+          description: Commercial Agreement Name
+          example: "Technology Products 2"
+        description:
+          type: string
+          description: Short textual description of the commercial agreement
+        startDate:
+          type: string
+          format: date
+          description: Effective start date of Commercial Agreement
+          example: yyyy-mm-dd
+        endDate:
+          type: string
+          format: date
+          example: yyyy-mm-dd
+          description: Effective start date of Commercial Agreement
+        detailUrl:
+          type: string
+          format: uri
+          description: URL of the Agreement detail page on the CCS website
+          example: "https://www.crowncommercial.gov.uk/agreements/RM3733"
+        contacts:
+          type: array
+          items:
+            $ref: '#/components/schemas/LotContact'
+        benefits:
+          type: array
+          items:
+            type: string
+            description: Short description of the benefit
+        lots:
+          type: array
+          items:
+            $ref: '#/components/schemas/LotSummary'
+            
+    LotSummary:
+      title: Lot Summary (Non OCDS)
+      type: object
+      properties:
+        number:
+          type: string
+          description: Lot number
+          example: 1
+        name:
+          type: string
+          description: Lot name
+          example: "Finance"
+          
+    LotContact:
+      title: Lot Contact (Non OCDS)
+      type: "object"
+      description: "Agreement/Lot specific contacts for the Organization"
+      properties:
+        contact:
+        #OCDS contactPoint as returned from the Org/Contact service
+          $ref: "https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/OCDS_Schema.yaml#/components/schemas/ContactPoint"
+        contactId:
+          type: string
+          description: "Unique identifier of the contact"
+        lotContactReason:
+        #Open Question: is there a more OCDS compliant term?
+          type: string
+          description: "Reason (usually application function) for which the contact should be contacted in the context of this Lot"
+          example: "batQuoteNotification"
 
         
     AgreementReleases:
@@ -169,7 +243,8 @@ components:
           
     
 #
-    LotDetail:
+    LotSummary:
+      title: Lot Detail (Non OCDS)
       type: object
       properties:
         number:
@@ -363,7 +438,16 @@ components:
           type: string
           description: The unit of the value given in the value fields e.g. kg, mile, hour
 #
+    AgreementUpdateSummary:
+      title: Uodatess (List of Non OCDS Agrement Updates)  
+      description: Array of summary information about all agreements
+      type: array
+      items:
+        $ref: '#/components/schemas/AgreementUpdate'
+      
+      
     AgreementUpdate:
+      title: Agreement Update
       type: object
       properties:
         date:
@@ -398,7 +482,7 @@ components:
         title:
           example: "Finance"
 #      
-    LotSummary:
+    LotsSummary:
       title: Lots (List of Non OCDS Lot)  
       description: Array of summary information about all agreements
       type: array
@@ -414,18 +498,32 @@ components:
             description: Lot name
             example: "Finance"
 #
-    LotSupplier:
-      type: object
-      properties:
-        organization: 
-          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/OCDS_Schema.yaml#/components/schemas/Organization'
-        supplierStatus: 
-          type: string
-          enum: [active,suspended,excluded]
-        LotContacts:
-          type: array
-          items:
-            $ref: '#/components/schemas/LotContact'
+    LotSuppliers:
+      title: Suppliers (OCDS Organisations)
+      schema:
+        type: array
+        items:
+          type: object
+          properties:
+            organization: 
+              $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/OCDS_Schema.yaml#/components/schemas/Organization'
+                
+    LotSuppliersSummary:
+      title: Suppliers (List of Non OCDS Supplier)
+      schema:
+        type: array
+        items:
+          type: object
+          properties:
+            organization: 
+              $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/OCDS_Schema.yaml#/components/schemas/Organization'
+            supplierStatus: 
+              type: string
+              enum: [active,suspended,excluded]
+            LotContacts:
+              type: array
+              items:
+                $ref: '#/components/schemas/LotContact'
 #
     LotContact:
       type: "object"

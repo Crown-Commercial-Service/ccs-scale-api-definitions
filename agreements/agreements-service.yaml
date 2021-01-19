@@ -59,7 +59,7 @@ paths:
               schema:
                 oneOf:
                   - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/agreements/agreements-schema.yaml#/components/schemas/Agreements'
-                  - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/agreements/agreements-schema.yaml#/components/schemas/AgreementSummary'
+                  - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/agreements/agreements-schema.yaml#/components/schemas/AgreementsSummary'
         500:
           description: Internal server error.
           content:
@@ -86,7 +86,10 @@ paths:
           content:
             application/json:
               schema:
-                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/agreements/agreements-schema.yaml#/components/schemas/Agreement'
+                oneOf:
+                  - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/agreements/agreements-schema.yaml#/components/schemas/Agreement'
+                  - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/agreements/agreements-schema.yaml#/components/schemas/AgreementDetailSummary'
+                
         404:
           description: Commercial Agreement not found
           content:
@@ -119,7 +122,9 @@ paths:
           content:
             application/json:
               schema:
-                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/agreements/agreements-schema.yaml#/components/schemas/CompiledAgreementDetail'
+                oneOf:
+                  - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/agreements/agreements-schema.yaml#/components/schemas/CompiledAgreementDetail'
+                  - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/agreements/agreements-schema.yaml#/components/schemas/AgreementDetailSummary'
         404:
           description: Commercial Agreement not found
           content:
@@ -153,7 +158,9 @@ paths:
           content:
             application/json:
               schema:
-                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/agreements/agreements-schema.yaml#/components/schemas/AgreementDetail'
+                oneOf:
+                  - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/agreements/agreements-schema.yaml#/components/schemas/AgreementDetail'
+                  - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/agreements/agreements-schema.yaml#/components/schemas/AgreementDetailSummary'
         404:
           description: Commercial Agreement not found
           content:
@@ -211,10 +218,15 @@ paths:
       - Lot
       operationId: get-agreement-lots
       parameters:
-        - name: buyingMethod
+        - name: ProcurementMethod
           in: query
           schema:
-              $ref: "#/components/schemas/BuyingMethod"
+              #$ref: "#/components/schemas/BuyingMethod" enum: ["DirectAward" , "FurtherCompetition", "Marketplace", "EAuction"]
+              $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/OCDS_Schema.yaml#/components/schemas/ProcurementMethod'
+         - name: submissionMethod
+          in: query
+          schema:
+              $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/OCDS_Schema.yaml#/components/schemas/ProcurementMethod'
         - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/CCS_Standard_API_Params.yaml#/components/parameters/OCDSParam'
         - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Params.yaml#/components/parameters/AgreementParam'
         - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Params.yaml#/components/parameters/x-correlation-id'
@@ -229,7 +241,7 @@ paths:
               schema:
                 oneOf:
                   - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/agreements/agreements-schema.yaml#/components/schemas/Lots'
-                  - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/agreements/agreements-schema.yaml#/components/schemas/LotSummary'
+                  - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/agreements/agreements-schema.yaml#/components/schemas/LotsSummary'
         404:
           description: Commercial Agreement and/or Lot not found
           content:
@@ -265,7 +277,7 @@ paths:
               schema:
                 oneOf:
                   - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/agreements/agreements-schema.yaml#/components/schemas/Lot'
-                  - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/agreements/agreements-schema.yaml#/components/schemas/LotDetail'
+                  - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/agreements/agreements-schema.yaml#/components/schemas/LotSummary'
         404:
           description: Commercial Agreement and/or Lot not found
           content:
@@ -298,10 +310,9 @@ paths:
           description: Lot details
           content:
             application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/LotSupplier'
+              oneOf:
+                - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/agreements/agreements-schema.yaml#/components/schemas/LotSuppliers'
+                - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/agreements/agreements-schema.yaml#/components/schemas/LotSuppliersSummary'
         404:
           description: Commercial Agreement and/or Lot not found
           content:
@@ -369,10 +380,9 @@ paths:
           description: Commercial Agreement updates
           content:
             application/json:
-              schema:
-                type: array
-                items:
-                    $ref: '#/components/schemas/AgreementUpdate'
+              oneOf:
+                - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/agreements/agreements-schema.yaml#/components/schemas/AgreementReleases'
+                - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/agreements/agreements-schema.yaml#/components/schemas/AgreementUpdateSummary'
         404:
           description: Commercial Agreement not found.
           content:
@@ -415,48 +425,7 @@ components:
 #  - Suppliers will be shown at a Lot level rather than Agreement level
 #  - CPV codes are omitted as noted above
 #
-    AgreementDetail:
-      type: object
-      properties:
-        number:
-          type: string
-          description: Commercial Agreement Number
-          example: "RM3733"
-        name:
-          type: string
-          description: Commercial Agreement Name
-          example: "Technology Products 2"
-        description:
-          type: string
-          description: Short textual description of the commercial agreement
-        startDate:
-          type: string
-          format: date
-          description: Effective start date of Commercial Agreement
-          example: yyyy-mm-dd
-        endDate:
-          type: string
-          format: date
-          example: yyyy-mm-dd
-          description: Effective start date of Commercial Agreement
-        detailUrl:
-          type: string
-          format: uri
-          description: URL of the Agreement detail page on the CCS website
-          example: "https://www.crowncommercial.gov.uk/agreements/RM3733"
-        contacts:
-          type: array
-          items:
-            $ref: '#/components/schemas/LotContact'
-        benefits:
-          type: array
-          items:
-            type: string
-            description: Short description of the benefit
-        lots:
-          type: array
-          items:
-            $ref: '#/components/schemas/LotSummary'
+
 #
     LotDetail:
       type: object
@@ -668,17 +637,7 @@ components:
           type: string
           description: Actual update text
 #
-    LotSummary:
-      type: object
-      properties:
-        number:
-          type: string
-          description: Lot number
-          example: 1
-        name:
-          type: string
-          description: Lot name
-          example: "Finance"
+
 #
     LotSupplier:
       type: object
@@ -693,21 +652,7 @@ components:
           items:
             $ref: '#/components/schemas/LotContact'
 #
-    LotContact:
-      type: "object"
-      description: "Agreement/Lot specific contacts for the Organization"
-      properties:
-        contact:
-        #OCDS contactPoint as returned from the Org/Contact service
-          $ref: "https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/OCDS_Schema.yaml#/components/schemas/ContactPoint"
-        contactId:
-          type: string
-          description: "Unique identifier of the contact"
-        lotContactReason:
-        #Open Question: is there a more OCDS compliant term?
-          type: string
-          description: "Reason (usually application function) for which the contact should be contacted in the context of this Lot"
-          example: "batQuoteNotification"
+
 #
     BuyerNeed:
       type: object

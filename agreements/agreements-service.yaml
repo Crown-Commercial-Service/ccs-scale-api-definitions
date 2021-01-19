@@ -223,7 +223,7 @@ paths:
           schema:
               #$ref: "#/components/schemas/BuyingMethod" enum: ["DirectAward" , "FurtherCompetition", "Marketplace", "EAuction"]
               $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/OCDS_Schema.yaml#/components/schemas/ProcurementMethod'
-         - name: submissionMethod
+        - name: submissionMethod
           in: query
           schema:
               $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/OCDS_Schema.yaml#/components/schemas/ProcurementMethod'
@@ -310,9 +310,10 @@ paths:
           description: Lot details
           content:
             application/json:
-              oneOf:
-                - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/agreements/agreements-schema.yaml#/components/schemas/LotSuppliers'
-                - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/agreements/agreements-schema.yaml#/components/schemas/LotSuppliersSummary'
+              schema:
+                oneOf:
+                  - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/agreements/agreements-schema.yaml#/components/schemas/LotSuppliers'
+                  - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/agreements/agreements-schema.yaml#/components/schemas/LotSuppliersSummary'
         404:
           description: Commercial Agreement and/or Lot not found
           content:
@@ -380,9 +381,10 @@ paths:
           description: Commercial Agreement updates
           content:
             application/json:
-              oneOf:
-                - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/agreements/agreements-schema.yaml#/components/schemas/AgreementReleases'
-                - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/agreements/agreements-schema.yaml#/components/schemas/AgreementUpdateSummary'
+              schema:
+                oneOf:
+                  - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/agreements/agreements-schema.yaml#/components/schemas/AgreementReleases'
+                  - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/agreements/agreements-schema.yaml#/components/schemas/AgreementUpdateSummary'
         404:
           description: Commercial Agreement not found.
           content:
@@ -620,38 +622,7 @@ components:
         units:
           type: string
           description: The unit of the value given in the value fields e.g. kg, mile, hour
-#
-    AgreementUpdate:
-      type: object
-      properties:
-        date:
-          type: string
-          format: date
-          description: Date that the update was added
-          example: yyyy-mm-dd
-        linkUrl:
-          type: string
-          format: uri
-          description: Link to further information regarding the update
-        text:
-          type: string
-          description: Actual update text
-#
 
-#
-    LotSupplier:
-      type: object
-      properties:
-        organization: 
-          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/OCDS_Schema.yaml#/components/schemas/Organization'
-        supplierStatus: 
-          type: string
-          enum: [active,suspended,excluded]
-        LotContacts:
-          type: array
-          items:
-            $ref: '#/components/schemas/LotContact'
-#
 
 #
     BuyerNeed:

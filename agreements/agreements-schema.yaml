@@ -15,11 +15,11 @@ components:
       title: Agreements (OCDS Record Package)
       description: OCDS Package with the records for all Agreements
       type: object
-        properties:
-          number:
-            type: string
-            description: Commercial Agreement Number
-            example: RM3733
+      properties:
+        number:
+          type: string
+          description: Commercial Agreement Number
+          example: RM3733
 #      allOf:
 #        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/CCS-OCDS_Schema.yaml#/components/schemas/RecordPackage'
     

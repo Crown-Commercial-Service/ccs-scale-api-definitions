@@ -513,17 +513,16 @@ components:
                 
     LotSuppliersSummary:
       title: Suppliers (List of Non OCDS Supplier)
-      schema:
-        type: array
-        items:
-          type: object
-          properties:
-            organization: 
-              $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/OCDS_Schema.yaml#/components/schemas/Organization'
-            supplierStatus: 
-              type: string
-              enum: [active,suspended,excluded]
-            LotContacts:
+      type: array
+      items:
+        type: object
+        properties:
+          organization: 
+            $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/OCDS_Schema.yaml#/components/schemas/Organization'
+          supplierStatus: 
+            type: string
+            enum: [active,suspended,excluded]
+          LotContacts:
               type: array
               items:
                 $ref: '#/components/schemas/LotContact'

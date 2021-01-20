@@ -171,13 +171,14 @@ components:
 #
     AgreementDetail:
       title: Agreement (OCDS Release)
-      allOf:
-        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/OCDS_Schema.yaml#/components/schemas/Release'
-#      type: object
-#      properties:
-#        ocid:
-#          description: 'A globally unique identifier for this Open Contracting Process. Composed of an ocid prefix and an identifier for the Agreement.'
-#          example: 'ocds-b5fd17-RM3733_V1'
+#      allOf:
+#        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/OCDS_Schema.yaml#/components/schemas/Release'
+      type: object
+      properties:
+        ocid:
+          type: string
+          description: 'A globally unique identifier for this Open Contracting Process. Composed of an ocid prefix and an identifier for the Agreement.'
+          example: 'ocds-b5fd17-RM3733_V1'
 #        id:
 #          description: 'Version of the Agreement'
 #          example: 'RM3733_V1'

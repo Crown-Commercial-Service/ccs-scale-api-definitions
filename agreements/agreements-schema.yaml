@@ -507,13 +507,10 @@ components:
 #
     LotSuppliers:
       title: Suppliers (OCDS Organisations)
-      schema:
-        type: array
-        items:
-          type: object
-          properties:
-            organization: 
-              $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/OCDS_Schema.yaml#/components/schemas/Organization'
+      type: array
+      items:
+        type: object
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/OCDS_Schema.yaml#/components/schemas/Organization'
                 
     LotSuppliersSummary:
       title: Suppliers (List of Non OCDS Supplier)

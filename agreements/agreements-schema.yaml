@@ -221,32 +221,32 @@ components:
         tender:
           allOf:
             - $ref: '#/components/schemas/AgreementTender'
-#        awards:
-#          description: >-
-#            Information from the award phase of the contracting process. There can be more than one award per 
-#            contracting process e.g. because the contract is split among different providers, or because 
-#            it is a standing offer. For an Agreement this is null because the call off will define the Award.
-#          pattern: 'null'
-#          example: 'null'
-#        contracts:
-#          # Should Contracts contain a template contract?
-#          description: >-
-#            Information from the contract creation phase of the procurement process.
-#            For an Agreement this is null because the call off will define the /contracts.
-#          pattern: 'null'
-#          example: 'null'
-#        language:
-#          # Should Contracts contain option for other home languages??
-#          allOf:
-#            - $ref: '#/components/schemas/AgreementLanguage'
-#        relatedProcesses:
-#          description: >-
-#            The details of related processes: for example, if this process follows on from one or more other 
-#            processes, represented under a separate open contracting identifier (ocid). This is commonly used 
-#            to relate mini-competitions to their parent frameworks or individual tenders to a broader planning 
-#            process. For an Agreement no related processeses should exist. All processes will relate to agreeemnts. 
-#          pattern: 'null'
-#          example: 'null'
+        awards:
+          description: >-
+            Information from the award phase of the contracting process. There can be more than one award per 
+            contracting process e.g. because the contract is split among different providers, or because 
+            it is a standing offer. For an Agreement this is null because the call off will define the Award.
+          pattern: 'null'
+          example: 'null'
+        contracts:
+          # Should Contracts contain a template contract?
+          description: >-
+            Information from the contract creation phase of the procurement process.
+            For an Agreement this is null because the call off will define the /contracts.
+          pattern: 'null'
+          example: 'null'
+        language:
+          # Should Contracts contain option for other home languages??
+          allOf:
+            - $ref: '#/components/schemas/AgreementLanguage'
+        relatedProcesses:
+          description: >-
+            The details of related processes: for example, if this process follows on from one or more other 
+            processes, represented under a separate open contracting identifier (ocid). This is commonly used 
+            to relate mini-competitions to their parent frameworks or individual tenders to a broader planning 
+            process. For an Agreement no related processeses should exist. All processes will relate to agreeemnts. 
+          pattern: 'null'
+          example: 'null'
           
     
 #

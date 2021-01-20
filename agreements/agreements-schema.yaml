@@ -159,7 +159,8 @@ components:
       title: Release List (OCDS Release)
       type: array
       items:
-        $ref: '#/components/schemas/AgreementDetail'
+        type: object
+          $ref: '#/components/schemas/AgreementDetail'
  
 
 #

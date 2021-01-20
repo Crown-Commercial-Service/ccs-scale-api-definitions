@@ -509,7 +509,6 @@ components:
       title: Suppliers (OCDS Organisations)
       type: array
       items:
-        type: object
           $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/OCDS_Schema.yaml#/components/schemas/Organization'
                 
     LotSuppliersSummary:

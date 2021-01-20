@@ -45,8 +45,9 @@ components:
   
     Agreement:
       title: Agreement (OCDS Release Record)
+      allOf:
+        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/CCS-OCDS_Schema.yaml#/components/schemas/Record'
       type: object
-        $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/CCS-OCDS_Schema.yaml#/components/schemas/Record'
       properties:
         ocid:
           type: string
@@ -159,8 +160,8 @@ components:
       title: Release List (OCDS Release)
       type: array
       items:
-        type: object
-          $ref: '#/components/schemas/AgreementDetail'
+        allOf:
+          - $ref: '#/components/schemas/AgreementDetail'
  
 
 #

@@ -42,11 +42,13 @@ components:
             type: string
             description: Commercial Agreement Name
             example: "Technology Products 2"
+            
+
           
     Agreement:
       title: Agreement (OCDS Release Record)
-      type: array
-      items:
+#      type: array
+#      items:
 #        allOf:
 #          - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/CCS-OCDS_Schema.yaml#/components/schemas/Record'
         type: object

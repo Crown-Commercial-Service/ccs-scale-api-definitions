@@ -546,12 +546,12 @@ components:
         text:
           type: string
           description: Text to be displayed for Buyer need    
-#
+#      
     AgreementTender:
+      description: This is the template for Tenders in the agreement
       allOf:
         - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/OCDS_Schema.yaml#/components/schemas/Tender'
       type: object
-      description: This is the template for Tenders in the agreement
       properties:
           id:
             description: 'An identifier for this tender process. This WILL be the same as the ocid for an agreeement, and will be replaced by  an internal identifier for call off tender.'
@@ -575,6 +575,7 @@ components:
             example: 'null'
           status:
             description: 'An agreement will always be planning but will be replaced by the current status of the tender'
+            example: 'planning'
           procuringEntity:
             description: >-
               A null value that will be replaced by the entity managing the procurement. This may be different

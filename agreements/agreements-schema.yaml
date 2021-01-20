@@ -50,15 +50,15 @@ components:
 #      type: object
 #        $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/CCS-OCDS_Schema.yaml#/components/schemas/Record'
       type: object
-        properties:
-          ocid:
-            type: string
-            description: 'A globally unique identifier for this Agreement. Composed of an ocid prefix and an identifier for the Agreement.'
-            example: 'ocds-b5fd17-RM3733'
-          releases:
-            $ref: '#/components/schemas/AgreementReleases'
-          compiledRelease:
-            $ref: '#/components/schemas/CompiledAgreementDetail'
+      properties:
+        ocid:
+          type: string
+        description: 'A globally unique identifier for this Agreement. Composed of an ocid prefix and an identifier for the Agreement.'
+          example: 'ocds-b5fd17-RM3733'
+        releases:
+          $ref: '#/components/schemas/AgreementReleases'
+        compiledRelease:
+          $ref: '#/components/schemas/CompiledAgreementDetail'
             
     CompiledAgreementDetail:
       title: Agreement (OCDS Release - Compiled)

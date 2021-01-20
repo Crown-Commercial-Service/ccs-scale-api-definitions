@@ -20,8 +20,8 @@ components:
           type: string
           description: Commercial Agreement Number
           example: RM3733
-#      allOf:
-#        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/CCS-OCDS_Schema.yaml#/components/schemas/RecordPackage'
+      allOf:
+        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/CCS-OCDS_Schema.yaml#/components/schemas/RecordPackage'
     
     AgreementsSummary:
       title: Agreements (Non OCDS)  

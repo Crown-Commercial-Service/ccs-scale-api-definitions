@@ -158,10 +158,10 @@ components:
         
     AgreementReleases:
       title: Release List (OCDS Release)
-      type: array
-      items:
-        allOf:
-          - $ref: '#/components/schemas/AgreementDetail'
+#      type: array
+#      items:
+      allOf:
+        - $ref: '#/components/schemas/AgreementDetail'
  
 
 #

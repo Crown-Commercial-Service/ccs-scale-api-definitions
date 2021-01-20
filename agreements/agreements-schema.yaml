@@ -179,45 +179,45 @@ components:
           type: string
           description: 'A globally unique identifier for this Open Contracting Process. Composed of an ocid prefix and an identifier for the Agreement.'
           example: 'ocds-b5fd17-RM3733_V1'
-#        id:
-#          description: 'Version of the Agreement'
-#          example: 'RM3733_V1'
-#        title:
-#          description: A overall title for this Agreements.
-#          example: "Technology Products 2"
-#        description:
-#          description: Short textual description of the commercial agreement
-#        date:
-#          description: Effective start date of Commercial Agreement
-#        tag:
-#          description: >-
-#            One or more values from the closed [releaseTag](https://standard.open-contracting.org/1.1/en/schema/codelists/#release-tag) codelist. 
-#            Tags can be used to filter releases and to understand the kind of information that releases might contain. For an aggreement this
-#            will always be in the planning stage. In call offs this may be something else from the codelist
-#          type: array
-#          items:
-#            type: string
-#            enum:
-#              - planning
-#              - planningUpdate
-#        parties:
-#          type: array
-#          items:
-#            $ref: '#/components/schemas/AgreementOrganization'
-#        planning:
-#          # Is planning related to the call off's, the agreement creations or both?
-#          description: >-
-#            Information from the planning phase of the contracting process. This includes information related 
-#            to the process of deciding what to contract, when and how. For an Agreement this will be defined in the cqll off.
-#          pattern: 'null'
-#          example: 'null'
-#        buyer:
-#          description: >-
-#            A buyer is an entity whose budget will be used to pay for goods, works or services related to a contract. 
-#            This may be different from the procuring entity who may be specified in the tender data.
-#            For an Agreement this is null because the call off will define the buyer             
-#          pattern: 'null'
-#          example: 'null'
+        id:
+          description: 'Version of the Agreement'
+          example: 'RM3733_V1'
+        title:
+          description: A overall title for this Agreements.
+          example: "Technology Products 2"
+        description:
+          description: Short textual description of the commercial agreement
+        date:
+          description: Effective start date of Commercial Agreement
+        tag:
+          description: >-
+            One or more values from the closed [releaseTag](https://standard.open-contracting.org/1.1/en/schema/codelists/#release-tag) codelist. 
+            Tags can be used to filter releases and to understand the kind of information that releases might contain. For an aggreement this
+            will always be in the planning stage. In call offs this may be something else from the codelist
+          type: array
+          items:
+            type: string
+            enum:
+              - planning
+              - planningUpdate
+        parties:
+          type: array
+          items:
+            $ref: '#/components/schemas/AgreementOrganization'
+        planning:
+          # Is planning related to the call off's, the agreement creations or both?
+          description: >-
+            Information from the planning phase of the contracting process. This includes information related 
+            to the process of deciding what to contract, when and how. For an Agreement this will be defined in the cqll off.
+          pattern: 'null'
+          example: 'null'
+        buyer:
+          description: >-
+            A buyer is an entity whose budget will be used to pay for goods, works or services related to a contract. 
+            This may be different from the procuring entity who may be specified in the tender data.
+            For an Agreement this is null because the call off will define the buyer             
+          pattern: 'null'
+          example: 'null'
 #        tender:
 #          allOf:
 #            - $ref: '#/components/schemas/AgreementTender'

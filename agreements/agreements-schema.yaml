@@ -167,9 +167,9 @@ components:
         ocid:
           description: 'A globally unique identifier for this Open Contracting Process. Composed of an ocid prefix and an identifier for the Agreement.'
           example: 'ocds-b5fd17-RM3733_V1'
-#      type: array
-#      items:
-#        $ref: '#/components/schemas/AgreementDetail'
+      type: array
+      items:
+        $ref: '#/components/schemas/AgreementDetail'
  
 
 #
@@ -453,7 +453,7 @@ components:
           description: The unit of the value given in the value fields e.g. kg, mile, hour
 #
     AgreementUpdateSummary:
-      title: Uodatess (List of Non OCDS Agrement Updates)  
+      title: Updates (List of Non OCDS Agreement Updates)  
       description: Array of summary information about all agreements
       type: array
       items:

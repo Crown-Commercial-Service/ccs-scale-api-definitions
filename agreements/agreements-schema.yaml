@@ -22,7 +22,7 @@ components:
           example: RM3733
       allOf:
         - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/CCS-OCDS_Schema.yaml#/components/schemas/RecordPackage'
-    
+
     AgreementsSummary:
       title: Agreements (Non OCDS)  
       description: Array of summary information about all agreements
@@ -42,9 +42,7 @@ components:
             type: string
             description: Commercial Agreement Name
             example: "Technology Products 2"
-            
-
-          
+  
     Agreement:
       title: Agreement (OCDS Release Record)
 #      type: object
@@ -53,12 +51,12 @@ components:
       properties:
         ocid:
           type: string
-        description: 'A globally unique identifier for this Agreement. Composed of an ocid prefix and an identifier for the Agreement.'
+          description: 'A globally unique identifier for this Agreement. Composed of an ocid prefix and an identifier for the Agreement.'
           example: 'ocds-b5fd17-RM3733'
-        releases:
-          $ref: '#/components/schemas/AgreementReleases'
-        compiledRelease:
-          $ref: '#/components/schemas/CompiledAgreementDetail'
+#        releases:
+#          $ref: '#/components/schemas/AgreementReleases'
+#        compiledRelease:
+#          $ref: '#/components/schemas/CompiledAgreementDetail'
             
     CompiledAgreementDetail:
       title: Agreement (OCDS Release - Compiled)

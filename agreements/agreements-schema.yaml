@@ -183,7 +183,7 @@ components:
           description: 'Version of the Agreement'
           example: 'RM3733_V1'
         title:
-          description: A overall title for this Agreements.
+          description: A overall title for this Agreement.
           example: "Technology Products 2"
         description:
           description: Short textual description of the commercial agreement
@@ -218,9 +218,9 @@ components:
             For an Agreement this is null because the call off will define the buyer             
           pattern: 'null'
           example: 'null'
-#        tender:
-#          allOf:
-#            - $ref: '#/components/schemas/AgreementTender'
+        tender:
+          allOf:
+            - $ref: '#/components/schemas/AgreementTender'
 #        awards:
 #          description: >-
 #            Information from the award phase of the contracting process. There can be more than one award per 

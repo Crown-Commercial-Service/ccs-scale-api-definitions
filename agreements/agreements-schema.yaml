@@ -475,7 +475,7 @@ components:
       description: OCDS Package with the records for all Agreements
       type: array
         allOf:
-          $ref: '#/components/schemas/Lot'
+          - $ref: '#/components/schemas/Lot'
        
     Lot: 
       title: Agreement Lot (OCDS Lot)

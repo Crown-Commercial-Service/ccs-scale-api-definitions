@@ -54,7 +54,7 @@ components:
       type: object
       properties:
         ocid:
-        type: string
+          type: string
 #            description: 'A globally unique identifier for this Agreement. Composed of an ocid prefix and an identifier for the Agreement.'
 #            example: 'ocds-b5fd17-RM3733'
 #          releases:

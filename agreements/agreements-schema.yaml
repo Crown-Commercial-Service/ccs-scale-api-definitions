@@ -153,9 +153,14 @@ components:
         
     AgreementReleases:
       title: Release List (OCDS Release)
-      type: array
-      items:
-        $ref: '#/components/schemas/AgreementDetail'
+      type: object
+      properties:
+        ocid:
+          description: 'A globally unique identifier for this Open Contracting Process. Composed of an ocid prefix and an identifier for the Agreement.'
+          example: 'ocds-b5fd17-RM3733_V1'
+#      type: array
+#      items:
+#        $ref: '#/components/schemas/AgreementDetail'
  
 
 #

@@ -51,7 +51,7 @@ components:
 #      items:
 #        allOf:
 #          - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/CCS-OCDS_Schema.yaml#/components/schemas/Record'
-        type: object
+      type: object
         properties:
           ocid:
             type: string

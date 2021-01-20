@@ -53,8 +53,8 @@ components:
           type: string
           description: 'A globally unique identifier for this Agreement. Composed of an ocid prefix and an identifier for the Agreement.'
           example: 'ocds-b5fd17-RM3733'
-#        releases:
-#          $ref: '#/components/schemas/AgreementReleases'
+        releases:
+          $ref: '#/components/schemas/AgreementReleases'
 #        compiledRelease:
 #          $ref: '#/components/schemas/CompiledAgreementDetail'
             

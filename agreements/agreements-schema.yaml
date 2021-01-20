@@ -55,8 +55,8 @@ components:
           example: 'ocds-b5fd17-RM3733'
         releases:
           $ref: '#/components/schemas/AgreementReleases'
-#        compiledRelease:
-#          $ref: '#/components/schemas/CompiledAgreementDetail'
+        compiledRelease:
+          $ref: '#/components/schemas/CompiledAgreementDetail'
             
     CompiledAgreementDetail:
       title: Agreement (OCDS Release - Compiled)

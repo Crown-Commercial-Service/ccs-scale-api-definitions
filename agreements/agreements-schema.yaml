@@ -48,8 +48,7 @@ components:
     Agreement:
       title: Agreement (OCDS Release Record)
       type: object
-      allOf:
-        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/CCS-OCDS_Schema.yaml#/components/schemas/Record'
+        $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/CCS-OCDS_Schema.yaml#/components/schemas/Record'
 #        type: object
 #        properties:
 #          ocid:

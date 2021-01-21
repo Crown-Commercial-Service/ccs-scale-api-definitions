@@ -470,13 +470,14 @@ components:
           type: string
           description: Actual update text
           
-    Lots:
+    AgreementLots:
       title: Lots (List of OCDS Lot)
       description: OCDS Package with the records for all Agreements
-      allOf:
-        - $ref: '#/components/schemas/LotSummary'
+      type: array
+      items:
+        $ref: '#/components/schemas/AgreementLot'
        
-    Lot: 
+    AgreementLot: 
       title: Agreement Lot (OCDS Lot)
       description: OCDS Package with the records for all Agreements  
       allOf:

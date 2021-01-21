@@ -470,24 +470,26 @@ components:
           type: string
           description: Actual update text
           
+          
     AgreementLots:
       title: Lots (List of OCDS Lot)
       description: OCDS Package with the records for all Agreements
       type: array
       items:
-        $ref: '#/components/schemas/AgreementLot'
+        type: object
+          $ref: '#/components/schemas/AgreementLot'
        
     AgreementLot: 
       title: Agreement Lot (OCDS Lot)
       description: OCDS Package with the records for all Agreements  
-      allOf:
+      #allOf:
         #- $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/common/OCDS_Schema.yaml#/components/schemas/Lot'
-        - type: object
-          properties:
-            id:
-              example: Lot 1a
-            title:
-              example: "Finance"
+      type: object
+      properties:
+        id:
+          example: Lot 1a
+        title:
+          example: "Finance"
       
     LotsSummary:
       title: Agreement Lots (List of Non OCDS Lot)  

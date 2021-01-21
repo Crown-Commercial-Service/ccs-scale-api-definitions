@@ -523,9 +523,9 @@ components:
             type: string
             enum: [active,suspended,excluded]
           LotContacts:
-              type: array
-              items:
-                $ref: '#/components/schemas/LotContact'
+            type: array
+            items:
+              $ref: '#/components/schemas/LotContact'
 
 #
     BuyerNeed:

@@ -240,7 +240,7 @@ paths:
             application/json:
               schema:
                 oneOf:
-                  - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/agreements/agreements-schema.yaml#/components/schemas/Lots'
+                  - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/agreements/agreements-schema.yaml#/components/schemas/AgreementLots'
                   - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/agreements/agreements-schema.yaml#/components/schemas/LotsSummary'
         404:
           description: Commercial Agreement and/or Lot not found
@@ -276,7 +276,7 @@ paths:
             application/json:
               schema:
                 oneOf:
-                  - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/agreements/agreements-schema.yaml#/components/schemas/Lot'
+                  - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/agreements/agreements-schema.yaml#/components/schemas/AgreementLot'
                   - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/agreements/agreements-schema.yaml#/components/schemas/LotSummary'
         404:
           description: Commercial Agreement and/or Lot not found

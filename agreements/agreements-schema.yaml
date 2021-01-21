@@ -509,7 +509,7 @@ components:
       title: Agreement Suppliers (OCDS Organisations)
       type: array
       items:
-          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/OCDS_Schema.yaml#/components/schemas/Organization'
+        $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/OCDS_Schema.yaml#/components/schemas/Organization'
                 
     LotSuppliersSummary:
       title: Suppliers (List of Non OCDS Supplier)

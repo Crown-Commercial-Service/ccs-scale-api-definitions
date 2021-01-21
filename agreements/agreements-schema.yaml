@@ -478,12 +478,10 @@ components:
         $ref: '#/components/schemas/AgreementLot'
 
     Harry:
-      title: Lots (List of OCDS Lot)
-      description: OCDS Package with the records for all Agreements
       type: array
       items:
         allOf:
-          - $ref: '#/components/schemas/AgreementLot'        
+          - $ref: '#/components/schemas/AgreementUpdate'        
         
     Fred:
       title: Lots (List of OCDS Lot)

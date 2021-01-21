@@ -469,11 +469,32 @@ components:
         text:
           type: string
           description: Actual update text
-          
-          
+             
     AgreementLots:
       title: Lots (List of OCDS Lot)
       description: OCDS Package with the records for all Agreements
+      type: array
+      items:
+        $ref: '#/components/schemas/AgreementLot'
+
+    Harry:
+      title: Lots (List of OCDS Lot)
+      description: OCDS Package with the records for all Agreements
+      type: array
+      items:
+        allOf:
+          - $ref: '#/components/schemas/AgreementLot'        
+        
+    Fred:
+      title: Lots (List of OCDS Lot)
+      description: OCDS Package with the records for all Agreements
+      type: array
+      items:
+        $ref: '#/components/schemas/AgreementLot'
+
+    Wilma:
+#      title: Lots (List of OCDS Lot)
+#      description: OCDS Package with the records for all Agreements
       type: array
       items:
         $ref: '#/components/schemas/AgreementLot'

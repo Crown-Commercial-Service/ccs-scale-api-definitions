@@ -264,16 +264,18 @@ components:
       type: string
       format: date-time
       example: '2020-02-16T07:14:54.617Z'
-    Breadcrumb:
-      type: object
-      properties:
-        category_id:
-          type: number
-          format: integer
-          example: 1
-        name:
-          type: string
-          example: 'Tech Products'
+
+    BreadcrumbsMeta:
+      type: array
+      items:
+        properties:
+          category_id:
+            type: number
+            example: 37
+          name:
+            type: string
+            example: 'Tech Products'
+
 
     Account:
       type: object
@@ -348,6 +350,9 @@ components:
     Image:
       type: object
       properties:
+        id:
+          type: string
+          example: '4'
         styles:
           type: array
           description: An array of pre-scaled image styles
@@ -391,89 +396,15 @@ components:
           format: date
           example: '2021-10-31'
 
-    ProductListFilters:
-      type: object
-      properties:
-        categories:
-          type: array
-          items:
-            $ref: '#/components/schemas/CategoryFilter'
-        manufacturers:
-          type: array
-          items:
-            $ref: '#/components/schemas/ManufacturerFilter'
-        properties:
-          type: array
-          items:
-            $ref: '#/components/schemas/PropertyFilter'
-    PropertyFilter:
-      type: object
-      properties:
-        id:
-          type: number
-          example: 3
-        name:
-          type: string
-          example: 'Service and Support'
-        count:
-          type: number
-          example: 37
-        values:
-          type: array
-          items:
-            $ref: '#/components/schemas/PropertyFilterValue'
-    PropertyFilterValue:
-      type: object
-      properties:
-            name:
-              type: string
-              example: "Limited warranty - parts - 1 year"
-            count:
-              type: number
-              example: 9
-    ManufacturerFilter:
-      type: object
-      properties:
-        id:
-          type: string
-          example: '37'
-        name:
-          type: string
-          example: 'Compaq'
-        count:
-          type: number
-          example: 20
-    CategoryFilter:
-      type: object
-      properties:
-        id:
-          type: number
-          example: 37
-        name:
-          type: string
-          example: 'Hardware'
-        taxonomy_id:
-          type: number
-          example: 1
-        parent_id:
-          type: number
-          example: 2
-        count:
-          type: number
-          example: 5
-        
     Product:
       allOf:
         - $ref: '#/components/schemas/ProductAttributes'
         - type: object
           properties:
             meta:
-              type: object
               properties:
                 breadcrumbs:
-                  type: array
-                  items:
-                    $ref: '#/components/schemas/Breadcrumb'
+                  $ref: '#/components/schemas/BreadcrumbsMeta'
             supplier_catalog_product_instances:      
               type: array
               items:
@@ -515,8 +446,7 @@ components:
           type: string
           example: 'Premium, sophisticated design;Immersive entertainment'
         available_on:
-          type: string
-          example: '2012-10-17T03:43:57Z'
+          $ref: '#/components/schemas/Timestamp'
         active:
           type: boolean
           example: true
@@ -544,7 +474,7 @@ components:
         cnet_id:
           type: string
           example: 'C0008'
-        default_variant_id:
+        default_supplier_product_catalog_instance_id:
           type: string
           example: '832'
         image_id:
@@ -581,18 +511,82 @@ components:
         meta:
           allOf:
             - $ref: '#/components/schemas/ListMeta'
-            - type: object
-              properties:
-                breadcrumbs:
-                  type: array
-                  items:
-                    $ref: '#/components/schemas/Breadcrumb'
-                filters:
-                  $ref: '#/components/schemas/ProductListFilters'
+            - $ref: '#/components/schemas/ProductListMeta'
         products:
           type: array
           items:
             $ref: '#/components/schemas/ProductAttributes'
+
+    ProductListMeta:
+      properties:
+        filters:
+          properties:
+            categories:
+              $ref: '#/components/schemas/CategoriesMeta'
+            manufacturers:
+              $ref: '#/components/schemas/ManufacturersMeta'
+            properties:
+              $ref: '#/components/schemas/PropertiesMeta'
+        breadcrumbs:
+          $ref: '#/components/schemas/BreadcrumbsMeta'
+
+    CategoriesMeta:
+      type: array
+      items:
+        properties:
+          id:
+            type: number
+            example: 561
+          name:
+            type: string
+            example: Software
+          taxonomy_id:
+            type: number
+            example: 1
+          parent_id:
+            type: number
+            example: 1
+          count:
+            type: number
+            example: 1
+            
+    ManufacturersMeta:
+      type: array
+      items:
+        properties:
+          id:
+            type: number
+            example: 15
+          name:
+            type: string
+            example: Compaq
+          count:
+            type: number
+            example: 1
+            
+    PropertiesMeta:
+      type: array
+      items:
+        properties:
+          id:
+            type: number
+            example: 37
+          name:
+            type: string
+            example: 'Service & Support'
+          count:
+            type: number
+            example: 46
+          values:
+            type: array
+            items:
+              properties:
+                name:
+                  type: string
+                  example: 'Limited warranty - parts - 1 year - carry-in'
+                count:
+                  type: number
+                  example: 9
 
     ProductProperty:
       type: object

@@ -300,14 +300,14 @@ components:
             - $ref: '#/components/schemas/Period'
           
         enquiryPeriod:
-            title: Enquiry period
-            description: >-
+          title: Enquiry period
+          description: >-
               The period during which potential bidders may submit questions and
               requests for clarification to the entity managing procurement. Details
               of how to submit enquiries should be provided in attached notices, or
               in submissionMethodDetails. Structured dates for when responses to
               questions will be made can be provided using tender milestones.
-            allOf:
+          allOf:
             - $ref: '#/components/schemas/Period'
     
     Tender:

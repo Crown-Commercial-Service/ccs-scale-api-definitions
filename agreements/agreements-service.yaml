@@ -279,7 +279,7 @@ paths:
               schema:
                 oneOf:
                   - $ref: '#/components/schemas/AgreementLot'
-                  - $ref: '#/components/schemas/LotSummary'
+                  - $ref: '#/components/schemas/LotDetailSummary'
         404:
           description: Commercial Agreement and/or Lot not found
           content:
@@ -543,6 +543,8 @@ components:
           type: string
           description: Lot name
           example: "Finance"
+          
+#
           
     LotContact:
       title: Lot Contact (Non OCDS)
@@ -887,22 +889,7 @@ components:
           example: "Finance"
           
       
-    LotsSummary:
-      title: Agreement Lot (Non OCDS Lot)  
-      description: Array of summary information about all agreements
-      type: array
-      items:
-        type: object
-        properties:
-          number:
-            type: string
-            description: Lot number
-            example: 1
-          name:
-            type: string
-            description: Lot name
-            example: "Finance"
-#
+
     LotSupplier:
       title: Agreement Suppliers (OCDS Organisations)
       oneOf:

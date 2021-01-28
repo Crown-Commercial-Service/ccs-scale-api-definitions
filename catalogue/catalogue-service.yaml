@@ -31,8 +31,12 @@ paths:
             application/vnd.api+json:
               schema:
                 $ref: '#/components/schemas/Account'
+        '401':
+          $ref: '#/components/responses/401Unauthorized'
         '403':
           $ref: '#/components/responses/403Forbidden'
+        '429':
+          $ref: '#/components/responses/429TooManyRequests'
       security:
         - bearerAuth: []
     post:
@@ -76,6 +80,8 @@ paths:
             application/vnd.api+json:
               schema:
                 $ref: '#/components/schemas/Error'
+        '429':
+          $ref: '#/components/responses/429TooManyRequests'
     patch:
       description: >-
         Updates user account
@@ -111,12 +117,16 @@ paths:
             application/vnd.api+json:
               schema:
                 $ref: '#/components/schemas/Account'
+        '401':
+          $ref: '#/components/responses/401Unauthorized'
         '422':
           description: Validation errors
           content:
             application/vnd.api+json:
               schema:
                 $ref: '#/components/schemas/Error'
+        '429':
+          $ref: '#/components/responses/429TooManyRequests'
       security:
         - bearerAuth: []
   /catalog/products:
@@ -194,6 +204,8 @@ paths:
                     $ref: '#/components/schemas/ProductListMeta'
                   list_links:
                     $ref: '#/components/schemas/ListLinks'
+        '429':
+          $ref: '#/components/responses/429TooManyRequests'
       summary: List of Products
       
   '/catalog/products/{id}':
@@ -225,6 +237,8 @@ paths:
                         $ref: '#/components/schemas/BreadcrumbsMeta'
         '404':
           $ref: '#/components/responses/404NotFound'
+        '429':
+          $ref: '#/components/responses/429TooManyRequests'
       summary: Get Product Details
 
 components:
@@ -567,7 +581,6 @@ components:
               type: array
               items:
                 $ref: '#/components/schemas/Image'
-
         supplier_catalog_product_instances:      
           type: array
           nullable: true
@@ -762,6 +775,16 @@ components:
                 type: string
                 example: The resource you were looking for could not be found.
                 default: The resource you were looking for could not be found.
+    401Unauthorized:
+      description: You are not authorized to access this page.
+      content:
+        application/vnd.api+json:
+          schema:
+            properties:
+              error:
+                type: string
+                example: You are not authorized to access this page.
+                default: You are not authorized to access this page.
     403Forbidden:
       description: You are not authorized to access this page.
       content:
@@ -772,3 +795,13 @@ components:
                 type: string
                 example: You are not authorized to access this page.
                 default: You are not authorized to access this page.
+    429TooManyRequests:
+      description: You are making too many requests to this endpoint. Note that the APIG is expected to return this, not the application.
+      content:
+        application/vnd.api+json:
+          schema:
+            properties:
+              error:
+                type: string
+                example: You are making too many requests to this endpoint.
+                default: You are making too many requests to this endpoint.

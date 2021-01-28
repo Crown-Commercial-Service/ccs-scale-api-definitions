@@ -184,7 +184,16 @@ paths:
           content:
             application/vnd.api+json:
               schema:
-                $ref: '#/components/schemas/ProductList'
+                type: object
+                properties:
+                  products:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Product'
+                  meta:
+                    $ref: '#/components/schemas/ProductListMeta'
+                  list_links:
+                    $ref: '#/components/schemas/ListLinks'
       summary: List of Products
       
   '/catalog/products/{id}':
@@ -206,7 +215,14 @@ paths:
           content:
             application/vnd.api+json:
               schema:
-                $ref: '#/components/schemas/Product'
+                type: object
+                properties:
+                  product:
+                    $ref: '#/components/schemas/Product'
+                  meta:
+                    properties:
+                      breadcrumbs:
+                        $ref: '#/components/schemas/BreadcrumbsMeta'
         '404':
           $ref: '#/components/responses/404NotFound'
       summary: Get Product Details
@@ -246,7 +262,8 @@ components:
         first:
           type: string
           description: URL to the first page of the listing
-    ListMeta:
+
+    ProductListMeta:
       properties:
         count:
           type: number
@@ -260,10 +277,75 @@ components:
           type: number
           example: 10
           description: Number of all pages containing items matching the criteria
-    Timestamp:
-      type: string
-      format: date-time
-      example: '2020-02-16T07:14:54.617Z'
+        filters:
+          description: Data that can be used to create filters in product list results.
+          properties:
+            categories:
+              $ref: '#/components/schemas/CategoriesMeta'
+            manufacturers:
+              $ref: '#/components/schemas/ManufacturersMeta'
+            properties:
+              $ref: '#/components/schemas/PropertiesMeta'
+        breadcrumbs:
+          $ref: '#/components/schemas/BreadcrumbsMeta'
+
+    CategoriesMeta:
+      type: array
+      items:
+        properties:
+          id:
+            type: number
+            example: 561
+          name:
+            type: string
+            example: Software
+          taxonomy_id:
+            type: number
+            example: 1
+          parent_id:
+            type: number
+            example: 1
+          count:
+            type: number
+            example: 1
+            
+    ManufacturersMeta:
+      type: array
+      items:
+        properties:
+          id:
+            type: number
+            example: 15
+          name:
+            type: string
+            example: Compaq
+          count:
+            type: number
+            example: 1
+            
+    PropertiesMeta:
+      type: array
+      items:
+        properties:
+          id:
+            type: number
+            example: 37
+          name:
+            type: string
+            example: 'Service & Support'
+          count:
+            type: number
+            example: 46
+          values:
+            type: array
+            items:
+              properties:
+                name:
+                  type: string
+                  example: 'Limited warranty - parts - 1 year - carry-in'
+                count:
+                  type: number
+                  example: 9
 
     BreadcrumbsMeta:
       type: array
@@ -276,6 +358,10 @@ components:
             type: string
             example: 'Tech Products'
 
+    Timestamp:
+      type: string
+      format: date-time
+      example: '2020-02-16T07:14:54.617Z'
 
     Account:
       type: object
@@ -397,28 +483,6 @@ components:
           example: '2021-10-31'
 
     Product:
-      allOf:
-        - $ref: '#/components/schemas/ProductAttributes'
-        - type: object
-          properties:
-            meta:
-              properties:
-                breadcrumbs:
-                  $ref: '#/components/schemas/BreadcrumbsMeta'
-            supplier_catalog_product_instances:      
-              type: array
-              items:
-                $ref: '#/components/schemas/SupplierCatalogProductInstance' # Renamed Variant
-            documents:
-              type: array
-              items:
-                $ref: '#/components/schemas/Document'
-            product_properties:
-              type: array
-              items:
-                $ref: '#/components/schemas/ProductProperty'
-
-    ProductAttributes:
       type: object
       properties:
         name:
@@ -503,90 +567,27 @@ components:
               type: array
               items:
                 $ref: '#/components/schemas/Image'
-            
-    ProductList:
-      properties:
-        links:
-          $ref: '#/components/schemas/ListLinks'
-        meta:
-          allOf:
-            - $ref: '#/components/schemas/ListMeta'
-            - $ref: '#/components/schemas/ProductListMeta'
-        products:
+
+        supplier_catalog_product_instances:      
           type: array
+          nullable: true
+          description: Instance of the product in a supplier's Commercial Agreement specific catalogue.  Only returned for the get-product-detail call.
           items:
-            $ref: '#/components/schemas/ProductAttributes'
+            $ref: '#/components/schemas/SupplierCatalogProductInstance' # Renamed Variant
+        documents:
+          type: array
+          nullable: true
+          description: Links to product documentation.  Only returned for the get-product-detail call.
+          items:
+            $ref: '#/components/schemas/Document'
+        product_properties:
+          type: array
+          nullable: true
+          description: Product specific properties (e.g. size, weight, colour).  Only returned for the get-product-detail call.
+          items:
+            $ref: '#/components/schemas/ProductProperty'
 
-    ProductListMeta:
-      properties:
-        filters:
-          properties:
-            categories:
-              $ref: '#/components/schemas/CategoriesMeta'
-            manufacturers:
-              $ref: '#/components/schemas/ManufacturersMeta'
-            properties:
-              $ref: '#/components/schemas/PropertiesMeta'
-        breadcrumbs:
-          $ref: '#/components/schemas/BreadcrumbsMeta'
 
-    CategoriesMeta:
-      type: array
-      items:
-        properties:
-          id:
-            type: number
-            example: 561
-          name:
-            type: string
-            example: Software
-          taxonomy_id:
-            type: number
-            example: 1
-          parent_id:
-            type: number
-            example: 1
-          count:
-            type: number
-            example: 1
-            
-    ManufacturersMeta:
-      type: array
-      items:
-        properties:
-          id:
-            type: number
-            example: 15
-          name:
-            type: string
-            example: Compaq
-          count:
-            type: number
-            example: 1
-            
-    PropertiesMeta:
-      type: array
-      items:
-        properties:
-          id:
-            type: number
-            example: 37
-          name:
-            type: string
-            example: 'Service & Support'
-          count:
-            type: number
-            example: 46
-          values:
-            type: array
-            items:
-              properties:
-                name:
-                  type: string
-                  example: 'Limited warranty - parts - 1 year - carry-in'
-                count:
-                  type: number
-                  example: 9
 
     ProductProperty:
       type: object
@@ -608,6 +609,9 @@ components:
       description: |-
         The combination of Supplier and Catalogue for this product. One record for each Supplier with appropriate pricing for each Catalogue on which the supplier offers the product.
       properties:
+        supplier_product_catalog_instance_id:
+          type: string
+          example: 37
         sku:
           type: string
           example: SKU-1001
@@ -768,9 +772,3 @@ components:
                 type: string
                 example: You are not authorized to access this page.
                 default: You are not authorized to access this page.
-servers:
-  # Added by API Auto Mocking Plugin
-  - description: SwaggerHub API Auto Mocking
-    url: https://virtserver.swaggerhub.com/davejhughes/Catalog/0.1
-  - url: 'http://localhost:3000'
-    description: localhost

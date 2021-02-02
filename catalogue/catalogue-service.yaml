@@ -1,8 +1,9 @@
 openapi: "3.0.1"
 info:
   title: "CCS Catalog Service"
-  version: '0.1'
-  description: This API provides access to the CCS product catalog browse functionality. This API is a modified version of the Spree Storefront API as adapted for Scale, taken from github on 11-01-2021
+  version: 0.1.1
+  description: This API provides access to the CCS product catalog browse functionality. This API is a modified version of the Spree Storefront API as adapted for Scale, taken from github on 11-01-2021. 
+    <br> Version 0.1.1 updated to use common Error schema and to follow CCS standards for camelCase schema properties.
 #  PLACEHOLDERs - to be uncommented when implemented
   termsOfService: "http://api.crowncommercial.gov.uk/terms/"
   contact:
@@ -32,11 +33,23 @@ paths:
               schema:
                 $ref: '#/components/schemas/Account'
         '401':
-          $ref: '#/components/responses/401Unauthorized'
+          description: Unauthorised
+          content:
+            application/json:
+              schema:
+                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Schema.yaml#/components/schemas/Errors'
         '403':
-          $ref: '#/components/responses/403Forbidden'
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Schema.yaml#/components/schemas/Errors'
         '429':
-          $ref: '#/components/responses/429TooManyRequests'
+          description: Too Many Requests
+          content:
+            application/json:
+              schema:
+                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Schema.yaml#/components/schemas/Errors'
       security:
         - bearerAuth: []
     post:
@@ -64,7 +77,7 @@ paths:
                     password:
                       type: string
                       example: 'spree123'
-                    password_confirmation:
+                    passwordConfirmation:
                       type: string
                       example: 'spree123'
       responses:
@@ -77,11 +90,16 @@ paths:
         '422':
           description: Validation errors
           content:
-            application/vnd.api+json:
+            application/json:
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Schema.yaml#/components/schemas/Errors'
         '429':
-          $ref: '#/components/responses/429TooManyRequests'
+          description: Too Many Requests
+          content:
+            application/json:
+              schema:
+                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Schema.yaml#/components/schemas/Errors'
+
     patch:
       description: >-
         Updates user account
@@ -107,7 +125,7 @@ paths:
                     password:
                       type: string
                       example: 'spree123'
-                    password_confirmation:
+                    passwordConfirmation:
                       type: string
                       example: 'spree123'
       responses:
@@ -118,15 +136,24 @@ paths:
               schema:
                 $ref: '#/components/schemas/Account'
         '401':
-          $ref: '#/components/responses/401Unauthorized'
+          description: Unauthorised
+          content:
+            application/json:
+              schema:
+                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Schema.yaml#/components/schemas/Errors'
         '422':
           description: Validation errors
           content:
-            application/vnd.api+json:
+            application/json:
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Schema.yaml#/components/schemas/Errors'
         '429':
-          $ref: '#/components/responses/429TooManyRequests'
+          description: Too Many Requests
+          content:
+            application/json:
+              schema:
+                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Schema.yaml#/components/schemas/Errors'
+
       security:
         - bearerAuth: []
   /catalog/products:
@@ -202,10 +229,14 @@ paths:
                       $ref: '#/components/schemas/Product'
                   meta:
                     $ref: '#/components/schemas/ProductListMeta'
-                  list_links:
+                  listLinks:
                     $ref: '#/components/schemas/ListLinks'
         '429':
-          $ref: '#/components/responses/429TooManyRequests'
+          description: Too Many Requests
+          content:
+            application/json:
+              schema:
+                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Schema.yaml#/components/schemas/Errors'
       summary: List of Products
       
   '/catalog/products/{id}':
@@ -236,9 +267,17 @@ paths:
                       breadcrumbs:
                         $ref: '#/components/schemas/BreadcrumbsMeta'
         '404':
-          $ref: '#/components/responses/404NotFound'
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Schema.yaml#/components/schemas/Errors'
         '429':
-          $ref: '#/components/responses/429TooManyRequests'
+          description: Too Many Requests
+          content:
+            application/json:
+              schema:
+                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Schema.yaml#/components/schemas/Errors'
       summary: Get Product Details
 
 components:
@@ -253,12 +292,7 @@ components:
         It is required to associate Cart with the User.
 
   schemas:
-    Error:
-      required:
-        - error
-      properties:
-        error:
-          type: string
+
     ListLinks:
       properties:
         self:
@@ -283,11 +317,11 @@ components:
           type: number
           example: 7
           description: Number of items on the current listing
-        total_count:
+        totalCount:
           type: number
           example: 145
           description: Number of all items matching the criteria
-        total_pages:
+        totalPages:
           type: number
           example: 10
           description: Number of all pages containing items matching the criteria
@@ -313,10 +347,10 @@ components:
           name:
             type: string
             example: Software
-          taxonomy_id:
+          taxonomyId:
             type: number
             example: 1
-          parent_id:
+          parentId:
             type: number
             example: 1
           count:
@@ -365,24 +399,18 @@ components:
       type: array
       items:
         properties:
-          category_id:
+          categoryId:
             type: number
             example: 37
           name:
             type: string
             example: 'Tech Products'
 
-    Timestamp:
-      type: string
-      format: date-time
-      example: '2020-02-16T07:14:54.617Z'
-
     Account:
       type: object
       properties:
         email:
-          type: string
-          example: buyer@cabinetoffice.gov.uk
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Schema.yaml#/components/schemas/Email'
         addresses:
           type: array
           items:
@@ -418,20 +446,20 @@ components:
         county:
           type: string
           example: City of Westminster
-        country_name:
+        countryName:
           type: string
           example: United Kingdom
-        country_iso3:
+        countryIso3:
           type: string
           example: GBR
           description: Country ISO3 code
         company:
           type: string
           example: 'Crown Commercial Services'
-        default_billing_address:
+        defaultBillingAddress:
           type: string
           format: boolean
-        default_shipping_address:
+        defaultShippingAddress:
           type: string
           format: boolean          
           
@@ -444,7 +472,7 @@ components:
         url:
           type: string
           format: url
-        content_type:
+        contentType:
           type: string
           example: 'application/pdf'
     Image:
@@ -472,26 +500,24 @@ components:
           type: integer
           example: 1080
           description: Actual height of image
-          
+
     CommercialAgreementLot:
       type: object
       properties:
         id:
           type: string
           example: '1'
-        full_name:
+        fullName:
           type: string
           example: 'RM6147 Tech Products Lot 6'
-        ca_name:
+        caName:
           type: string
           example: 'Tech Products'
-        ca_ref:
-          type: string
-          example: 'RM6147'
-        lot_number:
-          type: string
-          example: 'Lot 6'
-        lot_expiry_date:
+        caNumber:
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Schema.yaml#/components/schemas/AgreementID'
+        lotNumber:
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Schema.yaml#/components/schemas/LotID'
+        lotExpiryDate:
           type: string
           format: date
           example: '2021-10-31'
@@ -505,7 +531,7 @@ components:
         description:
           type: string
           example: Example description
-        delivery_included_price:
+        deliveryIncludedPrice:
           type: string
           example: '18.99'
         price:
@@ -514,17 +540,17 @@ components:
         currency:
           type: string
           example: GBP
-        display_delivery_included_price:
+        displayDeliveryIncludedPrice:
           type: string
           example: £18.99
-        display_price:
+        displayPrice:
           type: string
           example: £15.99
-        key_selling_points:
+        keySellingPoints:
           type: string
           example: 'Premium, sophisticated design;Immersive entertainment'
-        available_on:
-          $ref: '#/components/schemas/Timestamp'
+        availableOn:
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Schema.yaml#/components/schemas/Timestamp'
         active:
           type: boolean
           example: true
@@ -534,14 +560,14 @@ components:
         manufacturer:
           type: string
           example: 'Compaq'
-        mpn_number:
+        mpnNumber:
           type: string
           example: 'MPN8'
         purchasable:
           type: boolean
           example: true
           description: Indicates if any of Variants are in stock or backorderable
-        in_stock:
+        inStock:
           type: boolean
           example: true
           description: Indicates if any of Variants are in stock
@@ -549,39 +575,39 @@ components:
           type: boolean
           example: true
           description: Indicates if any of Variants are backeorderable
-        cnet_id:
+        cnetId:
           type: string
           example: 'C0008'
-        default_supplier_product_catalog_instance_id:
+        defaultSupplierProductCatalogInstanceId:
           type: string
           example: '832'
-        image_id:
+        imageId:
           type: string
           example: '8'
         slug:
           type: string
           example: example-product
-        total_on_hand:
+        totalOnHand:
           type: number
           example: 124
         unspsc:
           type: string
           example: '0011223344'
-        meta_description:
+        metaDescription:
           type: string
           example: Example product
-        meta_keywords:
+        metaKeywords:
           type: string
           example: 'example, product'
-        created_at:
-          $ref: '#/components/schemas/Timestamp'
-        updated_at:
-          $ref: '#/components/schemas/Timestamp'
+        createdAt:
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Schema.yaml#/components/schemas/Timestamp'
+        updatedAt:
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Schema.yaml#/components/schemas/Timestamp'
         images: #Moved images here as it is needed by single and list calls. Alternative would have been array of Product for the list and null out the detailed fields on the list call.
               type: array
               items:
                 $ref: '#/components/schemas/Image'
-        supplier_catalog_product_instances:      
+        supplierCatalogProductInstances:      
           type: array
           nullable: true
           description: Instance of the product in a supplier's Commercial Agreement specific catalogue.  Only returned for the get-product-detail call.
@@ -593,7 +619,7 @@ components:
           description: Links to product documentation.  Only returned for the get-product-detail call.
           items:
             $ref: '#/components/schemas/Document'
-        product_properties:
+        productProperties:
           type: array
           nullable: true
           description: Product specific properties (e.g. size, weight, colour).  Only returned for the get-product-detail call.
@@ -634,7 +660,7 @@ components:
         currency:
           type: string
           example: USD
-        display_price:
+        displayPrice:
           type: string
           example: $15.99
         weight:
@@ -649,7 +675,7 @@ components:
         depth:
           type: string
           example: '10'
-        is_master:
+        isMaster:
           type: boolean
           example: false
           description: Indicates if Variant is the master Variant
@@ -657,7 +683,7 @@ components:
           type: boolean
           example: true
           description: Indicates if Variant is in stock or backorderable
-        in_stock:
+        inStock:
           type: boolean
           example: true
           description: Indicates if Variant is in stock
@@ -665,13 +691,14 @@ components:
           type: boolean
           example: true
           description: Indicates if Variant is backorderable
-        commercial_agreement_lot: # placeholders until Spark define - maps to what Spree call 'catalog' in their API
+        commercialAgreementLot: # placeholders until Spark define - maps to what Spree call 'catalog' in their API
             $ref: '#/components/schemas/CommercialAgreementLot'
-        product_delivery_charges: # Doesn't make sense to have > 1
+        productDeliveryCharges: # Doesn't make sense to have > 1
             $ref: '#/components/schemas/ProductDeliveryCharges'
         supplier:
             $ref: '#/components/schemas/Supplier'
 
+# Will change to OCDS/Conclave format in future version
     Supplier:
       type: object
       properties:
@@ -681,7 +708,7 @@ components:
         name:
           type: string
           example: 'Acme Inc'
-        about_us:
+        aboutUs:
           type: string
           example: 'About us'
         
@@ -691,31 +718,31 @@ components:
         id:
           type: string
           example: '1'
-        standard_charge_product_uk_mainland: 
+        standardChargeProductUkMainland: 
           type: string
           example: '1.99'
-        standard_charge_basket": 
+        standardChargeBasket": 
           type: string
           example: '1.99'
-        standard_charge_product_uk_non_mainland": 
+        standardChargeProductUkNonMainland": 
           type: string
           example: '1.99'
-        standard_delivery_time": 
+        standardDeliveryTime": 
           type: number
           example: 5
-        next_day_charge_product_uk_mainland": 
+        nextDayChargeProductUkMainland": 
           type: string
           example: '2.99'
-        next_day_charge_basket": 
+        nextDayChargeBasket": 
           type: string
           example: '2.99'
-        display_standard_charge_product_uk_mainland":
+        displayStandardChargeProductUkMainland":
           type: string
           example: '£1.99'
-        display_standard_charge_product_uk_non_mainland": 
+        displayStandardChargeProductUkNonMainland": 
           type: string
           example: '£1.99'
-        display_next_day_charge_product_uk_mainland":
+        displayNextDayChargeProductUkMainland":
           type: string
           example: '£2.99'
 
@@ -764,44 +791,8 @@ components:
       example: laptop
       description: 'Find resources with matching name (supports wild-card, partial-word match search)'
 
-  responses:
-    404NotFound:
-      description: Resource not found
-      content:
-        application/vnd.api+json:
-          schema:
-            properties:
-              error:
-                type: string
-                example: The resource you were looking for could not be found.
-                default: The resource you were looking for could not be found.
-    401Unauthorized:
-      description: You are not authorized to access this page.
-      content:
-        application/vnd.api+json:
-          schema:
-            properties:
-              error:
-                type: string
-                example: You are not authorized to access this page.
-                default: You are not authorized to access this page.
-    403Forbidden:
-      description: You are not authorized to access this page.
-      content:
-        application/vnd.api+json:
-          schema:
-            properties:
-              error:
-                type: string
-                example: You are not authorized to access this page.
-                default: You are not authorized to access this page.
-    429TooManyRequests:
-      description: You are making too many requests to this endpoint. Note that the APIG is expected to return this, not the application.
-      content:
-        application/vnd.api+json:
-          schema:
-            properties:
-              error:
-                type: string
-                example: You are making too many requests to this endpoint.
-                default: You are making too many requests to this endpoint.
+
+servers:
+  # Added by API Auto Mocking Plugin
+  - description: SwaggerHub API Auto Mocking
+    url: https://virtserver.swaggerhub.com/davejhughes/Catalog/0.1.1

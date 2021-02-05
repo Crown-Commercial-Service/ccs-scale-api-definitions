@@ -74,6 +74,28 @@ components:
             type: string
             nullable: true
             format: date-time
+            
+            
+            
+    ProcurementMethods:
+      description: >-
+        Different Options for procurement. There are several types-
+
+          * open
+          * selective
+          * limited
+          * direct
+      type: array
+      items:
+        $ref: '#/components/schemas/ProcurementMethod'
+      example: [
+        "open",
+        "selective",
+        "limited",
+        "direct"
+        ]
+            
+              
     
     TerminationTypes:
       description: >-
@@ -93,23 +115,24 @@ components:
         "withdrawn"
         ]
         
-    ProcurementMethods:
+          
+    TerminationType:
+      allOf:
+        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OCDS_Standards/CCS-OCDS_Schema.yaml#/components/schemas/TenderStatus'
+      title: RFx types
       description: >-
-        Different Options for procurement. There are several types-
-
-          * open
-          * selective
-          * limited
-          * direct
-      type: array
-      items:
-        $ref: '#/components/schemas/ProcurementMethod'
-      example: [
-        "open",
-        "selective",
-        "limited",
-        "direct"
-        ]
+        Subset of the codes in [tenderStatus](https://standard.open-contracting.org/1.1/en/schema/codelists/#tender-status) codelist.
+        This subset are those used to terminate an RFx.
+      type: object
+      properties:
+        terminationType:
+          type: string
+          enum:
+            - cancelled
+            - unsuccessful
+            - complete
+            - withdrawn.
+    
         
     EventTypes:
       description: >-

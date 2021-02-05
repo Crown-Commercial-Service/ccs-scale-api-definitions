@@ -1,0 +1,798 @@
+openapi: "3.0.1"
+info:
+  title: "CCS Catalog Service"
+  version: 0.1.1
+  description: This API provides access to the CCS product catalog browse functionality. This API is a modified version of the Spree Storefront API as adapted for Scale, taken from github on 11-01-2021. 
+    <br> Version 0.1.1 updated to use common Error schema and to follow CCS standards for camelCase schema properties.
+#  PLACEHOLDERs - to be uncommented when implemented
+  termsOfService: "http://api.crowncommercial.gov.uk/terms/"
+  contact:
+    email: "apiteam@crowncommercial.gov.uk"
+#  license:
+#    name: "Open Government Licence 3.0"
+#    url: "https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/"
+# License should be Open Government Licence but checks are needed to ensure that this does not clash with the terms of the BSD-3-Clause licence
+  license:
+    name: 'https://github.com/spree/spree/blob/master/license.md'
+    url: BSD-3-Clause
+
+
+paths:
+  /catalog/account:
+    get:
+      description: Returns current user information
+      summary: Get an Account
+      tags:
+        - Account
+      operationId: Account Information
+      responses:
+        '200':
+          description: ok
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/Account'
+        '401':
+          description: Unauthorised
+          content:
+            application/json:
+              schema:
+                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Schema.yaml#/components/schemas/Errors'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Schema.yaml#/components/schemas/Errors'
+        '429':
+          description: Too Many Requests
+          content:
+            application/json:
+              schema:
+                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Schema.yaml#/components/schemas/Errors'
+      security:
+        - bearerAuth: []
+    post:
+      description: >-
+        Creates a new account
+
+        This endpoint requires [Spree Auth Devise](https://github.com/spree/spree_auth_devise) gem installed
+      summary: Create an Account
+      tags:
+        - Account
+      operationId: 'Account Creation'
+      requestBody:
+        required: true
+        content:
+          application/vnd.api+json:
+            schema:
+              type: object
+              properties:
+                user:
+                  type: object
+                  properties:
+                    email:
+                      type: string
+                      example: 'john@snow.org'
+                    password:
+                      type: string
+                      example: 'spree123'
+                    passwordConfirmation:
+                      type: string
+                      example: 'spree123'
+      responses:
+        '200':
+          description: ok
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/Account'
+        '422':
+          description: Validation errors
+          content:
+            application/json:
+              schema:
+                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Schema.yaml#/components/schemas/Errors'
+        '429':
+          description: Too Many Requests
+          content:
+            application/json:
+              schema:
+                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Schema.yaml#/components/schemas/Errors'
+
+    patch:
+      description: >-
+        Updates user account
+
+        This endpoint requires [Spree Auth Devise](https://github.com/spree/spree_auth_devise) gem installed
+      summary: Update an Account
+      tags:
+        - Account
+      operationId: 'Account Updates'
+      requestBody:
+        required: true
+        content:
+          application/vnd.api+json:
+            schema:
+              type: object
+              properties:
+                user:
+                  type: object
+                  properties:
+                    email:
+                      type: string
+                      example: 'john@snow.org'
+                    password:
+                      type: string
+                      example: 'spree123'
+                    passwordConfirmation:
+                      type: string
+                      example: 'spree123'
+      responses:
+        '200':
+          description: ok
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/Account'
+        '401':
+          description: Unauthorised
+          content:
+            application/json:
+              schema:
+                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Schema.yaml#/components/schemas/Errors'
+        '422':
+          description: Validation errors
+          content:
+            application/json:
+              schema:
+                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Schema.yaml#/components/schemas/Errors'
+        '429':
+          description: Too Many Requests
+          content:
+            application/json:
+              schema:
+                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Schema.yaml#/components/schemas/Errors'
+
+      security:
+        - bearerAuth: []
+  /catalog/products:
+    get:
+      description: Returns a list of Products for the current Store.
+      tags:
+        - Products
+      operationId: Products List
+      parameters:
+        - $ref: '#/components/parameters/FilterByIds'
+        - $ref: '#/components/parameters/FilterBySKUs'
+        - in: query
+          name: 'filter[price]'
+          schema:
+            type: string
+          example: '10,100'
+          description: 'Filter Products based on price (minimum, maximum range)'
+        - in: query
+          name: 'filter[manufacturers]'
+          schema:
+            type: string
+          example: '1,2,3,4,5,6,7,8,9,10,11'
+          description: 'Filter Products based on manufacturers'
+        - in: query
+          name: 'filter[properties][property_id]'
+          schema:
+            type: string
+          example: '20x30'
+          description: 'Filter Products based on the specified property_id (eq. id of dimensions, weight) and value (eg. "20x30", "3kg" )'
+        - in: query
+          name: 'filter[categories]'
+          schema:
+            type: string
+          example: '1,2,3,4,5,6,7,8,9,10,11'
+          description: 'Filter Products based on categories (IDs of categories, brands, etc)'
+        - in: query
+          name: 'filter[name]'
+          schema:
+            type: string
+          example: rails
+          description: 'Find Products with matching name (supports wild-card, partial-word match search)'
+        - in: query
+          name: 'filter[in_stock]'
+          schema:
+            type: boolean
+          example: true
+          description: Returns only in_stock products
+        - in: query
+          name: sort_by
+          schema:
+            type: string
+          example: '-updated_at,price'
+          description: |-
+            Sort products based on: <ul>
+              <li>available_on (ascending)</li>
+              <li>delivery_included_price (ascending/descending)</li>
+              <li>price (ascending/descending)</li>
+              <li>updated_at (ascending/descending)</li>
+            </ul> Use <q>-</q> sign to set descending sort, eg. <q>-updated_at</q>
+        - $ref: '#/components/parameters/PageParam'
+        - $ref: '#/components/parameters/PerPageParam'
+      responses:
+        '200':
+          description: Returns a list of Products
+          content:
+            application/vnd.api+json:
+              schema:
+                type: object
+                properties:
+                  products:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Product'
+                  meta:
+                    $ref: '#/components/schemas/ProductListMeta'
+                  listLinks:
+                    $ref: '#/components/schemas/ListLinks'
+        '429':
+          description: Too Many Requests
+          content:
+            application/json:
+              schema:
+                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Schema.yaml#/components/schemas/Errors'
+      summary: List of Products
+      
+  '/catalog/products/{id}':
+    get:
+      description: |-
+        Returns Product details. You can use product ID:
+
+        ```
+        GET /catalog/products/21
+        ```
+      tags:
+        - Products
+      operationId: Show Product
+      parameters:
+        - $ref: '#/components/parameters/IdOrPermalink'
+      responses:
+        '200':
+          description: Returns the requested Product
+          content:
+            application/vnd.api+json:
+              schema:
+                type: object
+                properties:
+                  product:
+                    $ref: '#/components/schemas/Product'
+                  meta:
+                    properties:
+                      breadcrumbs:
+                        $ref: '#/components/schemas/BreadcrumbsMeta'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Schema.yaml#/components/schemas/Errors'
+        '429':
+          description: Too Many Requests
+          content:
+            application/json:
+              schema:
+                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Schema.yaml#/components/schemas/Errors'
+      summary: Get Product Details
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      description: |-
+        User token to authorize Cart and Checkout requests.
+
+        You can obtain it from [/spree_oauth/token](../../oauth/index.yml) endpoint.
+        It is required to associate Cart with the User.
+
+  schemas:
+
+    ListLinks:
+      properties:
+        self:
+          type: string
+          description: URL to the current page of the listing
+        next:
+          type: string
+          description: URL to the next page of the listing
+        prev:
+          type: string
+          description: URL to the previous page of the listing
+        last:
+          type: string
+          description: URL to the last page of the listing
+        first:
+          type: string
+          description: URL to the first page of the listing
+
+    ProductListMeta:
+      properties:
+        count:
+          type: number
+          example: 7
+          description: Number of items on the current listing
+        totalCount:
+          type: number
+          example: 145
+          description: Number of all items matching the criteria
+        totalPages:
+          type: number
+          example: 10
+          description: Number of all pages containing items matching the criteria
+        filters:
+          description: Data that can be used to create filters in product list results.
+          properties:
+            categories:
+              $ref: '#/components/schemas/CategoriesMeta'
+            manufacturers:
+              $ref: '#/components/schemas/ManufacturersMeta'
+            properties:
+              $ref: '#/components/schemas/PropertiesMeta'
+        breadcrumbs:
+          $ref: '#/components/schemas/BreadcrumbsMeta'
+
+    CategoriesMeta:
+      type: array
+      items:
+        properties:
+          id:
+            type: number
+            example: 561
+          name:
+            type: string
+            example: Software
+          taxonomyId:
+            type: number
+            example: 1
+          parentId:
+            type: number
+            example: 1
+          count:
+            type: number
+            example: 1
+            
+    ManufacturersMeta:
+      type: array
+      items:
+        properties:
+          id:
+            type: number
+            example: 15
+          name:
+            type: string
+            example: Compaq
+          count:
+            type: number
+            example: 1
+            
+    PropertiesMeta:
+      type: array
+      items:
+        properties:
+          id:
+            type: number
+            example: 37
+          name:
+            type: string
+            example: 'Service & Support'
+          count:
+            type: number
+            example: 46
+          values:
+            type: array
+            items:
+              properties:
+                name:
+                  type: string
+                  example: 'Limited warranty - parts - 1 year - carry-in'
+                count:
+                  type: number
+                  example: 9
+
+    BreadcrumbsMeta:
+      type: array
+      items:
+        properties:
+          categoryId:
+            type: number
+            example: 37
+          name:
+            type: string
+            example: 'Tech Products'
+
+    Account:
+      type: object
+      properties:
+        email:
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Schema.yaml#/components/schemas/Email'
+        addresses:
+          type: array
+          items:
+            oneOf:
+              - $ref: '#/components/schemas/Address'
+    Address:
+      type: object
+      properties:
+        id:
+          type: string
+          example: '1'
+        firstname:
+          type: string
+          example: John
+        lastname:
+          type: string
+          example: Doe
+        address1:
+          type: string
+          example: 5th floor
+        address2:
+          type: string
+          example: 151 Buckingham Palace Road
+        city:
+          type: string
+          example: London
+        postcode:
+          type: string
+          example: 'SW1 6TF'
+        phone:
+          type: string
+          example: '(+44) 207 345 2567'
+        county:
+          type: string
+          example: City of Westminster
+        countryName:
+          type: string
+          example: United Kingdom
+        countryIso3:
+          type: string
+          example: GBR
+          description: Country ISO3 code
+        company:
+          type: string
+          example: 'Crown Commercial Services'
+        defaultBillingAddress:
+          type: string
+          format: boolean
+        defaultShippingAddress:
+          type: string
+          format: boolean          
+          
+    Document:
+      type: object
+      properties:
+        group:
+          type: string
+          example: 'User Manual'
+        url:
+          type: string
+          format: url
+        contentType:
+          type: string
+          example: 'application/pdf'
+    Image:
+      type: object
+      properties:
+        id:
+          type: string
+          example: '4'
+        styles:
+          type: array
+          description: An array of pre-scaled image styles
+          items:
+            $ref: '#/components/schemas/ImageStyle'
+    ImageStyle:
+      properties:
+        url:
+          type: string
+          example: 'http://localhost:3000/rails/active_storage/disk/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaEpJbWQyWVhKcFlXNTBjeTltWm1sMmRURlNORFpZWjJaSFpYUkdZMjk2WWsxM1RHWXZNVGs1T1RCak5XVmlNamN4TlRnd1pqVTBabUpqTWpCbFkyVXhZMlZpTTJFd05ERTJZemMzT0dKaE5tSTFNREkyT0dKaFpqa3paV1JtWTJWaE16aGxaQVk2QmtWVSIsImV4cCI6IjIwMTgtMDYtMjRUMTM6NTk6NTguOTY5WiIsInB1ciI6ImJsb2Jfa2V5In19--5e9ff358dc747f73754e332678c5762114ac6f3f/ror_jr_spaghetti.jpeg?content_type=image%2Fjpeg&disposition=inline%3B+filename%3D%22ror_jr_spaghetti.jpeg%22%3B+filename%2A%3DUTF-8%27%27ror_jr_spaghetti.jpeg'
+          description: Absolute URL of the uploaded image in selected style (width/height)
+        width:
+          type: integer
+          example: 1920
+          description: Actual width of image
+        height:
+          type: integer
+          example: 1080
+          description: Actual height of image
+
+    CommercialAgreementLot:
+      type: object
+      properties:
+        id:
+          type: string
+          example: '1'
+        fullName:
+          type: string
+          example: 'RM6147 Tech Products Lot 6'
+        caName:
+          type: string
+          example: 'Tech Products'
+        caNumber:
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Schema.yaml#/components/schemas/AgreementID'
+        lotNumber:
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Schema.yaml#/components/schemas/LotID'
+        lotExpiryDate:
+          type: string
+          format: date
+          example: '2021-10-31'
+
+    Product:
+      type: object
+      properties:
+        name:
+          type: string
+          example: Example product
+        description:
+          type: string
+          example: Example description
+        deliveryIncludedPrice:
+          type: string
+          example: '18.99'
+        price:
+          type: string
+          example: '15.99'
+        currency:
+          type: string
+          example: GBP
+        displayDeliveryIncludedPrice:
+          type: string
+          example: £18.99
+        displayPrice:
+          type: string
+          example: £15.99
+        keySellingPoints:
+          type: string
+          example: 'Premium, sophisticated design;Immersive entertainment'
+        availableOn:
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Schema.yaml#/components/schemas/Timestamp'
+        active:
+          type: boolean
+          example: true
+        available:
+          type: boolean
+          example: true
+        manufacturer:
+          type: string
+          example: 'Compaq'
+        mpnNumber:
+          type: string
+          example: 'MPN8'
+        purchasable:
+          type: boolean
+          example: true
+          description: Indicates if any of Variants are in stock or backorderable
+        inStock:
+          type: boolean
+          example: true
+          description: Indicates if any of Variants are in stock
+        backorderable:
+          type: boolean
+          example: true
+          description: Indicates if any of Variants are backeorderable
+        cnetId:
+          type: string
+          example: 'C0008'
+        defaultSupplierProductCatalogInstanceId:
+          type: string
+          example: '832'
+        imageId:
+          type: string
+          example: '8'
+        slug:
+          type: string
+          example: example-product
+        totalOnHand:
+          type: number
+          example: 124
+        unspsc:
+          type: string
+          example: '0011223344'
+        metaDescription:
+          type: string
+          example: Example product
+        metaKeywords:
+          type: string
+          example: 'example, product'
+        createdAt:
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Schema.yaml#/components/schemas/Timestamp'
+        updatedAt:
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Schema.yaml#/components/schemas/Timestamp'
+        images: #Moved images here as it is needed by single and list calls. Alternative would have been array of Product for the list and null out the detailed fields on the list call.
+              type: array
+              items:
+                $ref: '#/components/schemas/Image'
+        supplierCatalogProductInstances:      
+          type: array
+          nullable: true
+          description: Instance of the product in a supplier's Commercial Agreement specific catalogue.  Only returned for the get-product-detail call.
+          items:
+            $ref: '#/components/schemas/SupplierCatalogProductInstance' # Renamed Variant
+        documents:
+          type: array
+          nullable: true
+          description: Links to product documentation.  Only returned for the get-product-detail call.
+          items:
+            $ref: '#/components/schemas/Document'
+        productProperties:
+          type: array
+          nullable: true
+          description: Product specific properties (e.g. size, weight, colour).  Only returned for the get-product-detail call.
+          items:
+            $ref: '#/components/schemas/ProductProperty'
+
+
+
+    ProductProperty:
+      type: object
+      properties:
+        name:
+          type: string
+          example: 'Max CPU Qty'
+        description:
+          type: string
+          example: 'Max CPU Qty'
+        value:
+          type: string
+          example: '2'
+        group:
+          type: string
+          example: 'Processor / Chipset'
+
+    SupplierCatalogProductInstance: #Renamed Variant
+      description: |-
+        The combination of Supplier and Catalogue for this product. One record for each Supplier with appropriate pricing for each Catalogue on which the supplier offers the product.
+      properties:
+        supplier_product_catalog_instance_id:
+          type: string
+          example: 37
+        sku:
+          type: string
+          example: SKU-1001
+        price:
+          type: string
+          example: '15.99'
+        currency:
+          type: string
+          example: USD
+        displayPrice:
+          type: string
+          example: $15.99
+        weight:
+          type: string
+          example: '10'
+        height:
+          type: string
+          example: '10'
+        width:
+          type: string
+          example: '10'
+        depth:
+          type: string
+          example: '10'
+        isMaster:
+          type: boolean
+          example: false
+          description: Indicates if Variant is the master Variant
+        purchasable:
+          type: boolean
+          example: true
+          description: Indicates if Variant is in stock or backorderable
+        inStock:
+          type: boolean
+          example: true
+          description: Indicates if Variant is in stock
+        backorderable:
+          type: boolean
+          example: true
+          description: Indicates if Variant is backorderable
+        commercialAgreementLot: # placeholders until Spark define - maps to what Spree call 'catalog' in their API
+            $ref: '#/components/schemas/CommercialAgreementLot'
+        productDeliveryCharges: # Doesn't make sense to have > 1
+            $ref: '#/components/schemas/ProductDeliveryCharges'
+        supplier:
+            $ref: '#/components/schemas/Supplier'
+
+# Will change to OCDS/Conclave format in future version
+    Supplier:
+      type: object
+      properties:
+        id:
+          type: string
+          example: '1234'
+        name:
+          type: string
+          example: 'Acme Inc'
+        aboutUs:
+          type: string
+          example: 'About us'
+        
+    ProductDeliveryCharges:
+      type: object
+      properties:
+        id:
+          type: string
+          example: '1'
+        standardChargeProductUkMainland: 
+          type: string
+          example: '1.99'
+        standardChargeBasket": 
+          type: string
+          example: '1.99'
+        standardChargeProductUkNonMainland": 
+          type: string
+          example: '1.99'
+        standardDeliveryTime": 
+          type: number
+          example: 5
+        nextDayChargeProductUkMainland": 
+          type: string
+          example: '2.99'
+        nextDayChargeBasket": 
+          type: string
+          example: '2.99'
+        displayStandardChargeProductUkMainland":
+          type: string
+          example: '£1.99'
+        displayStandardChargeProductUkNonMainland": 
+          type: string
+          example: '£1.99'
+        displayNextDayChargeProductUkMainland":
+          type: string
+          example: '£2.99'
+
+  parameters:
+    IdOrPermalink:
+      name: id
+      in: path
+      required: true
+      description: ID or a permalink
+      schema:
+        type: string
+      example: knitted-high-neck-sweater
+    PageParam:
+      name: page
+      in: query
+      description: Number of requested page when paginating collection
+      schema:
+        type: integer
+      example: 1
+    PerPageParam:
+      name: per_page
+      in: query
+      description: Number of requested records per page when paginating collection
+      schema:
+        type: integer
+      example: null
+    FilterByIds:
+      in: query
+      name: 'filter[ids]'
+      schema:
+        type: string
+      example: '1,2,3'
+      description: Fetch only resources with corresponding IDs
+    FilterBySKUs:
+      in: query
+      name: 'filter[skus]'
+      schema:
+        type: string
+      example: 'SKU-123,SKU-345'
+      description: Fetch only resources with corresponding SKUs
+    FilterByName:
+      in: query
+      name: 'filter[name]'
+      schema:
+        type: string
+      example: laptop
+      description: 'Find resources with matching name (supports wild-card, partial-word match search)'
+
+
+servers:
+  # Added by API Auto Mocking Plugin
+  - description: SwaggerHub API Auto Mocking
+    url: https://virtserver.swaggerhub.com/davejhughes/Catalog/0.1.1

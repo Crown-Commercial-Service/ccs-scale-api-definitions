@@ -147,7 +147,7 @@ paths:
       operationId: get-agreement-detail-version
       parameters:
         - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Params.yaml#/components/parameters/AgreementParam'
-        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/CAT_initial/common/CCS_Standard_API_Params.yaml#/components/parameters/AgreementReleaseParam'
+        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Params.yaml#/components/parameters/AgreementReleaseParam'
         - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Params.yaml#/components/parameters/x-correlation-id'
         - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Params.yaml#/components/parameters/x-causation-id'
         - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Params.yaml#/components/parameters/x-channel'
@@ -195,7 +195,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/OCDS_Schema.yaml#/components/schemas/Document'
+                  $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OCDS_Standards/CCS-OCDS_Schema.yaml#/components/schemas/Document'
         404:
           description: Commercial Agreement not found
           content:
@@ -222,12 +222,12 @@ paths:
           in: query
           schema:
               #$ref: "#/components/schemas/BuyingMethod" enum: ["DirectAward" , "FurtherCompetition", "Marketplace", "EAuction"]
-              $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/CAT_initial/common/OCDS_Schema.yaml#/components/schemas/ProcurementMethod'
+              $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OCDS_Standards/CCS-OCDS_Schema.yaml#/components/schemas/ProcurementMethod'
         - name: submissionMethod
           in: query
           schema:
-              $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/CAT_initial/common/OCDS_Schema.yaml#/components/schemas/ProcurementMethod'
-        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/CAT_initial/common/CCS_Standard_API_Params.yaml#/components/parameters/OCDSParam'
+              $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OCDS_Standards/CCS-OCDS_Schema.yaml#/components/schemas/ProcurementMethod'
+        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Params.yaml#/components/parameters/OCDSParam'
         - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Params.yaml#/components/parameters/AgreementParam'
         - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Params.yaml#/components/parameters/x-correlation-id'
         - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Params.yaml#/components/parameters/x-causation-id'
@@ -353,7 +353,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/OCDS_Schema.yaml#/components/schemas/Document'
+                  $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OCDS_Standards/CCS-OCDS_Schema.yaml#/components/schemas/Document'
         404:
           description: Commercial Agreement and/or Lot not found
           content:
@@ -427,7 +427,7 @@ components:
           description: Commercial Agreement Number
           example: RM3733
       allOf:
-        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/CAT_initial/common/CCS-OCDS_Schema.yaml#/components/schemas/RecordPackage'
+        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OCDS_Standards/CCS-OCDS_Schema.yaml#/components/schemas/RecordPackage'
 
     AgreementsSummary:
       title: Agreements (Non OCDS)  
@@ -452,7 +452,7 @@ components:
     Agreement:
       title: Agreement (OCDS Release Record)
       allOf:
-        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/CAT_initial/common/CCS-OCDS_Schema.yaml#/components/schemas/Record'
+        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OCDS_Standards/CCS-OCDS_Schema.yaml#/components/schemas/Record'
       type: object
       properties:
         ocid:
@@ -460,9 +460,9 @@ components:
           description: 'A globally unique identifier for this Agreement. Composed of an ocid prefix and an identifier for the Agreement.'
           example: 'ocds-b5fd17-RM3733'
         releases:
-          $ref: '#/components/schemas/AgreementReleases'
+          #$ref: '#/components/schemas/AgreementReleases'
         compiledRelease:
-          $ref: '#/components/schemas/CompiledAgreementDetail'
+          #$ref: '#/components/schemas/CompiledAgreementDetail'
             
     CompiledAgreementDetail:
       title: Agreement (OCDS Release - Compiled)
@@ -553,7 +553,7 @@ components:
       properties:
         contact:
         #OCDS contactPoint as returned from the Org/Contact service
-          $ref: "https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/OCDS_Schema.yaml#/components/schemas/ContactPoint"
+          $ref: "https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OCDS_Standards/CCS-OCDS_Schema.yaml#/components/schemas/ContactPoint"
         contactId:
           type: string
           description: "Unique identifier of the contact"
@@ -582,7 +582,7 @@ components:
     AgreementDetail:
       title: Agreement (OCDS Release)
       allOf:
-        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/CAT_initial/common/OCDS_Schema.yaml#/components/schemas/Release'
+        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OCDS_Standards/CCS-OCDS_Schema.yaml#/components/schemas/Release'
       type: object
       properties:
         ocid:
@@ -878,7 +878,7 @@ components:
       title: Agreement Lot (OCDS Lot)
       description: OCDS Package with the records for all Agreements
       allOf:
-        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/OCDS_Schema.yaml#/components/schemas/Lot'
+        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OCDS_Standards/CCS-OCDS_Schema.yaml#/components/schemas/Lot'
       type: object
       properties:
         id:
@@ -893,14 +893,14 @@ components:
     LotSupplier:
       title: Agreement Suppliers (OCDS Organisations)
       oneOf:
-        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/OCDS_Schema.yaml#/components/schemas/Organization'
+        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OCDS_Standards/CCS-OCDS_Schema.yaml#/components/schemas/Organization'
                 
     LotSupplierSummary:
       title: Suppliers (List of Non OCDS Supplier)
       type: object
       properties:
         organization: 
-          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/OCDS_Schema.yaml#/components/schemas/Organization'
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OCDS_Standards/CCS-OCDS_Schema.yaml#/components/schemas/Organization'
         supplierStatus: 
           type: string
           enum: [active,suspended,excluded]
@@ -927,7 +927,7 @@ components:
     AgreementTender:
       description: This is the template for Tenders in the agreement
       allOf:
-        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/CAT_initial/common/OCDS_Schema.yaml#/components/schemas/Tender'
+        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OCDS_Standards/CCS-OCDS_Schema.yaml#/components/schemas/Tender'
       type: object
       properties:
           id:
@@ -1080,7 +1080,7 @@ components:
     AgreementMilestone:
       description: >-
       allOf:
-        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/CAT_initial/common/OCDS_Schema.yaml#/components/schemas/Milestone'
+        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OCDS_Standards/CCS-OCDS_Schema.yaml#/components/schemas/Milestone'
       type: object
       properties:
         dueDate:
@@ -1098,7 +1098,7 @@ components:
 #
     AgreementOrganization:
       allOf:
-        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/CAT_initial/common/OCDS_Schema.yaml#/components/schemas/Organization'
+        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OCDS_Standards/CCS-OCDS_Schema.yaml#/components/schemas/Organization'
       type: object
       properties:
         roles:
@@ -1120,7 +1120,7 @@ components:
 #
     AgreementValue:
       allOf:
-        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/CAT_initial/common/OCDS_Schema.yaml#/components/schemas/Value'
+        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OCDS_Standards/CCS-OCDS_Schema.yaml#/components/schemas/Value'
       type: object
       properties:
           amount:
@@ -1130,7 +1130,7 @@ components:
 #
     AgreementPeriod:
       allOf:
-        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/CAT_initial/common/OCDS_Schema.yaml#/components/schemas/Period'
+        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OCDS_Standards/CCS-OCDS_Schema.yaml#/components/schemas/Period'
       type: object
       properties:
           startDate:

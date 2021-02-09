@@ -12,7 +12,7 @@ info:
 paths:
   /oauth2/token:
     post:
-      description: Creates or refreshes a Bearer token required to authorize calls API calls
+      description: Creates or refreshes a Bearer token required to authorize API calls
       tags:
         - Token
       operationId: Create or Refresh Token
@@ -92,10 +92,7 @@ paths:
       security:
         - bearerAuth: []
     post:
-      description: >-
-        Creates a new account
-
-        This endpoint requires [Spree Auth Devise](https://github.com/spree/spree_auth_devise) gem installed
+      description: Creates a new account
       summary: Create an Account
       tags:
         - Account
@@ -140,10 +137,7 @@ paths:
                 $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Schema.yaml#/components/schemas/Errors'
 
     patch:
-      description: >-
-        Updates user account
-
-        This endpoint requires [Spree Auth Devise](https://github.com/spree/spree_auth_devise) gem installed
+      description: Updates user account (change password)
       summary: Update an Account
       tags:
         - Account

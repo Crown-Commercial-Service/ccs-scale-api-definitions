@@ -1,7 +1,7 @@
 openapi: "3.0.1"
 info:
   title: "CCS Catalog Service"
-  version: 0.1.1
+  version: 0.1.2
   description: This API provides access to the CCS product catalog browse functionality. This API is a modified version of the Spree Storefront API as adapted for Scale, taken from github on 11-01-2021. 
     <br> Version 0.1.1 updated to use common Error schema and to follow CCS standards for camelCase schema properties.
 #  PLACEHOLDERs - to be uncommented when implemented
@@ -18,144 +18,6 @@ info:
 
 
 paths:
-  /catalog/account:
-    get:
-      description: Returns current user information
-      summary: Get an Account
-      tags:
-        - Account
-      operationId: Account Information
-      responses:
-        '200':
-          description: ok
-          content:
-            application/vnd.api+json:
-              schema:
-                $ref: '#/components/schemas/Account'
-        '401':
-          description: Unauthorised
-          content:
-            application/json:
-              schema:
-                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Schema.yaml#/components/schemas/Errors'
-        '403':
-          description: Forbidden
-          content:
-            application/json:
-              schema:
-                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Schema.yaml#/components/schemas/Errors'
-        '429':
-          description: Too Many Requests
-          content:
-            application/json:
-              schema:
-                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Schema.yaml#/components/schemas/Errors'
-      security:
-        - bearerAuth: []
-    post:
-      description: >-
-        Creates a new account
-
-        This endpoint requires [Spree Auth Devise](https://github.com/spree/spree_auth_devise) gem installed
-      summary: Create an Account
-      tags:
-        - Account
-      operationId: 'Account Creation'
-      requestBody:
-        required: true
-        content:
-          application/vnd.api+json:
-            schema:
-              type: object
-              properties:
-                user:
-                  type: object
-                  properties:
-                    email:
-                      type: string
-                      example: 'john@snow.org'
-                    password:
-                      type: string
-                      example: 'spree123'
-                    passwordConfirmation:
-                      type: string
-                      example: 'spree123'
-      responses:
-        '200':
-          description: ok
-          content:
-            application/vnd.api+json:
-              schema:
-                $ref: '#/components/schemas/Account'
-        '422':
-          description: Validation errors
-          content:
-            application/json:
-              schema:
-                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Schema.yaml#/components/schemas/Errors'
-        '429':
-          description: Too Many Requests
-          content:
-            application/json:
-              schema:
-                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Schema.yaml#/components/schemas/Errors'
-
-    patch:
-      description: >-
-        Updates user account
-
-        This endpoint requires [Spree Auth Devise](https://github.com/spree/spree_auth_devise) gem installed
-      summary: Update an Account
-      tags:
-        - Account
-      operationId: 'Account Updates'
-      requestBody:
-        required: true
-        content:
-          application/vnd.api+json:
-            schema:
-              type: object
-              properties:
-                user:
-                  type: object
-                  properties:
-                    email:
-                      type: string
-                      example: 'john@snow.org'
-                    password:
-                      type: string
-                      example: 'spree123'
-                    passwordConfirmation:
-                      type: string
-                      example: 'spree123'
-      responses:
-        '200':
-          description: ok
-          content:
-            application/vnd.api+json:
-              schema:
-                $ref: '#/components/schemas/Account'
-        '401':
-          description: Unauthorised
-          content:
-            application/json:
-              schema:
-                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Schema.yaml#/components/schemas/Errors'
-        '422':
-          description: Validation errors
-          content:
-            application/json:
-              schema:
-                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Schema.yaml#/components/schemas/Errors'
-        '429':
-          description: Too Many Requests
-          content:
-            application/json:
-              schema:
-                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Schema.yaml#/components/schemas/Errors'
-
-      security:
-        - bearerAuth: []
   /catalog/products:
     get:
       description: Returns a list of Products for the current Store.
@@ -281,15 +143,6 @@ paths:
       summary: Get Product Details
 
 components:
-  securitySchemes:
-    bearerAuth:
-      type: http
-      scheme: bearer
-      description: |-
-        User token to authorize Cart and Checkout requests.
-
-        You can obtain it from [/spree_oauth/token](../../oauth/index.yml) endpoint.
-        It is required to associate Cart with the User.
 
   schemas:
 
@@ -405,63 +258,6 @@ components:
           name:
             type: string
             example: 'Tech Products'
-
-    Account:
-      type: object
-      properties:
-        email:
-          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Schema.yaml#/components/schemas/Email'
-        addresses:
-          type: array
-          items:
-            oneOf:
-              - $ref: '#/components/schemas/Address'
-    Address:
-      type: object
-      properties:
-        id:
-          type: string
-          example: '1'
-        firstname:
-          type: string
-          example: John
-        lastname:
-          type: string
-          example: Doe
-        address1:
-          type: string
-          example: 5th floor
-        address2:
-          type: string
-          example: 151 Buckingham Palace Road
-        city:
-          type: string
-          example: London
-        postcode:
-          type: string
-          example: 'SW1 6TF'
-        phone:
-          type: string
-          example: '(+44) 207 345 2567'
-        county:
-          type: string
-          example: City of Westminster
-        countryName:
-          type: string
-          example: United Kingdom
-        countryIso3:
-          type: string
-          example: GBR
-          description: Country ISO3 code
-        company:
-          type: string
-          example: 'Crown Commercial Services'
-        defaultBillingAddress:
-          type: string
-          format: boolean
-        defaultShippingAddress:
-          type: string
-          format: boolean          
           
     Document:
       type: object
@@ -795,4 +591,4 @@ components:
 servers:
   # Added by API Auto Mocking Plugin
   - description: SwaggerHub API Auto Mocking
-    url: https://virtserver.swaggerhub.com/davejhughes/Catalog/0.1.1
+    url: https://virtserver.swaggerhub.com/davejhughes/Catalog/0.1.2

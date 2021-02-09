@@ -1,6 +1,6 @@
 openapi: "3.0.1"
 info:
-  version: 1.0.0
+  version: 1.0.1
   title: CCS Shopping Service OAuth 2.0 Authentication
   description: "To be used until the Shopping Service is integrated with Conclave"
   termsOfService: "http://api.crowncommercial.gov.uk/terms/"
@@ -12,7 +12,7 @@ info:
 paths:
   /oauth2/token:
     post:
-      description: Creates or refreshes a Bearer token required to authorize calls API calls
+      description: Creates or refreshes a Bearer token required to authorize API calls
       tags:
         - Token
       operationId: Create or Refresh Token
@@ -57,7 +57,146 @@ paths:
                   grant_type: refresh_token
                   refresh_token: SqJDIwX00fehqHxS6xmb-kzqAlrYe_0EHgekMexVT8k
         description: ''
+  /catalog/account:
+    get:
+      description: Returns current user information
+      summary: Get an Account
+      tags:
+        - Account
+      operationId: Account Information
+      responses:
+        '200':
+          description: ok
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/Account'
+        '401':
+          description: Unauthorised
+          content:
+            application/json:
+              schema:
+                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Schema.yaml#/components/schemas/Errors'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Schema.yaml#/components/schemas/Errors'
+        '429':
+          description: Too Many Requests
+          content:
+            application/json:
+              schema:
+                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Schema.yaml#/components/schemas/Errors'
+      security:
+        - bearerAuth: []
+    post:
+      description: Creates a new account
+      summary: Create an Account
+      tags:
+        - Account
+      operationId: 'Account Creation'
+      requestBody:
+        required: true
+        content:
+          application/vnd.api+json:
+            schema:
+              type: object
+              properties:
+                user:
+                  type: object
+                  properties:
+                    email:
+                      type: string
+                      example: 'john@snow.org'
+                    password:
+                      type: string
+                      example: 'spree123'
+                    passwordConfirmation:
+                      type: string
+                      example: 'spree123'
+      responses:
+        '200':
+          description: ok
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/Account'
+        '422':
+          description: Validation errors
+          content:
+            application/json:
+              schema:
+                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Schema.yaml#/components/schemas/Errors'
+        '429':
+          description: Too Many Requests
+          content:
+            application/json:
+              schema:
+                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Schema.yaml#/components/schemas/Errors'
+
+    patch:
+      description: Updates user account (change password)
+      summary: Update an Account
+      tags:
+        - Account
+      operationId: 'Account Updates'
+      requestBody:
+        required: true
+        content:
+          application/vnd.api+json:
+            schema:
+              type: object
+              properties:
+                user:
+                  type: object
+                  properties:
+                    email:
+                      type: string
+                      example: 'john@snow.org'
+                    password:
+                      type: string
+                      example: 'spree123'
+                    passwordConfirmation:
+                      type: string
+                      example: 'spree123'
+      responses:
+        '200':
+          description: ok
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/Account'
+        '401':
+          description: Unauthorised
+          content:
+            application/json:
+              schema:
+                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Schema.yaml#/components/schemas/Errors'
+        '422':
+          description: Validation errors
+          content:
+            application/json:
+              schema:
+                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Schema.yaml#/components/schemas/Errors'
+        '429':
+          description: Too Many Requests
+          content:
+            application/json:
+              schema:
+                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Schema.yaml#/components/schemas/Errors'
+
+      security:
+        - bearerAuth: []
 components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      description: |-
+        User token to authorize Cart and Checkout requests.
+        
   schemas:
     Token:
       properties:
@@ -132,3 +271,61 @@ components:
         example-1:
           grant_type: refresh_token
           refresh_token: SqJDIwX00fehqHxS6xmb-kzqAlrYe_0EHgekMexVT8k
+          
+          
+    Account:
+      type: object
+      properties:
+        email:
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Schema.yaml#/components/schemas/Email'
+        addresses:
+          type: array
+          items:
+            oneOf:
+              - $ref: '#/components/schemas/Address'
+    Address:
+      type: object
+      properties:
+        id:
+          type: string
+          example: '1'
+        firstname:
+          type: string
+          example: John
+        lastname:
+          type: string
+          example: Doe
+        address1:
+          type: string
+          example: 5th floor
+        address2:
+          type: string
+          example: 151 Buckingham Palace Road
+        city:
+          type: string
+          example: London
+        postcode:
+          type: string
+          example: 'SW1 6TF'
+        phone:
+          type: string
+          example: '(+44) 207 345 2567'
+        county:
+          type: string
+          example: City of Westminster
+        countryName:
+          type: string
+          example: United Kingdom
+        countryIso3:
+          type: string
+          example: GBR
+          description: Country ISO3 code
+        company:
+          type: string
+          example: 'Crown Commercial Services'
+        defaultBillingAddress:
+          type: string
+          format: boolean
+        defaultShippingAddress:
+          type: string
+          format: boolean  

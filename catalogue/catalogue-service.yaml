@@ -414,67 +414,84 @@ components:
         addresses:
           type: array
           items:
-            oneOf:
-              - $ref: '#/components/schemas/Address'
-    Address:
+              $ref: '#/components/schemas/DeliveryAddress'
+              
+    DeliveryAddress:
       type: object
       properties:
         id:
           type: string
           example: '1'
-        firstname:
-          type: string
-          example: John
-        lastname:
-          type: string
-          example: Doe
-        address1:
-          type: string
-          example: 5th floor
-        address2:
-          type: string
-          example: 151 Buckingham Palace Road
-        city:
-          type: string
-          example: London
-        postcode:
-          type: string
-          example: 'SW1 6TF'
-        phone:
-          type: string
-          example: '(+44) 207 345 2567'
-        county:
-          type: string
-          example: City of Westminster
-        countryName:
-          type: string
-          example: United Kingdom
-        countryIso3:
-          type: string
-          example: GBR
-          description: Country ISO3 code
+        contact:
+          allOf:
+            - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OCDS_Standards/CCS-OCDS_Schema.yaml#/components/schemas/ContactPoint'
+          type: object
+          properties:
+            firstname:
+              type: string
+              example: John  (Not OCDS)
+            lastname:
+              type: string
+              example: Doe (Not OCDS)
+        address:
+          allOf:
+            - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OCDS_Standards/CCS-OCDS_Schema.yaml#/components/schemas/Address' 
+          type: object
+          properties:
+            address1:
+              type: string
+              example: 5th floor (Not OCDS)
+            address2:
+              type: string
+              example: 151 Buckingham Palace Road (Not OCDS)
+            city:
+              type: string
+              example: London (Not OCDS)
+            postcode:
+              type: string
+              example: 'SW1 6TF (Not OCDS)'
+            phone:
+              type: string
+              example: '(+44) 207 345 2567 (Not OCDS)'
+            county:
+              type: string
+              example: City of Westminster (Not OCDS)
+            countryName:
+              type: string
+              example: United Kingdom (Not OCDS)
+            countryIso3:
+              type: string
+              example: GBR (Not OCDS)
+              description: Country ISO3 code
         company:
-          type: string
-          example: 'Crown Commercial Services'
+          allOf:
+            - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OCDS_Standards/CCS-OCDS_Schema.yaml#/components/schemas/Organization'
         defaultBillingAddress:
           type: string
           format: boolean
+          description: '(Not OCDS)'
         defaultShippingAddress:
           type: string
           format: boolean          
+          description: '(Not OCDS)'
           
     Document:
       type: object
       properties:
+        OCDS:
+          allOf:
+            - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OCDS_Standards/CCS-OCDS_Schema.yaml#/components/schemas/Document' 
         group:
           type: string
-          example: 'User Manual'
+          example: 'User Manual (Not OCDS)'
         url:
           type: string
           format: url
+          description: '(Not OCDS)'
         contentType:
           type: string
-          example: 'application/pdf'
+          example: 'application/pdf (Not OCDS)'
+          
     Image:
       type: object
       properties:
@@ -486,6 +503,7 @@ components:
           description: An array of pre-scaled image styles
           items:
             $ref: '#/components/schemas/ImageStyle'
+            
     ImageStyle:
       properties:
         url:
@@ -525,6 +543,9 @@ components:
     Product:
       type: object
       properties:
+        OCDS:
+          allOf:
+            - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OCDS_Standards/CCS-OCDS_Schema.yaml#/components/schemas/Item' 
         name:
           type: string
           example: Example product
@@ -532,14 +553,14 @@ components:
           type: string
           example: Example description
         deliveryIncludedPrice:
-          type: string
-          example: '18.99'
+          allOf:
+            -  $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OCDS_Standards/CCS-OCDS_Schema.yaml#/components/schemas/Value'
         price:
-          type: string
-          example: '15.99'
+          allOf:
+            -  $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OCDS_Standards/CCS-OCDS_Schema.yaml#/components/schemas/Value'
         currency:
           type: string
-          example: GBP
+          example: GBP (Redundant in OCDS?)
         displayDeliveryIncludedPrice:
           type: string
           example: £18.99
@@ -655,8 +676,8 @@ components:
           type: string
           example: SKU-1001
         price:
-          type: string
-          example: '15.99'
+          allOf:
+            -  $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OCDS_Standards/CCS-OCDS_Schema.yaml#/components/schemas/Value'
         currency:
           type: string
           example: USD
@@ -700,6 +721,8 @@ components:
 
 # Will change to OCDS/Conclave format in future version
     Supplier:
+      allOf:
+        -  $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OCDS_Standards/CCS-OCDS_Schema.yaml#/components/schemas/Organization'
       type: object
       properties:
         id:
@@ -719,31 +742,39 @@ components:
           type: string
           example: '1'
         standardChargeProductUkMainland: 
-          type: string
+          allOf:
+            -  $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OCDS_Standards/CCS-OCDS_Schema.yaml#/components/schemas/Value'
           example: '1.99'
         standardChargeBasket": 
-          type: string
+          allOf:
+            -  $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OCDS_Standards/CCS-OCDS_Schema.yaml#/components/schemas/Value'
           example: '1.99'
         standardChargeProductUkNonMainland": 
-          type: string
+          allOf:
+            -  $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OCDS_Standards/CCS-OCDS_Schema.yaml#/components/schemas/Value'
           example: '1.99'
         standardDeliveryTime": 
           type: number
           example: 5
         nextDayChargeProductUkMainland": 
-          type: string
+          allOf:
+            -  $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OCDS_Standards/CCS-OCDS_Schema.yaml#/components/schemas/Value'
           example: '2.99'
         nextDayChargeBasket": 
-          type: string
+          allOf:
+            -  $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OCDS_Standards/CCS-OCDS_Schema.yaml#/components/schemas/Value'
           example: '2.99'
         displayStandardChargeProductUkMainland":
-          type: string
+          allOf:
+            -  $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OCDS_Standards/CCS-OCDS_Schema.yaml#/components/schemas/Value'
           example: '£1.99'
         displayStandardChargeProductUkNonMainland": 
-          type: string
+          allOf:
+            -  $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OCDS_Standards/CCS-OCDS_Schema.yaml#/components/schemas/Value'
           example: '£1.99'
         displayNextDayChargeProductUkMainland":
-          type: string
+          allOf:
+            -  $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OCDS_Standards/CCS-OCDS_Schema.yaml#/components/schemas/Value'
           example: '£2.99'
 
   parameters:

@@ -81,7 +81,7 @@ paths:
         '200':
           description: Returns a list of Products
           content:
-            application/vnd.api+json:
+            application/json:
               schema:
                 type: object
                 properties:
@@ -118,7 +118,7 @@ paths:
         '200':
           description: Returns the requested Product
           content:
-            application/vnd.api+json:
+            application/json:
               schema:
                 type: object
                 properties:

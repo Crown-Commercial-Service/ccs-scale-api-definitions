@@ -541,16 +541,14 @@ components:
           example: '2021-10-31'
 
     Product:
+      allOf:
+        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OCDS_Standards/CCS-OCDS_Schema.yaml#/components/schemas/Item' 
       type: object
       properties:
-        OCDS:
-          allOf:
-            - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OCDS_Standards/CCS-OCDS_Schema.yaml#/components/schemas/Item' 
-        name:
-          type: string
-          example: Example product
+      #  name:
+      #    type: string
+      #    example: Example product
         description:
-          type: string
           example: Example description
         deliveryIncludedPrice:
           allOf:
@@ -558,15 +556,6 @@ components:
         price:
           allOf:
             -  $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OCDS_Standards/CCS-OCDS_Schema.yaml#/components/schemas/Value'
-        currency:
-          type: string
-          example: GBP (Redundant in OCDS?)
-        displayDeliveryIncludedPrice:
-          type: string
-          example: £18.99
-        displayPrice:
-          type: string
-          example: £15.99
         keySellingPoints:
           type: string
           example: 'Premium, sophisticated design;Immersive entertainment'
@@ -608,12 +597,14 @@ components:
         slug:
           type: string
           example: example-product
-        totalOnHand:
-          type: number
+      #  totalOnHand:
+        quantity:
           example: 124
-        unspsc:
-          type: string
-          example: '0011223344'
+        unit:
+          type: string # needs replacing with honed down OCDS Unit
+      #  unspsc:
+      #    type: string
+      #    example: '0011223344'
         metaDescription:
           type: string
           example: Example product
@@ -634,18 +625,18 @@ components:
           description: Instance of the product in a supplier's Commercial Agreement specific catalogue.  Only returned for the get-product-detail call.
           items:
             $ref: '#/components/schemas/SupplierCatalogProductInstance' # Renamed Variant
-        documents:
-          type: array
-          nullable: true
-          description: Links to product documentation.  Only returned for the get-product-detail call.
-          items:
-            $ref: '#/components/schemas/Document'
-        productProperties:
-          type: array
-          nullable: true
-          description: Product specific properties (e.g. size, weight, colour).  Only returned for the get-product-detail call.
-          items:
-            $ref: '#/components/schemas/ProductProperty'
+      #  documents:
+      #    type: array
+      #    nullable: true
+      #    description: Links to product documentation.  Only returned for the get-product-detail call.
+      #    items:
+      #      $ref: '#/components/schemas/Document'
+      #  productProperties:
+      #    type: array
+      #    nullable: true
+      #    description: Product specific properties (e.g. size, weight, colour).  Only returned for the get-product-detail call.
+      #    items:
+      #      $ref: '#/components/schemas/ProductProperty'
 
 
 
@@ -678,12 +669,6 @@ components:
         price:
           allOf:
             -  $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OCDS_Standards/CCS-OCDS_Schema.yaml#/components/schemas/Value'
-        currency:
-          type: string
-          example: USD
-        displayPrice:
-          type: string
-          example: $15.99
         weight:
           type: string
           example: '10'
@@ -724,16 +709,17 @@ components:
       allOf:
         -  $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OCDS_Standards/CCS-OCDS_Schema.yaml#/components/schemas/Organization'
       type: object
-      properties:
-        id:
-          type: string
-          example: '1234'
-        name:
-          type: string
-          example: 'Acme Inc'
-        aboutUs:
-          type: string
-          example: 'About us'
+      #properties:
+        # will be cludged with Spree ID Scheme on Oorg structure
+        #id:
+        #  type: string
+        #  example: '1234'
+        #name:
+        #  type: string
+        #  example: 'Acme Inc'
+        #aboutUs:
+        #  type: string
+        #  example: 'About us'
         
     ProductDeliveryCharges:
       type: object

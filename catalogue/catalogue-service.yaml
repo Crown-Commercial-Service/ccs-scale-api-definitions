@@ -321,6 +321,9 @@ components:
     Product:
       type: object
       properties:
+        id:
+          type: string
+          example: "35"
         name:
           type: string
           example: Example product
@@ -444,7 +447,7 @@ components:
       description: |-
         The combination of Supplier and Catalogue for this product. One record for each Supplier with appropriate pricing for each Catalogue on which the supplier offers the product.
       properties:
-        supplier_product_catalog_instance_id:
+        supplierProductCatalogInstanceId:
           type: string
           example: 37
         sku:

@@ -476,21 +476,25 @@ components:
           description: '(Not OCDS)'
           
     Document:
+      allOf:
+        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OCDS_Standards/CCS-OCDS_Schema.yaml#/components/schemas/Document'
       type: object
       properties:
-        OCDS:
-          allOf:
-            - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OCDS_Standards/CCS-OCDS_Schema.yaml#/components/schemas/Document' 
-        group:
-          type: string
-          example: 'User Manual (Not OCDS)'
-        url:
-          type: string
-          format: url
-          description: '(Not OCDS)'
-        contentType:
-          type: string
-          example: 'application/pdf (Not OCDS)'
+        #documentType in OCDS but need to understand how to deal with Enum
+        #group:
+        documentType:
+        #  type: string
+          example: 'User Manual'
+        # url in OCDS
+        #url:
+        #  type: string
+        #  format: url
+
+        # format in OCDS
+        #contentType:
+        format:
+        #  type: string
+          example: 'application/pdf'
           
     Image:
       type: object
@@ -520,14 +524,20 @@ components:
           description: Actual height of image
 
     CommercialAgreementLot:
+      allOf:
+        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/OCDS/OCDS_Lot_Ext.yaml#/components/schemas/Lot'
+      title: CommercialAgreementLot
       type: object
       properties:
         id:
-          type: string
           example: '1'
-        fullName:
-          type: string
+        # fullName is Title in OCDS:
+        title:
           example: 'RM6147 Tech Products Lot 6'
+        status:
+          example: active
+          enum:
+            - active
         caName:
           type: string
           example: 'Tech Products'
@@ -539,12 +549,20 @@ components:
           type: string
           format: date
           example: '2021-10-31'
+          
+
 
     Product:
       allOf:
-        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OCDS_Standards/CCS-OCDS_Schema.yaml#/components/schemas/Item' 
+        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OCDS_Standards/CCS-OCDS_Schema.yaml#/components/schemas/Item'
+      title: Product
       type: object
       properties:
+        deliveryLocation:
+          title: 'NULL'
+        deliveryAddress:
+          title: 'NULL'
+          
       #  name:
       #    type: string
       #    example: Example product
@@ -553,9 +571,9 @@ components:
         deliveryIncludedPrice:
           allOf:
             -  $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OCDS_Standards/CCS-OCDS_Schema.yaml#/components/schemas/Value'
-        price:
-          allOf:
-            -  $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OCDS_Standards/CCS-OCDS_Schema.yaml#/components/schemas/Value'
+        #price in OCDS is the value of a unit:
+        #  allOf:
+        #    -  $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OCDS_Standards/CCS-OCDS_Schema.yaml#/components/schemas/Value'
         keySellingPoints:
           type: string
           example: 'Premium, sophisticated design;Immersive entertainment'
@@ -599,9 +617,23 @@ components:
           example: example-product
       #  totalOnHand:
         quantity:
+          description: 'The number of units available to buy'
           example: 124
         unit:
-          type: string # needs replacing with honed down OCDS Unit
+          #type: string # needs replacing with honed down OCDS Unit
+          title: Unit
+          description: 'A description of the unit in which the product is provided (e.g. lites, kilograms). The unit-price is null because this varies per supplier.'
+          type: object
+          properties:
+            scheme:
+              $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/OCDS/OCDS_CodeLists.yaml#/components/schemas/UnitClassificationScheme'
+            id:
+              $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/OCDS/OCDS_CodeLists.yaml#/components/schemas/UnitID'
+            name:
+              description: Name of the unit the product is supplied.
+            uri:
+              description: 'The machine-readable URI for the unit of measure, provided by the scheme.'
+
       #  unspsc:
       #    type: string
       #    example: '0011223344'

@@ -68,7 +68,7 @@ paths:
         '200':
           description: ok
           content:
-            application/vnd.api+json:
+            application/json:
               schema:
                 $ref: '#/components/schemas/Account'
         '401':
@@ -100,7 +100,7 @@ paths:
       requestBody:
         required: true
         content:
-          application/vnd.api+json:
+          application/json:
             schema:
               type: object
               properties:
@@ -120,7 +120,7 @@ paths:
         '200':
           description: ok
           content:
-            application/vnd.api+json:
+            application/json:
               schema:
                 $ref: '#/components/schemas/Account'
         '422':
@@ -145,7 +145,7 @@ paths:
       requestBody:
         required: true
         content:
-          application/vnd.api+json:
+          application/json:
             schema:
               type: object
               properties:
@@ -165,7 +165,7 @@ paths:
         '200':
           description: ok
           content:
-            application/vnd.api+json:
+            application/json:
               schema:
                 $ref: '#/components/schemas/Account'
         '401':

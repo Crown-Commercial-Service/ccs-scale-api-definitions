@@ -202,8 +202,8 @@ paths:
                       $ref: '#/components/schemas/Product'
                   meta:
                     $ref: '#/components/schemas/ProductListMeta'
-                  listLinks:
-                    $ref: '#/components/schemas/ListLinks'
+                  links:
+                    $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Schema.yaml#/components/schemas/Links'
         '429':
             $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/429TooManyRequests'
       summary: List of Products
@@ -254,24 +254,6 @@ components:
         It is required to associate Cart with the User.
 
   schemas:
-
-    ListLinks:
-      properties:
-        self:
-          type: string
-          description: URL to the current page of the listing
-        next:
-          type: string
-          description: URL to the next page of the listing
-        prev:
-          type: string
-          description: URL to the previous page of the listing
-        last:
-          type: string
-          description: URL to the last page of the listing
-        first:
-          type: string
-          description: URL to the first page of the listing
 
     ProductListMeta:
       properties:

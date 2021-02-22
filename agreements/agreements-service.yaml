@@ -614,7 +614,7 @@ components:
         supplierStatus: 
           type: string
           enum: [active,suspended,excluded]
-        LotContacts:
+        lotContacts:
           type: array
           items:
             $ref: '#/components/schemas/Contact'

@@ -375,7 +375,7 @@ components:
         contacts:
           type: array
           items:
-            $ref: '#/components/schemas/LotContact'
+            $ref: '#/components/schemas/Contact'
         benefits:
           type: array
           items:
@@ -568,12 +568,10 @@ components:
         datatype:
         # decided not to use date as this would actually be duration and that's an integer
           type: string
-          enum: [string,integer,number]
+          enum: [string,number]
           description: the datatype of the 'other' lotBound value
         valueText:
           type: string
-        valueInteger:
-          type: integer
         valueNumber:
           type: number
         units:
@@ -619,9 +617,9 @@ components:
         LotContacts:
           type: array
           items:
-            $ref: '#/components/schemas/LotContact'
+            $ref: '#/components/schemas/Contact'
 #
-    LotContact:
+    Contact:
       type: "object"
       description: "Agreement/Lot specific contacts for the Organization"
       properties:

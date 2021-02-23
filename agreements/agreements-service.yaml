@@ -161,7 +161,7 @@ paths:
                 items:
                     $ref: '#/components/schemas/LotDetail'
         404:
-          description: Commercial Agreement and/or Lot not found
+          description: Commercial Agreement not found
           content:
             application/json:
               schema:
@@ -366,7 +366,7 @@ components:
           type: string
           format: date
           example: yyyy-mm-dd
-          description: Effective start date of Commercial Agreement
+          description: Effective end date of Commercial Agreement
         detailUrl:
           type: string
           format: uri
@@ -406,7 +406,7 @@ components:
           type: string
           format: date
           example: yyyy-mm-dd
-          description: Effective start date of Lot
+          description: Effective end date of Lot
         description:
           type: string
           description: Short textual description of the Lot

@@ -1,7 +1,7 @@
 openapi: "3.0.1"
 info:
   title: "SCALE Commercial Agreements Service"
-  version: v0.0.5
+  version: v0.1.0
   description: This API allows access to CCS Commercial Agreement data. This is used both to provide information to users and to govern the behaviour of other systems for example 'Buy a Thing' and 'Contract for a Thing', where processes may differ based on the configuration of the underlying Commercial Agreement and Lot.
 #  PLACEHOLDERs - to be uncommented when implemented
   termsOfService: "http://api.crowncommercial.gov.uk/terms/"
@@ -337,6 +337,7 @@ paths:
 #          scopes:
 #            read: Grants read access
 #           only read for MVP
+components:
   schemas:
 #
     Agreements:

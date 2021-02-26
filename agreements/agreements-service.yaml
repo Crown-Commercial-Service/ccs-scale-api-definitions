@@ -343,14 +343,26 @@ components:
     Agreements:
       title: Agreements (OCDS Record Package)
       description: OCDS Package with the records for all Agreements
-      type: object
-      properties:
-        number:
-          type: string
-          description: Commercial Agreement Number
-          example: RM3733
       allOf:
         - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OCDS_Standards/CCS-OCDS_Schema.yaml#/components/schemas/RecordPackage'
+      type: object
+      properties:
+        records:
+          type: array
+          items:
+            type: object
+            allOf:
+              - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OCDS_Standards/CCS-OCDS_Schema.yaml#/components/schemas/Record'
+            properties:
+              compiledRelease:
+                allOf:
+                  - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OCDS_Standards/CCS-OCDS_Schema.yaml#/components/schemas/Record'
+                properties:
+                  id:
+                    type: string
+                    #description: Commercial Agreement Number
+                    example: RM3733
+
 
     AgreementsSummary:
       title: Agreements (Non OCDS)  

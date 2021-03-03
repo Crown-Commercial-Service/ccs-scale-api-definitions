@@ -1,7 +1,7 @@
 openapi: "3.0.1"
 info:
   title: "SCALE Commercial Agreements Service"
-  version: v0.0.5
+  version: v0.1.0
   description: This API allows access to CCS Commercial Agreement data. This is used both to provide information to users and to govern the behaviour of other systems for example 'Buy a Thing' and 'Contract for a Thing', where processes may differ based on the configuration of the underlying Commercial Agreement and Lot.
 #  PLACEHOLDERs - to be uncommented when implemented
   termsOfService: "http://api.crowncommercial.gov.uk/terms/"
@@ -46,60 +46,106 @@ paths:
       - Agreement
       operationId: get-agreements
       parameters:
-        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Params.yaml#/components/parameters/x-correlation-id'
-        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Params.yaml#/components/parameters/x-causation-id'
-        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Params.yaml#/components/parameters/x-channel'
-        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Params.yaml#/components/parameters/x-client'
+        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Params.yaml#/components/parameters/OCDSParam'
+        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Params.yaml#/components/parameters/x-correlation-id'
+        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Params.yaml#/components/parameters/x-causation-id'
+        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Params.yaml#/components/parameters/x-channel'
+        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Params.yaml#/components/parameters/x-client'
       responses:
         200:
           description: Collection of Commercial Agreement summary entities
           content:
             application/json:
               schema:
-                type: array
-                items:
-                    $ref: '#/components/schemas/AgreementSummary'
+                oneOf:
+                  - $ref: '#/components/schemas/Agreements'
+                  - $ref: '#/components/schemas/AgreementsSummary'
         500:
-          description: Internal server error.
-          content:
-            application/json:
-              schema:
-                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Schema.yaml#/components/schemas/Errors'
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/500InternalServerError'
 #
   /agreements/{agreementID}:
     get:
       summary: Returns details of the specified Commercial Agreement
-      description: Returns the definition of the specified Commercial Agreement
+      description: Returns the packager containing the definition of the specified Commercial Agreement
       tags:
       - Agreement
-      operationId: get-agreement-detail
+      operationId: get-agreement-package
       parameters:
-        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Params.yaml#/components/parameters/AgreementParam'
-        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Params.yaml#/components/parameters/x-correlation-id'
-        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Params.yaml#/components/parameters/x-causation-id'
-        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Params.yaml#/components/parameters/x-channel'
-        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Params.yaml#/components/parameters/x-client'
+        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Params.yaml#/components/parameters/AgreementParam'
+        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Params.yaml#/components/parameters/x-correlation-id'
+        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Params.yaml#/components/parameters/x-causation-id'
+        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Params.yaml#/components/parameters/x-channel'
+        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Params.yaml#/components/parameters/x-client'
       responses:
         200:
           description: Commercial Agreement detail
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/AgreementDetail'
+                oneOf:
+                  - $ref: '#/components/schemas/Agreement'
+                  - $ref: '#/components/schemas/AgreementDetailSummary'
         404:
-          description: Commercial Agreement not found
-          content:
-            application/json:
-              schema:
-                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Schema.yaml#/components/schemas/Errors'
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/404NotFound'
         500:
-          description: Internal server error
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/500InternalServerError'
+          
+  /agreements/{agreementID}/latest:
+    get:
+      summary: Returns details of the specified Commercial Agreement
+      description: Returns the definition of the specified Commercial Agreement
+      tags:
+      - Agreement
+      operationId: get-agreement-detail-latest
+      parameters:
+        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Params.yaml#/components/parameters/AgreementParam'
+        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Params.yaml#/components/parameters/x-correlation-id'
+        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Params.yaml#/components/parameters/x-causation-id'
+        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Params.yaml#/components/parameters/x-channel'
+        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Params.yaml#/components/parameters/x-client'
+      responses:
+        200:
+          description: Commercial Agreement detail
           content:
             application/json:
               schema:
-                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Schema.yaml#/components/schemas/Errors'
+                oneOf:
+                  - $ref: '#/components/schemas/CompiledAgreementRelease'
+                  - $ref: '#/components/schemas/AgreementDetailSummary'
+        404:
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/404NotFound'
+        500:
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/500InternalServerError'
 #
-  /agreements/{agreementID}/documents:
+  /agreements/{agreementID}/releases/{version}:
+    get:
+      summary: Returns details of the specified Commercial Agreement
+      description: Returns the definition of the specified Commercial Agreement
+      tags:
+      - Agreement
+      operationId: get-agreement-detail-version
+      parameters:
+        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Params.yaml#/components/parameters/AgreementParam'
+        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Params.yaml#/components/parameters/AgreementReleaseParam'
+        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Params.yaml#/components/parameters/x-correlation-id'
+        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Params.yaml#/components/parameters/x-causation-id'
+        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Params.yaml#/components/parameters/x-channel'
+        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Params.yaml#/components/parameters/x-client'
+      responses:
+        200:
+          description: Commercial Agreement detail
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - $ref: '#/components/schemas/AgreementDetail'
+                  - $ref: '#/components/schemas/AgreementDetailSummary'
+        404:
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/404NotFound'
+        500:
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/500InternalServerError'
+#
+  /agreements/{agreementID}/latest/documents:
     get:
       summary: Returns details of the specified Commercial Agreement documents
       description: Returns the documents for the specified Commercial Agreement
@@ -107,11 +153,11 @@ paths:
       - Agreement
       operationId: get-agreement-documents
       parameters:
-        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Params.yaml#/components/parameters/AgreementParam'
-        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Params.yaml#/components/parameters/x-correlation-id'
-        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Params.yaml#/components/parameters/x-causation-id'
-        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Params.yaml#/components/parameters/x-channel'
-        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Params.yaml#/components/parameters/x-client'
+        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Params.yaml#/components/parameters/AgreementParam'
+        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Params.yaml#/components/parameters/x-correlation-id'
+        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Params.yaml#/components/parameters/x-causation-id'
+        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Params.yaml#/components/parameters/x-channel'
+        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Params.yaml#/components/parameters/x-client'
       responses:
         200:
           description: Commercial Agreement documents
@@ -120,21 +166,14 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/OCDS_Schema.yaml#/components/schemas/Document'
+                  $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OCDS_Standards/CCS-OCDS_Schema.yaml#/components/schemas/Document'
         404:
-          description: Commercial Agreement not found
-          content:
-            application/json:
-              schema:
-                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Schema.yaml#/components/schemas/Errors'
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/404NotFound'
         500:
-          description: Internal server error
-          content:
-            application/json:
-              schema:
-                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Schema.yaml#/components/schemas/Errors'
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/500InternalServerError'
+ 
  # The get-agreement-detail call explicitly omits CPV codes in the initial version. These will be added later if required. As there are potentially thousands of CPV codes it was felt that these would overwhelm the output and management of the underlying data.  Additional calls can be added to provide these if required in a similar way to the '/agreements/{ca-number}/updates' call below.
-  /agreements/{agreementID}/lots:
+  /agreements/{agreementID}/latest/lots:
     get:
       summary: Returns details of all of the Lots for this Commercial Agreement
       description: Returns data about the Lots, both general information and parameters required to govern the behaviour of applications using this data
@@ -142,38 +181,38 @@ paths:
       - Lot
       operationId: get-agreement-lots
       parameters:
-        - name: buyingMethod
+        - name: ProcurementMethod
           in: query
           schema:
-              $ref: "#/components/schemas/BuyingMethod"
-        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Params.yaml#/components/parameters/AgreementParam'
-        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Params.yaml#/components/parameters/x-correlation-id'
-        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Params.yaml#/components/parameters/x-causation-id'
-        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Params.yaml#/components/parameters/x-channel'
-        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Params.yaml#/components/parameters/x-client'
+              #$ref: "#/components/schemas/BuyingMethod" enum: ["DirectAward" , "FurtherCompetition", "Marketplace", "EAuction"]
+              $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OCDS_Standards/CCS-OCDS_Schema.yaml#/components/schemas/ProcurementMethod'
+        - name: submissionMethod
+          in: query
+          schema:
+              $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OCDS_Standards/CCS-OCDS_Schema.yaml#/components/schemas/ProcurementMethod'
+        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Params.yaml#/components/parameters/OCDSParam'
+        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Params.yaml#/components/parameters/AgreementParam'
+        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Params.yaml#/components/parameters/x-correlation-id'
+        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Params.yaml#/components/parameters/x-causation-id'
+        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Params.yaml#/components/parameters/x-channel'
+        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Params.yaml#/components/parameters/x-client'
       responses:
         200:
-          description: Lot details
+          description: Commercial Agreement updates
           content:
             application/json:
-              schema:
+              schema: 
                 type: array
                 items:
-                    $ref: '#/components/schemas/LotDetail'
+                  oneOf:
+                    - $ref: '#/components/schemas/AgreementLot'
+                    - $ref: '#/components/schemas/LotSummary'
         404:
-          description: Commercial Agreement and/or Lot not found
-          content:
-            application/json:
-              schema:
-                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Schema.yaml#/components/schemas/Errors'
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/404NotFound'
         500:
-          description: Internal server error.
-          content:
-            application/json:
-              schema:
-               $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Schema.yaml#/components/schemas/Errors'
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/500InternalServerError'
   #
-  /agreements/{agreementID}/lots/{lotID}:
+  /agreements/{agreementID}/latest/lots/{lotID}:
     get:
       summary: Returns details of the specified Lot for this Commercial Agreement
       description: Returns data about the Lot, both general information and parameters required to govern the behaviour of applications using this data
@@ -181,33 +220,27 @@ paths:
       - Lot
       operationId: get-lot-details-for-agreement
       parameters:
-        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Params.yaml#/components/parameters/AgreementParam'
-        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Params.yaml#/components/parameters/LotParam'
-        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Params.yaml#/components/parameters/x-correlation-id'
-        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Params.yaml#/components/parameters/x-causation-id'
-        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Params.yaml#/components/parameters/x-channel'
-        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Params.yaml#/components/parameters/x-client'
+        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Params.yaml#/components/parameters/AgreementParam'
+        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Params.yaml#/components/parameters/LotParam'
+        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Params.yaml#/components/parameters/x-correlation-id'
+        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Params.yaml#/components/parameters/x-causation-id'
+        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Params.yaml#/components/parameters/x-channel'
+        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Params.yaml#/components/parameters/x-client'
       responses:
         200:
           description: Lot details
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/LotDetail'
+                oneOf:
+                  - $ref: '#/components/schemas/AgreementLot'
+                  - $ref: '#/components/schemas/LotDetailSummary'
         404:
-          description: Commercial Agreement and/or Lot not found
-          content:
-            application/json:
-              schema:
-                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Schema.yaml#/components/schemas/Errors'
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/404NotFound'
         500:
-          description: Internal server error.
-          content:
-            application/json:
-              schema:
-                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Schema.yaml#/components/schemas/Errors'
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/500InternalServerError'
   #
-  /agreements/{agreementID}/lots/{lotID}/suppliers:
+  /agreements/{agreementID}/latest/lots/{lotID}/suppliers:
     get:
       summary: Returns details of the suppliers for the specified Lot for this Commercial Agreement
       description: Returns the supplier list for the Lot
@@ -215,35 +248,29 @@ paths:
       - Lot
       operationId: get-lot-suppliers
       parameters:
-        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Params.yaml#/components/parameters/AgreementParam'
-        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Params.yaml#/components/parameters/LotParam'
-        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Params.yaml#/components/parameters/x-correlation-id'
-        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Params.yaml#/components/parameters/x-causation-id'
-        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Params.yaml#/components/parameters/x-channel'
-        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Params.yaml#/components/parameters/x-client'
+        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Params.yaml#/components/parameters/AgreementParam'
+        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Params.yaml#/components/parameters/LotParam'
+        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Params.yaml#/components/parameters/x-correlation-id'
+        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Params.yaml#/components/parameters/x-causation-id'
+        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Params.yaml#/components/parameters/x-channel'
+        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Params.yaml#/components/parameters/x-client'
       responses:
         200:
           description: Lot details
           content:
             application/json:
-              schema:
+              schema: 
                 type: array
                 items:
-                  $ref: '#/components/schemas/LotSupplier'
+                  oneOf:
+                    - $ref: '#/components/schemas/LotSupplier'
+                    - $ref: '#/components/schemas/LotSupplierSummary'
         404:
-          description: Commercial Agreement and/or Lot not found
-          content:
-            application/json:
-              schema:
-                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Schema.yaml#/components/schemas/Errors'
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/404NotFound'
         500:
-          description: Internal server error.
-          content:
-            application/json:
-              schema:
-                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Schema.yaml#/components/schemas/Errors'
-#
-  /agreements/{agreementID}/lots/{lotID}/documents:
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/500InternalServerError'
+
+  /agreements/{agreementID}/latest/lots/{lotID}/documents:
     get:
       summary: Returns details of the documents for the specified Lot for this Commercial Agreement
       description: Returns the document list for the Lot
@@ -251,12 +278,12 @@ paths:
       - Lot
       operationId: get-lot-documents
       parameters:
-        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Params.yaml#/components/parameters/AgreementParam'
-        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Params.yaml#/components/parameters/LotParam'
-        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Params.yaml#/components/parameters/x-correlation-id'
-        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Params.yaml#/components/parameters/x-causation-id'
-        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Params.yaml#/components/parameters/x-channel'
-        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Params.yaml#/components/parameters/x-client'
+        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Params.yaml#/components/parameters/AgreementParam'
+        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Params.yaml#/components/parameters/LotParam'
+        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Params.yaml#/components/parameters/x-correlation-id'
+        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Params.yaml#/components/parameters/x-causation-id'
+        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Params.yaml#/components/parameters/x-channel'
+        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Params.yaml#/components/parameters/x-client'
       responses:
         200:
           description: Lot documents
@@ -265,19 +292,11 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/OCDS_Schema.yaml#/components/schemas/Document'
+                  $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OCDS_Standards/CCS-OCDS_Schema.yaml#/components/schemas/Document'
         404:
-          description: Commercial Agreement and/or Lot not found
-          content:
-            application/json:
-              schema:
-                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Schema.yaml#/components/schemas/Errors'
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/404NotFound'
         500:
-          description: Internal server error.
-          content:
-            application/json:
-              schema:
-                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Schema.yaml#/components/schemas/Errors'
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/500InternalServerError'
 #
   /agreements/{agreementID}/updates:
     get:
@@ -287,34 +306,27 @@ paths:
       - Agreement
       operationId: get-agreement-updates
       parameters:
-        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Params.yaml#/components/parameters/AgreementParam'
-        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Params.yaml#/components/parameters/x-correlation-id'
-        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Params.yaml#/components/parameters/x-causation-id'
-        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Params.yaml#/components/parameters/x-channel'
-        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Params.yaml#/components/parameters/x-client'
+        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Params.yaml#/components/parameters/AgreementParam'
+        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Params.yaml#/components/parameters/x-correlation-id'
+        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Params.yaml#/components/parameters/x-causation-id'
+        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Params.yaml#/components/parameters/x-channel'
+        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Params.yaml#/components/parameters/x-client'
       responses:
         200:
-          description: Commercial Agreement updates
+          description: "List of Updates made to the agreement"
           content:
             application/json:
-              schema:
+              schema: 
                 type: array
+                title: "Updates"
                 items:
-                    $ref: '#/components/schemas/AgreementUpdate'
+                  oneOf:
+                  - $ref: '#/components/schemas/AgreementDetail'
+                  - $ref: '#/components/schemas/AgreementUpdateSummary'
         404:
-          description: Commercial Agreement not found.
-          content:
-            application/json:
-              schema:
-                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Schema.yaml#/components/schemas/Errors'
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/404NotFound'
         500:
-          description: Internal server error.
-          content:
-            application/json:
-              schema:
-                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Schema.yaml#/components/schemas/Errors'
-#
-components:
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/500InternalServerError'
 #  securitySchemes:
 #    OAuth2:
 #      type: oauth2
@@ -325,25 +337,111 @@ components:
 #          scopes:
 #            read: Grants read access
 #           only read for MVP
+components:
   schemas:
 #
-    AgreementSummary:
+
+    Agreements:
+      title: Agreements (OCDS Record Package)
+      description: OCDS Package with the records for all Agreements
+      allOf:
+        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OCDS_Standards/CCS-OCDS_Schema.yaml#/components/schemas/RecordPackage'
       type: object
       properties:
-        number:
+        uri:
+          example: "https://www.crowncommercial.gov.uk/agreements/"
+        records:
+          type: array
+          items:
+            type: object
+            allOf:
+              - $ref: '#/components/schemas/Agreement'
+            
+
+
+    AgreementsSummary:
+      title: Agreements (Non OCDS)  
+      description: Array of summary information about all agreements
+      type: array
+      items:
+        type: object
+        properties:
+          number:
+            type: string
+            description: Commercial Agreement Number
+            example: RM3733
+          ocid:
+            type: string
+            description: Commercial Agreement Number
+            example: ocds-b5fd17-RM3733
+          title:
+            type: string
+            description: Commercial Agreement Name
+            example: "Technology Products 2"
+  
+    Agreement:
+      title: Agreement (OCDS Release Record)
+      allOf:
+        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OCDS_Standards/CCS-OCDS_Schema.yaml#/components/schemas/Record'
+      type: object
+      properties:
+        ocid:
           type: string
-          description: Commercial Agreement Number
-          example: RM3733
-        name:
-          type: string
-          description: Commercial Agreement Name
-          example: "Technology Products 2"
-#
-# Agreement Detail omits some Agreement data in the initial version.
-#  - Suppliers will be shown at a Lot level rather than Agreement level
-#  - CPV codes are omitted as noted above
-#
-    AgreementDetail:
+          description: 'A globally unique identifier for this Agreement. Composed of an ocid prefix and an identifier for the Agreement.'
+          example: 'ocds-b5fd17-RM3733x'
+        releases:
+          type: array
+          items:
+            oneOf:
+              - $ref: '#/components/schemas/LinkedAgreementRelease'
+        compiledRelease:
+          $ref: '#/components/schemas/CompiledAgreementRelease'
+          
+    LinkedAgreementRelease:
+      allOf:
+        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OCDS_Standards/CCS-OCDS_Schema.yaml#/components/schemas/LinkedRelease'
+      title: Linked Agreement Release
+      type: object
+      properties:
+        url:
+          title: Agreement URL
+          description: 'The URL of the of an earlier release of the Agreement'
+          example: 'https://www.crowncommercial.gov.uk/agreements/RM3733/releases/v1'
+                    
+            
+    CompiledAgreementRelease:
+      title: Agreement (OCDS Release - Compiled)
+      allOf:
+        - $ref: '#/components/schemas/AgreementDetail'
+      type: object
+      properties:
+        id:
+          description: 'Version of the Agreement'
+          example: 'RM3733_compiled'
+        tag:
+          allOf:
+            - $ref: '#/components/schemas/ReleaseTag'
+          example: compiled, planning
+        
+          
+          
+    ReleaseTag:
+      title: Agreement Release Tag
+      description: >-
+            One or more values from the closed [releaseTag](https://standard.open-contracting.org/1.1/en/schema/codelists/#release-tag) codelist. 
+            Tags can be used to filter releases and to understand the kind of information that releases might contain. For  the compiled version this contains compiled. 
+            For an agreement this will always be in the planning stage. In call offs this may be something else from the codelist
+      type: array
+      items:
+        type: string
+        enum:
+          - compiled
+          - planning
+          - planningUpdate
+  
+              
+    AgreementDetailSummary:
+      title: Agreement Detail (Non OCDS)
       type: object
       properties:
         number:
@@ -385,8 +483,132 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/LotSummary'
+            
+    LotSummary:
+      title: Lot Summary (Non OCDS)
+      type: object
+      properties:
+        number:
+          type: string
+          description: Lot number
+          example: 1
+        name:
+          type: string
+          description: Lot name
+          example: "Finance"
+          
 #
-    LotDetail:
+          
+    LotContact:
+      title: Lot Contact (Non OCDS)
+      type: "object"
+      description: "Agreement/Lot specific contacts for the Organization"
+      properties:
+        contact:
+        #OCDS contactPoint as returned from the Org/Contact service
+          $ref: "https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OCDS_Standards/CCS-OCDS_Schema.yaml#/components/schemas/ContactPoint"
+        contactId:
+          type: string
+          description: "Unique identifier of the contact"
+        lotContactReason:
+        #Open Question: is there a more OCDS compliant term?
+          type: string
+          description: "Reason (usually application function) for which the contact should be contacted in the context of this Lot"
+          example: "batQuoteNotification"
+
+        
+    AgreementReleases:
+      title: Release List (OCDS Release)
+      type: object
+      properties:
+       releases:
+        type: array
+        items:
+          $ref: '#/components/schemas/AgreementDetail'
+ 
+
+#
+# Agreement Detail omits some Agreement data in the initial version.
+#  - Suppliers will be shown at a Lot level rather than Agreement level
+#  - CPV codes are omitted as noted above
+#
+    AgreementDetail:
+      title: Agreement (OCDS Release)
+      allOf:
+        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OCDS_Standards/CCS-OCDS_Schema.yaml#/components/schemas/Release'
+      type: object
+      properties:
+        ocid:
+          oneOf:
+            - type: string
+          description: 'A globally unique identifier for this Open Contracting Process. Composed of an ocid prefix and an identifier for the Agreement.'
+          example: 'ocds-b5fd17-RM3733'
+        id:
+          description: 'Version of the Agreement'
+          example: 'RM3733_V1'
+        title:
+          description: A overall title for this Agreement.
+          example: "Technology Products 2"
+        description:
+          description: Short textual description of the commercial agreement
+        date:
+          description: Effective start date of Commercial Agreement
+        tag:
+          allOf:
+            - $ref: '#/components/schemas/ReleaseTag'
+          example: compiled, planning
+        parties:
+          type: array
+          items:
+            $ref: '#/components/schemas/AgreementOrganization'
+        planning:
+          # Is planning related to the call off's, the agreement creations or both?
+          description: >-
+            Information from the planning phase of the contracting process. This includes information related 
+            to the process of deciding what to contract, when and how. For an Agreement this will be defined in the cqll off.
+          pattern: 'null'
+          example: 'null'
+        buyer:
+          description: >-
+            A buyer is an entity whose budget will be used to pay for goods, works or services related to a contract. 
+            This may be different from the procuring entity who may be specified in the tender data.
+            For an Agreement this is null because the call off will define the buyer             
+          pattern: 'null'
+          example: 'null'
+        tender:
+          allOf:
+            - $ref: '#/components/schemas/AgreementTender'
+        awards:
+          description: >-
+            Information from the award phase of the contracting process. There can be more than one award per 
+            contracting process e.g. because the contract is split among different providers, or because 
+            it is a standing offer. For an Agreement this is null because the call off will define the Award.
+          pattern: 'null'
+          example: 'null'
+        contracts:
+          # Should Contracts contain a template contract?
+          description: >-
+            Information from the contract creation phase of the procurement process.
+            For an Agreement this is null because the call off will define the /contracts.
+          pattern: 'null'
+          example: 'null'
+        language:
+          # Should Contracts contain option for other home languages??
+          allOf:
+            - $ref: '#/components/schemas/AgreementLanguage'
+        relatedProcesses:
+          description: >-
+            The details of related processes: for example, if this process follows on from one or more other 
+            processes, represented under a separate open contracting identifier (ocid). This is commonly used 
+            to relate mini-competitions to their parent frameworks or individual tenders to a broader planning 
+            process. For an Agreement no related processeses should exist. All processes will relate to agreeemnts. 
+          pattern: 'null'
+          example: 'null'
+          
+    
+#
+    LotDetailSummary:
+      title: Lot Detail (Non OCDS)
       type: object
       properties:
         number:
@@ -580,7 +802,8 @@ components:
           type: string
           description: The unit of the value given in the value fields e.g. kg, mile, hour
 #
-    AgreementUpdate:
+    AgreementUpdateSummary:
+      title: Agreement Update (Non-OCDS)
       type: object
       properties:
         date:
@@ -595,24 +818,36 @@ components:
         text:
           type: string
           description: Actual update text
-#
-    LotSummary:
+             
+
+        
+    AgreementLot: 
+      title: Agreement Lot (OCDS Lot)
+      description: OCDS Package with the records for all Agreements
+      allOf:
+        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OCDS_Standards/CCS-OCDS_Schema.yaml#/components/schemas/Lot'
       type: object
       properties:
-        number:
+        id:
           type: string
-          description: Lot number
-          example: 1
+          example: "Lot 1a"
         name:
           type: string
-          description: Lot name
           example: "Finance"
-#
+          
+      
+
     LotSupplier:
+      title: Agreement Suppliers (OCDS Organisations)
+      oneOf:
+        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OCDS_Standards/CCS-OCDS_Schema.yaml#/components/schemas/Organization'
+                
+    LotSupplierSummary:
+      title: Suppliers (List of Non OCDS Supplier)
       type: object
       properties:
         organization: 
-          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/OCDS_Schema.yaml#/components/schemas/Organization'
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OCDS_Standards/CCS-OCDS_Schema.yaml#/components/schemas/Organization'
         supplierStatus: 
           type: string
           enum: [active,suspended,excluded]
@@ -620,22 +855,7 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/LotContact'
-#
-    LotContact:
-      type: "object"
-      description: "Agreement/Lot specific contacts for the Organization"
-      properties:
-        contact:
-        #OCDS contactPoint as returned from the Org/Contact service
-          $ref: "https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/OCDS_Schema.yaml#/components/schemas/ContactPoint"
-        contactId:
-          type: string
-          description: "Unique identifier of the contact"
-        lotContactReason:
-        #Open Question: is there a more OCDS compliant term?
-          type: string
-          description: "Reason (usually application function) for which the contact should be contacted in the context of this Lot"
-          example: "batQuoteNotification"
+
 #
     BuyerNeed:
       type: object
@@ -649,10 +869,252 @@ components:
           description: Name of Buyer Need
         text:
           type: string
-          description: Text to be displayed for Buyer need
+          description: Text to be displayed for Buyer need    
+#      
+    AgreementTender:
+      description: This is the template for Tenders in the agreement
+      allOf:
+        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OCDS_Standards/CCS-OCDS_Schema.yaml#/components/schemas/Tender'
+      type: object
+      properties:
+          id:
+            description: 'An identifier for this tender process. This WILL be the same as the ocid for an agreeement, and will be replaced by  an internal identifier for call off tender.'
+            pattern: 'ocds-RM[1-9]{4}'
+            example: 'ocds-b5fd17-RM3733'
+          title:
+            description: >-
+              A null value that will be replaced by a title for this tender in any 
+              call off tender from this agreemnt. This will often be used by 
+              applications as a headline to attract interest, and to help analysts 
+              understand the nature of this procurement.
+            pattern: 'null'
+            example: 'null'
+          description:
+            description: >-
+              A null value that will be replaced by a summary description of the 
+              tender. This complements any structured information provided using the
+              items array. Descriptions should be short and easy to read. 
+              Avoid using ALL CAPS.
+            pattern: 'null'
+            example: 'null'
+          status:
+            description: 'An agreement will always be planning but will be replaced by the current status of the tender'
+            example: 'planning'
+          procuringEntity:
+            description: >-
+              A null value that will be replaced by the entity managing the procurement. This may be different
+              from the buyer who pays for, or uses, the items being procured.
+            pattern: 'null'
+            example: 'null'
+          items:
+            description: >-
+              A null value that will be replaced by the items included in the call off.
+            pattern: 'null'
+            example: 'null'
+          value:
+            allOf:
+              - $ref: '#/components/schemas/AgreementValue'
+            description: >-
+              The total upper estimated value of the procurement aloud within the agreement. A negative value
+              indicates that the contracting process may involve payments from the
+              supplier to the buyer (commonly used in concession contracts).
+              A null value can be replaced by a call off but cannot be exceeded. A null value is totally open.
+          minValue:
+            allOf:
+              - $ref: '#/components/schemas/AgreementValue'
+            description: >-
+              The minimum estimated value of the procurement aloud within the agreement.  A negative value
+              indicates that the contracting process may involve payments from the 
+              supplier to the buyer (commonly used in concession contracts).
+              A null value can be replaced by a call off but cannot be ubndercut. A null value is totally open.
+          procurementMethod:
+            description: >-
+              The procurement method, from the closed [method](https://standard.open-contracting.org/1.1/e
+              /schema/codelists/#method)
+              codelist. If null the this can be defined by the user of the Agreement.
+            example: 'open'
+          awardCriteria:
+            description: >-
+              The award criteria for the procurement, using the open
+              [awardCriteria](https://standard.open-contracting.org/1.1/en/schema/codelists/#award-criteria)
+              codelist.
+            
+              Deprecated Criteria -
+                - lowestCost
+                - bestProposal
+                - bestValueToGovernment  
+                - singleBidOnly
+                  
+                If null the this can be defined by the user of the Agreement.
+            example: 'null'
+          submissionMethod:
+            description: >-
+              The methods by which bids are submitted, using the open
+              [submissionMethod](https://standard.open-contracting.org/1.1/en/schema/codelists/#submission-metho)
+              codelist. If null the this can be defined by the user of the Agreement.
+            example: 'null'
+          tenderPeriod:
+            allOf:
+              - $ref: '#/components/schemas/AgreementPeriod'
+            description: >-
+              The period when the tender is open for submissions. The end date is
+              the closing date for tender submissions. For an Agreement the dates will be null to allow 
+              the start dates to be specified for each call off. If the duration is specified then the
+              call off dates must span a time less than the time specified.
+          enquiryPeriod:
+            allOf:
+              - $ref: '#/components/schemas/AgreementPeriod'
+            description: >-
+              The period during which potential bidders may submit questions and
+              requests for clarification to the entity managing procurement. Details
+              of how to submit enquiries should be provided in attached notices, or
+              in submissionMethodDetails. Structured dates for when responses to
+              questions will be made can be provided using tender milestones.
+              For an Agreement the dates will be null to allow 
+              the start dates to be specified for each call off. If the duration is specified then the
+              call off dates must span a time less than the time specified.
+          hasEnquiries:
+            description: >-
+              A true/false field to indicate whether any enquiries were received
+              during the tender process. Structured information on enquiries that
+              were received, and responses to them, can be provided using the
+              enquiries extension.
+            example: 'null'
+          awardPeriod:
+            allOf:
+              - $ref: '#/components/schemas/AgreementPeriod'
+            description: >-
+              The period for decision making regarding the contract award. The end
+              date should be the date on which an award decision is due to be
+              finalized. The start date may be used to indicate the start of an
+              evaluation period.
+              For an Agreement the dates will be null to allow 
+              the start dates to be specified for each call off. If the duration is specified then the
+              call off dates must span a time less than the time specified.
+          contractPeriod:
+            allOf:
+              - $ref: '#/components/schemas/AgreementPeriod'
+            description: >-
+              The period over which the contract is estimated or required to be
+              active. If the tender does not specify explicit dates, the duration
+              field may be used.
+              For an Agreement the dates will be null to allow 
+              the start dates to be specified for each call off. If the duration is specified then the
+              call off dates must span a time less than the time specified although it would be unusual for an agreement to define this..
+          numberOfTenderers:
+            description: >- 
+              This will not be defined in An Agreement. It will depend on the number of suppliers 
+              who join the tender
+            example: 'null'
+          tenderers:
+            description: >-
+              All parties who submit a bid on a tender. More detailed information on bids and the bidding organization 
+              can be provided using the bid extension. For an Agreement
+            example: 'null'
+            pattern: 'null'             
+          milestones:
+            items:
+              $ref: '#/components/schemas/AgreementMilestone'
+          amendments:
+            description: >-
+              A tender amendment is a formal change to the tender, and generally
+              involves the publication of a new tender notice/release. The rationale
+              and a description of the changes made can be provided here. For an Agreement this will be null and 
+              will be defined by the call off process
+            example: 'null'
+            pattern: 'null'
+#     
+    AgreementMilestone:
+      description: >-
+      allOf:
+        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OCDS_Standards/CCS-OCDS_Schema.yaml#/components/schemas/Milestone'
+      type: object
+      properties:
+        dueDate:
+          pattern: 'null'
+          example: 'null'
+        dateMet:
+          pattern: 'null'
+          example: 'null'
+        dateModified:
+          pattern: 'null'
+          example: 'null'
+        status:
+          pattern: 'null'
+          example: 'null'
+#
+    AgreementOrganization:
+      allOf:
+        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OCDS_Standards/CCS-OCDS_Schema.yaml#/components/schemas/Organization'
+      type: object
+      properties:
+        roles:
+          type: array
+          items:
+            type: string
+             # need to DELETE as appropriate items never allowed int an agreement. Rest can be added as part of call off.
+            enum:
+              - buyer
+              - procuringEntity
+              - supplier
+              - tenderer
+              - funder
+              - enquirer
+              - payer
+              - payee
+              - reviewBody
+              - interestedParty
+#
+    AgreementValue:
+      allOf:
+        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OCDS_Standards/CCS-OCDS_Schema.yaml#/components/schemas/Value'
+      type: object
+      properties:
+          amount:
+            example: 'null'
+          currency:
+            example: 'null'
+#
+    AgreementPeriod:
+      allOf:
+        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OCDS_Standards/CCS-OCDS_Schema.yaml#/components/schemas/Period'
+      type: object
+      properties:
+          startDate:
+            example: 'null'
+          endDate:
+            example: 'null'
+          maxExtentDate:
+            example: 'null'
+          durationInDays:
+            example: 20
+#
+    AgreementLanguage:
+      title: Language
+      # Should Contracts contain option for other home languages??
+      description: >-
+        The language of the linked document using either two-letter
+        [ISO639-1](https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes), or
+        extended [BCP47 language
+        tags](http://www.w3.org/International/articles/language-tags/). The
+        use of lowercase two-letter codes from
+        [ISO639-1](https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes) is
+        recommended unless there is a clear user need for distinguishing the
+        language subtype. CCS agreements will only be written in UK languages and generally English.
+      type: string
+      # en=English, cy= Welsh, ga=Irish, gd=Scottish
+      enum:
+        - en
+        - cy
+        - ga
+        - gd 
+      example: 'en'
+
+
 
 #
 servers:
   # Added by API Auto Mocking Plugin
   - description: SwaggerHub API Auto Mocking
     url: https://virtserver.swaggerhub.com/davejhughes/agreement-service/v0.0.5
+

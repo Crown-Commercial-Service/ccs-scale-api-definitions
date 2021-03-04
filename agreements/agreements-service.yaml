@@ -594,7 +594,7 @@ components:
         contactId:
           type: string
           description: "Unique identifier of the contact"
-        lotContactReason:
+        contactReason:
         #Open Question: is there a more OCDS compliant term?
           type: string
           description: "Reason (usually application function) for which the contact should be contacted in the context of this Lot"

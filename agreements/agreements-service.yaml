@@ -58,8 +58,9 @@ paths:
             application/json:
               schema:
                 oneOf:
-                  - $ref: '#/components/schemas/Agreements'
+                  #- $ref: '#/components/schemas/CompiledAgreementRelease'
                   - $ref: '#/components/schemas/AgreementsSummary'
+                  - $ref: '#/components/schemas/Agreements'
         500:
           $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/500InternalServerError'
 #
@@ -111,13 +112,13 @@ paths:
               schema:
                 oneOf:
                   - $ref: '#/components/schemas/CompiledAgreementRelease'
-                  - $ref: '#/components/schemas/AgreementDetailSummary'
+                  #- $ref: '#/components/schemas/AgreementDetailSummary'
         404:
           $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/404NotFound'
         500:
           $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/500InternalServerError'
 #
-  /agreements/{agreementID}/releases/{version}:
+  /agreements/{agreementID}/releases/{ocid}:
     get:
       summary: Returns details of the specified Commercial Agreement
       description: Returns the definition of the specified Commercial Agreement
@@ -340,6 +341,9 @@ paths:
 components:
   schemas:
 #
+    NullObject:
+      description: Always is NULL for an Agreement and will be filled in by a subsequent 'call Off'
+      example: null
 
     Agreements:
       title: Agreements (OCDS Record Package)
@@ -362,10 +366,10 @@ components:
     AgreementsSummary:
       title: Agreements (Non OCDS)  
       description: Array of summary information about all agreements
-      type: array
-      items:
-        type: object
-        properties:
+      #type: array
+      #items:
+      type: object
+      properties:
           number:
             type: string
             description: Commercial Agreement Number
@@ -388,7 +392,7 @@ components:
         ocid:
           type: string
           description: 'A globally unique identifier for this Agreement. Composed of an ocid prefix and an identifier for the Agreement.'
-          example: 'ocds-b5fd17-RM3733x'
+          example: 'ocds-b5fd17-RM3733'
         releases:
           type: array
           items:
@@ -407,30 +411,49 @@ components:
           title: Agreement URL
           description: 'The URL of the of an earlier release of the Agreement'
           example: 'https://www.crowncommercial.gov.uk/agreements/RM3733/releases/v1'
-                    
+        tag:
+          $ref: '#/components/schemas/LinkedAgreementReleaseTag'  
+ 
+          
+    LinkedAgreementReleaseTag:
+      allOf:
+        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OCDS_Standards/CCS-OCDS_CodeLists.yaml#/components/schemas/ReleaseTag'
+      description: >-
+            One or more values from the closed [releaseTag](https://standard.open-contracting.org/1.1/en/schema/codelists/#release-tag) codelist. 
+            Tags can be used to filter releases and to understand the kind of information that releases might contain. For  the compiled version this contains compiled. 
+            For an agreement this will always be in the planning stage. In call offs this may be something else from the codelist
+      title: Linked Agreement Release Tag
+      type: array
+      items:
+        type: string
+        enum:
+          - planning
+          - planningUpdate
+      example: planning
             
     CompiledAgreementRelease:
-      title: Agreement (OCDS Release - Compiled)
       allOf:
-        - $ref: '#/components/schemas/AgreementDetail'
+        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OCDS_Standards/CCS-OCDS_Schema.yaml#/components/schemas/Release'
+      title: Agreement (OCDS Release - Compiled)
+      #allOf:
+       # - $ref: '#/components/schemas/AgreementDetail'
       type: object
       properties:
         id:
           description: 'Version of the Agreement'
           example: 'RM3733_compiled'
         tag:
-          allOf:
-            - $ref: '#/components/schemas/ReleaseTag'
-          example: compiled, planning
-        
+          $ref: '#/components/schemas/CompiledAgreementReleaseTag'
           
           
-    ReleaseTag:
-      title: Agreement Release Tag
+    CompiledAgreementReleaseTag:
+      allOf:
+        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OCDS_Standards/CCS-OCDS_CodeLists.yaml#/components/schemas/ReleaseTag'
       description: >-
             One or more values from the closed [releaseTag](https://standard.open-contracting.org/1.1/en/schema/codelists/#release-tag) codelist. 
             Tags can be used to filter releases and to understand the kind of information that releases might contain. For  the compiled version this contains compiled. 
             For an agreement this will always be in the planning stage. In call offs this may be something else from the codelist
+      title: Compiled Agreement Release Tag
       type: array
       items:
         type: string
@@ -438,6 +461,8 @@ components:
           - compiled
           - planning
           - planningUpdate
+      example: compiled, planning
+          
   
               
     AgreementDetailSummary:
@@ -543,14 +568,11 @@ components:
             - type: string
           description: 'A globally unique identifier for this Open Contracting Process. Composed of an ocid prefix and an identifier for the Agreement.'
           example: 'ocds-b5fd17-RM3733'
+          pattern: 'ocds-b5fd17-RM[1-9]{4}'
         id:
           description: 'Version of the Agreement'
           example: 'RM3733_V1'
-        title:
-          description: A overall title for this Agreement.
-          example: "Technology Products 2"
-        description:
-          description: Short textual description of the commercial agreement
+          pattern: 'RM[1-9]{4}-V[1-9]{3}'
         date:
           description: Effective start date of Commercial Agreement
         tag:
@@ -561,20 +583,12 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/AgreementOrganization'
-        planning:
-          # Is planning related to the call off's, the agreement creations or both?
-          description: >-
-            Information from the planning phase of the contracting process. This includes information related 
-            to the process of deciding what to contract, when and how. For an Agreement this will be defined in the cqll off.
-          pattern: 'null'
-          example: 'null'
+        #planning:
+        #    $ref: '#/components/schemas/AgreementPlanning'
         buyer:
-          description: >-
-            A buyer is an entity whose budget will be used to pay for goods, works or services related to a contract. 
-            This may be different from the procuring entity who may be specified in the tender data.
-            For an Agreement this is null because the call off will define the buyer             
-          pattern: 'null'
-          example: 'null'
+            $ref: '#/components/schemas/NullObject'       
+          #pattern: 'null'
+          
         tender:
           allOf:
             - $ref: '#/components/schemas/AgreementTender'
@@ -878,23 +892,22 @@ components:
       type: object
       properties:
           id:
-            description: 'An identifier for this tender process. This WILL be the same as the ocid for an agreeement, and will be replaced by  an internal identifier for call off tender.'
-            pattern: 'ocds-RM[1-9]{4}'
-            example: 'ocds-b5fd17-RM3733'
+            description: 'An identifier for this tender process. This WILL be the same as the id for the agreeement, and will be replaced by  an internal identifier for call off tender.'
+            pattern: 'RM[1-9]{4}-compiled'
+            example: 'RM3733-compiled'
           title:
             description: >-
-              A null value that will be replaced by a title for this tender in any 
-              call off tender from this agreemnt. This will often be used by 
+              A overall title for this Agreement. This will be replaced by a title for this tender in any call off tender from this agreemnt. This will often be used by 
               applications as a headline to attract interest, and to help analysts 
               understand the nature of this procurement.
-            pattern: 'null'
-            example: 'null'
+            example: "Technology Products 2"
           description:
             description: >-
               A null value that will be replaced by a summary description of the 
-              tender. This complements any structured information provided using the
+              Of the agreement. This complements any structured information provided using the
               items array. Descriptions should be short and easy to read. 
               Avoid using ALL CAPS.
+            #description: Short textual description of the commercial agreement
             pattern: 'null'
             example: 'null'
           status:
@@ -1090,7 +1103,8 @@ components:
             example: 20
 #
     AgreementLanguage:
-      title: Language
+      allOf:
+        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OCDS_Standards/CCS-OCDS_Schema.yaml#/components/schemas/Language'
       # Should Contracts contain option for other home languages??
       description: >-
         The language of the linked document using either two-letter
@@ -1101,14 +1115,6 @@ components:
         [ISO639-1](https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes) is
         recommended unless there is a clear user need for distinguishing the
         language subtype. CCS agreements will only be written in UK languages and generally English.
-      type: string
-      # en=English, cy= Welsh, ga=Irish, gd=Scottish
-      enum:
-        - en
-        - cy
-        - ga
-        - gd 
-      example: 'en'
 
 
 
@@ -1116,5 +1122,4 @@ components:
 servers:
   # Added by API Auto Mocking Plugin
   - description: SwaggerHub API Auto Mocking
-    url: https://virtserver.swaggerhub.com/davejhughes/agreement-service/v0.0.5
-
+    url: https://virtserver.swaggerhub.com/davejhughes/agreement-service/v0.0

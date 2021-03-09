@@ -412,10 +412,10 @@ components:
           description: 'The URL of the of an earlier release of the Agreement'
           example: 'https://www.crowncommercial.gov.uk/agreements/RM3733/releases/v1'
         tag:
-          $ref: '#/components/schemas/LinkedAgreementReleaseTag'  
+          $ref: '#/components/schemas/AgreementReleaseTag'  
  
           
-    LinkedAgreementReleaseTag:
+    AgreementReleaseTag:
       allOf:
         - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OCDS_Standards/CCS-OCDS_CodeLists.yaml#/components/schemas/ReleaseTag'
       description: >-
@@ -453,7 +453,7 @@ components:
             One or more values from the closed [releaseTag](https://standard.open-contracting.org/1.1/en/schema/codelists/#release-tag) codelist. 
             Tags can be used to filter releases and to understand the kind of information that releases might contain. For  the compiled version this contains compiled. 
             For an agreement this will always be in the planning stage. In call offs this may be something else from the codelist
-      title: Compiled Agreement Release Tag
+      title: Agreement Release Tag
       type: array
       items:
         type: string
@@ -576,9 +576,7 @@ components:
         date:
           description: Effective start date of Commercial Agreement
         tag:
-          allOf:
-            - $ref: '#/components/schemas/ReleaseTag'
-          example: compiled, planning
+          $ref: '#/components/schemas/AgreementReleaseTag'
         parties:
           type: array
           items:
@@ -854,14 +852,14 @@ components:
     LotSupplier:
       title: Agreement Suppliers (OCDS Organisations)
       oneOf:
-        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OCDS_Standards/CCS-OCDS_Schema.yaml#/components/schemas/Organization'
+        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OCDS_Standards/CCS-OCDS_Schema.yaml#/components/schemas/AgreementOrganization'
                 
     LotSupplierSummary:
       title: Suppliers (List of Non OCDS Supplier)
       type: object
       properties:
         organization: 
-          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OCDS_Standards/CCS-OCDS_Schema.yaml#/components/schemas/Organization'
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OCDS_Standards/CCS-OCDS_Schema.yaml#/components/schemas/AgreementOrganization'
         supplierStatus: 
           type: string
           enum: [active,suspended,excluded]
@@ -926,7 +924,7 @@ components:
             example: 'null'
           value:
             allOf:
-              - $ref: '#/components/schemas/AgreementValue'
+              - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OCDS_Standards/CCS-OCDS_Schema.yaml#/components/schemas/Value'
             description: >-
               The total upper estimated value of the procurement aloud within the agreement. A negative value
               indicates that the contracting process may involve payments from the
@@ -934,7 +932,7 @@ components:
               A null value can be replaced by a call off but cannot be exceeded. A null value is totally open.
           minValue:
             allOf:
-              - $ref: '#/components/schemas/AgreementValue'
+              - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OCDS_Standards/CCS-OCDS_Schema.yaml#/components/schemas/Value'
             description: >-
               The minimum estimated value of the procurement aloud within the agreement.  A negative value
               indicates that the contracting process may involve payments from the 
@@ -1057,6 +1055,7 @@ components:
           example: 'null'
 #
     AgreementOrganization:
+      title: Agreement Organisation
       allOf:
         - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OCDS_Standards/CCS-OCDS_Schema.yaml#/components/schemas/Organization'
       type: object
@@ -1064,21 +1063,11 @@ components:
         roles:
           type: array
           items:
-            type: string
-             # need to DELETE as appropriate items never allowed int an agreement. Rest can be added as part of call off.
-            enum:
-              - buyer
-              - procuringEntity
-              - supplier
-              - tenderer
-              - funder
-              - enquirer
-              - payer
-              - payee
-              - reviewBody
-              - interestedParty
+            $ref: '#/components/schemas/PartyRoles'
+          
 #
-    AgreementValue:
+    NullValue:
+      # Some values cannot be defined in an agremeent until the Call Off is created.
       allOf:
         - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OCDS_Standards/CCS-OCDS_Schema.yaml#/components/schemas/Value'
       type: object
@@ -1089,22 +1078,29 @@ components:
             example: 'null'
 #
     AgreementPeriod:
+    # Agreement can define the duration but not the dates these will be provided when a Call Off is created.
       allOf:
         - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OCDS_Standards/CCS-OCDS_Schema.yaml#/components/schemas/Period'
       type: object
       properties:
           startDate:
+            description: The start date for the period. When known, as part of a Call Off, a precise start date must be provided. For an agreement this will be null
             example: 'null'
           endDate:
+            description: The end date for the period. When known, as part of a Call Off, a precise end date must be provided. For an agreement this will be null
             example: 'null'
           maxExtentDate:
+            # Can this be defined when the agreement itself is superceded?
+            description: The period cannot be extended beyond this date. This field can be used to express the maximum available date for extension or renewal of this period. For an agreement this will be null
             example: 'null'
           durationInDays:
             example: 20
 #
     AgreementLanguage:
+      #allOf:
+      #  - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main#/CCS_OCDS_Standards/CCS-OCDS_Schema.yaml#/components/schemas/Language'
       allOf:
-        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OCDS_Standards/CCS-OCDS_Schema.yaml#/components/schemas/Language'
+        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/OCDS/OCDS_CodeLists.yaml#/components/schemas/Language'
       # Should Contracts contain option for other home languages??
       description: >-
         The language of the linked document using either two-letter
@@ -1115,6 +1111,29 @@ components:
         [ISO639-1](https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes) is
         recommended unless there is a clear user need for distinguishing the
         language subtype. CCS agreements will only be written in UK languages and generally English.
+        
+    AgreementPartyRoles:
+      title: Party roles
+      description: 'The party''s role(s) in the contracting process, using the open [partyRole](https://standard.open-contracting.org/latest/en/schema/codelists/#party-role) codelist.'
+      nullable: true
+      #type: array
+      #items:
+      type: string
+      # need to DELETE as appropriate items never allowed int an agreement. Rest can be added as part of call off.
+      enum:
+        #- buyer
+        #- procuringEntity
+        - supplier
+        #- tenderer
+        #- funder
+        #- enquirer
+        #- payer
+        - payee
+        - reviewBody
+        - interestedParty
+          # codelist: partyRole.csv
+          # openCodelist: true
+
 
 
 

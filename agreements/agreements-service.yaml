@@ -377,7 +377,8 @@ components:
           ocid:
             type: string
             description: Commercial Agreement Number
-            example: ocds-b5fd17-RM3733
+            example: 'ocds-b5fd17-RM3733'
+            pattern: 'ocds-b5fd17-RM[1-9]{4}-V[1-9]{4}'
           title:
             type: string
             description: Commercial Agreement Name
@@ -393,6 +394,7 @@ components:
           type: string
           description: 'A globally unique identifier for this Agreement. Composed of an ocid prefix and an identifier for the Agreement.'
           example: 'ocds-b5fd17-RM3733'
+          pattern: 'ocds-b5fd17-RM[1-9]{4}'
         releases:
           type: array
           items:
@@ -410,7 +412,7 @@ components:
         url:
           title: Agreement URL
           description: 'The URL of the of an earlier release of the Agreement'
-          example: 'https://www.crowncommercial.gov.uk/agreements/RM3733/releases/v1'
+          example: 'https://www.crowncommercial.gov.uk/agreements/RM3733/releases/V1'
         tag:
           $ref: '#/components/schemas/AgreementReleaseTag'  
  
@@ -431,7 +433,7 @@ components:
           - planningUpdate
       example: planning
             
-    CompiledAgreementRelease:
+    CompiledAgreementRelease: 
       allOf:
         - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OCDS_Standards/CCS-OCDS_Schema.yaml#/components/schemas/Release'
       title: Agreement (OCDS Release - Compiled)
@@ -439,9 +441,10 @@ components:
        # - $ref: '#/components/schemas/AgreementDetail'
       type: object
       properties:
-        id:
+        id: # I think this is redundant now as ID of compile release and any other release is the same. Check with Trevor.
           description: 'Version of the Agreement'
-          example: 'RM3733_compiled'
+          pattern: 'RM[1-9]{4}-V[1-9]{4}'
+          example: 'RM3733-V1'
         tag:
           $ref: '#/components/schemas/CompiledAgreementReleaseTag'
           
@@ -542,14 +545,14 @@ components:
           example: "batQuoteNotification"
 
         
-    AgreementReleases:
-      title: Release List (OCDS Release)
-      type: object
-      properties:
-       releases:
-        type: array
-        items:
-          $ref: '#/components/schemas/AgreementDetail'
+    #AgreementReleases: Not required as we have chosen Linked Releases not Embedded.
+    #  title: Release List (OCDS Release)
+    #  type: object
+    #  properties:
+    #   releases:
+    #    type: array
+    #    items:
+    #      $ref: '#/components/schemas/AgreementDetail'
  
 
 #
@@ -571,8 +574,8 @@ components:
           pattern: 'ocds-b5fd17-RM[1-9]{4}'
         id:
           description: 'Version of the Agreement'
-          example: 'RM3733_V1'
-          pattern: 'RM[1-9]{4}-V[1-9]{3}'
+          example: 'ocds-b5fd17-RM3733_V1'
+          pattern: 'ocds-b5fd17-RM[1-9]{4}-V[1-9]{4}'
         date:
           description: Effective start date of Commercial Agreement
         tag:
@@ -647,6 +650,17 @@ components:
         type:
           type: string
           enum: ["product","service","product and service"]
+          #
+          # enum: ProcurementCategory
+          #  - goods
+          #  - works
+          #  - services
+          # enum AdditionalProcurementCategories
+          # - goods
+          # - works
+          # - services
+          # - consultingServices
+          
         routesToMarket:
           type: array
           description: Routes to Market for the Lot and associated bounds
@@ -695,6 +709,17 @@ components:
       type: string
       enum: ["DirectAward" , "FurtherCompetition", "Marketplace", "EAuction"]
       example: "DirectAward"
+            #enum: SubmissionMethod
+      #    - electronicSubmission
+      #    - electronicAuction
+      #    - written
+      #    - inPerson 
+      #enum: ProcurementMethod
+      #  - open
+      #  - selective
+      #  - limited
+      #  - direct
+      
 #
     RouteToMarket:
       # Route to Market for the Lot complete with the rules which determine when it applies
@@ -841,11 +866,29 @@ components:
       type: object
       properties:
         id:
-          type: string
           example: "Lot 1a"
-        name:
-          type: string
+        title:
           example: "Finance"
+        #status:
+          #enum:
+          #Do some of these not apply to an agreement?
+            #- planning
+            #- planned
+            #- active
+            #- cancelled
+            #- unsuccessful
+            #- complete
+            #- withdrawn
+        contractPeriod:
+          $ref: '#/components/schemas/AgreementPeriod'
+        #selectionCriteria:
+        # Must always be one. What signifies optional criteria? Are ones specified required those not specified optional?
+        #techniques:
+        # Do techniques apply on a Framework or should it be null? 
+        #  - Framework would be self referencing
+        #  - DPS maybe appropriate
+        #  - Electronic Auction is not current but may be useful in the future
+            
           
       
 
@@ -859,7 +902,7 @@ components:
       type: object
       properties:
         organization: 
-          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OCDS_Standards/CCS-OCDS_Schema.yaml#/components/schemas/AgreementOrganization'
+          $ref: '#/components/schemas/AgreementOrganization'
         supplierStatus: 
           type: string
           enum: [active,suspended,excluded]
@@ -891,8 +934,8 @@ components:
       properties:
           id:
             description: 'An identifier for this tender process. This WILL be the same as the id for the agreeement, and will be replaced by  an internal identifier for call off tender.'
-            pattern: 'RM[1-9]{4}-compiled'
-            example: 'RM3733-compiled'
+            pattern: 'RM[1-9]{4}-V[1-9]{4}'
+            example: 'RM3733-V1'
           title:
             description: >-
               A overall title for this Agreement. This will be replaced by a title for this tender in any call off tender from this agreemnt. This will often be used by 
@@ -1055,7 +1098,6 @@ components:
           example: 'null'
 #
     AgreementOrganization:
-      title: Agreement Organisation
       allOf:
         - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OCDS_Standards/CCS-OCDS_Schema.yaml#/components/schemas/Organization'
       type: object
@@ -1063,7 +1105,7 @@ components:
         roles:
           type: array
           items:
-            $ref: '#/components/schemas/PartyRoles'
+            $ref: '#/components/schemas/AgreementPartyRoles'
           
 #
     NullValue:
@@ -1097,10 +1139,8 @@ components:
             example: 20
 #
     AgreementLanguage:
-      #allOf:
-      #  - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main#/CCS_OCDS_Standards/CCS-OCDS_Schema.yaml#/components/schemas/Language'
       allOf:
-        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/OCDS/OCDS_CodeLists.yaml#/components/schemas/Language'
+        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OCDS_Standards/CCS-OCDS_CodeLists.yaml#/components/schemas/Language'
       # Should Contracts contain option for other home languages??
       description: >-
         The language of the linked document using either two-letter
@@ -1111,6 +1151,8 @@ components:
         [ISO639-1](https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes) is
         recommended unless there is a clear user need for distinguishing the
         language subtype. CCS agreements will only be written in UK languages and generally English.
+      # Should Contracts contain option for other home languages??
+      example: 'en'
         
     AgreementPartyRoles:
       title: Party roles
@@ -1133,8 +1175,7 @@ components:
         - interestedParty
           # codelist: partyRole.csv
           # openCodelist: true
-
-
+          
 
 
 #
@@ -1142,3 +1183,4 @@ servers:
   # Added by API Auto Mocking Plugin
   - description: SwaggerHub API Auto Mocking
     url: https://virtserver.swaggerhub.com/davejhughes/agreement-service/v0.0
+

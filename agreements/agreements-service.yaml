@@ -933,9 +933,9 @@ components:
       type: object
       properties:
           id:
-            description: 'An identifier for this tender process. This WILL be the same as the id for the agreeement, and will be replaced by  an internal identifier for call off tender.'
-            pattern: 'RM[1-9]{4}-V[1-9]{4}'
-            example: 'RM3733-V1'
+            description: 'An identifier for this tender process. This WILL be the same as the id for the agreeement, and will be replaced by  an internal identifier for the call off tender.'
+            example: 
+            
           title:
             description: >-
               A overall title for this Agreement. This will be replaced by a title for this tender in any call off tender from this agreemnt. This will often be used by 
@@ -954,6 +954,7 @@ components:
           status:
             description: 'An agreement will always be planning but will be replaced by the current status of the tender'
             example: 'planning'
+            # allway planning.
           procuringEntity:
             description: >-
               A null value that will be replaced by the entity managing the procurement. This may be different
@@ -972,7 +973,7 @@ components:
               The total upper estimated value of the procurement aloud within the agreement. A negative value
               indicates that the contracting process may involve payments from the
               supplier to the buyer (commonly used in concession contracts).
-              A null value can be replaced by a call off but cannot be exceeded. A null value is totally open.
+              A defined value can be replaced by a call off but cannot be exceeded. A null value is totally open.
           minValue:
             allOf:
               - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OCDS_Standards/CCS-OCDS_Schema.yaml#/components/schemas/Value'
@@ -980,13 +981,29 @@ components:
               The minimum estimated value of the procurement aloud within the agreement.  A negative value
               indicates that the contracting process may involve payments from the 
               supplier to the buyer (commonly used in concession contracts).
-              A null value can be replaced by a call off but cannot be ubndercut. A null value is totally open.
+              A defined value can be replaced by a call off but cannot be ubndercut. A null value is totally open.
           procurementMethod:
             description: >-
               The procurement method, from the closed [method](https://standard.open-contracting.org/1.1/e
               /schema/codelists/#method)
-              codelist. If null the this can be defined by the user of the Agreement.
-            example: 'open'
+              codelist. If defined any call off must follow thed value. if null the callOf can be defined by the user of the Agreement.
+            example: 'selective'
+          procurementMethodDetails:
+            description: >- 
+              Additional detail on the procurement method used. This field can be used to 
+              provide the local name of the particular procurement method used. In an agreement this will always be null and defined at call Of'
+          procurementMethodRationale:
+            description: >- 
+              Rationale for the chosen procurement method. This is especially important to provide a justification in the case of limited tenders or direct awards. 
+              In an agreement this will always be null and defined at call Of'
+          mainProcurementCategory:    
+            description: >-
+              The primary category describing the main object of this contracting process, from the closed procurementCategory codelist. 
+              If this is null then it can be defined in the call. If defined it must be the promary mainProcurementCategory'
+              
+          additionalProcurementCategories:
+            description: >-
+              'Any additional categories describing the objects of this contracting process, using the open extendedProcurementCategory codelist. For an agreeement this lists all the options for procurement categories. The callOf can choose which ones are appropraite and move one to the the mainProcurementCategory.'
           awardCriteria:
             description: >-
               The award criteria for the procurement, using the open
@@ -1087,15 +1104,20 @@ components:
         dueDate:
           pattern: 'null'
           example: 'null'
+          description: 'The date the milestone is due. For agreements this null and will be defined in the call off'
         dateMet:
           pattern: 'null'
           example: 'null'
+          description: 'The date on which the milestone was met. For agreements this null and will be defined in the call off'
         dateModified:
           pattern: 'null'
           example: 'null'
+          description: 'The date the milestone was last reviewed or modified and the status was altered or confirmed to still be correct. For agreements this null and will be defined in the call off'
         status:
           pattern: 'null'
-          example: 'null'
+          example: 'Scheduled'
+          description: 'The status that was realized on the date provided in dateModified, from the closed milestoneStatus codelist. In the case of any milestones set on an agreement this will be set to scheduled until a call of is defined.'
+          
 #
     AgreementOrganization:
       allOf:

@@ -134,7 +134,7 @@ paths:
           content:
             application/vnd.api+json:
               schema:
-                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/CAT_initial/cat/cat-schema.yaml#/components/schemas/TeamList'
+                $ref: '#/components/schemas/TeamList'
         '401':
           $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/401Unauthorized'
         '403':
@@ -152,7 +152,7 @@ paths:
         content:
           application/vnd.api+json::
             schema:
-              $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/CAT_initial/cat/cat-schema.yaml#/components/schemas/Team'
+              $ref: '#/components/schemas/Team'
 
       responses:
         '201':
@@ -160,7 +160,7 @@ paths:
             content:
                 application/vnd.api+json:
                     schema:
-                        $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/CAT_initial/cat/cat-schema.yaml#/components/schemas/TeamID'
+                        $ref: '#/components/schemas/TeamID'
         '401':
           $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/401Unauthorized'
         '403':
@@ -215,7 +215,7 @@ paths:
           content:
             application/vnd.api+json:
               schema:
-                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/CAT_initial/cat/cat-schema.yaml#/components/schemas/TeamMemberList'
+                $ref: '#/components/schemas/TeamMemberList'
         '401':
           $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/401Unauthorized'
         '403':
@@ -244,7 +244,7 @@ paths:
         content:
           application/vnd.api+json:
             schema:
-              $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/CAT_initial/cat/cat-schema.yaml#/components/schemas/TeamMember'
+              $ref: '#/components/schemas/TeamMember'
       responses:
         '200':
           $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/200Success'
@@ -253,7 +253,7 @@ paths:
           content:
             application/vnd.api+json:
               schema:
-                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/CAT_initial/cat/cat-schema.yaml#/components/schemas/TeamMemberID'
+                $ref: '#/components/schemas/TeamMemberID'
         '401':
           $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/401Unauthorized'
         '403':
@@ -274,7 +274,7 @@ paths:
           content:
             application/vnd.api+json:
               schema:
-                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/CAT_initial/cat/cat-schema.yaml#/components/schemas/TeamMemberList'
+                $ref: '#/components/schemas/TeamMemberList'
         '401':
           $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/401Unauthorized'
         '403':
@@ -303,7 +303,7 @@ paths:
           content:
             application/vnd.api+json:
               schema:
-                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/CAT_initial/cat/cat-schema.yaml#/components/schemas/TeamList'
+                $ref: '#/components/schemas/TeamList'
         '401':
           $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/401Unauthorized'
         '403':
@@ -326,7 +326,7 @@ paths:
           content:
             application/vnd.api+json:
               schema:
-                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/CAT_initial/cat/cat-schema.yaml#/components/schemas/EventTypes'
+                $ref: '#/components/schemas/EventTypes'
         '401':
           $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/401Unauthorized'
         '403':
@@ -346,6 +346,7 @@ paths:
       - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Params.yaml#/components/parameters/x-client'
 
     get:
+      deprecated: true
       description: Retrieve a default name for a Procurement Case using a given agreement.
       tags:
         - Create Procurement Project
@@ -356,7 +357,7 @@ paths:
           content:
             application/vnd.api+json:
               schema:
-                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/CAT_initial/cat/cat-schema.yaml#/components/schemas/DefaultName'
+                $ref: '#/components/schemas/DefaultName'
         '401':
           $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/401Unauthorized'
         '403':
@@ -388,7 +389,7 @@ paths:
           content:
             application/vnd.api+json:
               schema:
-                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/CAT_initial/cat/cat-schema.yaml#/components/schemas/DraftProcurementProject'
+                $ref: '#/components/schemas/DraftProcurementProject'
         '401':
           $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/401Unauthorized'
         '403':
@@ -422,7 +423,7 @@ paths:
           content:
             application/vnd.api+json:
               schema:
-                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/CAT_initial/cat/cat-schema.yaml#/components/schemas/DraftProcurementProject'
+                $ref: '#/components/schemas/DraftProcurementProject'
         '401':
           $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/401Unauthorized'
         '403':
@@ -456,7 +457,7 @@ paths:
           content:
             application/vnd.api+json:
               schema:
-                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/CAT_initial/cat/cat-schema.yaml#/components/schemas/DraftProcurementProject'
+                $ref: '#/components/schemas/DraftProcurementProject'
         '401':
           $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/401Unauthorized'
         '403':
@@ -487,7 +488,7 @@ paths:
           content:
             application/vnd.api+json:
               schema:
-                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/CAT_initial/cat/cat-schema.yaml#/components/schemas/DraftProcurementProject'
+                $ref: '#/components/schemas/DraftProcurementProject'
         '401':
           $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/401Unauthorized'
         '403':
@@ -551,8 +552,8 @@ paths:
             application/vnd.api+json:
               schema:
                 type: array
-                  items:
-                    $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/CAT_initial/cat/cat-schema.yaml#/components/schemas/ProjectPackageSummary'
+                items:
+                  $ref: '#/components/schemas/ProjectPackageSummary'
         '401':
           $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/401Unauthorized'
         '403':
@@ -582,7 +583,7 @@ paths:
           content:
             application/vnd.api+json:
               schema:
-                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/CAT_initial/cat/cat-schema.yaml#/components/schemas/ProjectPackage'
+                $ref: '#/components/schemas/ProjectPackage'
         '401':
           $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/401Unauthorized'
         '403':
@@ -642,7 +643,7 @@ paths:
           content:
             application/vnd.api+json:
               schema:
-                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/CAT_initial/cat/cat-schema.yaml#/components/schemas/TeamMemberList'
+                $ref: '#/components/schemas/TeamMemberList'
         '401':
           $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/401Unauthorized'
         '403':
@@ -672,7 +673,7 @@ paths:
           content:
             application/vnd.api+json:
               schema:
-                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/CAT_initial/cat/cat-schema.yaml#/components/schemas/TeamMemberList'
+                $ref: '#/components/schemas/TeamMemberList'
         '401':
           $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/401Unauthorized'
         '403':
@@ -698,7 +699,7 @@ paths:
           content:
             application/vnd.api+json:
               schema:
-                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/CAT_initial/cat/cat-schema.yaml#/components/schemas/TeamMemberList'
+                $ref: '#/components/schemas/TeamMemberList'
         '401':
           $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/401Unauthorized'
         '403':
@@ -730,7 +731,7 @@ paths:
               schema:
                 type: array
                 items:
-                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OCDS_Standards/CCS-OCDS_Schema.yaml#/components/schemas/Criterion'
+                  $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OCDS_Standards/CCS-OCDS_Schema.yaml#/components/schemas/Criterion'
         '401':
           $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/401Unauthorized'
         '403':
@@ -928,7 +929,7 @@ paths:
           content:
             application/vnd.api+json:
               schema:
-                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/CAT_initial/cat/cat-schema.yaml#/components/schemas/EventStatus'
+                $ref: '#/components/schemas/EventStatus'
         '401':
           $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/401Unauthorized'
         '403':
@@ -1299,7 +1300,7 @@ paths:
         content:
           application/vnd.api+json::
             schema:
-              $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/CAT_initial/cat/cat-schema.yaml#/components/schemas/ExtendCriteria'
+              $ref: '#/components/schemas/ExtendCriteria'
       responses:
         '200':
           $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/200Success'
@@ -1905,7 +1906,7 @@ paths:
           content:
             application/vnd.api+json:
               schema:
-                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/CAT_initial/cat/cat-schema.yaml#/components/schemas/TerminationTypes'
+                $ref: '#/components/schemas/TerminationTypes'
         '401':
           $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/401Unauthorized'
         '403':
@@ -1934,7 +1935,7 @@ paths:
         content:
           application/vnd.api+json:
             schema:
-              $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/CAT_initial/cat/cat-schema.yaml#/components/schemas/TerminationType'
+              $ref: '#/components/schemas/TerminationType'
       responses:
         '200':
           $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/200Success'
@@ -2012,6 +2013,350 @@ paths:
             - write
       summary: Sign Procurement
 components:
+
+  parameters:
+    
+    TeamParam:
+      name: teamID
+      in: path
+      required: true
+      description: Team ID
+      schema:
+        $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Schema.yaml#/components/schemas/GenericID'
+        
+    TeamMemberParam:
+      name: teamMemberID
+      in: path
+      required: true
+      description: Team member ID
+      schema:
+        $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Schema.yaml#/components/schemas/GenericID'
+        
+        
+    GMParam:
+      name: GuidedMatchHistoryID
+      in: query
+      required: true
+      description: Guided Match ID
+      schema:
+        $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Schema.yaml#/components/schemas/GenericID'
+        
+    FMParam:
+      name: FMID
+      in: query
+      required: true
+      description: Facilities Management Transfer ID
+      schema:
+        $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Schema.yaml#/components/schemas/GenericID'
+        
+    ProcurementParam:
+      name: procID
+      in: path
+      required: true
+      description: Procurement Project ID
+      schema:
+        $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Schema.yaml#/components/schemas/ProcurementID'
+        
+    EventParam:
+      name: eventID
+      in: path
+      required: true
+      description: Procurement Event ID
+      schema:
+        $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Schema.yaml#/components/schemas/GenericID'
+        
+    HLNeedParam:
+      name: hlNeedID
+      in: path
+      required: true
+      description: High Level Procurement Need ID
+      schema:
+        $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Schema.yaml#/components/schemas/GenericID'
+        
+    NeedParam:
+      name: needID
+      in: path
+      required: true
+      description: Procurement Need ID
+      schema:
+        $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Schema.yaml#/components/schemas/GenericID'
+
+        
+    ResponseParam:
+      name: responseID
+      in: path
+      required: true
+      description: Response ID to a Procurement Need
+      schema:
+        $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Schema.yaml#/components/schemas/GenericID'
+
+  schemas:
+    TeamID:
+      type: number
+      format: integer
+      example: 1234
+      readOnly: true
+      
+    TeamMemberID:
+      type: number
+      format: integer
+      example: 1234
+
+    TeamList:
+      type: array
+      items:
+        $ref: '#/components/schemas/Team'
+        
+    Team:
+      type: object
+      description: Team who work together on bids or procurements
+      required:
+        - name
+      properties: 
+        id:
+          description: 'Unique Identifier for the team.'
+          readOnly: true
+          allOf: 
+            - $ref: '#/components/schemas/TeamID'
+          
+        organisation:  
+          description: Organisation that has defined the team
+          allOf: 
+            - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Schema.yaml#/components/schemas/OrgID'
+        name:  
+          type: string
+          default: UAH
+          description: Name given to the team within the organisation
+          example: Procurment Team A
+          
+    TeamMemberList:
+      type: array
+      items:
+        $ref: '#/components/schemas/TeamMember'
+        
+    TeamMember:
+      type: object
+      description: Team who work together on bids or procurements
+      required:
+        - id
+        - name
+      properties: 
+        id:  
+          type: string
+          readOnly: true
+          format: uuid
+          description: 'ID of the team member'
+          example: 222
+        name:  
+          type: string
+          default: UAH
+          description: Name of the tream member
+          example: Fred Bloggs
+          
+    ExtendCriteria:
+      description: >-
+        Data required to extend the period for tender submissions. It must not exceed the orginal extention limit defined on a tender.
+      type: object
+      properties:
+        endDate:
+            title: End date
+            description: >-
+              The new end date for the period. 
+            type: string
+            nullable: true
+            format: date-time
+            
+            
+    ProjectPackageSummary:
+      title: Project Package Summary
+      description: >-
+        The project package contains a list of Event records within a single Procurement Project along with some publishing metadata. The Event Records pull together all the releases of a procurement process
+        under a single Open Contracting ID and compile them into the latest version of the information along with the history of any data changes. This summary shows the primary fields of the project package
+        and supporting data including the active event. Following the URI will provide the project details in OIDC format.
+      type: object
+      properties:
+        uri:
+          title: Package identifier
+          description: The URI of this package that identifies it uniquely in the world.
+          type: string
+          example: 'https://www.crowncommercial.gov.uk/tenders/ProcurementProjects/{ProcID}'
+          format: uri
+        #version:
+        #  title: OCDS schema version
+        #  description: 'The version of the OCDS schema used in this package, expressed as major.minor For example: 1.0 or 1.1'
+        #  type: string
+        #  pattern: ^(\d+\.)(\d+)$
+        #  example: '1.0'
+        #license:
+        #  title: License
+        #  description: 'A link to the license that applies to the data in this package. A Public Domain Dedication or [Open Definition Conformant](http://opendefinition.org/licenses/) license is recommended. The canonical URI of the license should be used. Documents linked from this file may be under other license conditions.'
+        #  nullable: true
+        #  type: string
+        #  format: uri
+        #publicationPolicy:
+        #  title: Publication policy
+        #  description: A link to a document describing the publishers publication policy.
+        #  nullable: true
+        #  type: string
+        #  format: uri
+        #  example: 'https://www.crowncommercial.gov.uk/agreements/publicationPolicy'
+        publishedDate:
+          title: Published date
+          description: 'The date that this package was published. If this package is generated ''on demand'', this date should reflect the date of the last change to the underlying contents of the package.'
+          type: string
+          format: date-time
+          example: 01/01/2021
+        procurementID:
+          type: string
+        projectName:
+          type: string
+        supportId:
+          type: string
+        activeEvent:
+          type: object
+          properties:
+            eventId: 
+              type: string
+            eventSuppordId: 
+              type: string
+            eventType:
+              type: string
+            eventStage:
+              type: string
+              
+    ProjectPackage:
+      allOf:
+        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OCDS_Standards/CCS-OCDS_Schema.yaml#/components/schemas/RecordPackage'
+      title: Project Package
+      description: The record package contains a list of Event records within a single procurement project along with some publishing metadata. The Event Records pull together all the releases of a procurement under a single Open Contracting ID and compile them into the latest version of the information along with the history of any data changes.
+      type: object
+      properties:
+        uri:
+          title: Package identifier
+          description: The URI of this package that identifies it uniquely in the world.
+          type: string
+          example: 'https://www.crowncommercial.gov.uk/tenders/ProcurementProjects/{ProcID}'
+          format: uri
+              
+              
+    
+    TerminationTypes:
+      description: >-
+        Ways to terminate a tender. There are several types-
+
+          * cancelled
+          * unsucessful
+          * complete
+          * withdrawn
+      type: array
+      items:
+        $ref: '#/components/schemas/TerminationType'
+      example: [
+        "cancelled",
+        "unsuccessful",
+        "complete",
+        "withdrawn"
+        ]
+        
+          
+    TerminationType:
+      allOf:
+        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OCDS_Standards/CCS-OCDS_Schema.yaml#/components/schemas/TenderStatus'
+      title: RFx types
+      description: >-
+        Subset of the codes in [tenderStatus](https://standard.open-contracting.org/1.1/en/schema/codelists/#tender-status) codelist.
+        This subset are those used to terminate an RFx.
+      type: object
+      properties:
+        terminationType:
+          type: string
+          enum:
+            - cancelled
+            - unsuccessful
+            - complete
+            - withdrawn.
+    
+        
+    EventTypes:
+      description: >-
+        Generic term for an event put out to the market. There are several types-
+
+          * EOI - Expression of Interest
+          * RFI -  Request for Information
+          * RFP - Request for Proposal
+      type: array
+      items:
+        $ref: '#/components/schemas/EventType'
+      example: [
+        "EOI",
+        "RFI",
+        "RFP"
+        ]
+        
+        
+    EventType:
+      title: Event types
+      description: >-
+        Generic term for an event put out to the market. There are several types-
+
+          * EOI - Expression of Interest
+          * RFI -  Request for Information
+          * RFP - Request for Proposal
+      type: string
+      enum:
+          - EOI
+          - RFI
+          - RFP
+        
+    EventStatus:
+      description: >-
+        Generic term for an event put out to the market. Each is an optional procurement step in the procurement process. This casll shows the current status of each in the procurement process.
+      type: array
+      items:
+        type: object
+        properties:
+          id: 
+            type: string
+          ocid:
+            type: string
+          type:
+            allOf:
+              - $ref: '#/components/schemas/EventType'
+            example: RFP
+          status:
+            type: string
+            allOf:
+              - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OCDS_Standards/CCS-OCDS_Schema.yaml#/components/schemas/TenderStatus'
+              
+    DraftProcurementProject:
+      type: object
+      properties:
+        pocurementID:
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Schema.yaml#/components/schemas/GenericID'
+        eventID:
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Schema.yaml#/components/schemas/GenericID'
+        defaultName:
+          $ref: '#/components/schemas/DefaultName'
+              
+    DefaultName:
+      type: object
+      properties:
+        name:
+          type: string
+          example: <org>-<agreement>-<ID>
+        components:
+          type: object
+          properties:
+            org:
+              type: string
+              example: <org>
+            agreement:
+              type: string
+              example: <agreement>
+            identifier:
+              $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Schema.yaml#/components/schemas/GenericID'
+              
+              
   securitySchemes:
     openID:
       type: openIdConnect

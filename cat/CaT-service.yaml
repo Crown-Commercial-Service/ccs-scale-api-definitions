@@ -2241,6 +2241,7 @@ components:
               
     
     TerminationTypes:
+      title: Termination Options
       description: >-
         Ways to terminate a tender. There are several types-
 
@@ -2262,10 +2263,10 @@ components:
     TerminationType:
       allOf:
         - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OCDS_Standards/CCS-OCDS_Schema.yaml#/components/schemas/TenderStatus'
-      title: RFx types
+      title: Termination Type
       description: >-
         Subset of the codes in [tenderStatus](https://standard.open-contracting.org/1.1/en/schema/codelists/#tender-status) codelist.
-        This subset are those used to terminate an RFx.
+        This subset are those used to terminate an Event (or RFx).
       type: object
       properties:
         terminationType:
@@ -2275,6 +2276,7 @@ components:
             - unsuccessful
             - complete
             - withdrawn.
+      example: "cancelled"
     
         
     EventTypes:

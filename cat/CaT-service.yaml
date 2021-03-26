@@ -688,11 +688,6 @@ paths:
       tags:
         - Manage Procurement Project
       operationId: AddProjectUser
-      requestBody:
-        content:
-          application/vnd.api+json:
-            schema:
-              $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Schema.yaml#/components/schemas/GenericID'
       responses:
         '200':
           description: ok
@@ -710,18 +705,19 @@ paths:
       summary: Add a project user 
       
     
-  /tenders/ProcurementProjects/{procID}/HLneeds:
+  /tenders/ProcurementProjects/{procID}/events{eventID}/needs:
     parameters:
       - $ref: '#/components/parameters/ProcurementParam'
+      - $ref: '#/components/parameters/EventParam'
       - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Params.yaml#/components/parameters/x-correlation-id'
       - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Params.yaml#/components/parameters/x-causation-id'
       - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Params.yaml#/components/parameters/x-channel'
       - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Params.yaml#/components/parameters/x-client'
 
     get:
-      description: Get the High Level needs required for this Project
+      description: Get the Needs required for this Event
       tags:
-        - Manage Procurement Project
+        - Define Procurement Event
       operationId: GetHLNeeds
       responses:
         '200':
@@ -741,9 +737,10 @@ paths:
             - buyer
       summary: Get Event Needs
       
-  /tenders/ProcurementProjects/{procID}/HLneeds/{needID}/forms:
+  /tenders/ProcurementProjects/{procID}/events/{eventID}/needs/{needID}/forms:
     parameters:
       - $ref: '#/components/parameters/ProcurementParam'
+      - $ref: '#/components/parameters/EventParam'
       - $ref: '#/components/parameters/NeedParam'
       - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Params.yaml#/components/parameters/x-correlation-id'
       - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Params.yaml#/components/parameters/x-causation-id'
@@ -751,9 +748,9 @@ paths:
       - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Params.yaml#/components/parameters/x-client'
 
     get:
-      description: Get form data for this high level need.
+      description: Get form data for this need.
       tags:
-        - Manage Procurement Project
+        - Define Procurement Event
       operationId: HLNeedForm
       responses:
         '200':
@@ -796,9 +793,10 @@ paths:
             - buyer
       summary: Confirm procurement case
       
-  /tenders/ProcurementProjects/{procID}/HLNeeds/{needID}/documents:
+  /tenders/ProcurementProjects/{procID}/events{eventID}/needs/{needID}/documents:
     parameters:
       - $ref: '#/components/parameters/ProcurementParam'
+      - $ref: '#/components/parameters/EventParam'
       - $ref: '#/components/parameters/NeedParam'
       - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Params.yaml#/components/parameters/x-correlation-id'
       - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Params.yaml#/components/parameters/x-causation-id'
@@ -892,7 +890,7 @@ paths:
     get:
       description: Get Events status's for this Project (Is this the same as get RFx's?)
       tags:
-        - Define Procurement Event
+        - Manage Procurement Project
       operationId: RFXStatus
       responses:
         '200':
@@ -921,7 +919,7 @@ paths:
     get:
       description: Get Event's for this Project. In OCDS this is the related cases of Type
       tags:
-        - Define Procurement Event
+        - Manage Procurement Project
       operationId: caseRFXs
       responses:
         '200':
@@ -941,7 +939,7 @@ paths:
     post:
       description: Creates a new Event for the Procurement Project.
       tags:
-        - Define Procurement Event
+        - Manage Procurement Project
         - ITT Events
       operationId: createCaseRFx
       requestBody:
@@ -997,61 +995,6 @@ paths:
             - buyer
       summary: Get Event Needs
       
-  /tenders/ProcurementProjects/{procID}/events/{eventID}/needs/{needID}/forms:
-    parameters:
-      - $ref: '#/components/parameters/ProcurementParam'
-      - $ref: '#/components/parameters/EventParam'
-      - $ref: '#/components/parameters/NeedParam'
-      - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Params.yaml#/components/parameters/x-correlation-id'
-      - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Params.yaml#/components/parameters/x-causation-id'
-      - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Params.yaml#/components/parameters/x-channel'
-      - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Params.yaml#/components/parameters/x-client'
-
-    get:
-      description: Get form data for this high level need.
-      tags:
-        - Define Procurement Event
-      operationId: NeedForm
-      responses:
-        '200':
-          description: ok
-          content:
-            application/vnd.api+json:
-              schema:
-                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OCDS_Standards/CCS-OCDS_Schema.yaml#/components/schemas/Criterion'
-        '401':
-          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/401Unauthorized'
-        '403':
-          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/403Forbidden'
-      security:
-        - OAuth2:
-            - buyer
-      summary: Get HL Need forms
-    put:
-      description: Updates form data for a High Level Need.
-      tags:
-        - Define Procurement Event
-      operationId: updateNeedForm
-      requestBody:
-        content:
-          application/vnd.api+json::
-            schema:
-              $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OCDS_Standards/CCS-OCDS_Schema.yaml#/components/schemas/Requirement'
-      responses:
-        '200':
-          description: ok
-          content:
-            application/vnd.api+json:
-              schema:
-                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Schema.yaml#/components/schemas/GenericID'
-        '401':
-          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/401Unauthorized'
-        '403':
-          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/403Forbidden'
-      security:
-        - OAuth2:
-            - buyer
-      summary: Confirm procurement case
       
   /tenders/ProcurementProjects/{procID}/events/{eventID}/Needs/{needID}/documents:
     parameters:
@@ -1468,7 +1411,8 @@ paths:
       security:
         - OAuth2:
             - buyer
-      summary: Get response HL Needs
+      summary: Get responses to a need
+      
   /tenders/ProcurementProjects/{procID}/events/{eventID}/responses/{responseID}/needs/{needID}/forms:
     parameters:
       - $ref: '#/components/parameters/ProcurementParam'
@@ -2147,11 +2091,20 @@ components:
           format: uuid
           description: 'ID of the team member'
           example: 222
-        name:  
-          type: string
-          default: UAH
-          description: Name of the tream member
-          example: Fred Bloggs
+        contact:
+          allOf:
+            - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OCDS_Standards/CCS-OCDS_Schema.yaml#/components/schemas/ContactPoint'
+          properties:
+            name:
+              description: Name of the tream member
+            email:
+              description: eMail address of the tream member
+            telephone:
+              description: Telephone number of the tream member
+            faxNumber:
+              description: Fax number of the tream member
+            url:
+              description: URL of the tream member
           
     ExtendCriteria:
       description: >-
@@ -2266,7 +2219,7 @@ components:
       title: Termination Type
       description: >-
         Subset of the codes in [tenderStatus](https://standard.open-contracting.org/1.1/en/schema/codelists/#tender-status) codelist.
-        This subset are those used to terminate an Event (or RFx).
+        This subset are those used to terminate an RFx.
       type: object
       properties:
         terminationType:
@@ -2277,6 +2230,7 @@ components:
             - complete
             - withdrawn.
       example: "cancelled"
+        
     
         
     EventTypes:

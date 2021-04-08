@@ -1213,6 +1213,7 @@ paths:
         - OAuth2:
             - buyer
       summary: Get Event's for the Procurement Project
+      
     post:
       description: Creates a new Event for the Procurement Project.
       tags:
@@ -1229,7 +1230,7 @@ paths:
           content:
             application/vnd.api+json:
               schema:
-                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Schema.yaml#/components/schemas/GenericID'
+                $ref: '#/components/schemas/EventStatus'
         '401':
           $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/401Unauthorized'
         '403':
@@ -2660,10 +2661,24 @@ components:
       items:
         type: object
         properties:
-          id: 
+          projectID: 
             type: string
+            example: 00002468
+            description: project_1055 mapped to CaT (project ID) 00002468
+          eventID: 
+            type: string
+            example: 00013579
+            description: itt_2468 mapped to CaT (eventID) 00013579 
           ocid:
             type: string
+          supportID:
+            type: string
+            example: itt_2468
+            description: ID to allow support staff to support this event. 
+          name:
+            type: string
+            example: RM6118-Lot 2-Crown Commercial Services
+            description: Name of the event.
           type:
             allOf:
               - $ref: '#/components/schemas/EventType'

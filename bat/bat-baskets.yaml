@@ -54,7 +54,7 @@ paths:
         - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Params.yaml#/components/parameters/x-channel'
         - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Params.yaml#/components/parameters/x-client'
         - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Params.yaml#/components/parameters/DetailParam'
-        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/bat/bat-params.yaml#/components/parameters/OrderScopeParam'
+        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/CAT_initial/bat/bat-params.yaml#/components/parameters/OrderScopeParam'
       responses:
         200:
           description: Array of Saved Baskets for the specified scope ([user],Organisation,BuyerGroup)
@@ -79,7 +79,7 @@ paths:
         - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Params.yaml#/components/parameters/x-causation-id'
         - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Params.yaml#/components/parameters/x-channel'
         - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Params.yaml#/components/parameters/x-client'
-        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/bat/bat-params.yaml#/components/parameters/BasketParam'
+        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/CAT_initial/bat/bat-params.yaml#/components/parameters/BasketParam'
 
     get:
       summary: Returns the specified Saved Basket 
@@ -177,7 +177,7 @@ paths:
         - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Params.yaml#/components/parameters/x-causation-id'
         - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Params.yaml#/components/parameters/x-channel'
         - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Params.yaml#/components/parameters/x-client'
-        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/bat/bat-params.yaml#/components/parameters/BasketParam'
+        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/CAT_initial/bat/bat-params.yaml#/components/parameters/BasketParam'
 
     get:
       summary: Makes the specified Saved Basket the Active Basket 
@@ -272,7 +272,7 @@ paths:
               schema:
                 type: "array"
                 items:
-                  $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/bat/bat-schema.yaml#/components/schemas/SupplierOrder'
+                  $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/CAT_initial/bat/bat-schema.yaml#/components/schemas/SupplierOrder'
         500:
           description: Internal server error.
           content:
@@ -392,7 +392,7 @@ paths:
         - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Params.yaml#/components/parameters/x-channel'
         - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Params.yaml#/components/parameters/x-client'
         - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Params.yaml#/components/parameters/DetailParam'
-        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/bat/bat-params.yaml#/components/parameters/OrderScopeParam'
+        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/CAT_initial/bat/bat-params.yaml#/components/parameters/OrderScopeParam'
       responses:
         200:
           description: Array of Quotes for the specified scope ([user],Organisation,BuyerGroup)
@@ -569,7 +569,7 @@ paths:
               schema:
                 type: "array"
                 items:
-                  $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/bat/bat-schema.yaml#/components/schemas/SupplierOrder'
+                  $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/CAT_initial/bat/bat-schema.yaml#/components/schemas/SupplierOrder'
         401:
           description: Unauthorised.
           content:
@@ -607,13 +607,13 @@ components:
 # 1. remember to do oneOf for Detail/Summary for the depths of the Order object
     Basket:
       allOf:
-        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/bat/bat-schema.yaml#/components/schemas/OrderBase'
+        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/CAT_initial/bat/bat-schema.yaml#/components/schemas/OrderBase'
 
     NewLineItem:
       type: object
       properties:
         item:
-          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/bat/bat-schema.yaml#/components/schemas/ItemID'
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/CAT_initial/bat/bat-schema.yaml#/components/schemas/ItemID'
         itemDeliveryAddressID:
           type: number
           format: integer
@@ -626,7 +626,7 @@ components:
 
     SavedBasket:
       allOf:
-        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/bat/bat-schema.yaml#/components/schemas/OrderBase'
+        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/CAT_initial/bat/bat-schema.yaml#/components/schemas/OrderBase'
       type: object
       properties:
         name:
@@ -638,11 +638,11 @@ components:
           format: date-time
           example: "2020-12-25T17:32:28Z"
         shareLevel:
-          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/bat/bat-schema.yaml#/components/schemas/ShareScope'
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/CAT_initial/bat/bat-schema.yaml#/components/schemas/ShareScope'
 
     SavedBasketSummary:
       allOf:
-        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/bat/bat-schema.yaml#/components/schemas/OrderBaseSummary'
+        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/CAT_initial/bat/bat-schema.yaml#/components/schemas/OrderBaseSummary'
       type: object
       properties:
         name:
@@ -654,7 +654,7 @@ components:
           format: date-time
           example: "2020-12-25T17:32:28Z"
         shareLevel:
-          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/bat/bat-schema.yaml#/components/schemas/ShareScope'
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/CAT_initial/bat/bat-schema.yaml#/components/schemas/ShareScope'
 
     SavedBasketParams:
       type: object
@@ -664,7 +664,7 @@ components:
           description: The name of the saved Basket
           example: Standard Office Equipment
         shareLevel:
-          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/bat/bat-schema.yaml#/components/schemas/ShareScope'
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/CAT_initial/bat/bat-schema.yaml#/components/schemas/ShareScope'
   
     CreateQuoteParams:
       type: object
@@ -674,7 +674,7 @@ components:
           description: The name of the Quote
           example: Standard Office Equipment
         shareLevel:
-          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/bat/bat-schema.yaml#/components/schemas/ShareScope'
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/CAT_initial/bat/bat-schema.yaml#/components/schemas/ShareScope'
         poNumber:
           type: string
           description: Purchase Order Number for the quote(s)
@@ -688,7 +688,7 @@ components:
           description: The name of the Quote
           example: Standard Office Equipment
         shareLevel:
-          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/bat/bat-schema.yaml#/components/schemas/ShareScope'
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/CAT_initial/bat/bat-schema.yaml#/components/schemas/ShareScope'
         supplierStatus:
           $ref: '#/components/schemas/QuoteSupplierStatus'
         buyerApprovalStatus:
@@ -700,7 +700,7 @@ components:
   
     Quote:
       allOf:
-        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/bat/bat-schema.yaml#/components/schemas/OrderBase'
+        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/CAT_initial/bat/bat-schema.yaml#/components/schemas/OrderBase'
       type: object
       properties:
         name:
@@ -712,7 +712,7 @@ components:
           description: Buyer purchase order number
           example: PO1234
         shareLevel:
-          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/bat/bat-schema.yaml#/components/schemas/ShareScope'
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/CAT_initial/bat/bat-schema.yaml#/components/schemas/ShareScope'
         supplierStatus:
           $ref: '#/components/schemas/QuoteSupplierStatus'
         buyerApprovalStatus:
@@ -722,9 +722,9 @@ components:
       type: object
       properties:
         id:
-          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/bat/bat-schema.yaml#/components/schemas/OrderID'
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/CAT_initial/bat/bat-schema.yaml#/components/schemas/OrderID'
         totalPrice:
-          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/bat/bat-schema.yaml#/components/schemas/Price'
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/CAT_initial/bat/bat-schema.yaml#/components/schemas/Price'
         ownerUserEmail: # Should this be name?
             type: string
             description: The email address of the user who created the order
@@ -750,7 +750,7 @@ components:
           description: Buyer purchase order number
           example: PO1234
         shareLevel:
-          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/bat/bat-schema.yaml#/components/schemas/ShareScope'
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/CAT_initial/bat/bat-schema.yaml#/components/schemas/ShareScope'
         supplierStatus:
           $ref: '#/components/schemas/QuoteSupplierStatus'
         buyerApprovalStatus:

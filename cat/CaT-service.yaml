@@ -2847,22 +2847,21 @@ components:
         
           
     TerminationType:
-      allOf:
-        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OCDS_Standards/CCS-OCDS_Schema.yaml#/components/schemas/TenderStatus'
+      # Remove comments to get full codelist.
+      #allOf:
+      #  - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OCDS_Standards/CCS-OCDS_Schema.yaml#/components/schemas/TenderStatus'
       title: Termination Type
       description: >-
         Subset of the codes in [tenderStatus](https://standard.open-contracting.org/1.1/en/schema/codelists/#tender-status) codelist.
         This subset are those used to terminate an RFx.
-      type: object
-      properties:
-        terminationType:
-          type: string
-          enum:
-            - cancelled
-            - unsuccessful
-            - complete
-            - withdrawn.
+      type: string
+      enum:
+        - cancelled
+        - unsuccessful
+        - complete
+        - withdrawn
       example: "cancelled"
+
         
     
         

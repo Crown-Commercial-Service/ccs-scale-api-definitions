@@ -3015,8 +3015,7 @@ components:
           type: string         
  
     Question:
-      allOf:
-        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OCDS_Standards/CCS-OCDS_Schema.yaml#/components/schemas/Requirement'
+      $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OCDS_Standards/CCS-OCDS_Schema.yaml#/components/schemas/Requirement'
       #description: >-
       #  Generic term for an event put out to the market. Each is an optional procurement step in the procurement process. This casll shows the current status of each in the procurement process.
       #type: array

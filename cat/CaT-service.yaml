@@ -2813,9 +2813,6 @@ components:
     ProjectPackage:
       allOf:
         - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OCDS_Standards/CCS-OCDS_Schema.yaml#/components/schemas/RecordPackage'
-      title: Project Package
-      description: The record package contains a list of Event records within a single procurement project along with some publishing metadata. The Event Records pull together all the releases of a procurement under a single Open Contracting ID and compile them into the latest version of the information along with the history of any data changes.
-      type: object
       properties:
         uri:
           title: Package identifier
@@ -2823,6 +2820,9 @@ components:
           type: string
           example: 'https://www.crowncommercial.gov.uk/tenders/projects/{ProcID}'
           format: uri
+      title: Project Package
+      description: The record package contains a list of Event records within a single procurement project along with some publishing metadata. The Event Records pull together all the releases of a procurement under a single Open Contracting ID and compile them into the latest version of the information along with the history of any data changes.
+      type: object
               
               
     

@@ -2962,18 +2962,15 @@ components:
       properties:
         name:
           type: string
-          example: <org>-<agreement>-<ID>
+          example: <agreementID>-<lotID>-<org>
         components:
           type: object
+          allOf:
+            - $ref: '#/components/schemas/AgreementDetails'
           properties:
             org:
               type: string
-              example: <org>
-            agreement:
-              type: string
-              example: <agreement>
-            identifier:
-              $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Schema.yaml#/components/schemas/GenericID'
+              example: CCS
               
     EvalCriteria:
       description: >-

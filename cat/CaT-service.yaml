@@ -2964,13 +2964,13 @@ components:
           type: string
           example: <agreementID>-<lotID>-<org>
         components:
-          type: object
           allOf:
             - $ref: '#/components/schemas/AgreementDetails'
-          properties:
-            org:
-              type: string
-              example: CCS
+            - type: object
+              properties:
+                org:
+                  type: string
+                  example: CCS
               
     EvalCriteria:
       description: >-

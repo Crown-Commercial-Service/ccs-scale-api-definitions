@@ -2964,13 +2964,15 @@ components:
           type: string
           example: <agreementID>-<lotID>-<org>
         components:
-          allOf:
-            - $ref: '#/components/schemas/AgreementDetails'
-            - type: object
-              properties:
-                org:
-                  type: string
-                  example: CCS
+          type: object
+          properties:
+            agreementID:
+              $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Schema.yaml#/components/schemas/AgreementID'
+            lotID:
+              $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Schema.yaml#/components/schemas/LotID'
+            org:
+              type: string
+              example: CCS
               
     EvalCriteria:
       description: >-

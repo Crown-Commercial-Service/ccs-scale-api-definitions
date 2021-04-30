@@ -2951,9 +2951,12 @@ components:
       type: object
       properties:
         pocurementID:
-          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Schema.yaml#/components/schemas/GenericID'
+          type: string
+          format: uuid
         eventID:
-          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Schema.yaml#/components/schemas/GenericID'
+          type: string
+          description: OCID for the event
+          example: ocds-abc123-00001
         defaultName:
           $ref: '#/components/schemas/DefaultName'
               
@@ -2965,9 +2968,11 @@ components:
           example: <agreementID>-<lotID>-<org>
         components:
           type: object
-          allOf:
-            - $ref: '#/components/schemas/AgreementDetails'
           properties:
+            agreementID:
+              $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Schema.yaml#/components/schemas/AgreementID'
+            lotID:
+              $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Schema.yaml#/components/schemas/LotID'
             org:
               type: string
               example: CCS

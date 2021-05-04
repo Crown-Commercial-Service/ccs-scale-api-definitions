@@ -2964,13 +2964,9 @@ components:
       type: object
       properties:
         pocurementID:
-          type: string
-          pattern: '^[0-9]+$'
-          example: 1234
+          $ref: https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Schema.yaml#/components/schemas/ProcurementProjectID
         eventID:
-          type: string
-          description: OCID for the event
-          example: ocds-abc123-00001
+          $ref: https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Schema.yaml#/components/schemas/ProcurementEventID
         defaultName:
           $ref: '#/components/schemas/DefaultName'
               

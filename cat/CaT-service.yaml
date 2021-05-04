@@ -2965,7 +2965,8 @@ components:
       properties:
         pocurementID:
           type: string
-          format: uuid
+          pattern: '^[0-9]+$'
+          example: 1234
         eventID:
           type: string
           description: OCID for the event

@@ -1267,8 +1267,6 @@ paths:
   /tenders/projects/{procID}/status:
     parameters:
       - $ref: '#/components/parameters/ProcurementParam'
-
-
     get:
       description: Get Events status's for this Project (Is this the same as get RFx's?)
       tags:
@@ -1296,11 +1294,10 @@ paths:
             - buyer
       summary: Get get Event statuses on Procurement Project
       
+      
   /tenders/projects/{procID}/events:
     parameters:
       - $ref: '#/components/parameters/ProcurementParam'
-
-
     get:
       description: Get Event's for this Project. In OCDS this is the related cases of Type
       tags:
@@ -1312,7 +1309,9 @@ paths:
           content:
             application/vnd.api+json:
               schema:
-                $ref: '#/components/schemas/EventStatus'
+                type: array
+                items:
+                  $ref: '#/components/schemas/EventStatus'
         '401':
           $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/401Unauthorized'
         '403':
@@ -1364,8 +1363,6 @@ paths:
     parameters:
       - $ref: '#/components/parameters/ProcurementParam'
       - $ref: '#/components/parameters/EventParam'
-
-
     get:
       deprecated: true
       description: Get the needs required for the Event for this Project
@@ -2524,7 +2521,7 @@ components:
       required: true
       description: Procurement Project ID
       schema:
-        $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Schema.yaml#/components/schemas/ProcurementID'
+        $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Schema.yaml#/components/schemas/ProcurementProjectID'
         
     EventParam:
       name: eventID
@@ -2532,7 +2529,7 @@ components:
       required: true
       description: Procurement Event ID
       schema:
-        $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Schema.yaml#/components/schemas/GenericID'
+        $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Schema.yaml#/components/schemas/ProcurementEventID'
         
     CriterionParam:
       name: criterionID
@@ -2792,22 +2789,26 @@ components:
           type: string
           format: date-time
           example: 01/01/2021
-        procurementID:
-          type: string
+        projectID:
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Schema.yaml#/components/schemas/ProcurementProjectID'
         projectName:
+          example: RM6118-Lot 2-Crown Commercial Services
           type: string
         supportId:
+          example: project_1055
           type: string
         activeEvent:
           type: object
           properties:
             eventId: 
-              type: string
-            eventSuppordId: 
+              $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Schema.yaml#/components/schemas/ProcurementEventID'
+            eventSuppordId:
+              example: itt_2468
               type: string
             eventType:
-              type: string
+              $ref: '#/components/schemas/EventType'
             eventStage:
+              example: Tender
               type: string
               
     ProjectPackage:
@@ -2890,45 +2891,57 @@ components:
           * EOI - Expression of Interest
           * RFI -  Request for Information
           * RFP - Request for Proposal
+          * DA  - Direct Award
+          * SL  - Short Listing
       type: string
       enum:
           - EOI
           - RFI
           - RFP
+          - DA
+          - SL
         
     EventStatus:
       description: >-
         Generic term for an event put out to the market. Each is an optional procurement step in the procurement process. This casll shows the current status of each in the procurement process.
       type: array
       items:
+        allOf:
+          - $ref: '#/components/schemas/EventSummary'
         type: object
         properties:
           projectID: 
-            type: string
-            example: 00002468
-            description: project_1055 mapped to CaT (project ID) 00002468
-          eventID: 
-            type: string
-            example: 00013579
-            description: itt_2468 mapped to CaT (eventID) 00013579 
-          ocid:
-            type: string
-          supportID:
-            type: string
-            example: itt_2468
-            description: ID to allow support staff to support this event. 
-          name:
-            type: string
-            example: RM6118-Lot 2-Crown Commercial Services
-            description: Name of the event.
-          type:
-            allOf:
-              - $ref: '#/components/schemas/EventType'
-            example: RFP
-          status:
-            type: string
-            allOf:
-              - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OCDS_Standards/CCS-OCDS_Schema.yaml#/components/schemas/TenderStatus'
+            $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Schema.yaml#/components/schemas/ProcurementProjectID'
+            #description: project_1055 mapped to CaT (project ID) 00002468
+          
+          
+    EventSummary:
+      description: >-
+        Generic term for an event put out to the market. Each is an optional procurement step in the procurement process. This casll shows the current status of each in the procurement process.
+      type: object
+      properties:   
+        eventID:
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Schema.yaml#/components/schemas/ProcurementEventID'
+            #type: string
+            #example: 00013579
+            #description: itt_2468 mapped to CaT (eventID) 00013579 
+        eventSupportID:
+          type: string
+          example: itt_2468
+          description: ID to allow support staff to support this event. 
+        name:
+          type: string
+          example: RM6118-Lot 2-Crown Commercial Services
+          description: Name of the event.
+        eventType:
+          $ref: '#/components/schemas/EventType'
+        eventStage:
+          example: Tender
+          type: string
+        status:
+          type: string
+          allOf:
+            - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OCDS_Standards/CCS-OCDS_Schema.yaml#/components/schemas/TenderStatus'
                   
     ProjectTerminationType:
       #allOf:

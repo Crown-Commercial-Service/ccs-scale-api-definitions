@@ -59,7 +59,9 @@ paths:
               schema:
                 oneOf:
                   #- $ref: '#/components/schemas/CompiledAgreementRelease'
-                  - $ref: '#/components/schemas/AgreementsSummary'
+                  - type: array
+                    items:
+                      $ref: '#/components/schemas/AgreementsSummary'
                   - $ref: '#/components/schemas/Agreements'
         500:
           $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/500InternalServerError'
@@ -894,8 +896,8 @@ components:
 
     LotSupplier:
       title: Agreement Suppliers (OCDS Organisations)
-      oneOf:
-        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OCDS_Standards/CCS-OCDS_Schema.yaml#/components/schemas/AgreementOrganization'
+      allOf:
+        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OCDS_Standards/CCS-OCDS_Schema.yaml#/components/schema/Organization'
                 
     LotSupplierSummary:
       title: Suppliers (List of Non OCDS Supplier)

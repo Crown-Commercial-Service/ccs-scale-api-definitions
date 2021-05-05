@@ -1,0 +1,621 @@
+openapi: "3.0.1"
+info:
+  title: "SCALE Commercial Agreements Service"
+  version: v0.0.6
+  description: This API allows access to CCS Commercial Agreement data. This is used both to provide information to users and to govern the behaviour of other systems for example 'Buy a Thing' and 'Contract for a Thing', where processes may differ based on the configuration of the underlying Commercial Agreement and Lot.
+#  PLACEHOLDERs - to be uncommented when implemented
+  termsOfService: "http://api.crowncommercial.gov.uk/terms/"
+  contact:
+    email: "apiteam@crowncommercial.gov.uk"
+  license:
+    name: "Open Government Licence 3.0"
+    url: "https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/"
+# Some data is explicitly omitted from the initial version of the API. Some detailed notes below but a summary here
+# - Terms and conditions are not included (in MVP) as individual data items. It is assumed that a link to a t&cs document will be provided for all Agreements. To be considered post MVP.
+# - 'Special Considerations' - mentioned in an email from JW, needs analysis
+# - ...
+# References: TDDA-009 - Agreements Service (https://docs.google.com/document/d/1PkS669G7cinFkvNI3OpxUyjoYxVWhkzYRkrTByDfRaY)
+#
+# TODO:
+# 1. calls to manage data e.g. POST agreement, lot; PUT modifications and so on
+# 2. Questions that need to be answered by suppliers on registration (for Evidence Locker) - talk to
+# 3. CaT data - RFx question lists per lot
+# 4. Implement security when Conclave or other Auth in place. Commented out for now
+#
+#security:
+#  - OAuth2:
+#    - read
+tags:
+- name: "Agreement"
+  description: "Operations at Agreement level"
+  externalDocs:
+    description: "Find out more"
+    url: "http://apis.crowncommercial.gov.uk"
+- name: "Lot"
+  description: "Operations at Lot level"
+  externalDocs:
+    description: "Find out more"
+    url: "http://apis.crowncommercial.gov.uk"
+paths:
+  # No filter parameter included against API principle due to no use case for this call for MVP which would require a filter and enterprise search provides search functionality on agreements.
+  /agreements:
+    get:
+      summary: Returns an array of all configured Commercial Agreements
+      description: Returns an array of Commercial Agreement Ids, names and simple descriptions
+      tags:
+      - Agreement
+      operationId: get-agreements
+      parameters:
+        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Params.yaml#/components/parameters/x-correlation-id'
+        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Params.yaml#/components/parameters/x-causation-id'
+        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Params.yaml#/components/parameters/x-channel'
+        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Params.yaml#/components/parameters/x-client'
+      responses:
+        200:
+          description: Collection of Commercial Agreement summary entities
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                    $ref: '#/components/schemas/AgreementSummary'
+        500:
+          description: Internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Schema.yaml#/components/schemas/Errors'
+#
+  /agreements/{agreementID}:
+    get:
+      summary: Returns details of the specified Commercial Agreement
+      description: Returns the definition of the specified Commercial Agreement
+      tags:
+      - Agreement
+      operationId: get-agreement-detail
+      parameters:
+        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Params.yaml#/components/parameters/AgreementParam'
+        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Params.yaml#/components/parameters/x-correlation-id'
+        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Params.yaml#/components/parameters/x-causation-id'
+        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Params.yaml#/components/parameters/x-channel'
+        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Params.yaml#/components/parameters/x-client'
+      responses:
+        200:
+          description: Commercial Agreement detail
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AgreementDetail'
+        404:
+          description: Commercial Agreement not found
+          content:
+            application/json:
+              schema:
+                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Schema.yaml#/components/schemas/Errors'
+        500:
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Schema.yaml#/components/schemas/Errors'
+#
+  /agreements/{agreementID}/documents:
+    get:
+      summary: Returns details of the specified Commercial Agreement documents
+      description: Returns the documents for the specified Commercial Agreement
+      tags:
+      - Agreement
+      operationId: get-agreement-documents
+      parameters:
+        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Params.yaml#/components/parameters/AgreementParam'
+        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Params.yaml#/components/parameters/x-correlation-id'
+        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Params.yaml#/components/parameters/x-causation-id'
+        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Params.yaml#/components/parameters/x-channel'
+        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Params.yaml#/components/parameters/x-client'
+      responses:
+        200:
+          description: Commercial Agreement documents
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/OCDS_Schema.yaml#/components/schemas/Document'
+        404:
+          description: Commercial Agreement not found
+          content:
+            application/json:
+              schema:
+                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Schema.yaml#/components/schemas/Errors'
+        500:
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Schema.yaml#/components/schemas/Errors'
+ # The get-agreement-detail call explicitly omits CPV codes in the initial version. These will be added later if required. As there are potentially thousands of CPV codes it was felt that these would overwhelm the output and management of the underlying data.  Additional calls can be added to provide these if required in a similar way to the '/agreements/{ca-number}/updates' call below.
+  /agreements/{agreementID}/lots:
+    get:
+      summary: Returns details of all of the Lots for this Commercial Agreement
+      description: Returns data about the Lots, both general information and parameters required to govern the behaviour of applications using this data
+      tags:
+      - Lot
+      operationId: get-agreement-lots
+      parameters:
+        - name: buyingMethod
+          in: query
+          schema:
+              $ref: "#/components/schemas/BuyingMethod"
+        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Params.yaml#/components/parameters/AgreementParam'
+        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Params.yaml#/components/parameters/x-correlation-id'
+        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Params.yaml#/components/parameters/x-causation-id'
+        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Params.yaml#/components/parameters/x-channel'
+        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Params.yaml#/components/parameters/x-client'
+      responses:
+        200:
+          description: Lot details
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                    $ref: '#/components/schemas/LotDetail'
+        404:
+          description: Commercial Agreement not found
+          content:
+            application/json:
+              schema:
+                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Schema.yaml#/components/schemas/Errors'
+        500:
+          description: Internal server error.
+          content:
+            application/json:
+              schema:
+               $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Schema.yaml#/components/schemas/Errors'
+  #
+  /agreements/{agreementID}/lots/{lotID}:
+    get:
+      summary: Returns details of the specified Lot for this Commercial Agreement
+      description: Returns data about the Lot, both general information and parameters required to govern the behaviour of applications using this data
+      tags:
+      - Lot
+      operationId: get-lot-details-for-agreement
+      parameters:
+        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Params.yaml#/components/parameters/AgreementParam'
+        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Params.yaml#/components/parameters/LotParam'
+        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Params.yaml#/components/parameters/x-correlation-id'
+        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Params.yaml#/components/parameters/x-causation-id'
+        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Params.yaml#/components/parameters/x-channel'
+        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Params.yaml#/components/parameters/x-client'
+      responses:
+        200:
+          description: Lot details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LotDetail'
+        404:
+          description: Commercial Agreement and/or Lot not found
+          content:
+            application/json:
+              schema:
+                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Schema.yaml#/components/schemas/Errors'
+        500:
+          description: Internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Schema.yaml#/components/schemas/Errors'
+  #
+  /agreements/{agreementID}/lots/{lotID}/suppliers:
+    get:
+      summary: Returns details of the suppliers for the specified Lot for this Commercial Agreement
+      description: Returns the supplier list for the Lot
+      tags:
+      - Lot
+      operationId: get-lot-suppliers
+      parameters:
+        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Params.yaml#/components/parameters/AgreementParam'
+        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Params.yaml#/components/parameters/LotParam'
+        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Params.yaml#/components/parameters/x-correlation-id'
+        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Params.yaml#/components/parameters/x-causation-id'
+        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Params.yaml#/components/parameters/x-channel'
+        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Params.yaml#/components/parameters/x-client'
+      responses:
+        200:
+          description: Lot details
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/LotSupplier'
+        404:
+          description: Commercial Agreement and/or Lot not found
+          content:
+            application/json:
+              schema:
+                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Schema.yaml#/components/schemas/Errors'
+        500:
+          description: Internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Schema.yaml#/components/schemas/Errors'
+#
+#
+  /agreements/{agreementID}/updates:
+    get:
+      summary: Returns any updates added to the Agreement
+      description: Returns updates recorded for the specified Commercial Agreement
+      tags:
+      - Agreement
+      operationId: get-agreement-updates
+      parameters:
+        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Params.yaml#/components/parameters/AgreementParam'
+        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Params.yaml#/components/parameters/x-correlation-id'
+        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Params.yaml#/components/parameters/x-causation-id'
+        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Params.yaml#/components/parameters/x-channel'
+        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Params.yaml#/components/parameters/x-client'
+      responses:
+        200:
+          description: Commercial Agreement updates
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                    $ref: '#/components/schemas/AgreementUpdate'
+        404:
+          description: Commercial Agreement not found.
+          content:
+            application/json:
+              schema:
+                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Schema.yaml#/components/schemas/Errors'
+        500:
+          description: Internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Schema.yaml#/components/schemas/Errors'
+#
+components:
+#  securitySchemes:
+#    OAuth2:
+#      type: oauth2
+#      flows:
+#        authorizationCode:
+#          authorizationUrl: http://ccsexample.com/oauth/auth
+#          tokenUrl: https://api.crowncommercial.gov.uk/oauth/token
+#          scopes:
+#            read: Grants read access
+#           only read for MVP
+  schemas:
+#
+    AgreementSummary:
+      type: object
+      properties:
+        number:
+          type: string
+          description: Commercial Agreement Number
+          example: RM3733
+        name:
+          type: string
+          description: Commercial Agreement Name
+          example: "Technology Products 2"
+#
+# Agreement Detail omits some Agreement data in the initial version.
+#  - Suppliers will be shown at a Lot level rather than Agreement level
+#  - CPV codes are omitted as noted above
+#
+    AgreementDetail:
+      type: object
+      properties:
+        number:
+          type: string
+          description: Commercial Agreement Number
+          example: "RM3733"
+        name:
+          type: string
+          description: Commercial Agreement Name
+          example: "Technology Products 2"
+        description:
+          type: string
+          description: Short textual description of the commercial agreement
+        startDate:
+          type: string
+          format: date
+          description: Effective start date of Commercial Agreement
+          example: yyyy-mm-dd
+        endDate:
+          type: string
+          format: date
+          example: yyyy-mm-dd
+          description: Effective end date of Commercial Agreement
+        detailUrl:
+          type: string
+          format: uri
+          description: URL of the Agreement detail page on the CCS website
+          example: "https://www.crowncommercial.gov.uk/agreements/RM3733"
+        contacts:
+          type: array
+          items:
+            $ref: '#/components/schemas/Contact'
+        benefits:
+          type: array
+          items:
+            type: string
+            description: Short description of the benefit
+        lots:
+          type: array
+          items:
+            $ref: '#/components/schemas/LotSummary'
+#
+    LotDetail:
+      type: object
+      properties:
+        number:
+          type: string
+          description: Lot number
+          example: 1
+        name:
+          type: string
+          description: Lot name
+          example: Finance
+        startDate:
+          type: string
+          format: date
+          description: Effective start date of Lot
+          example: yyyy-mm-dd
+        endDate:
+          type: string
+          format: date
+          example: yyyy-mm-dd
+          description: Effective end date of Lot
+        description:
+          type: string
+          description: Short textual description of the Lot
+        type:
+          type: string
+          enum: ["product","service","product and service"]
+        routesToMarket:
+          type: array
+          description: Routes to Market for the Lot and associated bounds
+          items:
+            $ref: '#/components/schemas/RouteToMarket'
+        sectors:
+          type: array
+          items:
+            type: string
+            description: A sector permitted to buy using the Agreement/Lot
+        relatedAgreementLots:
+          type: array
+          items:
+            $ref: '#/components/schemas/RelatedAgreementLot'
+        buyerNeeds:
+          # Lot default text for buyer needs for CaT
+          type: array
+          items:
+            $ref: '#/components/schemas/BuyerNeed'
+        # Further to the rules model below can data drive the whole rules evaluation triggering the rules from events in CaT and BaT
+        # e.g. a list of events mapped to rules in config. When event happens, if Agreement has rule data then we evaluate the rule. All in a standard function passed event data and Agreement data
+        # Assumption that event mapping discussed above is required for MVP
+        rules:
+          type: array
+          items:
+                $ref: '#/components/schemas/LotRule'
+#
+    RelatedAgreementLot:
+      type: object
+      description: A simple reference to a related Agreement/Lot combination and relationship type
+      properties:
+        caNumber:
+          type: string
+          description: Commercial Agreement number
+          example: "RM3733"
+        lotNumber:
+          type: string
+          description: Lot number within the Commercial Agreement
+          example: "6"
+        relationship:
+          type: string
+          description: "The type of the relationship in machine readable form"
+          example: "FurtherCompetitionWhenBudgetExceeded"
+#
+    BuyingMethod:
+      type: string
+      enum: ["DirectAward" , "FurtherCompetition", "Marketplace", "EAuction"]
+      example: "DirectAward"
+#
+    RouteToMarket:
+      # Route to Market for the Lot complete with the rules which determine when it applies
+      type: object
+      properties:
+        buyingMethods:
+          type: array
+          items:
+            $ref: "#/components/schemas/BuyingMethod"
+        buyingSystemURL:
+          type: string
+          format: uri
+          description: The URL to use for the system to progress the procurement (e.g. BaT, CaT, other)
+        minimumValue:
+          type: number
+          format: float
+          description: The minimum value for which this Lot applies
+        maximumValue:
+          type: number
+          format: float
+          description: The maximum value for which this Lot applies
+        location:
+          # Need to understand what this is used for and how this is used to build it out
+          type: string
+          description: PLACEHOLDER. Needs to be an anyOf for National:Regional or individual Regions or even lowest level NUTS2
+        minContractLength:
+          type: object
+          properties:
+            unit:
+              type: string
+              enum: ["day","month","year"]
+              description: The unit of the length value
+            length:
+              type: integer
+              format: int64
+              description: The number of units
+        maxContractLength:
+          type: object
+          properties:
+            unit:
+              type: string
+              enum: ["day","month","year"]
+              description: The unit of the length value
+            length:
+              type: integer
+              format: int64
+              description: The number of units
+#
+    LotRule:
+      type: object
+      description: Rules such as 'Prices may not rise more than {x} times in any consecutive {y} day period' can be included in the 'other' element - in this case 2 data-points would be required. <br><br>In the above example:<br><br>name="max number of prices rises in period"<br>
+        ruleId="maxNumberPriceChangesInPeriod"<br>
+        lotAttributes=[ {"numberOfTimes","integer",,3,},{"daysInPeriod" ,"integer",,7,}]<br>
+        transactionData= ["priceRisesLastPeriod","product.priceRises"]<br>
+        evaluationType="complex"<br><br>
+        as here specific logic is required to obtain the number of price rises before evaluating.
+      properties:
+        name:
+          type: string
+          description: Name of the rule (3 or 4 word description)
+          example: "Price rise limit"
+        ruleId:
+          type: string
+          description: Unique identifier of the rule
+        lotAttributes:
+          type: array
+          items:
+            $ref: '#/components/schemas/NameValueType'
+        transactionData:
+          type: array
+          description: Data required from the relevant transaction to be able to evaluate the rule
+          items:
+            type: object
+            properties:
+              name:
+                type: string
+                description: name of the variable
+                example: "priceRisesLastPeriod"
+              location:
+                type: string
+                description: Path or other location of the data which can be evaluated by the application
+                example: "product.priceRises"
+        evaluationType:
+          type: string
+          description: How the rule should be evaluated -<br>
+            equal = rule is true if the lotAttribute is equal to the transactionData<br>
+            greater = rule is true if the lotAttribute is greater than the transactionData<br>
+            less = rule is true if the lotAttribute is less than the transactionData<br>
+            complex = rule specific code is required to evaluate (typically where there are multiple variables)<br>
+            flag = rule is always true. The presence of the rule is used to flag that certain behaviour is required. In some cases data may be passed in the lotAttributes.
+          enum: [equal , greater, less, complex, flag]
+          # regexp requires the expression. Left for post-MVP
+          # complex will require specific code to evaluate e.g. 'identify number of price rises in n days'
+        service:
+          type: string
+          description: Name of the service to which the rule applies (in future the Agreement Service may only return rules for the requested services)
+          example: "BaT"
+#
+    NameValueType:
+      type: object
+      properties:
+        name:
+          type: string
+          description: The name of the 'other' bound to be used as hashmap key
+        datatype:
+        # decided not to use date as this would actually be duration and that's an integer
+          type: string
+          enum: [string,number]
+          description: the datatype of the 'other' lotBound value
+        valueText:
+          type: string
+        valueNumber:
+          type: number
+        units:
+          type: string
+          description: The unit of the value given in the value fields e.g. kg, mile, hour
+#
+    AgreementUpdate:
+      type: object
+      properties:
+        date:
+          type: string
+          format: date
+          description: Date that the update was added
+          example: yyyy-mm-dd
+        linkUrl:
+          type: string
+          format: uri
+          description: Link to further information regarding the update
+        text:
+          type: string
+          description: Actual update text
+#
+    LotSummary:
+      type: object
+      properties:
+        number:
+          type: string
+          description: Lot number
+          example: 1
+        name:
+          type: string
+          description: Lot name
+          example: "Finance"
+#
+    LotSupplier:
+      type: object
+      properties:
+        organization: 
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/OCDS_Schema.yaml#/components/schemas/Organization'
+        supplierStatus: 
+          type: string
+          enum: [active,suspended,excluded]
+        lotContacts:
+          type: array
+          items:
+            $ref: '#/components/schemas/Contact'
+#
+    Contact:
+      type: "object"
+      description: "Agreement/Lot specific contacts for the Organization"
+      properties:
+        contact:
+        #OCDS contactPoint as returned from the Org/Contact service
+          $ref: "https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/OCDS_Schema.yaml#/components/schemas/ContactPoint"
+        contactId:
+          type: string
+          description: "Unique identifier of the contact"
+        contactReason:
+        #Open Question: is there a more OCDS compliant term?
+          type: string
+          description: "Reason (usually application function) for which the contact should be contacted in the context of this Lot"
+          example: "batQuoteNotification"
+#
+    BuyerNeed:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          description: Id of the need (to allow alignment with CaT)
+        name:
+          type: string
+          description: Name of Buyer Need
+        text:
+          type: string
+          description: Text to be displayed for Buyer need
+
+#
+servers:
+  # Added by API Auto Mocking Plugin
+  - description: SwaggerHub API Auto Mocking
+    url: https://virtserver.swaggerhub.com/davejhughes/agreement-service/v0.0.6

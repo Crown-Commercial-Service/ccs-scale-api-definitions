@@ -98,7 +98,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Schema.yaml#/components/schemas/Errors'
+                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Schema.yaml#/components/schemas/Errors'
       summary: List of Products
       
   '/catalog/products/{id}':
@@ -133,13 +133,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Schema.yaml#/components/schemas/Errors'
+                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards//CCS_Standard_API_Schema.yaml#/components/schemas/Errors'
         '429':
           description: Too Many Requests
           content:
             application/json:
               schema:
-                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Schema.yaml#/components/schemas/Errors'
+                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Schema.yaml#/components/schemas/Errors'
       summary: Get Product Details
 
 components:
@@ -310,9 +310,9 @@ components:
           type: string
           example: 'Tech Products'
         caNumber:
-          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Schema.yaml#/components/schemas/AgreementID'
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Schema.yaml#/components/schemas/AgreementID'
         lotNumber:
-          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Schema.yaml#/components/schemas/LotID'
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Schema.yaml#/components/schemas/LotID'
         lotExpiryDate:
           type: string
           format: date
@@ -349,7 +349,7 @@ components:
           type: string
           example: 'Premium, sophisticated design;Immersive entertainment'
         availableOn:
-          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Schema.yaml#/components/schemas/Timestamp'
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Schema.yaml#/components/schemas/Timestamp'
         active:
           type: boolean
           example: true
@@ -399,9 +399,9 @@ components:
           type: string
           example: 'example, product'
         createdAt:
-          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Schema.yaml#/components/schemas/Timestamp'
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Schema.yaml#/components/schemas/Timestamp'
         updatedAt:
-          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/common/CCS_Standard_API_Schema.yaml#/components/schemas/Timestamp'
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Schema.yaml#/components/schemas/Timestamp'
         images: #Moved images here as it is needed by single and list calls. Alternative would have been array of Product for the list and null out the detailed fields on the list call.
               type: array
               items:

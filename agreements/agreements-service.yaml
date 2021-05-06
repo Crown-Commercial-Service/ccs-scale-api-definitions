@@ -40,7 +40,7 @@ paths:
   # No filter parameter included against API principle due to no use case for this call for MVP which would require a filter and enterprise search provides search functionality on agreements.
   /agreements:
     get:
-      summary: Returns an array of all configured Commercial Agreements
+      summary: Returns an array of all configured Commercial Agreements (OCDS - Record Package)
       description: Returns an array of Commercial Agreement Ids, names and simple descriptions
       tags:
       - Agreement
@@ -68,8 +68,8 @@ paths:
 #
   /agreements/{agreementID}:
     get:
-      summary: Returns details of the specified Commercial Agreement
-      description: Returns the packager containing the definition of the specified Commercial Agreement
+      summary: Returns details of the specified Commercial Agreement (OCDS - Record)
+      description: Returns the package containing the definition of the specified Commercial Agreement
       tags:
       - Agreement
       operationId: get-agreement-package
@@ -95,7 +95,7 @@ paths:
           
   /agreements/{agreementID}/latest:
     get:
-      summary: Returns details of the specified Commercial Agreement
+      summary: Returns current details of the specified Commercial Agreement (OCDS - Compiled Release)
       description: Returns the definition of the specified Commercial Agreement
       tags:
       - Agreement
@@ -122,7 +122,7 @@ paths:
 #
   /agreements/{agreementID}/releases/{ocid}:
     get:
-      summary: Returns details of the specified Commercial Agreement
+      summary: Returns details version of the specified Commercial Agreement (OCDS - Release)
       description: Returns the definition of the specified Commercial Agreement
       tags:
       - Agreement

@@ -497,7 +497,7 @@ paths:
         content:
           application/vnd.api+json:
             schema:
-               $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/BAT_initial/bat/bat-schema.yaml#/components/schemas/BasketID'
+               $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Schema.yaml#/components/schemas/GenericID'
       responses:
         '200':
           description: ok

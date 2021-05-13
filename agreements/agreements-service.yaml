@@ -337,6 +337,8 @@ components:
           format: uri
           description: URL of the Agreement detail page on the CCS website
           example: "https://www.crowncommercial.gov.uk/agreements/RM3733"
+        owner:
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OCDS_Standards/CCS-OCDS_Schema.yaml#/components/schemas/Organization'
         contacts:
           type: array
           items:

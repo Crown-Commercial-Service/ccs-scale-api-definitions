@@ -296,9 +296,7 @@ components:
       type: object
       properties:
         number:
-          type: string
-          description: Commercial Agreement Number
-          example: RM3733
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Schema.yaml#/components/schemas/AgreementId'
         name:
           type: string
           description: Commercial Agreement Name
@@ -312,9 +310,7 @@ components:
       type: object
       properties:
         number:
-          type: string
-          description: Commercial Agreement Number
-          example: "RM3733"
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Schema.yaml#/components/schemas/AgreementId'
         name:
           type: string
           description: Commercial Agreement Name
@@ -357,9 +353,7 @@ components:
       type: object
       properties:
         number:
-          type: string
-          description: Lot number
-          example: 1
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Schema.yaml#/components/schemas/LotId'
         name:
           type: string
           description: Lot name
@@ -412,13 +406,9 @@ components:
       description: A simple reference to a related Agreement/Lot combination and relationship type
       properties:
         caNumber:
-          type: string
-          description: Commercial Agreement number
-          example: "RM3733"
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Schema.yaml#/components/schemas/AgreementId'
         lotNumber:
-          type: string
-          description: Lot number within the Commercial Agreement
-          example: "6"
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Schema.yaml#/components/schemas/LotId'
         relationship:
           type: string
           description: "The type of the relationship in machine readable form"
@@ -437,7 +427,7 @@ components:
           type: array
           items:
             $ref: "#/components/schemas/BuyingMethod"
-        buyingSystemURL:
+        buyingSystemUrl:
           type: string
           format: uri
           description: The URL to use for the system to progress the procurement (e.g. BaT, CaT, other)
@@ -565,9 +555,7 @@ components:
       type: object
       properties:
         number:
-          type: string
-          description: Lot number
-          example: 1
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Schema.yaml#/components/schemas/LotId'
         name:
           type: string
           description: Lot name

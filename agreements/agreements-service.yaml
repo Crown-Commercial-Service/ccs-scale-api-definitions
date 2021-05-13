@@ -1,7 +1,7 @@
 openapi: "3.0.1"
 info:
   title: "SCALE Commercial Agreements Service"
-  version: v0.0.6
+  version: v0.0.7
   description: This API allows access to CCS Commercial Agreement data. This is used both to provide information to users and to govern the behaviour of other systems for example 'Buy a Thing' and 'Contract for a Thing', where processes may differ based on the configuration of the underlying Commercial Agreement and Lot.
 #  PLACEHOLDERs - to be uncommented when implemented
   termsOfService: "http://api.crowncommercial.gov.uk/terms/"
@@ -66,7 +66,7 @@ paths:
               schema:
                 $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Schema.yaml#/components/schemas/Errors'
 #
-  /agreements/{agreementID}:
+  /agreements/{agreement-id}:
     get:
       summary: Returns details of the specified Commercial Agreement
       description: Returns the definition of the specified Commercial Agreement
@@ -99,7 +99,7 @@ paths:
               schema:
                 $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Schema.yaml#/components/schemas/Errors'
 #
-  /agreements/{agreementID}/documents:
+  /agreements/{agreement-id}/documents:
     get:
       summary: Returns details of the specified Commercial Agreement documents
       description: Returns the documents for the specified Commercial Agreement
@@ -134,7 +134,7 @@ paths:
               schema:
                 $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Schema.yaml#/components/schemas/Errors'
  # The get-agreement-detail call explicitly omits CPV codes in the initial version. These will be added later if required. As there are potentially thousands of CPV codes it was felt that these would overwhelm the output and management of the underlying data.  Additional calls can be added to provide these if required in a similar way to the '/agreements/{ca-number}/updates' call below.
-  /agreements/{agreementID}/lots:
+  /agreements/{agreement-id}/lots:
     get:
       summary: Returns details of all of the Lots for this Commercial Agreement
       description: Returns data about the Lots, both general information and parameters required to govern the behaviour of applications using this data
@@ -173,7 +173,7 @@ paths:
               schema:
                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Schema.yaml#/components/schemas/Errors'
   #
-  /agreements/{agreementID}/lots/{lotID}:
+  /agreements/{agreement-id}/lots/{lot-id}:
     get:
       summary: Returns details of the specified Lot for this Commercial Agreement
       description: Returns data about the Lot, both general information and parameters required to govern the behaviour of applications using this data
@@ -207,7 +207,7 @@ paths:
               schema:
                 $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Schema.yaml#/components/schemas/Errors'
   #
-  /agreements/{agreementID}/lots/{lotID}/suppliers:
+  /agreements/{agreement-id}/lots/{lot-id}/suppliers:
     get:
       summary: Returns details of the suppliers for the specified Lot for this Commercial Agreement
       description: Returns the supplier list for the Lot
@@ -244,7 +244,7 @@ paths:
                 $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Schema.yaml#/components/schemas/Errors'
 #
 #
-  /agreements/{agreementID}/updates:
+  /agreements/{agreement-id}/updates:
     get:
       summary: Returns any updates added to the Agreement
       description: Returns updates recorded for the specified Commercial Agreement

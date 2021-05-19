@@ -130,7 +130,7 @@ paths:
             - write
       summary: Ts and Cs
       
-  '/cat/organisations/{orgID}/teams':
+  '/cat/organisations/{org-id}/teams':
     parameters:
       - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Params.yaml#/components/parameters/OrgParam'
 
@@ -177,7 +177,7 @@ paths:
             content:
                 application/vnd.api+json:
                     schema:
-                        $ref: '#/components/schemas/TeamID'
+                        $ref: '#/components/schemas/TeamId'
         '401':
           $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/401Unauthorized'
         '403':
@@ -193,7 +193,7 @@ paths:
             - buyer
       summary: Create a new team
       
-  '/cat/organisations/{orgID}/teams/{teamID}':
+  '/cat/organisations/{org-id}/teams/{team-id}':
     parameters:
       - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Params.yaml#/components/parameters/OrgParam'
       - $ref: '#/components/parameters/TeamParam'
@@ -222,7 +222,7 @@ paths:
             - buyer
       summary: Delete team
       
-  '/cat/organisations/{orgID}/teams/{teamID}/members':
+  '/cat/organisations/{org-id}/teams/{team-id}/members':
     parameters:
       - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Params.yaml#/components/parameters/OrgParam'
       - $ref: '#/components/parameters/TeamParam'
@@ -255,7 +255,7 @@ paths:
             - buyer
       summary: List of Team members
     
-  '/cat/organisations/{orgID}/teams/{teamID}/members/{teamMemberID}':
+  '/cat/organisations/{org-id}/teams/{team-id}/members/{team-member-id}':
     parameters:
       - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Params.yaml#/components/parameters/OrgParam'
       - $ref: '#/components/parameters/TeamParam'
@@ -280,7 +280,7 @@ paths:
           content:
             application/vnd.api+json:
               schema:
-                $ref: '#/components/schemas/TeamMemberID'
+                $ref: '#/components/schemas/TeamMemberId'
         '401':
           $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/401Unauthorized'
         '403':
@@ -384,7 +384,7 @@ paths:
             - buyer
       summary: List Procurement Event types
       
-  '/tenders/projects/defaultName/agreements/{agreementID}/lots/{lotID}':
+  '/tenders/projects/defaultName/agreements/{agreement-id}/lots/{lot-id}':
     parameters:
       - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Params.yaml#/components/parameters/AgreementParam'
       - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Params.yaml#/components/parameters/LotParam'
@@ -429,7 +429,7 @@ paths:
         content:
           application/vnd.api+json:
             schema:
-              $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Schema.yaml#/components/schemas/GenericID'
+              $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Schema.yaml#/components/schemas/GenericId'
       responses:
         '200':
           description: ok
@@ -463,7 +463,7 @@ paths:
         content:
           application/vnd.api+json:
             schema:
-              $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Schema.yaml#/components/schemas/GenericID'
+              $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Schema.yaml#/components/schemas/GenericId'
       responses:
         '200':
           description: ok
@@ -497,7 +497,7 @@ paths:
         content:
           application/vnd.api+json:
             schema:
-               $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Schema.yaml#/components/schemas/GenericID'
+               $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Schema.yaml#/components/schemas/GenericId'
       responses:
         '200':
           description: ok
@@ -554,7 +554,7 @@ paths:
             - buyer
       summary: Create Project from an Agreement (SCC-440)
       
-  /tenders/projects/{procID}/confirm:
+  /tenders/projects/{proc-id}/confirm:
     parameters:
       - $ref: '#/components/parameters/ProcurementParam'
     post:
@@ -574,7 +574,7 @@ paths:
           content:
             application/vnd.api+json:
               schema:
-                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Schema.yaml#/components/schemas/GenericID'
+                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Schema.yaml#/components/schemas/GenericId'
         '401':
           $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/401Unauthorized'
         '403':
@@ -622,7 +622,7 @@ paths:
       summary: Retrieve procurement projects that match criteria
       
       
-  /tenders/projects/{procID}:
+  /tenders/projects/{proc-id}:
     parameters:
       - $ref: '#/components/parameters/ProcurementParam'
     get:
@@ -654,7 +654,7 @@ paths:
       
       
       
-  /tenders/projects/{procID}/close/options:
+  /tenders/projects/{proc-id}/close/options:
     parameters:
       - $ref: '#/components/parameters/ProcurementParam'
 
@@ -686,7 +686,7 @@ paths:
             - buyer
       summary: Get options to close project  
       
-  /tenders/projects/{procID}/users:
+  /tenders/projects/{proc-id}/users:
     parameters:
       - $ref: '#/components/parameters/ProcurementParam'
 
@@ -718,7 +718,7 @@ paths:
             - buyer
       summary: Get project users
       
-  /tenders/projects/{procID}/users/{userID}:
+  /tenders/projects/{proc-id}/users/{user-id}:
     parameters:
       - $ref: '#/components/parameters/ProcurementParam'
       - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Params.yaml#/components/parameters/UserParam'
@@ -779,7 +779,7 @@ paths:
       summary: Add a project user 
       
       
-  /tenders/projects/{procID}/events{eventID}/questions:
+  /tenders/projects/{proc-id}/events{event-id}/questions:
     parameters:
       - $ref: '#/components/parameters/ProcurementParam'
       - $ref: '#/components/parameters/EventParam'
@@ -815,7 +815,7 @@ paths:
       summary: Get all Questions at all levels.
       
     
-  /tenders/projects/{procID}/events{eventID}/evals:
+  /tenders/projects/{proc-id}/events{event-id}/evals:
     parameters:
       - $ref: '#/components/parameters/ProcurementParam'
       - $ref: '#/components/parameters/EventParam'
@@ -850,7 +850,7 @@ paths:
             - buyer
       summary: Get Event Evaluation Criteria
       
-  /tenders/projects/{procID}/events{eventID}/evals/{criterionID}/groups:
+  /tenders/projects/{proc-id}/events{event-id}/evals/{criterion-id}/groups:
     parameters:
       - $ref: '#/components/parameters/ProcurementParam'
       - $ref: '#/components/parameters/EventParam'
@@ -902,7 +902,7 @@ paths:
           content:
             application/vnd.api+json:
               schema:
-                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Schema.yaml#/components/schemas/GenericID'
+                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Schema.yaml#/components/schemas/GenericId'
         '401':
           $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/401Unauthorized'
         '403':
@@ -920,7 +920,7 @@ paths:
       
  
       
-  /tenders/projects/{procID}/events{eventID}/evals/{criterionID}/groups/{groupID}:
+  /tenders/projects/{proc-id}/events{event-id}/evals/{criterion-id}/groups/{group-id}:
     parameters:
       - $ref: '#/components/parameters/ProcurementParam'
       - $ref: '#/components/parameters/EventParam'
@@ -944,7 +944,7 @@ paths:
           content:
             application/vnd.api+json:
               schema:
-                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Schema.yaml#/components/schemas/GenericID'
+                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Schema.yaml#/components/schemas/GenericId'
         '401':
           $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/401Unauthorized'
         '403':
@@ -989,7 +989,7 @@ paths:
             - buyer
       summary: Delete project users
       
-  /tenders/projects/{procID}/events{eventID}/evals/{criterionID}/groups/{groupID}/questions:
+  /tenders/projects/{proc-id}/events{event-id}/evals/{criterion-id}/groups/{group-id}/questions:
     parameters:
       - $ref: '#/components/parameters/ProcurementParam'
       - $ref: '#/components/parameters/EventParam'
@@ -1042,7 +1042,7 @@ paths:
           content:
             application/vnd.api+json:
               schema:
-                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Schema.yaml#/components/schemas/GenericID'
+                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Schema.yaml#/components/schemas/GenericId'
         '401':
           $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/401Unauthorized'
         '403':
@@ -1058,7 +1058,7 @@ paths:
             - buyer
       summary: Confirm procurement project
       
-  /tenders/projects/{procID}/events{eventID}/evals/{criterionID}/groups/questions/{questionID}:
+  /tenders/projects/{proc-id}/events{event-id}/evals/{criterion-id}/groups/questions/{question-id}:
     parameters:
       - $ref: '#/components/parameters/ProcurementParam'
       - $ref: '#/components/parameters/EventParam'
@@ -1095,7 +1095,7 @@ paths:
             - buyer
       summary: Get Event Evaluation Criteria Groups
       
-  /tenders/projects/{procID}/events/{eventID}/needs/{questionID}/forms:
+  /tenders/projects/{proc-id}/events/{event-id}/needs/{question-id}/forms:
     parameters:
       - $ref: '#/components/parameters/ProcurementParam'
       - $ref: '#/components/parameters/EventParam'
@@ -1147,7 +1147,7 @@ paths:
           content:
             application/vnd.api+json:
               schema:
-                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Schema.yaml#/components/schemas/GenericID'
+                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Schema.yaml#/components/schemas/GenericId'
         '401':
           $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/401Unauthorized'
         '403':
@@ -1163,7 +1163,7 @@ paths:
             - buyer
       summary: Confirm procurement case
       
-  /tenders/projects/{procID}/events{eventID}/needs/{questionID}/documents:
+  /tenders/projects/{proc-id}/events{event-id}/needs/{question-id}/documents:
     parameters:
       - $ref: '#/components/parameters/ProcurementParam'
       - $ref: '#/components/parameters/EventParam'
@@ -1217,7 +1217,7 @@ paths:
           content:
             application/vnd.api+json:
               schema:
-                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Schema.yaml#/components/schemas/GenericID'
+                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Schema.yaml#/components/schemas/GenericId'
         '401':
           $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/401Unauthorized'
         '403':
@@ -1234,7 +1234,7 @@ paths:
       summary: Update HL Need document
       
       
-  /tenders/projects/{procID}/close:
+  /tenders/projects/{proc-id}/close:
     parameters:
       - $ref: '#/components/parameters/ProcurementParam'
 
@@ -1264,7 +1264,7 @@ paths:
         
       
       
-  /tenders/projects/{procID}/status:
+  /tenders/projects/{proc-id}/status:
     parameters:
       - $ref: '#/components/parameters/ProcurementParam'
     get:
@@ -1295,7 +1295,7 @@ paths:
       summary: Get get Event statuses on Procurement Project
       
       
-  /tenders/projects/{procID}/events:
+  /tenders/projects/{proc-id}/events:
     parameters:
       - $ref: '#/components/parameters/ProcurementParam'
     get:
@@ -1359,7 +1359,7 @@ paths:
             - buyer
       summary: Create a Procurement Event
       
-  /tenders/projects/{procID}/events/{eventID}/needs:
+  /tenders/projects/{proc-id}/events/{event-id}/needs:
     parameters:
       - $ref: '#/components/parameters/ProcurementParam'
       - $ref: '#/components/parameters/EventParam'
@@ -1394,7 +1394,7 @@ paths:
       summary: Get Event Needs
       
       
-  /tenders/projects/{procID}/events/{eventID}/Needs/{questionID}/documents:
+  /tenders/projects/{proc-id}/events/{event-id}/Needs/{question-id}/documents:
     parameters:
       - $ref: '#/components/parameters/ProcurementParam'
       - $ref: '#/components/parameters/EventParam'
@@ -1448,7 +1448,7 @@ paths:
           content:
             application/vnd.api+json:
               schema:
-                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Schema.yaml#/components/schemas/GenericID'
+                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Schema.yaml#/components/schemas/GenericId'
         '401':
           $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/401Unauthorized'
         '403':
@@ -1464,7 +1464,7 @@ paths:
             - buyer
       summary: Confirm procurement case
       
-  /tenders/projects/{procID}/events/{eventID}/suppliers:
+  /tenders/projects/{proc-id}/events/{event-id}/suppliers:
     parameters:
       - $ref: '#/components/parameters/ProcurementParam'
       - $ref: '#/components/parameters/EventParam'
@@ -1526,7 +1526,7 @@ paths:
             - buyer
       summary: Update Suppliers on RFx
       
-  /tenders/projects/{procID}/events/{eventID}/suppliers/{supplierID}:
+  /tenders/projects/{proc-id}/events/{event-id}/suppliers/{supplier-id}:
     parameters:
       - $ref: '#/components/parameters/ProcurementParam'
       - $ref: '#/components/parameters/EventParam'
@@ -1556,7 +1556,7 @@ paths:
             - buyer
       summary: Update Suppliers on RFx
       
-  /tenders/projects/{procID}/events/{eventID}:
+  /tenders/projects/{proc-id}/events/{event-id}:
     parameters:
       - $ref: '#/components/parameters/ProcurementParam'
       - $ref: '#/components/parameters/EventParam'
@@ -1589,7 +1589,7 @@ paths:
             - buyer
       summary: Get RFx Summary
       
-  /tenders/projects/{procID}/events/{eventID}/GotoMarket/options:
+  /tenders/projects/{proc-id}/events/{event-id}/GotoMarket/options:
     parameters:
       - $ref: '#/components/parameters/ProcurementParam'
       - $ref: '#/components/parameters/EventParam'
@@ -1624,7 +1624,7 @@ paths:
             - buyer
       summary: Get Go to market options for an event
       
-  /tenders/projects/{procID}/events/{eventID}/GotoMarket/:
+  /tenders/projects/{proc-id}/events/{event-id}/GotoMarket/:
     parameters:
       - $ref: '#/components/parameters/ProcurementParam'
       - $ref: '#/components/parameters/EventParam'
@@ -1658,7 +1658,7 @@ paths:
             - buyer
       summary: Go to market for an event
       
-  /tenders/projects/{procID}/events/{eventID}/GotoMarket/extend:
+  /tenders/projects/{proc-id}/events/{event-id}/GotoMarket/extend:
     parameters:
       - $ref: '#/components/parameters/ProcurementParam'
       - $ref: '#/components/parameters/EventParam'
@@ -1691,7 +1691,7 @@ paths:
             - buyer
       summary: Extend the event
       
-  /tenders/projects/{procID}/events/{eventID}/status:
+  /tenders/projects/{proc-id}/events/{event-id}/status:
     parameters:
       - $ref: '#/components/parameters/ProcurementParam'
       - $ref: '#/components/parameters/EventParam'
@@ -1724,7 +1724,7 @@ paths:
             - buyer
       summary: Get Event status
       
-  /tenders/projects/{procID}/events/{eventID}/responses:
+  /tenders/projects/{proc-id}/events/{event-id}/responses:
     parameters:
       - $ref: '#/components/parameters/ProcurementParam'
       - $ref: '#/components/parameters/EventParam'
@@ -1759,7 +1759,7 @@ paths:
             - buyer
       summary: Get all responses to an RFx
       
-  /tenders/projects/{procID}/events/{eventID}/responses/suppliers/{supplierID}:
+  /tenders/projects/{proc-id}/events/{event-id}/responses/suppliers/{supplier-id}:
     parameters:
       - $ref: '#/components/parameters/ProcurementParam'
       - $ref: '#/components/parameters/EventParam'
@@ -1794,7 +1794,7 @@ paths:
         - OAuth2:
             - buyer
       summary: Get responses from a supplier to an RFx
-  /tenders/projects/{procID}/events/{eventID}/responses/{responseID}:
+  /tenders/projects/{proc-id}/events/{event-id}/responses/{response-id}:
     parameters:
       - $ref: '#/components/parameters/ProcurementParam'
       - $ref: '#/components/parameters/EventParam'
@@ -1827,7 +1827,7 @@ paths:
         - OAuth2:
             - buyer
       summary: Get response details
-  /tenders/projects/{procID}/events/{eventID}/responses/{responseID}/needs:
+  /tenders/projects/{proc-id}/events/{event-id}/responses/{response-id}/needs:
     parameters:
       - $ref: '#/components/parameters/ProcurementParam'
       - $ref: '#/components/parameters/EventParam'
@@ -1863,7 +1863,7 @@ paths:
             - buyer
       summary: Get responses to a need
       
-  /tenders/projects/{procID}/events/{eventID}/responses/{responseID}/needs/{questionID}/forms:
+  /tenders/projects/{proc-id}/events/{event-id}/responses/{response-id}/needs/{question-id}/forms:
     parameters:
       - $ref: '#/components/parameters/ProcurementParam'
       - $ref: '#/components/parameters/EventParam'
@@ -1906,14 +1906,14 @@ paths:
         content:
           application/vnd.api+json:
             schema:
-              $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Schema.yaml#/components/schemas/GenericID'
+              $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Schema.yaml#/components/schemas/GenericId'
       responses:
         '200':
           description: ok
           content:
             application/vnd.api+json:
               schema:
-                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Schema.yaml#/components/schemas/GenericID'
+                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Schema.yaml#/components/schemas/GenericId'
         '401':
           $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/401Unauthorized'
         '403':
@@ -1929,7 +1929,7 @@ paths:
             - buyer
       summary: Update form response
       
-  /tenders/projects/{procID}/events/{eventID}/responses/{responseID}/needs/{questionID}/documents:
+  /tenders/projects/{proc-id}/events/{event-id}/responses/{response-id}/needs/{question-id}/documents:
     parameters:
       - $ref: '#/components/parameters/ProcurementParam'
       - $ref: '#/components/parameters/EventParam'
@@ -1981,7 +1981,7 @@ paths:
           content:
             application/vnd.api+json:
               schema:
-                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Schema.yaml#/components/schemas/GenericID'
+                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Schema.yaml#/components/schemas/GenericId'
         '401':
           $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/401Unauthorized'
         '403':
@@ -1996,7 +1996,7 @@ paths:
         - OAuth2:
             - buyer
       summary: Update document response
-  /tenders/projects/{procID}/Events/{eventID}/responses/suppliers/{supplierID}/complete:
+  /tenders/projects/{proc-id}/Events/{event-id}/responses/suppliers/{supplier-id}/complete:
     parameters:
       - $ref: '#/components/parameters/ProcurementParam'
       - $ref: '#/components/parameters/EventParam'
@@ -2014,7 +2014,7 @@ paths:
           content:
             application/vnd.api+json:
               schema:
-                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Schema.yaml#/components/schemas/GenericID'
+                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Schema.yaml#/components/schemas/GenericId'
         '401':
           $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/401Unauthorized'
         '403':
@@ -2029,7 +2029,7 @@ paths:
         - OAuth2:
             - buyer
       summary: Supplier Complete
-  /tenders/projects/{procID}/events/{eventID}/responses/furtherInfo:
+  /tenders/projects/{proc-id}/events/{event-id}/responses/furtherInfo:
     parameters:
       - $ref: '#/components/parameters/ProcurementParam'
       - $ref: '#/components/parameters/EventParam'
@@ -2079,7 +2079,7 @@ paths:
           content:
             application/vnd.api+json:
               schema:
-                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Schema.yaml#/components/schemas/GenericID'
+                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Schema.yaml#/components/schemas/GenericId'
         '401':
           $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/401Unauthorized'
         '403':
@@ -2095,7 +2095,7 @@ paths:
             - buyer
       summary: Create further info request
       
-  /tenders/projects/{procID}/events/{eventID}/responses/suppliers/{supplierID}/furtherInfo:
+  /tenders/projects/{proc-id}/events/{event-id}/responses/suppliers/{supplier-id}/furtherInfo:
     parameters:
       - $ref: '#/components/parameters/ProcurementParam'
       - $ref: '#/components/parameters/EventParam'
@@ -2146,7 +2146,7 @@ paths:
           content:
             application/vnd.api+json:
               schema:
-                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Schema.yaml#/components/schemas/GenericID'
+                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Schema.yaml#/components/schemas/GenericId'
         '401':
           $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/401Unauthorized'
         '403':
@@ -2170,14 +2170,14 @@ paths:
         content:
           application/vnd.api+json:
             schema:
-              $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Schema.yaml#/components/schemas/GenericID'
+              $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Schema.yaml#/components/schemas/GenericId'
       responses:
         '200':
           description: ok
           content:
             application/vnd.api+json:
               schema:
-                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Schema.yaml#/components/schemas/GenericID'
+                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Schema.yaml#/components/schemas/GenericId'
         '401':
           $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/401Unauthorized'
         '403':
@@ -2192,7 +2192,7 @@ paths:
         - OAuth2:
             - buyer
       summary: Resturn Further Info
-  /tenders/projects/{procID}/events/{eventID}/responses/export:
+  /tenders/projects/{proc-id}/events/{event-id}/responses/export:
     parameters:
       - $ref: '#/components/parameters/ProcurementParam'
       - $ref: '#/components/parameters/EventParam'
@@ -2233,7 +2233,8 @@ paths:
         - OAuth2:
             - buyer
       summary: Export all responses
-  /tenders/projects/{procID}/events/{eventID}/scores:
+      
+  /tenders/projects/{proc-id}/events/{event-id}/scores:
     parameters:
       - $ref: '#/components/parameters/ProcurementParam'
       - $ref: '#/components/parameters/EventParam'
@@ -2250,7 +2251,7 @@ paths:
           content:
             application/vnd.api+json:
               schema:
-                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Schema.yaml#/components/schemas/GenericID'
+                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Schema.yaml#/components/schemas/GenericId'
         '400':
           $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/400InvalidRequest'
         '401':
@@ -2267,7 +2268,7 @@ paths:
         - OAuth2:
             - buyer
       summary: Get all scores for an RFx
-  /tenders/projects/{procID}/events/{eventID}/scores/suppliers/{supplierID}/':
+  /tenders/projects/{proc-id}/events/{event-id}/scores/suppliers/{supplier-id}/':
     parameters:
       - $ref: '#/components/parameters/ProcurementParam'
       - $ref: '#/components/parameters/EventParam'
@@ -2285,7 +2286,7 @@ paths:
           content:
             application/vnd.api+json:
               schema:
-                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Schema.yaml#/components/schemas/GenericID'
+                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Schema.yaml#/components/schemas/GenericId'
         '401':
           $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/401Unauthorized'
         '403':
@@ -2323,7 +2324,7 @@ paths:
           content:
             application/vnd.api+json:
               schema:
-                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Schema.yaml#/components/schemas/GenericID'
+                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Schema.yaml#/components/schemas/GenericId'
         '401':
           $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/401Unauthorized'
         '403':
@@ -2339,7 +2340,7 @@ paths:
             - buyer
       summary: Get all scores for an RFx
       
-  /tenders/projects/{procID}/events/{eventID}/termination/options:
+  /tenders/projects/{proc-id}/events/{event-id}/termination/options:
     parameters:
       - $ref: '#/components/parameters/ProcurementParam'
       - $ref: '#/components/parameters/EventParam'
@@ -2373,7 +2374,7 @@ paths:
             - buyer
       summary: Request options for termination
       
-  /tenders/projects/{procID}/events/{eventID}/termination:
+  /tenders/projects/{proc-id}/events/{event-id}/termination:
     parameters:
       - $ref: '#/components/parameters/ProcurementParam'
       - $ref: '#/components/parameters/EventParam'
@@ -2409,7 +2410,7 @@ paths:
             - buyer
       summary: Terminate RFx
       
-  /tenders/projects/{procID}/events/{eventID}/awards/:
+  /tenders/projects/{proc-id}/events/{event-id}/awards/:
     parameters:
       - $ref: '#/components/parameters/ProcurementParam'
       - $ref: '#/components/parameters/EventParam'
@@ -2443,7 +2444,7 @@ paths:
             - buyer
       summary: Award Procurement
       
-  /tenders/projects/{procID}/events/{eventID}/signed/:
+  /tenders/projects/{proc-id}/events/{event-id}/signed/:
     parameters:
       - $ref: '#/components/parameters/ProcurementParam'
       - $ref: '#/components/parameters/EventParam'
@@ -2483,87 +2484,87 @@ components:
   parameters:
     
     TeamParam:
-      name: teamID
+      name: team-id
       in: path
       required: true
       description: Team ID
       schema:
-        $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Schema.yaml#/components/schemas/GenericID'
+        $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Schema.yaml#/components/schemas/GenericId'
         
     TeamMemberParam:
-      name: teamMemberID
+      name: team-member-id
       in: path
       required: true
       description: Team member ID
       schema:
-        $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Schema.yaml#/components/schemas/GenericID'
+        $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Schema.yaml#/components/schemas/GenericId'
    
         
     GMParam:
-      name: GuidedMatchHistoryID
+      name: guided-match-history-id
       in: query
       required: true
       description: Guided Match ID
       schema:
-        $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Schema.yaml#/components/schemas/GenericID'
+        $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Schema.yaml#/components/schemas/GenericId'
         
     FMParam:
-      name: FMID
+      name: fm-id
       in: query
       required: true
       description: Facilities Management Transfer ID
       schema:
-        $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Schema.yaml#/components/schemas/GenericID'
+        $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Schema.yaml#/components/schemas/GenericId'
         
     ProcurementParam:
-      name: procID
+      name: proc-id
       in: path
       required: true
       description: Procurement Project ID
       schema:
-        $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Schema.yaml#/components/schemas/ProcurementProjectID'
+        $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Schema.yaml#/components/schemas/ProcurementProjectId'
         
     EventParam:
-      name: eventID
+      name: event-id
       in: path
       required: true
       description: Procurement Event ID
       schema:
-        $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Schema.yaml#/components/schemas/ProcurementEventID'
+        $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Schema.yaml#/components/schemas/ProcurementEventId'
         
     CriterionParam:
-      name: criterionID
+      name: criterion-id
       in: path
       required: true
       description: Criterion ID
       schema:
-        $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Schema.yaml#/components/schemas/GenericID'
+        $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Schema.yaml#/components/schemas/GenericId'
         
     GroupParam:
-      name: groupID
+      name: group-id
       in: path
       required: true
       description: Question Group ID
       schema:
-        $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Schema.yaml#/components/schemas/GenericID'
+        $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Schema.yaml#/components/schemas/GenericId'
     
         
     NeedParam:
-      name: questionID
+      name: question-id
       in: path
       required: true
       description: Procurement Need ID
       schema:
-        $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Schema.yaml#/components/schemas/GenericID'
+        $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Schema.yaml#/components/schemas/GenericId'
 
         
     ResponseParam:
-      name: responseID
+      name: response-id
       in: path
       required: true
       description: Response ID to a Procurement Need
       schema:
-        $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Schema.yaml#/components/schemas/GenericID'
+        $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Schema.yaml#/components/schemas/GenericId'
 
   schemas:
   
@@ -2652,14 +2653,15 @@ components:
         rfxReferenceCode:
           type: string
           description: the itt code (tender id)
-          example: itt_586          
-    TeamID:
+          example: itt_586   
+                 
+    TeamId:
       type: number
       format: integer
       example: 1234
       readOnly: true
       
-    TeamMemberID:
+    TeamMemberId:
       type: number
       format: integer
       example: 1234
@@ -2679,12 +2681,12 @@ components:
           description: 'Unique Identifier for the team.'
           readOnly: true
           allOf: 
-            - $ref: '#/components/schemas/TeamID'
+            - $ref: '#/components/schemas/TeamId'
           
         organisation:  
           description: Organisation that has defined the team
           allOf: 
-            - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Schema.yaml#/components/schemas/OrgID'
+            - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Schema.yaml#/components/schemas/OrgId'
         name:  
           type: string
           default: UAH
@@ -2729,11 +2731,11 @@ components:
       properties:
         agreementID:
           allOf:
-            - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Schema.yaml#/components/schemas/AgreementID'
+            - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Schema.yaml#/components/schemas/AgreementId'
           readOnly: false
         lotID:
           allOf:
-            - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Schema.yaml#/components/schemas/LotID'
+            - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Schema.yaml#/components/schemas/LotId'
           readOnly: false
           
     ExtendCriteria:
@@ -2762,7 +2764,7 @@ components:
           title: Package identifier
           description: The URI of this package that identifies it uniquely in the world.
           type: string
-          example: 'https://www.crowncommercial.gov.uk/tenders/projects/{ProcID}'
+          example: 'https://www.crowncommercial.gov.uk/tenders/projects/{proc-id}'
           format: uri
         #version:
         #  title: OCDS schema version
@@ -2790,7 +2792,7 @@ components:
           format: date-time
           example: 01/01/2021
         projectID:
-          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Schema.yaml#/components/schemas/ProcurementProjectID'
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Schema.yaml#/components/schemas/ProcurementProjectId'
         projectName:
           example: RM6118-Lot 2-Crown Commercial Services
           type: string
@@ -2801,7 +2803,7 @@ components:
           type: object
           properties:
             eventId: 
-              $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Schema.yaml#/components/schemas/ProcurementEventID'
+              $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Schema.yaml#/components/schemas/ProcurementEventId'
             eventSuppordId:
               example: itt_2468
               type: string
@@ -2819,7 +2821,7 @@ components:
           title: Package identifier
           description: The URI of this package that identifies it uniquely in the world.
           type: string
-          example: 'https://www.crowncommercial.gov.uk/tenders/projects/{ProcID}'
+          example: 'https://www.crowncommercial.gov.uk/tenders/projects/{proc-id}'
           format: uri
       title: Project Package
       description: The record package contains a list of Event records within a single procurement project along with some publishing metadata. The Event Records pull together all the releases of a procurement under a single Open Contracting ID and compile them into the latest version of the information along with the history of any data changes.
@@ -2911,7 +2913,7 @@ components:
         type: object
         properties:
           projectID: 
-            $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Schema.yaml#/components/schemas/ProcurementProjectID'
+            $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Schema.yaml#/components/schemas/ProcurementProjectId'
             #description: project_1055 mapped to CaT (project ID) 00002468
           
           
@@ -2921,7 +2923,7 @@ components:
       type: object
       properties:   
         eventID:
-          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Schema.yaml#/components/schemas/ProcurementEventID'
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Schema.yaml#/components/schemas/ProcurementEventId'
             #type: string
             #example: 00013579
             #description: itt_2468 mapped to CaT (eventID) 00013579 
@@ -2964,9 +2966,9 @@ components:
       type: object
       properties:
         pocurementID:
-          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Schema.yaml#/components/schemas/ProcurementProjectID'
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Schema.yaml#/components/schemas/ProcurementProjectId'
         eventID:
-          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Schema.yaml#/components/schemas/ProcurementEventID'
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Schema.yaml#/components/schemas/ProcurementEventId'
         defaultName:
           $ref: '#/components/schemas/DefaultName'
               
@@ -2980,9 +2982,9 @@ components:
           type: object
           properties:
             agreementID:
-              $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Schema.yaml#/components/schemas/AgreementID'
+              $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Schema.yaml#/components/schemas/AgreementId'
             lotID:
-              $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Schema.yaml#/components/schemas/LotID'
+              $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Schema.yaml#/components/schemas/LotId'
             org:
               type: string
               example: CCS

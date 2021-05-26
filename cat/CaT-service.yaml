@@ -919,7 +919,7 @@ paths:
       summary: Confirm procurement project
       
  
-      
+ 
   /tenders/projects/{proc-id}/events{event-id}/evals/{criterion-id}/groups/{group-id}:
     parameters:
       - $ref: '#/components/parameters/ProcurementParam'
@@ -1294,7 +1294,7 @@ paths:
             - buyer
       summary: Get get Event statuses on Procurement Project
       
-      
+
   /tenders/projects/{proc-id}/events:
     parameters:
       - $ref: '#/components/parameters/ProcurementParam'
@@ -1556,6 +1556,7 @@ paths:
             - buyer
       summary: Update Suppliers on RFx
       
+
   /tenders/projects/{proc-id}/events/{event-id}:
     parameters:
       - $ref: '#/components/parameters/ProcurementParam'
@@ -2233,7 +2234,7 @@ paths:
         - OAuth2:
             - buyer
       summary: Export all responses
-      
+
   /tenders/projects/{proc-id}/events/{event-id}/scores:
     parameters:
       - $ref: '#/components/parameters/ProcurementParam'
@@ -2340,6 +2341,7 @@ paths:
             - buyer
       summary: Get all scores for an RFx
       
+
   /tenders/projects/{proc-id}/events/{event-id}/termination/options:
     parameters:
       - $ref: '#/components/parameters/ProcurementParam'
@@ -2504,7 +2506,7 @@ components:
       name: guided-match-history-id
       in: query
       required: true
-      description: Guided Match ID
+      description: Guided Match History ID
       schema:
         $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Schema.yaml#/components/schemas/GenericId'
         
@@ -2661,6 +2663,7 @@ components:
       example: 1234
       readOnly: true
       
+
     TeamMemberId:
       type: number
       format: integer
@@ -2682,7 +2685,6 @@ components:
           readOnly: true
           allOf: 
             - $ref: '#/components/schemas/TeamId'
-          
         organisation:  
           description: Organisation that has defined the team
           allOf: 

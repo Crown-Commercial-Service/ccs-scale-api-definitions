@@ -559,7 +559,7 @@ paths:
       - $ref: '#/components/parameters/ProcurementParam'
     put:
       deprecated: false
-      description: Replace the name transfered or created for the procurement automatically with what the user wants.
+      description: Replace the name transferred or created for the procurement automatically with what the user wants.
       tags:
         - Create Procurement Project
       operationId: ConfirmProcurementProject
@@ -1358,7 +1358,7 @@ paths:
             - buyer
       summary: Create a Procurement Event
       
-  /tenders/projects/{proc-id}/{proc-id}/events/{event-id}/name:
+  /tenders/projects/{proc-id}/events/{event-id}/name:
     parameters:
       - $ref: '#/components/parameters/ProcurementParam'
       - $ref: '#/components/parameters/EventParam'

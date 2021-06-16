@@ -567,6 +567,8 @@ paths:
         content:
           application/vnd.api+json:
             schema:
+              type: object
+              title: ProcurementProjectName
               properties:
                 name:
                   type: string
@@ -1300,7 +1302,7 @@ paths:
       description: Get Event's for this Project. In OCDS this is the related cases of Type
       tags:
         - Manage Procurement Project
-      operationId: RFXs
+      operationId: GetRFXs
       responses:
         '200':
           description: ok
@@ -1372,6 +1374,8 @@ paths:
         content:
           application/vnd.api+json:
             schema:
+              type: object
+              title: ProcurementEventName
               properties:
                 name:
                   type: string

@@ -554,12 +554,12 @@ paths:
             - buyer
       summary: Create Project from an Agreement (SCC-440)
       
-  /tenders/projects/{proc-id}/confirm:
+  /tenders/projects/{proc-id}/name:
     parameters:
       - $ref: '#/components/parameters/ProcurementParam'
-    post:
-      deprecated: true
-      description: Confirm the details transfered or created for the agreement are what the user wants.
+    put:
+      deprecated: false
+      description: Replace the name transferred or created for the procurement automatically with what the user wants.
       tags:
         - Create Procurement Project
       operationId: ConfirmProcurementProject
@@ -567,14 +567,14 @@ paths:
         content:
           application/vnd.api+json:
             schema:
-              $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OCDS_Standards/CCS-OCDS_Schema.yaml#/components/schemas/Release'
+              type: object
+              title: ProcurementProjectName
+              properties:
+                name:
+                  type: string
       responses:
         '200':
-          description: ok
-          content:
-            application/vnd.api+json:
-              schema:
-                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Schema.yaml#/components/schemas/GenericId'
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/200Success'
         '401':
           $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/401Unauthorized'
         '403':
@@ -1302,7 +1302,7 @@ paths:
       description: Get Event's for this Project. In OCDS this is the related cases of Type
       tags:
         - Manage Procurement Project
-      operationId: caseRFXs
+      operationId: GetRFXs
       responses:
         '200':
           description: ok
@@ -1326,6 +1326,7 @@ paths:
         - OAuth2:
             - buyer
       summary: Get Event's for the Procurement Project
+            
       
     post:
       description: Creates a new Event for the Procurement Project.
@@ -1358,6 +1359,44 @@ paths:
         - OAuth2:
             - buyer
       summary: Create a Procurement Event
+      
+  /tenders/projects/{proc-id}/events/{event-id}/name:
+    parameters:
+      - $ref: '#/components/parameters/ProcurementParam'
+      - $ref: '#/components/parameters/EventParam'
+    put:
+      deprecated: false
+      description: Replace the name created for the event automatically with what the user wants.
+      tags:
+        - Manage Procurement Project
+      operationId: updateRFxName
+      requestBody:
+        content:
+          application/vnd.api+json:
+            schema:
+              type: object
+              title: ProcurementEventName
+              properties:
+                name:
+                  type: string
+      responses:
+        '200':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/200Success'
+        '401':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/401Unauthorized'
+        '403':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/403Forbidden'
+        '429':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/429TooManyRequests'
+        '500':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/500InternalServerError'
+        '502':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/502BadGateway'
+      security:
+        - OAuth2:
+            - buyer
+      summary: Update Procurement Event name
+      
       
   /tenders/projects/{proc-id}/events/{event-id}/needs:
     parameters:

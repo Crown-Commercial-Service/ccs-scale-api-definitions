@@ -76,7 +76,7 @@ paths:
       responses:
         '200':
           content:
-            application/vnd.api+json:
+            application/json:
               schema:
                 type: array
                 items:
@@ -111,7 +111,7 @@ paths:
         '200':
           description: ok
           content:
-            application/vnd.api+json:
+            application/json:
               schema:
                 $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Schema.yaml#/components/schemas/TsAndCs'
         '401':
@@ -143,7 +143,7 @@ paths:
         '200':
           description: ok
           content:
-            application/vnd.api+json:
+            application/json:
               schema:
                 $ref: '#/components/schemas/TeamList'
         '401':
@@ -167,7 +167,7 @@ paths:
       operationId: Create Team
       requestBody:
         content:
-          application/vnd.api+json::
+          application/json::
             schema:
               $ref: '#/components/schemas/Team'
 
@@ -175,7 +175,7 @@ paths:
         '201':
             description: TeamID for the newly created Team
             content:
-                application/vnd.api+json:
+                application/json:
                     schema:
                         $ref: '#/components/schemas/TeamId'
         '401':
@@ -237,7 +237,7 @@ paths:
         '200':
           description: ok
           content:
-            application/vnd.api+json:
+            application/json:
               schema:
                 $ref: '#/components/schemas/TeamMemberList'
         '401':
@@ -269,7 +269,7 @@ paths:
       operationId: Add Team Member
       requestBody:
         content:
-          application/vnd.api+json:
+          application/json:
             schema:
               $ref: '#/components/schemas/TeamMember'
       responses:
@@ -278,7 +278,7 @@ paths:
         '201':
           description: Added the Team Member who didnt exist
           content:
-            application/vnd.api+json:
+            application/json:
               schema:
                 $ref: '#/components/schemas/TeamMemberId'
         '401':
@@ -305,7 +305,7 @@ paths:
         '200':
           description: ok
           content:
-            application/vnd.api+json:
+            application/json:
               schema:
                 $ref: '#/components/schemas/TeamMemberList'
         '401':
@@ -337,7 +337,7 @@ paths:
         '200':
           description: ok
           content:
-            application/vnd.api+json:
+            application/json:
               schema:
                 $ref: '#/components/schemas/TeamList'
         '401':
@@ -356,7 +356,7 @@ paths:
       summary: List of users teams
       
       
-  '/tenders/EventTypes':
+  '/tenders/event-types':
     get:
       description: Retrieve a list of Event (RFx) Types we can choose from
       tags:
@@ -366,9 +366,11 @@ paths:
         '200':
           description: ok
           content:
-            application/vnd.api+json:
+            application/json:
               schema:
-                $ref: '#/components/schemas/EventTypes'
+                type: array
+                items:
+                  $ref: '#/components/schemas/EventType'
         '401':
           $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/401Unauthorized'
         '403':
@@ -400,7 +402,7 @@ paths:
         '200':
           description: ok
           content:
-            application/vnd.api+json:
+            application/json:
               schema:
                 $ref: '#/components/schemas/DefaultName'
         '401':
@@ -427,14 +429,14 @@ paths:
       operationId: CreateGMCase
       requestBody:
         content:
-          application/vnd.api+json:
+          application/json:
             schema:
               $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Schema.yaml#/components/schemas/GenericId'
       responses:
         '200':
           description: ok
           content:
-            application/vnd.api+json:
+            application/json:
               schema:
                 $ref: '#/components/schemas/DraftProcurementProject'
         '401':
@@ -461,14 +463,14 @@ paths:
       operationId: CreateFMCase
       requestBody:
         content:
-          application/vnd.api+json:
+          application/json:
             schema:
               $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Schema.yaml#/components/schemas/GenericId'
       responses:
         '200':
           description: ok
           content:
-            application/vnd.api+json:
+            application/json:
               schema:
                 $ref: '#/components/schemas/DraftProcurementProject'
         '401':
@@ -495,14 +497,14 @@ paths:
       operationId: CreateBaTTransfer
       requestBody:
         content:
-          application/vnd.api+json:
+          application/json:
             schema:
                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Schema.yaml#/components/schemas/GenericId'
       responses:
         '200':
           description: ok
           content:
-            application/vnd.api+json:
+            application/json:
               schema:
                 $ref: '#/components/schemas/DraftProcurementProject'
         '401':
@@ -529,14 +531,14 @@ paths:
       operationId: CreateAgreementCase
       requestBody:
         content:
-          application/vnd.api+json:
+          application/json:
             schema:
               $ref: '#/components/schemas/AgreementDetails'
       responses:
         '200':
           description: ok
           content:
-            application/vnd.api+json:
+            application/json:
               schema:
                 $ref: '#/components/schemas/DraftProcurementProject'
         '401':
@@ -565,7 +567,7 @@ paths:
       operationId: ConfirmProcurementProject
       requestBody:
         content:
-          application/vnd.api+json:
+          application/json:
             schema:
               type: object
               title: ProcurementProjectName
@@ -601,7 +603,7 @@ paths:
         '200':
           description: ok
           content:
-            application/vnd.api+json:
+            application/json:
               schema:
                 type: array
                 items:
@@ -634,7 +636,7 @@ paths:
         '200':
           description: ok
           content:
-            application/vnd.api+json:
+            application/json:
               schema:
                 $ref: '#/components/schemas/ProjectPackage'
         '401':
@@ -668,7 +670,7 @@ paths:
         '200':
           description: ok
           content:
-            application/vnd.api+json:
+            application/json:
               schema:
                 $ref: '#/components/schemas/ProjectTerminationType'
         '401':
@@ -689,8 +691,6 @@ paths:
   /tenders/projects/{proc-id}/users:
     parameters:
       - $ref: '#/components/parameters/ProcurementParam'
-
-
     get:
       description: Get the users who can edit the project.
       tags:
@@ -700,7 +700,7 @@ paths:
         '200':
           description: ok
           content:
-            application/vnd.api+json:
+            application/json:
               schema:
                 $ref: '#/components/schemas/TeamMemberList'
         '401':
@@ -717,6 +717,38 @@ paths:
         - OAuth2:
             - buyer
       summary: Get project users
+
+  /tenders/projects/{proc-id}/event-types:
+    parameters:
+      - $ref: '#/components/parameters/ProcurementParam'
+    get:
+      description: Retrieve a list of Event (RFx) Types we can choose from
+      tags:
+        - Manage Procurement Project
+      operationId: rfx Types applicable to project
+      responses:
+        '200':
+          description: ok
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/EventType'
+        '401':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/401Unauthorized'
+        '403':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/403Forbidden'
+        '429':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/429TooManyRequests'
+        '500':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/500InternalServerError'
+        '502':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/502BadGateway'
+      security:
+        - OAuth2:
+            - buyer
+      summary: List Procurement Event types applicable to project
       
   /tenders/projects/{proc-id}/users/{user-id}:
     parameters:
@@ -733,7 +765,7 @@ paths:
         '200':
           description: ok
           content:
-            application/vnd.api+json:
+            application/json:
               schema:
                 $ref: '#/components/schemas/TeamMemberList'
         '401':
@@ -760,7 +792,7 @@ paths:
         '200':
           description: ok
           content:
-            application/vnd.api+json:
+            application/json:
               schema:
                 $ref: '#/components/schemas/TeamMemberList'
         '401':
@@ -794,7 +826,7 @@ paths:
         '200':
           description: ok
           content:
-            application/vnd.api+json:
+            application/json:
               schema:
                 type: array
                 items:
@@ -830,7 +862,7 @@ paths:
         '200':
           description: ok
           content:
-            application/vnd.api+json:
+            application/json:
               schema:
                 type: array
                 items:
@@ -866,7 +898,7 @@ paths:
         '200':
           description: ok
           content:
-            application/vnd.api+json:
+            application/json:
               schema:
                 type: array
                 items:
@@ -893,14 +925,14 @@ paths:
       operationId: CreateEvalCriterionGroup
       requestBody:
         content:
-          application/vnd.api+json:
+          application/json:
             schema:
               $ref: '#/components/schemas/QuestionGroup'
       responses:
         '200':
           description: ok
           content:
-            application/vnd.api+json:
+            application/json:
               schema:
                 $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Schema.yaml#/components/schemas/GenericId'
         '401':
@@ -935,14 +967,14 @@ paths:
       operationId: EditEvalCriterionGroup
       requestBody:
         content:
-          application/vnd.api+json:
+          application/json:
             schema:
               $ref: '#/components/schemas/QuestionGroup'
       responses:
         '200':
           description: ok
           content:
-            application/vnd.api+json:
+            application/json:
               schema:
                 $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Schema.yaml#/components/schemas/GenericId'
         '401':
@@ -969,7 +1001,7 @@ paths:
         '200':
           description: ok
           content:
-            application/vnd.api+json:
+            application/json:
               schema:
                 type: array
                 items:
@@ -1006,7 +1038,7 @@ paths:
         '200':
           description: ok
           content:
-            application/vnd.api+json:
+            application/json:
               schema:
                 type: array
                 items:
@@ -1033,14 +1065,14 @@ paths:
       operationId: CreateEvalGroupQuestion
       requestBody:
         content:
-          application/vnd.api+json:
+          application/json:
             schema:
               $ref: '#/components/schemas/QuestionGroup'
       responses:
         '200':
           description: ok
           content:
-            application/vnd.api+json:
+            application/json:
               schema:
                 $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Schema.yaml#/components/schemas/GenericId'
         '401':
@@ -1075,7 +1107,7 @@ paths:
         '200':
           description: ok
           content:
-            application/vnd.api+json:
+            application/json:
               schema:
                 type: array
                 items:
@@ -1112,7 +1144,7 @@ paths:
         '200':
           description: ok
           content:
-            application/vnd.api+json:
+            application/json:
               schema:
                 $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OCDS_Standards/CCS-OCDS_Schema.yaml#/components/schemas/Criterion'
         '401':
@@ -1138,14 +1170,14 @@ paths:
       operationId: updateHLNeedForm
       requestBody:
         content:
-          application/vnd.api+json:
+          application/json:
             schema:
               $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OCDS_Standards/CCS-OCDS_Schema.yaml#/components/schemas/Requirement'
       responses:
         '200':
           description: ok
           content:
-            application/vnd.api+json:
+            application/json:
               schema:
                 $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Schema.yaml#/components/schemas/GenericId'
         '401':
@@ -1180,7 +1212,7 @@ paths:
         '200':
           description: ok
           content:
-            application/vnd.api+json:
+            application/json:
               schema:
                 type: array
                 items:
@@ -1208,14 +1240,14 @@ paths:
       operationId: updateHLNeedDocument
       requestBody:
         content:
-          application/vnd.api+json:
+          application/json:
             schema:
               $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OCDS_Standards/CCS-OCDS_Schema.yaml#/components/schemas/Document'
       responses:
         '200':
           description: ok
           content:
-            application/vnd.api+json:
+            application/json:
               schema:
                 $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Schema.yaml#/components/schemas/GenericId'
         '401':
@@ -1276,7 +1308,7 @@ paths:
         '200':
           description: ok
           content:
-            application/vnd.api+json:
+            application/json:
               schema:
                 $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OCDS_Standards/CCS-OCDS_Schema.yaml#/components/schemas/ProcessStage'
         '401':
@@ -1307,7 +1339,7 @@ paths:
         '200':
           description: ok
           content:
-            application/vnd.api+json:
+            application/json:
               schema:
                 type: array
                 items:
@@ -1335,14 +1367,14 @@ paths:
       operationId: createCaseRFx
       requestBody:
         content:
-          application/vnd.api+json:
+          application/json:
             schema:
               $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OCDS_Standards/CCS-OCDS_Schema.yaml#/components/schemas/Tender'
       responses:
         '200':
           description: ok
           content:
-            application/vnd.api+json:
+            application/json:
               schema:
                 $ref: '#/components/schemas/EventStatus'
         '401':
@@ -1372,7 +1404,7 @@ paths:
       operationId: updateRFxName
       requestBody:
         content:
-          application/vnd.api+json:
+          application/json:
             schema:
               type: object
               title: ProcurementEventName
@@ -1412,7 +1444,7 @@ paths:
         '200':
           description: ok
           content:
-            application/vnd.api+json:
+            application/json:
               schema:
                 type: array
                 items:
@@ -1450,7 +1482,7 @@ paths:
         '200':
           description: ok
           content:
-            application/vnd.api+json:
+            application/json:
               schema:
                 type: array
                 items:
@@ -1478,14 +1510,14 @@ paths:
       operationId: updateNeedDocument
       requestBody:
         content:
-          application/vnd.api+json:
+          application/json:
             schema:
               $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OCDS_Standards/CCS-OCDS_Schema.yaml#/components/schemas/Document'
       responses:
         '200':
           description: ok
           content:
-            application/vnd.api+json:
+            application/json:
               schema:
                 $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Schema.yaml#/components/schemas/GenericId'
         '401':
@@ -1518,7 +1550,7 @@ paths:
         '200':
           description: OK
           content:
-            application/vnd.api+json:
+            application/json:
               schema:
                 type: array
                 items:
@@ -1544,7 +1576,7 @@ paths:
       operationId: addSupplier
       requestBody:
         content:
-          application/vnd.api+json:
+          application/json:
             schema:
               $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OCDS_Standards/CCS-OCDS_Schema.yaml#/components/schemas/OrganizationReference'
       responses:
@@ -1611,7 +1643,7 @@ paths:
         '200':
           description: ok
           content:
-            application/vnd.api+json:
+            application/json:
               schema:
                 $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OCDS_Standards/CCS-OCDS_Schema.yaml#/components/schemas/Tender'
         '401':
@@ -1644,7 +1676,7 @@ paths:
         '200':
           description: ok
           content:
-            application/vnd.api+json:
+            application/json:
               schema:
                 type: array
                 items:
@@ -1677,7 +1709,7 @@ paths:
       operationId: GotoMarket
       requestBody:
         content:
-          application/vnd.api+json:
+          application/json:
             schema:
               $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OCDS_Standards/CCS-OCDS_Schema.yaml#/components/schemas/ProcurementMethod'
       responses:
@@ -1710,7 +1742,7 @@ paths:
       operationId: extendRFx
       requestBody:
         content:
-          application/vnd.api+json::
+          application/json::
             schema:
               $ref: '#/components/schemas/ExtendCriteria'
       responses:
@@ -1746,7 +1778,7 @@ paths:
         '200':
           description: ok
           content:
-            application/vnd.api+json:
+            application/json:
               schema:
                 $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OCDS_Standards/CCS-OCDS_Schema.yaml#/components/schemas/ProcessStage'
         '401':
@@ -1779,7 +1811,7 @@ paths:
         '200':
           description: ok
           content:
-            application/vnd.api+json:
+            application/json:
               schema:
                 type: array
                 items:
@@ -1815,7 +1847,7 @@ paths:
         '200':
           description: ok
           content:
-            application/vnd.api+json:
+            application/json:
               schema:
                 type: array
                 items:
@@ -1850,7 +1882,7 @@ paths:
         '200':
           description: ok
           content:
-            application/vnd.api+json:
+            application/json:
               schema:
                 $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OCDS_Standards/CCS-OCDS_Schema.yaml#/components/schemas/RequirementResponse'
         '401':
@@ -1883,7 +1915,7 @@ paths:
         '200':
           description: ok
           content:
-            application/vnd.api+json:
+            application/json:
               schema:
                 type: array
                 items:
@@ -1920,7 +1952,7 @@ paths:
         '200':
           description: ok
           content:
-            application/vnd.api+json:
+            application/json:
               schema:
                 $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OCDS_Standards/CCS-OCDS_Schema.yaml#/components/schemas/RequirementResponse'
         '401':
@@ -1944,14 +1976,14 @@ paths:
       operationId: updateHLNeedFormResponse
       requestBody:
         content:
-          application/vnd.api+json:
+          application/json:
             schema:
               $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Schema.yaml#/components/schemas/GenericId'
       responses:
         '200':
           description: ok
           content:
-            application/vnd.api+json:
+            application/json:
               schema:
                 $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Schema.yaml#/components/schemas/GenericId'
         '401':
@@ -1986,7 +2018,7 @@ paths:
         '200':
           description: ok
           content:
-            application/vnd.api+json:
+            application/json:
               schema:
                 type: array
                 items:
@@ -2012,14 +2044,14 @@ paths:
       operationId: updateHLNeedDocumentResponse
       requestBody:
         content:
-          application/vnd.api+json:
+          application/json:
             schema:
               $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OCDS_Standards/CCS-OCDS_Schema.yaml#/components/schemas/Document'
       responses:
         '200':
           description: ok
           content:
-            application/vnd.api+json:
+            application/json:
               schema:
                 $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Schema.yaml#/components/schemas/GenericId'
         '401':
@@ -2052,7 +2084,7 @@ paths:
         '200':
           description: ok
           content:
-            application/vnd.api+json:
+            application/json:
               schema:
                 $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Schema.yaml#/components/schemas/GenericId'
         '401':
@@ -2084,7 +2116,7 @@ paths:
         '200':
           description: ok
           content:
-            application/vnd.api+json:
+            application/json:
               schema:
                 type: array
                 items:
@@ -2110,14 +2142,14 @@ paths:
       operationId: createFurtherInfoRequest
       requestBody:
         content:
-          application/vnd.api+json:
+          application/json:
             schema:
               $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OCDS_Standards/CCS-OCDS_Schema.yaml#/components/schemas/Enquiry'
       responses:
         '200':
           description: ok
           content:
-            application/vnd.api+json:
+            application/json:
               schema:
                 $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Schema.yaml#/components/schemas/GenericId'
         '401':
@@ -2151,7 +2183,7 @@ paths:
         '200':
           description: ok
           content:
-            application/vnd.api+json:
+            application/json:
               schema:
                 type: array
                 items:
@@ -2177,14 +2209,14 @@ paths:
       operationId: createSupplierFurtherInfoRequest
       requestBody:
         content:
-          application/vnd.api+json:
+          application/json:
             schema:
               $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OCDS_Standards/CCS-OCDS_Schema.yaml#/components/schemas/Enquiry'
       responses:
         '200':
           description: ok
           content:
-            application/vnd.api+json:
+            application/json:
               schema:
                 $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Schema.yaml#/components/schemas/GenericId'
         '401':
@@ -2208,14 +2240,14 @@ paths:
       operationId: supplierFurtherInfo
       requestBody:
         content:
-          application/vnd.api+json:
+          application/json:
             schema:
               $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Schema.yaml#/components/schemas/GenericId'
       responses:
         '200':
           description: ok
           content:
-            application/vnd.api+json:
+            application/json:
               schema:
                 $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Schema.yaml#/components/schemas/GenericId'
         '401':
@@ -2289,7 +2321,7 @@ paths:
         '200':
           description: ok
           content:
-            application/vnd.api+json:
+            application/json:
               schema:
                 $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Schema.yaml#/components/schemas/GenericId'
         '400':
@@ -2324,7 +2356,7 @@ paths:
         '200':
           description: ok
           content:
-            application/vnd.api+json:
+            application/json:
               schema:
                 $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Schema.yaml#/components/schemas/GenericId'
         '401':
@@ -2362,7 +2394,7 @@ paths:
         '200':
           description: ok
           content:
-            application/vnd.api+json:
+            application/json:
               schema:
                 $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Schema.yaml#/components/schemas/GenericId'
         '401':
@@ -2397,7 +2429,7 @@ paths:
         '200':
           description: ok
           content:
-            application/vnd.api+json:
+            application/json:
               schema:
                 $ref: '#/components/schemas/TerminationTypes'
         '401':
@@ -2429,7 +2461,7 @@ paths:
       operationId: terminate
       requestBody:
         content:
-          application/vnd.api+json:
+          application/json:
             schema:
               $ref: '#/components/schemas/TerminationType'
       responses:
@@ -2464,7 +2496,7 @@ paths:
       operationId: award
       requestBody:
         content:
-          application/vnd.api+json:
+          application/json:
             schema:
               $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OCDS_Standards/CCS-OCDS_Schema.yaml#/components/schemas/Award'
       responses:
@@ -2498,7 +2530,7 @@ paths:
       operationId: signed
       requestBody:
         content:
-          application/vnd.api+json:
+          application/json:
             schema:
               $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OCDS_Standards/CCS-OCDS_Schema.yaml#/components/schemas/Contract'
       responses:
@@ -2905,29 +2937,9 @@ components:
         - complete
         - withdrawn
       example: "cancelled"
-
-        
-    
-        
-    EventTypes:
-      description: >-
-        Generic term for an event put out to the market. There are several types-
-
-          * EOI - Expression of Interest
-          * RFI -  Request for Information
-          * RFP - Request for Proposal
-      type: array
-      items:
-        $ref: '#/components/schemas/EventType'
-      example: [
-        "EOI",
-        "RFI",
-        "RFP"
-        ]
-        
         
     EventType:
-      title: Event types
+      title: Event type
       description: >-
         Generic term for an event put out to the market. There are several types-
 

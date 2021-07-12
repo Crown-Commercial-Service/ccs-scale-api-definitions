@@ -2803,9 +2803,11 @@ components:
       type: object
       properties:
         agreementID:
-          allOf:
-            - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Schema.yaml#/components/schemas/AgreementId'
-          readOnly: false
+          type: string
+          pattern: RM[0-9]{4}(.[0-9]{1,2})?
+          example: RM1234
+          readOnly: true
+
         lotID:
           allOf:
             - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Schema.yaml#/components/schemas/LotId'

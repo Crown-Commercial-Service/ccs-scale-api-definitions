@@ -2960,14 +2960,13 @@ components:
       description: >-
         Generic term for an event put out to the market. Each is an optional procurement step in the procurement process. This casll shows the current status of each in the procurement process.
       type: object
-      items:
-        allOf:
-          - $ref: '#/components/schemas/EventSummary'
-          - type: object
-      properties:
-        projectID: 
-          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Schema.yaml#/components/schemas/ProcurementProjectId'
-          #description: project_1055 mapped to CaT (project ID) 00002468
+      allOf:
+        - $ref: '#/components/schemas/EventSummary'
+        - type: object
+          properties:
+            projectID: 
+              $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Schema.yaml#/components/schemas/ProcurementProjectId'
+              #description: project_1055 mapped to CaT (project ID) 00002468
           
           
     EventSummary:

@@ -2805,8 +2805,6 @@ components:
         agreementID:
           type: string
           pattern: RM[0-9]{4}(.[0-9]{1,2})?
-          example: RM1234
-          readOnly: true
 
         lotID:
           allOf:

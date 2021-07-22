@@ -3097,11 +3097,11 @@ components:
                 nature of this procurement.
               type: string
               nullable: true
-            description:
-              title: Tender description
-              description: A summary description of the tender. This complements any structured information provided using the items array. Descriptions should be short and easy to read. Avoid using ALL CAPS.
-              type: string
-              nullable: true
+            #description:
+            #  title: Tender description
+            #  description: A summary description of the tender. This complements any structured information provided using the items array. Descriptions should be short and easy to read. Avoid using ALL CAPS.
+            #  type: string
+            #  nullable: true
             status:
               allOf: 
                 - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/OCDS/OCDS_CodeLists.yaml#/components/schemas/TenderStatus'
@@ -3109,24 +3109,24 @@ components:
               title: Procuring entity
               description: 'The entity managing the procurement. This may be different from the buyer who pays for, or uses, the items being procured.'
               allOf:
-                - $ref: '#/components/schemas/OrganizationReference'
+                - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OCDS_Standards/CCS-OCDS_Schema.yaml#/components/schemas/OrganizationReference'
             items:
               title: Items to be procured
               description: 'The goods and services to be purchased, broken into line items wherever possible. Items should not be duplicated, but the quantity specified instead.'
               type: array
               items:
-                $ref: '#/components/schemas/Item'
+                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OCDS_Standards/CCS-OCDS_Schema.yaml#/components/schemas/Item'
               uniqueItems: true
             value:
               title: Value
               description: The total upper estimated value of the procurement. A negative value indicates that the contracting process may involve payments from the supplier to the buyer (commonly used in concession contracts).
               allOf:
-                - $ref: '#/components/schemas/Value'
+                - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OCDS_Standards/CCS-OCDS_Schema.yaml#/components/schemas/Value'
             minValue:
               title: Minimum value
               description: The minimum estimated value of the procurement.  A negative value indicates that the contracting process may involve payments from the supplier to the buyer (commonly used in concession contracts).
               allOf:
-                - $ref: '#/components/schemas/Value'
+                - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OCDS_Standards/CCS-OCDS_Schema.yaml#/components/schemas/Value'
             procurementMethod:
               allOf: 
                 - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/OCDS/OCDS_CodeLists.yaml#/components/schemas/ProcurementMethod'
@@ -3168,12 +3168,12 @@ components:
               title: Tender period
               description: The period when the tender is open for submissions. The end date is the closing date for tender submissions.
               allOf:
-                - $ref: '#/components/schemas/Period'
+                - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OCDS_Standards/CCS-OCDS_Schema.yaml#/components/schemas/Period'
             enquiryPeriod:
               title: Enquiry period
               description: 'The period during which potential bidders may submit questions and requests for clarification to the entity managing procurement. Details of how to submit enquiries should be provided in attached notices, or in submissionMethodDetails. Structured dates for when responses to questions will be made can be provided using tender milestones.'
               allOf:
-                - $ref: '#/components/schemas/Period'
+                - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OCDS_Standards/CCS-OCDS_Schema.yaml#/components/schemas/Period'
             hasEnquiries:
               title: Has enquiries?
               description: 'A true/false field to indicate whether any enquiries were received during the tender process. Structured information on enquiries that were received, and responses to them, can be provided using the enquiries extension.'
@@ -3188,12 +3188,12 @@ components:
               title: Evaluation and award period
               description: The period for decision making regarding the contract award. The end date should be the date on which an award decision is due to be finalized. The start date may be used to indicate the start of an evaluation period.
               allOf:
-                - $ref: '#/components/schemas/Period'
+                - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OCDS_Standards/CCS-OCDS_Schema.yaml#/components/schemas/Period'
             contractPeriod:
               description: 'The period over which the contract is estimated or required to be active. If the tender does not specify explicit dates, the duration field may be used.'
               title: Contract period
               allOf:
-                - $ref: '#/components/schemas/Period'
+                - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OCDS_Standards/CCS-OCDS_Schema.yaml#/components/schemas/Period'
             numberOfTenderers:
               title: Number of tenderers
               description: The number of parties who submit a bid.
@@ -3204,33 +3204,107 @@ components:
               description: All parties who submit a bid on a tender. More detailed information on bids and the bidding organization can be provided using the bid extension.
               type: array
               items:
-                $ref: '#/components/schemas/OrganizationReference'
+                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OCDS_Standards/CCS-OCDS_Schema.yaml#/components/schemas/OrganizationReference'
             documents:
               title: Documents
               description: 'All documents and attachments related to the tender, including any notices. See the [documentType](https://standard.open-contracting.org/latest/en/schema/codelists/#document-type) codelist for details of potential documents to include. Common documents include official legal notices of tender, technical specifications, evaluation criteria, and, as a tender process progresses, clarifications and replies to queries.'
               type: array
               items:
-                 $ref: '#/components/schemas/Document'
+                 $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OCDS_Standards/CCS-OCDS_Schema.yaml#/components/schemas/Document'
             milestones:
               title: Milestones
               description: A list of milestones associated with the tender.
               type: array
               items:
-                $ref: '#/components/schemas/Milestone'
+                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OCDS_Standards/CCS-OCDS_Schema.yaml#/components/schemas/Milestone'
             amendments:
               description: 'A tender amendment is a formal change to the tender, and generally involves the publication of a new tender notice/release. The rationale and a description of the changes made can be provided here.'
               type: array
               title: Amendments
               items:
-                $ref: '#/components/schemas/Amendment'
+                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OCDS_Standards/CCS-OCDS_Schema.yaml#/components/schemas/Amendment'
             amendment:
               title: Amendment
               description: The use of individual amendment objects has been deprecated. From OCDS 1.1 information should be provided in the amendments array.
               allOf:
-                - $ref: '#/components/schemas/Amendment'
+                - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OCDS_Standards/CCS-OCDS_Schema.yaml#/components/schemas/Amendment'
               deprecated: true
+            
+            #$ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/OCDS/OCDS_Competitive.yaml#/components/schemas/Tender'  
+            competitive:
+              title: Is the framework agreement call-off competitive?
+              description: A true/false field to indicate whether this call-off is competitive or not.
+              nullable: true
+              type: boolean
+            
+            #$ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/OCDS/OCDS_Lot_Ext.yaml#/components/schemas/Tender'
+            lots:
+              title: Lots
+              description: 'A tender process may be divided into lots, where bidders can bid on one or more lots. Details of each lot can be provided here. Items, documents and other features can then reference the lot they are related to using relatedLot. Where no relatedLots identifier is given, the values should be interpreted as applicable to the whole tender. Properties of tender can be overridden for a given Lot through their inclusion in the Lot object.'
+              type: array
+              items:
+                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/OCDS/OCDS_Lot_Ext.yaml#/components/schemas/Lot'
+            lotDetails:
+              title: Lot Details
+              description: 'If this tender is divided into lots, details can be provided here of any criteria that apply to bidding on these lots. This extended property is currently focused on fields required by the EU TED data standard'
+              type: object
+              properties:
+                maximumLotsBidPerSupplier:
+                  title: Maximum lots per supplier
+                  description: The maximum number of lots that one supplier may bid for as part of this contracting process.
+                  nullable: true
+                  type: integer
+                maximumLotsAwardedPerSupplier:
+                  title: Maximum lots per supplier
+                  description: The maximum number of lots that may be awarded to one supplier as part of this contracting process.
+                  nullable: true
+                  type: integer
+                awardCriteriaDetails:
+                  title: Award criteria details
+                  description: Any detailed or further information on the award or selection criteria.
+                  nullable: true
+                  type: string
+            lotGroups:
+              title: Lot groups
+              description: 'Where the buyer reserves the right to combine lots, or wishes to specify the total value for a group of lots, a lot group is used to capture this information.'
+              type: array
+              items:
+                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/OCDS/OCDS_Lot_Ext.yaml#/components/schemas/LotGroup'
+            
+            #$ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/OCDS/OCDS_Enquiries_Ext.yaml#/components/schemas/Tender'     
+            enquiries:
+              title: Enquiries
+              nullable: true
+              type: array
+              description: 'Questions sent to the procuring entity, and the answers given'
+              items:
+                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/OCDS/OCDS_Enquiries_Ext.yaml#/components/schemas/Enquiry'
+              uniqueItems: true  
               
+            #$ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/OCDS/OCDS_Requirements_Ext.yaml#/components/schemas/Tender'
+            criteria:
+              title: Criteria
+              description: 'A list of criteria on which either bidders or items will be judged, evaluated or assessed.'
+              type: array
+              items:
+                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/OCDS/OCDS_Requirements_Ext.yaml#/components/schemas/Criterion'
+              uniqueItems: true
+              minItems: 1
               
+            #$ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/OCDS/OCDS_SelectionCriteria_Ext.yaml#/components/schemas/Tender'
+            selectionCriteria:
+              title: Selection criteria
+              description: Information about the conditions for participation in a procedure.
+              allOf:
+                - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/OCDS/OCDS_SelectionCriteria_Ext.yaml#/components/schemas/SelectionCriteria'
+                
+            #$ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/OCDS/OCDS_Techniques_Ext.yaml#/components/schemas/Tender'
+            techniques:
+              title: Techniques
+              description: 'Information about the use of techniques, such as framework agreements, dynamic purchasing systems and electronic auctions.'
+              allOf:
+                - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/OCDS/OCDS_Techniques_Ext.yaml#/components/schemas/Techniques'
+                
     ProjectTerminationType:
       #allOf:
       #  - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OCDS_Standards/CCS-OCDS_Schema.yaml#/components/schemas/TenderStatus'

@@ -1,0 +1,1812 @@
+openapi: 3.0.0
+
+info:
+  title: Jaggaer API
+  description: Conversion of Jaggaer API documentation into Swagger.
+  version: 0.1.9
+servers:
+  - url: http://api.example.com/v1
+    description: Optional server description, e.g. Main (production) server
+  - url: http://staging-api.example.com
+    description: Optional server description, e.g. Internal staging server for testing
+
+paths:
+# Start of end points for Salesforce to eSourcing Project 
+
+  /esop/jint/api/ja/v1/projects/:
+    post:
+      tags:
+        - PROJECT       
+      description: Creates a new CCS procurement case in the Jaggaer eSourcing platform.
+      operationId: CreateProjects
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Project'
+      responses:               
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UpdateResponse'    
+          description: "Aquery successfully executed"
+        '400':
+          description: "Wrong or missing data in the request"
+        '401':
+          description: "Unauthorized request ( i.e. the provided credentials are invalid)"
+        '500':
+          description: "Internal error"
+   
+    get:
+      deprecated: false
+      tags:
+        - PROJECT 
+      summary: "US3-6 - Update an ITT event's details (in Salesforce) when it has been published on the eSourcing platform to the invited suppliers."
+      operationId: GetProjectList   
+      parameters:
+        - $ref: '#/components/parameters/ConditionParam'
+        - $ref: '#/components/parameters/DataElementConditionParam'
+        - $ref: '#/components/parameters/ComponentParam'
+        - $ref: '#/components/parameters/StartParam'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProjectListResponse'    
+          description: "Aquery successfully executed"
+        '400':
+          description: "Wrong or missing data in the request"
+        '401':
+          description: "Unauthorized request ( i.e. the provided credentials are invalid)"
+        '500':
+          description: "Internal error"
+          
+  /esop/jint/api/ja/v1/projects/{project-id}:
+    parameters:
+      - $ref: '#/components/parameters/ProjectParam'
+    get:
+      deprecated: false
+      tags:
+        - PROJECT 
+      summary: "US3-6 - Update an ITT event's details (in Salesforce) when it has been published on the eSourcing platform to the invited suppliers."
+      operationId: GetProject   
+      parameters:
+        - $ref: '#/components/parameters/ConditionParam'
+        - $ref: '#/components/parameters/DataElementConditionParam'
+        - $ref: '#/components/parameters/ComponentParam'
+        - $ref: '#/components/parameters/StartParam'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Project'      
+          description: "Aquery successfully executed"
+        '400':
+          description: "Wrong or missing data in the request"
+        '404':
+          description: "The object with the provided id does not exist"
+        '401':
+          description: "Unauthorized request ( i.e. the provided credentials are invalid)"
+        '500':
+          description: "Internal error"
+          
+  /esop/jint/api/ja/v1/rfxs/:
+    post:
+      tags:
+        - RFX       
+      description: Creates a new CCS procurement case in the Jaggaer eSourcing platform.
+      operationId: CreateRFx
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RFX'
+      responses:               
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UpdateResponse'    
+          description: "Aquery successfully executed"
+        '400':
+          description: "Wrong or missing data in the request"
+        '401':
+          description: "Unauthorized request ( i.e. the provided credentials are invalid)"
+        '500':
+          description: "Internal error"
+   
+    get:
+      deprecated: false
+      tags:
+        - RFX 
+      summary: "US3-6 - Update an ITT event's details (in Salesforce) when it has been published on the eSourcing platform to the invited suppliers."
+      operationId: GetRFxList   
+      parameters:
+        - $ref: '#/components/parameters/ConditionParam'
+        - $ref: '#/components/parameters/DataElementConditionParam'
+        - $ref: '#/components/parameters/ComponentParam'
+        - $ref: '#/components/parameters/StartParam'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RFxListResponse'    
+          description: "Aquery successfully executed"
+        '400':
+          description: "Wrong or missing data in the request"
+        '401':
+          description: "Unauthorized request ( i.e. the provided credentials are invalid)"
+        '500':
+          description: "Internal error"
+          
+  /esop/jint/api/ja/v1/rfxs/{rfx-id}:
+    parameters:
+      - $ref: '#/components/parameters/RFxParam'
+    get:
+      deprecated: false
+      tags:
+        - RFX 
+      summary: "US3-6 - Update an ITT event's details (in Salesforce) when it has been published on the eSourcing platform to the invited suppliers."
+      operationId: GetRFx   
+      parameters:
+        
+        - $ref: '#/components/parameters/ConditionParam'
+        - $ref: '#/components/parameters/DataElementConditionParam'
+        - $ref: '#/components/parameters/ComponentParam'
+        - $ref: '#/components/parameters/StartParam'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RFX'      
+          description: "Aquery successfully executed"
+        '400':
+          description: "Wrong or missing data in the request"
+        '404':
+          description: "The object with the provided id does not exist"
+        '401':
+          description: "Unauthorized request ( i.e. the provided credentials are invalid)"
+        '500':
+          description: "Internal error"
+
+
+components:
+
+  parameters:
+   
+    ComponentParam:
+      name: comp
+      in: query
+      required: true
+      description: Component Filters
+      schema:
+        type: array
+        items:
+          type: string
+          enum:
+            - TENDER
+            - ADDITIONAL_INFO
+            - BUYER_ATTACHMENTS
+            - SELLER_ATTACHMENTS
+            - OPPORTUNITY
+            - OPPORTUNITY_ATTACHMENTS
+            - OPPORTUNITY_ADDITIONAL_INFO
+            - CATEGORIES
+            - PROJECT_TEAM
+            - PROJECT_OBJECTS
+            - PURCHASE_REQUESTS
+            
+    DataElementConditionParam:
+      name: deFlt
+      in: query
+      required: true
+      description: Data Element Condition Filters
+      schema:
+        type: array
+        items:
+          type: string
+          enum:
+            - tenderState
+            - lastUpdateDate
+            - listingExpiryDate
+            - code
+            - tenderCode
+            - tenderReferenceCode
+            - tenderTitle
+            - tenderDescription
+            - companyName
+            - divisionName
+            - opportunityDescription
+            - workCategory
+            - procurementRoute
+            - categoryReferenceCode
+            - projectType
+            - projectOwner 
+            - deletedStatus
+            - companyId
+            - divisionId
+            - projectOwnerId
+            - independentLocale 
+            
+    ConditionParam:
+      name: flt
+      in: query
+      required: true
+      description: MAIN Condition Filters
+      schema:
+        type: array
+        items:
+          type: string
+          enum:
+            - tenderState
+            - lastUpdateDate
+            - listingExpiryDate
+            - code
+            - tenderCode
+            - tenderReferenceCode
+            - tenderTitle
+            - tenderDescription
+            - companyName
+            - divisionName
+            - opportunityDescription
+            - workCategory
+            - procurementRoute
+            - categoryReferenceCode
+            - projectType
+            - projectOwner 
+            - deletedStatus
+            - companyId
+            - divisionId
+            - projectOwnerId
+            - independentLocale 
+            
+    StartParam:
+      name: start
+      in: query
+      required: true
+      description: Start At
+      schema:
+        type: integer
+        
+    ProjectParam:
+      name: project-id
+      in: path
+      required: true
+      description: Project ID
+      schema:
+        type: integer
+        minimum: 1
+        
+    RFxParam:
+      name: rfx-id
+      in: path
+      required: true
+      description: RFI or RFQ ID
+      schema:
+        type: integer
+        minimum: 1    
+    
+          
+  schemas:
+    UpdateResponse:
+      title: Project Response
+      type: object
+      required:
+        - returnCode
+        - returnMessage
+      properties:
+        returnCode:
+          type: integer
+          example: 0
+        returnMessage:
+          type: string
+          example: "OK"
+          
+    ProjectListResponse:
+      title: Project Response
+      type: object
+      required:
+        - returnCode
+        - returnMessage
+        - totRecords
+        - returnedRecords
+        - startAt
+        - projectList
+      properties:
+        returnCode:
+          type: integer
+          example: 0
+        returnMessage:
+          type: string
+          example: "OK"
+        totRecords:
+          type: integer
+          example: 2119
+        returnedRecords:
+          type: integer
+          example: 100
+        startAt:
+          type: integer
+          example: 0
+        projectList:
+          $ref: '#/components/schemas/ProjectList'
+        
+          
+    RFxListResponse:
+      title: RFX Response
+      type: object
+      required:
+        - returnCode
+        - returnMessage
+        - totRecords
+        - returnedRecords
+        - startAt
+        - datatList
+      properties:
+        returnCode:
+          type: integer
+          example: 0
+        returnMessage:
+          type: string
+          example: "OK"
+        totRecords:
+          type: integer
+          example: 2119
+        returnedRecords:
+          type: integer
+          example: 100
+        startAt:
+          type: integer
+          example: 0
+        dataList:
+          $ref: '#/components/schemas/RFxList'    
+    
+    ProjectList:
+      title: ProjectList
+      type: object
+      properties:
+        project:
+          type: array
+          items:
+            $ref: '#/components/schemas/Project'
+            
+    RFxList:
+      title: RFxList
+      type: object
+      properties:
+        rfx:
+          type: array
+          items:
+            $ref: '#/components/schemas/RFX'
+  
+            
+    Project:
+      type: object
+      properties:
+        tender:
+          $ref: '#/components/schemas/Tender'
+        projectTeam:
+          $ref: '#/components/schemas/ProjectTeam'
+        projectObjectList:
+          $ref: '#/components/schemas/ProjectObjectList'
+        purchaseRequestList:
+          $ref: '#/components/schemas/PurchaseRequestList'
+          
+    RFX:
+      type: object
+      properties:
+        rfxSetting:
+          $ref: '#/components/schemas/RFxSetting'
+        rfxPlanning:
+          $ref: '#/components/schemas/RFxPlanning'
+        rfxAdditionalInfoList:
+          type: array
+          items:
+            $ref: '#/components/schemas/AdditionalInfoList'
+        buyerAttachmentsList:
+          type: array
+          items:
+            $ref: '#/components/schemas/BuyerAttachmentList'
+        sellerAttachmentsList:
+          type: array
+          items:
+            $ref: '#/components/schemas/SellerAttachmentList'
+        instructionalAttachmentsList:
+          type: array
+          items:
+            $ref: '#/components/schemas/InstructionAttachmentList'
+        awardAttachmentsList:
+          type: array
+          items:
+            $ref: '#/components/schemas/AwardAttachmentList'
+        publishResultDocumentsList:
+          type: array
+          items:
+            $ref: '#/components/schemas/PublishResultDocumentsList'
+        qualEnvelope:
+          $ref: '#/components/schemas/QualEnvelope'
+        techEnvelope:
+          $ref: '#/components/schemas/TechEnvelope'
+        commEnvelope:
+          $ref: '#/components/schemas/CommEnvelope'
+        suppliersList:
+          $ref: '#/components/schemas/SuppliersList' 
+        offersList:
+          $ref: '#/components/schemas/OffersList'
+        evaluationGroupList:
+          $ref: '#/components/schemas/EvaluationGroupList'
+        emailRecipientList:
+          $ref: '#/components/schemas/EmailRecipientList'
+        evaluationCommentsList:
+          $ref: '#/components/schemas/EvaluationCommentsList'
+        offlineAnswersList:
+          $ref: '#/components/schemas/OfflineAnswersList'
+        suppliersResponseCounters:
+          $ref: '#/components/schemas/SupplierResponseCounters'
+        additionalTerms:
+          $ref: '#/components/schemas/AdditionalTerms'
+        rfxTioc:
+          $ref: '#/components/schemas/RfxTioc'
+            
+            
+            
+    
+          
+    Tender:
+      title: Tender
+      type: object
+      required:
+        - tenderCode
+        - tenderReferenceCode
+        - title
+        - buyerCompany
+      properties:
+        code:
+          type: string
+          description: |+
+            JA custom identifier
+            
+            Value of the data element used to store the external code (if enabled).
+            Visible in “Settings” area.
+          #VARCHAR2(2000 CHAR)
+          maxLength: 2000
+        tenderCode:
+          type: string
+          example: "tender_29105"
+          description: |+
+            Project Code - JA internal identifier
+            
+            UI: Project Code
+            (Note Discrepency between SOAP and REST Documentation) 
+            
+            Mandatory:  
+            * Y for update, if the below “reference code” field is not used
+            * NOT APPLICABLE for insert operation
+        tenderReferenceCode:
+          type: string
+          example: "tender_2"
+          description: |+
+            Project Reference Code - JA identifier visible to user
+            
+            UI: Project Reference Code 
+            (Note Discrepency between SOAP and REST Documentation)
+            
+            Mandatory: 
+            * Y for update (if the above “code” field is not used)
+            * Y for insert (only if the parameter “reference code” is set = MANUAL within JA)
+            * NOT APPLICABLE (If the parameter “reference code” is set = AUTOMATIC within JA)
+          maxLength: 80
+          #Type: VARCHAR2(80 CHAR)
+        title:
+          type: string
+          example: "UAT Script Testing 2018"
+          description: |+
+            Project Title: Title of the project
+            
+            UI: Project Title
+            
+            Mandatory: 
+            * Y for insert
+            * N for update 
+            
+          #VARCHAR2(80 CHAR)
+        description:
+          type: string
+          description: |+
+            Project Description - Internal description
+            
+            UI: Internal Project Description.
+          maxLength: 2000
+          #VARCHAR2(2000 CHAR)
+        reference:
+          type: string
+          description: |+
+            Project reference
+            
+            UI: Project Reference.
+          maxLength: 80
+          #VARCHAR2(80 CHAR)
+        buyerCompany:
+          $ref: '#/components/schemas/Organisation'
+        projectOwner:
+          $ref: '#/components/schemas/User'
+        activationDate:
+          type: string
+          format: date-time
+          example: "2018-01-23T00:00:00.000Z"
+          description: |+
+            Activation Date Of A Project
+            
+            UI: Project First Activation Date
+          #DATE
+        completionDate:
+          type: string
+          format: date-time
+          description: |+
+            Actual completion date of a project
+            UI: Project Completion date
+          example: "2018-01-23T00:00:00.000Z"
+          #DATE
+        estimatedCompletionDate:
+          type: string
+          format: date-time
+          description: |+
+            Estimated completion date of a project
+          example: "2018-01-23T00:00:00.000Z"
+          #DATE
+        officialStartDate:
+          type: string
+          format: date-time
+          description: |+
+            Official Start Date - Official start date of a project
+            
+            UI: Project Official Start Date
+          example: "2018-01-23T00:00:00.000Z"
+          #DATE
+        creationDate:
+          type: string
+          format: date-time
+          description: |+
+            Return reation date procedure
+            
+            #UI: Project Creation Date
+          example: "2018-01-23T00:00:00.000Z"
+          
+          #DATE
+        requirementsDate:
+          type: string
+          format: date-time
+          description: |+
+            Requirements Modification Date
+            
+            UI: Requirements Modification Date
+          example: "2018-01-23T00:00:00.000Z"
+          #DATE
+        lastModTime:
+          type: string
+          format: date-time
+          example: "2018-01-23T00:00:00.000Z"
+        divisionId:
+          type: integer
+          example: 2119
+          #NUMBER(38,0)
+        divisionName:  
+          type: string
+          example: "Division"
+          #UI: Division Name
+          #VARCHAR2(80 CHAR)
+        tenderState:
+          type: integer
+          example: 100
+          #NUMBER(5,0)
+        tenderStatusLabel:
+          type: string
+          example: "project.state.running"
+          #Project Status
+          #VARCHAR2(2000 CHAR)
+        sourceTemplateCode:
+          type: string
+          example: ""
+          #VARCHAR2(80 CHAR)
+        sourceTemplateReferenceCode:
+          type: string
+          example: " - "
+          #UI: Project Origin
+          #VARCHAR2(80 CHAR)
+        lotType:
+          type: string
+          example: "SINGLELOTS"
+          enum:
+            - SINGLELOTS
+            - MULTILOTS
+          default: SINGLELOTS
+          #UI: RFQ Behaviour in Project
+          #VARCHAR2(10 CHAR)
+        projectType:
+          type: string
+          example: ""
+          #UI: Project Type
+          #VARCHAR2(100 CHAR)
+        workFlowType:
+          type: string
+          example: "NONE"
+          enum:
+            - NONE
+          #UI: Workflow Type
+          #VARCHAR2(8 CHAR)
+        archiveStatus:
+          type: integer
+          example: 0
+          #NUMBER(1,0)
+        deleted:
+          type: boolean
+          description: |+
+            Project deletion status flag: 
+            * 0 if project isn’t deleted, 
+            * 1 it has been deleted. This information is inserted only if “deletedStatus” condition filter has been set (no matter value)
+          example: 0
+          #NUMBER(1)
+        flexibleFields:
+          type: array
+          items:
+            $ref: '#/components/schemas/FlexibleField'
+        additionalInfoList:
+          type: array
+          items:
+            $ref: '#/components/schemas/AdditionalInfoList'
+        buyerAttachmentList:
+          type: array
+          items:
+            $ref: '#/components/schemas/BuyerAttachmentList'
+        sellerAttachmentList:
+          type: array
+          items:
+            $ref: '#/components/schemas/SellerAttachmentList'
+           
+    Opportunity:
+      title: Opportunity
+      type: object
+      properties:            
+        opportunityId:
+          type: integer
+          description: |+
+            the internal Id of the opportunity associated to the project
+          #NUMBER(38,0)
+        description:
+          type: string
+          description: |+
+            Description
+            
+            UI: Detailed Description	
+      	  #VARCHAR2(2000 CHAR)
+        notes:
+          type: string
+          description: |+
+            Notes
+            
+            UI: Notes
+      	  #VARCHAR2(2000 CHAR)
+        opportunityStatus:
+          type: integer
+          description: |+
+            The status of the opportunity
+      	  #NUMBER(5,0)
+        opportunityStatusLabel:
+          type: string
+          description: |+
+            The name associated to the status of the opportunity (default language)
+            
+            UI: Project Opportunity Status
+      	  #VARCHAR2(2000 CHAR)
+        workCategoryId:
+          type: integer
+          description: |+
+            Work Category code of the opportunity
+      	  #NUMBER(38,0)
+        workCategoryLabel:
+          type: string
+          description: |+
+            Work Category Name in the default language
+            
+            UI: Work Category
+      	  #VARCHAR2(2000 CHAR)
+        procurementRouteId:
+          type: integer
+          description: |+
+            Procurement route code of  the opportunity
+      	  #NUMBER(38,0)
+        procurementRouteLabel:
+          type: string
+          description: |+
+            Procurement route Name in the default language
+            
+            UI: Procurement Route
+      	  #VARCHAR2(2000 CHAR)
+        firstPublishDate:
+          type: string
+          format: date-time
+          description: |+
+            First Project Publication date, if any
+            
+            #UI: Opportunity First Publishing Date
+      	  #DATE
+        lastPublishDate:
+          type: string
+          format: date-time
+          description: |+
+            Last Project Publication date, if any
+            
+            UI: Opportunity Last Publishing Date
+      	  #DATE
+        listingExpiryDate:
+          type: string
+          format: date-time
+          description: |+
+            Listing Expiry Date
+            
+            UI: Listing Expiry Date
+      	  #DATE
+        contractStartDate:
+          type: string
+          format: date-time
+          description: |+
+            Contract start date
+            
+            #UI: Contract Start Date
+      	  #DATE
+        contractDuration:
+          type: string
+          description: |+
+            Contract duration
+            
+            UI: Contract Duration
+      	  #VARCHAR2(256 CHAR)
+        contractValue:
+          type: string
+          description: |+
+            Contract value
+            
+            #UI: Estimated Contract Value
+      	  #VARCHAR2(256 CHAR)
+        buyerOrganisation:
+          type: string
+          description: |+
+            Buyer Organisation
+            
+            UI: Buyer Organisation
+      	  #VARCHAR2(256 CHAR)
+        buyerName:
+          type: string
+          description: |+
+            Buyer Name
+            
+            UI: Buyer Name
+      	  #VARCHAR2(256 CHAR)
+        buyerEmail:
+          type: string
+          description: |+
+            Buyer Email
+            
+            UI: Buyer Email
+      	  #VARCHAR2(256 CHAR)
+        directUrl:
+          type: string
+          description: |+
+            URL to access the opportunity
+          #VARCHAR2(2000 CHAR)
+        webLink:
+          type: string
+          description: |+
+            Web Link
+            
+            UI: Weblink
+      	  #VARCHAR2(256 CHAR)
+      	opportunityAdditionalInfo:
+      	  $ref: '#/components/schemas/AdditionalInfoList'
+        opportunityAttachmentList:
+          $ref: '#/components/schemas/Attachment'
+        
+
+      	  
+    Category:
+      title: Category
+      type: object
+      properties: 	  
+      	categoryCode:
+          type: string
+          description: |+
+            Category Code
+            
+            UI\: Category (as “categoryCode – categoryName”)
+      	  #VARCHAR2(80 CHAR)
+      	categoryName:
+          type: string
+          description: |+
+            Category Name - Category name/description in the default language 
+            
+            UI\: Category (as “categoryCode – categoryName”)	 
+      	  #VARCHAR2(256 CHAR)
+
+
+    Organisation:
+      title: Organisation
+      allOf:
+        - $ref: '#/components/schemas/Identifier'
+      type: object
+      properties:
+        code:
+          type: string
+          example: "N/A"
+          maxLength: 100
+          description: |+
+            UI: Category (as “categoryCode – categoryName”)
+          #VARCHAR2(100 CHAR)
+        name:
+          type: string
+          example: "Crown Commercial Service"
+          maxLength: 256
+          description: |+
+            UI: Category (as “categoryCode – categoryName”)
+          #VARCHAR2(256 CHAR)
+          
+    Identifier:
+      title: Object Identifier
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 89620
+          description: |+
+            Object internal identification
+          #NUMBER(38,0)
+        name:
+          type: string
+          example: "Object Name"
+          maxLength: 257
+          description: |+
+            Object name
+          #VARCHAR2(257 CHAR))
+
+    
+    User:
+      title: User Identifier
+      allOf:
+        - $ref: '#/components/schemas/Identifier'
+      type: object
+      properties:
+        id:
+          type: integer
+          description: |+
+            User internal identification
+        name:
+          type: string
+          example: "Joe Blogs"
+          description: |+
+            User name/surname
+          #VARCHAR2(257 CHAR))
+          
+    
+    ProjectOwnerUser:
+      title: User Owns an RFx
+      allOf:
+        - $ref: '#/components/schemas/User'
+      type: object
+      properties:
+        name:
+          type: string
+          description: |+
+            User name/surname
+            
+            UI: Project Owner
+          #VARCHAR2(257 CHAR))    
+          
+          
+    RFXUser:
+      title: User Owns an RFx
+      allOf:
+        - $ref: '#/components/schemas/User'
+      type: object
+      properties:
+        login: 
+          type: string
+          example: "JoeBloggs@myEmail.com"
+          #VARCHAR2(256 CHAR)
+
+
+    ProjectUser:
+      title: User in ProjectTeam
+      allOf:
+        - $ref: '#/components/schemas/ProjectOwnerUser'
+      type: object
+      properties:
+        name:
+          type: string
+          description: |+
+            User name/surname
+            
+            UI: Name
+        status:
+          type: number
+          description: |+
+            User status (0 = active/1 = deactivated).
+            
+            By default, only active users will be extracted. 
+            It is possible to set a configuration parameter to include deactivated users.
+
+            UI: User Status
+            
+            Available from version: BA 17 00
+          #NUMBER(1,0)
+          
+        
+    FlexibleField:
+      type: object
+      description: Name value pairs?
+      required:
+        - name
+      properties: 
+        fieldName:
+          type: string
+          example: "Name"
+          maxLength: 2000
+          description: |+
+            Flexible field name
+          #VARCHAR2(2000 CHAR)
+        fieldValue:  
+          type: string
+          example: "Value"
+          maxLength: 2000
+          description: |+
+            Flexible field value
+          #VARCHAR2(2000 CHAR)
+    
+    AdditionalInfoList:      
+      title: Additional Information List
+      type: object
+      properties:
+        name:
+          type: string
+          example: "Procurement Route"
+          description: |+
+            Name of the additional info (data element)
+          maxLength: 80
+          #VARCHAR2(80 CHAR)
+        type:
+          type: integer
+          example: "5"
+          description: |+
+            Type of the data-element
+          #NUMBER(1,0)
+        visibleToSupplier:
+          type: integer
+          example: 0
+          description: |+
+            Visible to supplier flag
+            * 0=no,
+            * 1=yes, 
+          #NUMBER(1,0)
+        label:
+          type: string
+          description: |+
+            Label in the default language
+          example: "Procurement Route"
+          maxLength: 2000
+          #VARCHAR2(2000 CHAR)
+        labelLocale:
+          type: string
+          description: |+
+            default language
+          example: "en_GB"
+          maxLength: 5
+          #CHAR(5)
+        values: 
+          type: object
+          properties:
+            value:
+              $ref: '#/components/schemas/Value'
+        lastAnswerDate:
+          type: string
+          format: date-time
+          example: "2020-07-30T09:08:24.000Z"
+          description: |+
+            Date and time of the last answer
+            
+            UI: Last Modified
+          #DATE
+        lastAnswerUser: 
+          $ref: '#/components/schemas/LastAnswerUser'
+          
+    LastAnswerUser:
+      title: Buyer Attachment List
+      description: |+
+        User performing last answer.
+        Complex type:
+        * id = user internal identifier
+        * code = user external code
+        * name = user name and surname
+        * company:
+            * id: user company internal identifier
+            * code: user company external code
+            * name: user company name
+        * profile:
+            * id = user profile internal identifier
+            * name = user profile name
+        * division:
+            * id = user division internal identifier
+            * name = user division name
+        In case of Data-element “seller side”, profile and division will be omitted.
+        In case of Data-element “system side” this field will be omitted.
+        
+        Available from version: 12_4_0_00
+      allOf:
+        - $ref: '#/components/schemas/User'
+      type: object
+      properties:
+        name:
+          type: string
+          description: |+
+            UI: Last Modified by User
+        company:
+           $ref: '#/components/schemas/Organisation'
+        profile:
+          $ref: '#/components/schemas/Identifier'
+        division:
+          $ref: '#/components/schemas/Identifier'
+                        
+          
+    BuyerAttachmentList:      
+      title: Buyer Attachment List
+      type: object
+      properties:
+        fileName:
+          type: string
+          example: "Sourcing System – Buyer Guidance - JAGGAER v1.2.pdf"
+        fileId:
+          type: integer
+          example: 7378051 
+        filePath: 
+          type: string
+          example: "/Sourcing System – Buyer Guidance - JAGGAER v1.2.pdf"
+        secureToken:
+          type: string
+          example: "SOsCF552h5NWEMjDIA99+Pq1EE4chj0bWcmmJI/bcRVVghOpl7bHmY0QXleO+HFkbMZ66Fe0bU/KvRkcCgUn93eaNmSuYTM8jYwHjk3utO9Po1uiZQgjRHcuXlo9f9m6NKIvgjc12Bw="
+          
+    SellerAttachmentList:      
+      title: Seller Attachment List
+      type: object
+      properties:
+        fileName:
+          type: string
+          example: "Sourcing System – Bidder Guidance - JAGGAER v1.2.pdf"
+        fileId:
+          type: integer
+          example: 7378051 
+        filePath: 
+          type: string
+          example: "/Sourcing System – Bidder Guidance - JAGGAER v1.2.pdf"
+        secureToken:
+          type: string
+          example: "SOsCF552h5NWEMjDIA99+Pq1EE4chj0bWcmmJI/bcRVVghOpl7bHmY0QXleO+HFkbMZ66Fe0bU/KvRkcCgUn93eaNmSuYTM8jYwHjk3utO9Po1uiZQgjRHcuXlo9f9m6NKIvgjc12Bw="
+          
+    InstructionAttachmentList:      
+      title: Instruction Attachment List
+      type: object
+      properties:
+        fileName:
+          type: string
+          example: "Sourcing System – Bidder Guidance - JAGGAER v1.2.pdf"
+        fileDescription":
+          type: string
+          example: "Response Form Template"
+        fileId:
+          type: integer
+          example: 7378051 
+        filePath: 
+          type: string
+          example: "/Sourcing System – Bidder Guidance - JAGGAER v1.2.pdf"
+        fileSize:
+          type: integer
+          example: 74189
+        paramId:
+          type: integer
+          example: 2127812
+        creationDate:
+          type: string
+          format: date-time
+          example: "2020-07-31T12:26:04.000Z"
+        secureToken:
+          type: string
+          example: "SOsCF552h5NWEMjDIA99+Pq1EE4chj0bWcmmJI/bcRVVghOpl7bHmY0QXleO+HFkbMZ66Fe0bU/KvRkcCgUn93eaNmSuYTM8jYwHjk3utO9Po1uiZQgjRHcuXlo9f9m6NKIvgjc12Bw="
+        downloadable:
+          type: integer
+          example: 1
+                    
+    AwardAttachmentList:      
+      title: Award Attachment List
+      type: object
+      properties:
+        fileName:
+          type: string
+          example: "Sourcing System – Bidder Guidance - JAGGAER v1.2.pdf"
+        fileId:
+          type: integer
+          example: 7378051 
+        filePath: 
+          type: string
+          example: "/Sourcing System – Bidder Guidance - JAGGAER v1.2.pdf"
+        secureToken:
+          type: string
+          example: "SOsCF552h5NWEMjDIA99+Pq1EE4chj0bWcmmJI/bcRVVghOpl7bHmY0QXleO+HFkbMZ66Fe0bU/KvRkcCgUn93eaNmSuYTM8jYwHjk3utO9Po1uiZQgjRHcuXlo9f9m6NKIvgjc12Bw="
+                
+                
+    Attachment:      
+      title: Attachment
+      properties:
+        fileName:
+          type: string
+          description: |+
+            Attachment filename
+        fileDescription:
+          type: string
+          description: |+
+            Attachment description
+        fileId:
+          type: integer
+          example: 7378051
+          description: |+
+            Internal identifier of the attachment, to be used for calling attachments web service to download it
+        filePath: 
+          type: string
+          example: "/Sourcing System – Bidder Guidance - JAGGAER v1.2.pdf"
+          description: |+
+            Attachment full path 
+        secureToken:
+          type: string
+          example: "SOsCF552h5NWEMjDIA99+Pq1EE4chj0bWcmmJI/bcRVVghOpl7bHmY0QXleO+HFkbMZ66Fe0bU/KvRkcCgUn93eaNmSuYTM8jYwHjk3utO9Po1uiZQgjRHcuXlo9f9m6NKIvgjc12Bw="
+          description: |+
+            It is the secure token to be used for calling attachments web service to download the attachment file.
+            
+            Available from version: BA_17_01     
+    PublishResultDocumentsList:      
+      title: IPublished Result Documents List
+      type: object
+      properties:
+        fileName:
+          type: string
+          example: "Sourcing System – Bidder Guidance - JAGGAER v1.2.pdf"
+        fileId:
+          type: integer
+          example: 7378051 
+        filePath: 
+          type: string
+          example: "/Sourcing System – Bidder Guidance - JAGGAER v1.2.pdf"
+        secureToken:
+          type: string
+          example: "SOsCF552h5NWEMjDIA99+Pq1EE4chj0bWcmmJI/bcRVVghOpl7bHmY0QXleO+HFkbMZ66Fe0bU/KvRkcCgUn93eaNmSuYTM8jYwHjk3utO9Po1uiZQgjRHcuXlo9f9m6NKIvgjc12Bw="
+                                        
+          
+    ProjectTeam:
+      title: Project Team
+      type: object
+      properties:
+        user:
+          type: array
+          items:
+            $ref: '#/components/schemas/User'
+            
+    ProjectObjectList:
+      title: Project Object List
+      type: object
+      properties:
+        object:
+          type: array
+          items:
+            $ref: '#/components/schemas/ProjectObject'
+            
+    ProjectObject:
+      title: Project Object
+      type: object
+      properties:
+        objectId:
+          type: string
+          example: "rfi_39875"
+          maxLength: 50
+          description: |+
+            Object internal identifier
+        objectReferenceCode:
+          type: string
+          example: "rfi_2"
+          description: |+
+            Object reference code
+            
+            UI: Code
+          maxLength: 50
+        title:
+          type: string
+          example: "Selection Questionnaire Template For Review"
+          description: |+
+            Object short description
+            
+            UI: Title
+          maxLength: 256
+        typology:
+          type: string
+          enum: 
+            - col
+            - commentary 
+            - ntc
+            - rfi 
+            - rfq
+            - auc_single_lot
+            - auc_multi_lot
+            - ecm
+            - sav
+
+          example: "rfi"
+          description: |+
+            UI: Type
+            
+            Object typology:
+            * col (collaboration)
+            * commentary 
+            * ntc (notice)
+            * rfi 
+            * rfq
+            * auc_single_lot (auction single lot)
+            * auc_multi_lot (auction multi lot)
+            * ecm (contract)
+            * sav (saving)
+          maxLength: 14
+          
+    PurchaseRequestList:
+      title: Purchase Request List
+      type: object
+      properties:
+        purchaseRequest:
+          type: array
+          items:
+            $ref: '#/components/schemas/PurchaseRequest'
+            
+            
+    PurchaseRequest:
+      title: Purchase Request List
+      type: object
+      properties:
+        prId:
+          type: number
+          description: |+
+            Purchase Request internal identifier
+            
+            Available from version: 12_3_1_00
+          example: "?????"
+          #NUMBER(38)
+        prCode:
+          type: string
+          description: |+
+            Purchase Request external code
+            
+            Available from version: 12_3_1_00
+          example: "?????"
+          maxLength: 125
+        #VARCHAR2(125 CHAR)
+          
+    QualEnvelope:
+      title: Qual Envelope
+      type: object
+      properties:
+        section:
+          type: array
+          items:
+            $ref: '#/components/schemas/Envelope'
+            
+    TechEnvelope:
+      title: Technical Envelope
+      type: object
+      properties:
+        section:
+          type: array
+          items:
+            $ref: '#/components/schemas/Envelope'
+            
+    CommEnvelope:
+      title: Comm Envelope
+      type: object
+      properties:
+        section:
+          type: array
+          items:
+            $ref: '#/components/schemas/Envelope'
+            
+    Envelope:
+      title: Envelope
+      type: object
+      properties:
+        name:
+          type: string
+          example: "General Details "
+        type:
+          type: string
+          example: "TECH"
+        sectionPos:
+          type: integer
+          example: 1
+        parameterList:
+          type: object
+          properties:
+            parameter:
+              type: array
+              items:
+                $ref: '#/components/schemas/EnvelopeProperty'
+    
+    EnvelopeProperty:
+      title: Envelope
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 2127786
+        name:
+          type: string
+          example: "Please provide your Organisation's Name"
+        description:
+          type: string
+          example: "Green Deal Provider  Name"
+        type:
+          type: string
+          example: "ATTACH"
+        allowedValues:
+          type: array
+          items:
+            type: string
+            example: "Yes"
+        mandatory:
+          type: integer
+          example: 1
+        paramPos:
+          type: integer
+          example: 1
+      
+            
+    SuppliersList:
+      title: Suppliers List
+      type: object
+      properties:
+        supplier:
+          type: array
+          items:
+            $ref: '#/components/schemas/Supplier'
+    
+    Supplier:
+      title: Supplier
+      type: object
+      properties:
+        companyData:
+          $ref: '#/components/schemas/CompanyData'
+        invited:
+          type: integer
+          example: 1
+        status:
+          type: string
+          example: "Not Replied"
+        statusCode:
+          type: integer
+          example: -1
+        invitationMode:
+          type: string
+          example: "Invited by buyer"
+        invitationModeCode:
+          type: integer
+          example: 0
+        lateResponseAllowed:
+          type: integer
+          example: 0
+        supplierStatus:
+          type: integer
+          example: 100
+          
+    CompanyData:
+      title: CompanyData
+      allOf:
+        - $ref: '#/components/schemas/Organisation'
+      type: object
+      properties:
+        extUniqueCode:
+          type: string
+          example: "111222333"
+          
+            
+    OffersList:
+      title: Offers List
+      type: object
+      properties:
+        offere:
+          type: array
+          items:
+            $ref: '#/components/schemas/Offer'
+    Offer:
+      title: Offer
+      type: object
+      properties:
+        todo:
+          type: string
+          example: "?????"
+        
+    EvaluationGroupList:
+      title: Evaluation Group List
+      type: object
+      properties:
+        evaluationGroup:
+          type: array
+          items:
+            $ref: '#/components/schemas/EvaluationGroup'
+            
+    EvaluationGroup:
+      title: Evaluation Group
+      type: object
+      properties:
+        envelope:
+          type: string
+          example: "TECH"
+        evaluationGroupMember:
+          type: array
+          items:
+            $ref: '#/components/schemas/EvaluationGroupMember' 
+            
+    EvaluationGroupMember:
+      title: Evaluation Group Member
+      type: object
+      properties:              
+        evaluationUser:
+          $ref: '#/components/schemas/User' 
+        active:
+          type: integer
+          example: 1
+        evaluationList:
+          $ref: '#/components/schemas/Evaluation'
+                    
+    Evaluation:
+      title: Evaluation
+      type: object
+      properties:
+        evaluation:
+          type: string
+          example: "?????"
+            
+    EmailRecipientList:
+      title: Email Recipient List
+      type: object
+      properties:
+        emailRecipient:
+          type: array
+          items:
+            $ref: '#/components/schemas/EmailRecipient'
+    
+    EmailRecipient:
+      title: Email Recipient
+      type: object
+      properties:
+        user:
+          $ref: '#/components/schemas/RFXUser'
+        email:
+          type: string
+          example: "nicholas.openshaw@crowncommercial.gov.uk"
+        division:
+          type: string
+          example: "Central Government"
+        profile:
+          type: string
+          example: "Non-CCS Call-Off Buyer"
+        objectVisibility:
+          type: integer
+          example: 1
+        divisionId:
+          type: integer
+          example: 7174539
+        profileId:
+          type: integer
+          example: 7166209
+    
+    EvaluationCommentsList:
+      title: Evaluation Group List
+      type: object
+      properties:
+        todo:        
+          type: string
+          example: "?????"
+            
+    OfflineAnswersList:
+      title: Evaluation Group List
+      type: object
+      properties:
+        offlineAnswer:
+          type: array
+          items:
+            $ref: '#/components/schemas/OfflineAnswer'
+            
+    OfflineAnswer:
+      title: Offline Answer
+      type: object
+      properties:
+        todo:        
+          type: string
+          example: "?????"
+            
+    SupplierResponseCounters:
+      title: Supplier Response Counters
+      type: object
+      properties:
+        lastRound:
+          $ref: '#/components/schemas/RoundCounters'
+            
+    RoundCounters:
+      title: Supplier Response Round Counters
+      type: object
+      properties:
+        numSupplInvited:
+          type: integer
+          example: 4
+        numSupplResponded:
+          type: integer
+          example: 0
+        numSupplNotResponded:
+          type: integer
+          example: 4
+        numSupplRespDeclined:
+          type: integer
+          example: 0
+        numSupplRespAccepted:
+          type: integer
+          example: 0
+        numSupplRespExcluded:
+          type: integer
+          example: 0
+        numSupplRespExcludedPreEval:
+          type: integer
+          example: 0
+        numSupplRespExcludedQual:
+          type: integer
+          example: 0
+        numSupplRespExcludedTech:
+          type: integer
+          example: 0
+        numSupplRespExcludedComm:
+          type: integer
+          example: 0
+        numSupplRespExcludedAward:
+          type: integer
+          example: 0
+            
+    AdditionalTerms:
+      title: Evaluation Group List
+      type: object
+      properties:
+        incoterms:
+          type: integer
+          example: 0,
+        incotermsDescription:        
+          type: string
+          example: ""
+            
+    AwardRfxAdditionalInfoList:
+      title: Evaluation Group List
+      type: object
+      properties:
+        additionalInfo:
+          type: array
+          items:
+            $ref: '#/components/schemas/EvaluationGroup'
+            
+    RfxTioc:
+      title: Rfx Tioc
+      type: object
+      properties:
+        tiocCount:
+          type: integer
+          example: 0
+            
+            
+    RFxSetting:
+      title: Rfx Setting
+      type: object
+      properties:
+        rfxId:
+          type: string
+          example: "rfi_39864"
+        rfxReferenceCode:
+          type: string
+          example: "rfi_1"
+        rfiFlag:
+          type: boolean
+          example: "1"
+        dummyFlag:
+          type: boolean
+          example: "0"
+        statusCode:
+          type: integer
+          example: 0
+        status:
+          type: string
+          example: "To be Published"
+        tenderCode:
+          type: string
+          example: "TENDER_TEMPLATE"
+        shortDescription:
+          type: string
+          example: "Selection Questionnaire Template"
+        longDescription:
+          type: string
+          example: ""
+        archiveStatus:
+          type: integer
+          example: 0
+        buyerCompany:
+          $ref: '#/components/schemas/Organisation'
+        ownerUser:
+          $ref: '#/components/schemas/RFXUser'        
+        divisionName: 
+          type: string
+          example: "Division"
+        divisionId: 
+          type: integer
+          example: 7173496
+        supplierAccess:
+          type: string
+          example: "RFQ_TYPE_PUBLIC_WITH_ANSWER"
+        offersOpeningCriteria:
+          type: string
+          example: "BLIND_PARALLEL"
+        value: 
+          type: number
+          example: 0.0,
+        envelopeDigitalSignature:
+          type: string
+          example: "NO"
+        rankingStrategy: 
+          type: string
+          example: "NO_RANKING"
+        techScoreWeight:
+          type: number
+          example: 0.0
+        comScoreWeight:
+          type: number
+          example:  0.0,
+        numInvolvedSuppliers:
+          type: integer
+          example: 0
+        numRespondedSuppliers:
+          type: integer
+          example: 0
+        numExcludedSuppliers:
+          type: integer
+          example: 0
+        numAwardedSuppliers:
+          type: integer
+          example: 0
+        qualEvaluationTeamSize: 
+          type: integer
+          example: 0
+        techEvaluationTeamSize:
+          type: integer
+          example: 0
+        commEvaluationTeamSize: 
+          type: integer
+          example: 0
+        qualEnvStatus:
+          type: integer
+          example: 1
+        techEnvStatus:
+          type: integer
+          example: 0
+        commEnvStatus:
+          type: integer
+          example: 0
+        lastUpdate: 
+          type: string
+          format: date-time
+          example: "2018-01-23T13:53:54.000Z"
+        autopublish: 
+          type: integer
+          example: 0
+        creationDate:
+          type: string
+          format: date-time
+          example: "2018-01-22T15:02:15.000Z"
+        awardingStrategy:
+          type: string
+          example: "NONE"
+        awardingLevel:
+          type: string
+          example: "OVERALL"
+        awardingSource:
+          type: string
+          example: "PRICE"
+        prDocumentType: {}
+        qualEnvelopeDigitalSignature:
+          type: string
+          example:  "NO"
+        techEnvelopeDigitalSignature:
+          type: string
+          example: "NO"
+        commEnvelopeDigitalSignature:
+          type: string
+          example: "NO"
+        tcoVisibleToSuppliers:
+          type: integer
+          example: 0
+        consortiumAvailable: 
+          type: integer
+          example: 1
+        commEnvScoringMode:
+          type: integer
+          example: 0
+        hideValueFromSupplier: 
+          type: integer
+          example: 1
+        reservedPrice:
+          type: number
+          example: 0.0
+        enableOpeningCommittees:
+          type: integer
+          example: 0
+        maxScoreVisibleToSuppliers:
+          type: integer
+          example: 0
+        numReOpenRounds:
+          type: integer
+          example: 0
+        numUltimateOffers:
+          type: integer
+          example: 0
+        multicurrencyBids: 
+          type: integer
+          example: 0
+        multicurrencyTCO:
+          type: integer
+          example: 0
+        visibilityEGComments:
+          type: integer
+          example: 1
+        templateFolderName: 
+          type: string
+          example: "PQQ Templates"
+          
+    Value:
+      title: Value
+      type: array
+      items:
+        type: object
+        properties:
+          value:
+            type: string
+            example: "Call Off (Competition)"
+            #VARCHAR2(2000 CHAR)
+          id:
+            type: string
+            example:  "0"
+            #NUMBER(38)
+          secureToken:
+            type: string
+            #VARCHAR2(32 CHAR)
+
+    
+          
+    RFxPlanning:
+      title: RFX Planning
+      type: object
+      properties:
+        todo:
+          type: string
+          example: "?????"
+          
+    
+            
+            
+    
+            
+    
+          

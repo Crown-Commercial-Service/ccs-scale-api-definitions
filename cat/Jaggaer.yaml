@@ -404,6 +404,8 @@ components:
           $ref: '#/components/schemas/RFxSetting'
         rfxPlanning:
           $ref: '#/components/schemas/RFxPlanning'
+        rfxCategoryList:
+          $ref: '#/components/schemas/Category'
         rfxAdditionalInfoList:
           type: array
           items:
@@ -442,6 +444,12 @@ components:
           $ref: '#/components/schemas/EvaluationGroupList'
         emailRecipientList:
           $ref: '#/components/schemas/EmailRecipientList'
+        openingCommiteeList:
+          $ref: '#/components/schemas/OpeningCommittee'
+        businessUnitList:
+          $ref: '#/components/schemas/BusinessUnitList' 
+        regionList:
+          $ref: '#/components/schemas/RegionList'
         evaluationCommentsList:
           $ref: '#/components/schemas/EvaluationCommentsList'
         offlineAnswersList:
@@ -831,6 +839,54 @@ components:
             
             UI\: Category (as “categoryCode – categoryName”)	 
       	  #VARCHAR2(256 CHAR)
+      	name:
+      	  type: string
+          description: |+
+            Name of an existing additional info (data element)
+        type:
+          type: string
+          description: |+
+            Type of the data-element
+        visibleToSupplier:
+          type: boolean
+          description: |+
+            0=no, 1=yes, 
+        label:
+          type: string
+          description: |+
+            Label in the default language
+        labelLocale:
+          type: string
+          description: |+
+            default language
+        values:
+          $ref: '#/components/schemas/Value'
+        
+        lastAnswerDate:
+          type: string
+          description: |+
+            Date and time of the last answer
+        lastAnswerUser:
+          type: string
+          description: |+
+            User performing last answer.
+            Complex type:
+            * id = user internal identifier
+            * code = user external code
+            * name = user name and surname
+            * company:
+              * id: user company internal identifier
+              * code: user company external code
+              * name: user company name
+            * profile:
+              * id = user profile internal identifier
+              * name = user profile name
+            * division:
+              * id = user division internal identifier
+              * name = user division name
+            In case of Data-element “seller side”, profile and division will be omitted.
+            In case of Data-element “system side” this field will be omitted.
+
 
 
     Organisation:
@@ -967,6 +1023,12 @@ components:
     
     AdditionalInfoList:      
       title: Additional Information List
+      description: |+
+        This section includes object attributes that can be defined by the account admin user. They are associated to each single object created.
+        
+        They are the dynamic component of the specific data model associated to the related logical entity.
+
+        Additional attributes can be defined to map specific customer data not included in the standard data model.
       type: object
       properties:
         name:
@@ -1331,6 +1393,12 @@ components:
           example: "General Details "
         type:
           type: string
+          description: |+
+            Section type: Rfq questions or eVm questions (TECH/QUAL)
+            [12.3.01] In TechQualSection, it is filled out with LOCAL or EVM
+          enum:
+            - TECH
+            - QUAL
           example: "TECH"
         sectionPos:
           type: integer
@@ -1342,36 +1410,436 @@ components:
               type: array
               items:
                 $ref: '#/components/schemas/EnvelopeProperty'
-    
+        questionType:
+          type: string
+          description: |+
+            toDo 
+          
     EnvelopeProperty:
       title: Envelope
       type: object
       properties:
         id:
           type: integer
+          description: |+
+            JA internal identifier of the parameter (referenced in offers)
           example: 2127786
         name:
           type: string
+          description: |+
+            Question title
           example: "Please provide your Organisation's Name"
         description:
           type: string
+          description: |+
+            Question description
           example: "Green Deal Provider  Name"
         type:
           type: string
+          description: |+
+            Question type
           example: "ATTACH"
         allowedValues:
           type: array
           items:
             type: string
+            description: |+
+              In case of choice/multi-choice list of allowed values
             example: "Yes"
         mandatory:
           type: integer
+          description: |+
+            Mandatory technical/qualification parameter flag: 
+            * 1 = parameter is mandatory 
+            * 0 = parameter is optional
+            Available from version: 12_2_00
           example: 1
+        instruction:
+          type: string
+          description: |+
+            Instructional attachment
+            Available from version: 12_3_00
         paramPos:
           type: integer
+          description: |+
+            Progressive number of the parameter inside envelope section
+            12_3_02
           example: 1
-      
+        globalList:
+          $ref: '#/components/schemas/EnvelopeProperty'
+          
+    GlobalList:
+      title: Global List
+      type: object
+      properties:
+        id:
+          type: integer
+          description: |+
+            Internal identifier of the global list in case of parameter type GLBLIST
+            Available from version: 112_4_0_02
+        name:
+          type: string
+          description: |+
+            Name of the global list in case of parameter type GLBLIST
+            Available from version: 112_4_0_02
+        title:
+          type: string
+          description: |+
+            Title of the global list in case of parameter type GLBLIST
+            Available from version: 112_4_0_02
             
+    PriceSection:
+      title: Price Section
+      type: object
+      properties:
+        name:
+          type: string
+          description: |+
+            Section name
+        includedInTotal:
+          type: boolean
+          description: |+
+            If the section is included in the total (0=no, 1=yes)
+        sectionPos:
+          type: integer
+          description: |+
+            Progressive number of the parameter inside envelope
+            Available from version: 12_3_02
+        parameterList:
+          type: array
+          items:
+            $ref: '#/components/schemas/EconomicalParameter'
+        additionalColumnList:
+          type: array
+          items:
+            $ref: '#/components/schemas/AdditionalColumn'
+        questionType:
+          type: string
+          description: |+
+            The only value is PRICE for Price section
+        
+    EconomicalParameter:
+      title: Economical Parameter
+      type: object
+      properties:
+        id:
+          type: integer
+          description: |+
+            JA internal identifier of the parameter (referenced in offers)
+        reference:
+          type: integer
+          description: |+
+            Id of the contract row
+        description:
+          type: string
+          description: |+
+            Price description
+        type:
+          type: string
+          description: |+
+            Parameter type. 
+            Allowed values:
+            * PRICE
+            * QUANTITY_RANGE
+            * DISCOUNT
+            * GENERIC_LINE
+            * NOTE
+            Available from version: 12_3_01
+          enum:
+           - PRICE
+           - QUANTITY_RANGE
+           - DISCOUNT
+           - GENERIC_LINE
+           - NOTE
+        notes:
+          type: string
+          description: |+
+            Price notes
+        showNotes:
+          type: boolean
+          description: |+
+            Notes visibility flag (0 notes are not visible to supplier, 1 they are visible)
+            Available from version: 12_3_00
+        quantity:
+          type: integer
+          description: |+
+           Quantity
+        showQuantity:
+          type: boolean
+          description: |+
+            Quantity visibility flag (0 quantity is shown to supplier, 1 it is hidden)
+            Available from version: 12_3_00
+        quantityInsertedBy:
+          type: string
+          description: |+
+            State if quantity must be inserted by BUYER or SELLER.
+            Available from version: 12_3_01
+          enum:
+           - BUYER
+           - SELLER
+        currency:
+          type: string
+          description: |+
+            Currency
+        unitOfMeasure:
+          type: string
+          description: |+
+            Unit of measure external code
+        goodsGroup:
+          type: string
+          description: |+
+            Goods group external code
+        priceByQuantityRanges:
+          $ref: '#/components/schemas/MasterItem'
+        mandatory:
+          type: boolean
+          description: |+
+            Mandatory commercial parameter flag. (1-parameter is mandatory; 0-parameter is optional)
+            Available from version: 12_2_00
+        prCodes:
+          type: string
+          description: |+
+            Code of the PR current parameter is linked to
+            Available from version: 12_2_01
+        instruction:
+          type: string
+          description: |+
+            Instructional attachment
+            Available from version: 12_3_00
+        referencePrice:
+          type: number
+          format: float
+          description: |+
+            * “Reference Price” for parameter type PRICE and QUANTITY_RANGE;
+            * “Reference Discounted Price” for parameter type DISCOUNT.
+            (it can have exponential notation)
+            Available from version: 12_3_01
+        minPrice:
+          type: number
+          format: float
+          description: |+
+            * “Minimum Unit Price” for parameter type PRICE and QUANTITY_RANGE;
+            * “Minimum Discount Value” for parameter type DISCOUNT.
+            (it can have exponential notation)
+            Available from version: 12_3_01
+        maxPrice:
+          type: number
+          format: float
+          description: |+
+            * “Maximum Unit Price” for parameter type PRICE and QUANTITY_RANGE;
+            * “Maximum Discount Value” for parameter type DISCOUNT.
+            (it can have exponential notation)
+            Available from version: 12_3_01
+        basePriceBeforeDiscount:
+          type: number
+          format: float
+          description: |+
+            Base price before discount.
+            (it can have exponential notation)
+            Available from version: 12_3_01
+        showBasePrice:
+          type: boolean
+          description: |+
+            “Base price before discount” visibility flag (0 base price is hidden; 1 base price is visible to supplier)
+            Available from version: 12_3_01
+        extCode:
+          type: string
+          description: |+
+            Identifier of the price item in the external system (field available only via WS not in the user interface)
+            Available from version: 12_3_01
+        paramPos:
+          type: integer
+          description: |+
+            Progressive number of the parameter inside envelope section
+            Available from version: 12_3_02
+        associatedMasterItem:
+          $ref: '#/components/schemas/MasterItem'
+
+
+    MasterItem:
+      title: Additional Column
+      type: object
+      properties:
+        id:
+          type: integer
+          description: |+
+            Master Item internal identifier
+            Available from version: JA_19_01
+        code:
+          type: string
+          description: |+
+            Master Item external code
+            Available from version: JA_19_01
+        description:
+          type: string
+          description: |+
+            Master Item short description
+            Available from version: JA_19_01
+        remarks:
+          type: string
+          description: |+
+            Master Item detailed description
+            Available from version: JA_19_01
+        goodsGroup:
+          type: string
+          description: |+
+            Goods Group external code
+            Available from version: JA_19_01
+        unitOfMeasure:
+          type: string
+          description: |+
+            Unit of Measure external code
+            Available from version: JA_19_01
+        altUnitOfMeasure:
+          type: string
+          description: |+
+            Alternative Unit of Measure external code
+            Available from version: JA_19_01
+        notes:
+          type: string
+          description: |+
+            Notes
+            Available from version: JA_19_01
+            
+    PriceByQuantity:
+      title: Price by Quantity Parameter       
+      description: |+
+        Ranges in case of price by quantity parameter
+        In case of price defined “by quantity” (type=” QUANTITY_RANGE “) defines prices ranges
+      type: object
+      properties:
+        from:
+          type: integer
+          description: |+
+            Lower limit of the price range 
+        to:
+          type: integer
+          description: |+
+            Upper limit of the price range (must be equal to the lower limit of following range, if)
+            
+        
+
+          
+    AdditionalColumn:
+      title: Additional Column
+      type: object
+      properties:
+        id:
+          type: integer
+          description: |+
+            JA internal identifier of the parameter (referenced in offers)
+        name:
+          type: string
+          description: |+
+            Column Title
+        type:
+          type: string
+          description: |+
+            Column type: 
+            Valid value:
+            * BOOLEAN (True/False)
+            * MULTILINE (multi line text)
+            * TEXT
+            * NUMERIC (number)
+            * COMBO (single choice)
+            * NUMERIC_FORMULA [12.3.01]
+          enum:
+            - BOOLEAN
+            - MULTILINE
+            - TEXT
+            - NUMERIC
+            - COMBO
+            - NUMERIC_FORMULA
+        allowedValues:
+          type: array
+          items:
+            type: string
+          description: |+
+            In case of choice list of allowed values
+        defaultValue:
+          type: string
+          description: |+
+            The additional column default value
+            Available from version: 12_2_00
+        sellerVisibility:
+          type: integer
+          description: |+
+            Visibility of the additional column to the seller.
+            Valid value:
+            * 0 = not visible
+            * 1 = visible in read-only mode
+            * 2 = visible and writeable
+            Available from version: 12_2_00
+          enum:
+            - 0
+            - 1
+            - 2
+        columnPos:
+          type: integer
+          description: |+
+            Progressive identifier of the additional column parameter (1-based enumeration)
+            Available from version: 12_2_00
+        mandatory:
+          type: boolean
+          description: |+  
+            Mandatory additional column parameter flag. (1-parameter is mandatory; 0-parameter is optional)
+            Available from version: 12_2_00
+        defaultLineValues:
+          type: array
+          items:
+            $ref: '#/components/schemas/DefaultLineValue'
+          description: |+
+            Default line value redefined for additional column [see section “Commercial Envelope: Redefined Default Line Values” below]
+        formulaData:
+          items:
+            $ref: '#/components/schemas/FormulaValue'
+          description: |+
+            Formula value for additional column of type NUMERIC_FORMULA [see section “Commercial Envelope: Formula Values” below]
+       
+            
+    DefaultLineValue:
+      title: Default Line Value
+      type: object
+      properties:
+        paramId:
+          type: integer
+          description: |+
+            JA internal identifier of the commercial parameter
+        paramPos:
+          type: integer
+          description: |+
+            Position of the commercial parameter
+        paramReference:
+          type: integer
+          description: |+
+            Reference of the commercial parameter
+        paramDefaultValue:
+          type: string
+          description: |+
+            Redefined default value of the additional column for the commercial parameter
+            
+    FormulaValue:
+      title: Formula Values
+      type: object
+      properties:
+        paramId:
+          type: integer
+          description: |+
+            JA internal identifier of the commercial parameter
+        paramPos:
+          type: integer
+          description: |+
+            Position of the commercial parameter
+        paramPReference:
+          type: integer
+          description: |+
+            Reference of the commercial parameter
+        formualValue:
+          type: string
+          description: |+
+            Formula related to the additional column for the commercial parameter
+    
+      
     SuppliersList:
       title: Suppliers List
       type: object
@@ -1389,24 +1857,84 @@ components:
           $ref: '#/components/schemas/CompanyData'
         invited:
           type: integer
+          description: |+
+            Invited to last run
           example: 1
         status:
           type: string
+          description: |+
+            Supplier answer status label (default language)
           example: "Not Replied"
         statusCode:
           type: integer
+          description: |+
+            Supplier answer status: 
+            * -2 = rejected offer (by supplier)
+            * -101= excluded at pre-evaluation phase
+            * -102= excluded in qualification offer evaluation
+            * -103= excluded in technical offer evaluation
+            * -104= excluded in commercial offer evaluation
+            * -105= excluded by Qualification Only RFQ
+            * -1 = not submitted offer
+            * 1 = submitted offer
+            * 3 = winner offer
+            * 4 = looser offer
+            * 5 = response to a closed RFI
+            * 6 = response to a closed RFQ 
+            * 7 = partial winner offer
+          enum:
+            - -2
+            - -101
+            - -102
+            - -103
+            - -104
+            - -105
+            - -1
+            - 1
+            - 3
+            - 4 
+            - 5
+            - 6
+            - 7
+
           example: -1
         invitationMode:
           type: string
+          description: |+
+            Supplier invitation mode label (default language)
           example: "Invited by buyer"
         invitationModeCode:
           type: integer
+          description: |+
+            Supplier invitation mode: 
+            * 0 = invited 
+            * 1 = self-invited
+            * 2 = invited after close
+          enum:
+            - 0
+            - 1
+            - 2
           example: 0
+        invitationDate:
+          type: string
+          format: date-time
+          description: |+
+            Date-time of invitation/self-invitation
         lateResponseAllowed:
-          type: integer
+          type: boolean
+          description: |+
+            * 1 = late response allowed 
+            * 0 = late response not allowed
+          example: 0
+        supplierAgreementAccepted:
+          type: boolean
+          description: |+
+            * 1 = accepted 
+            * 0 = rejected
           example: 0
         supplierStatus:
           type: integer
+          description: |+
           example: 100
           
     CompanyData:
@@ -1418,6 +1946,20 @@ components:
         extUniqueCode:
           type: string
           example: "111222333"
+      description: |+
+        Complex type of the supplier company:
+        * id: company internal identifier
+        * code: company external code
+        * name: company name
+        * extUniqueCode: external unique code (BA_17_02)
+        If the component filter SUPPLIERS has the value IDENTIFIERS set, the following additional fields will be extracted:
+        * fiscalCode
+        * vat
+        * euVat
+        * dAndBCode
+        Available from version: For extUniqueCode BA_17_02
+
+
           
             
     OffersList:
@@ -1432,9 +1974,200 @@ components:
       title: Offer
       type: object
       properties:
-        todo:
+        supplierID:
+          type: integer
+          description: |+
+            Supplier JA Internal identifier
+        offerState:
+          type: integer
+          description: |+
+            Status of the offer:
+            * -2 = rejected offer
+            * -101= excluded at pre-evaluation phase
+            * -102= excluded in qualification offer evaluation
+            * -103= excluded in technical offer evaluation
+            * -104= excluded in commercial offer evaluation
+            * -105= excluded by Qualification Only RFQ
+            * -1 = not submitted offer
+            * 1 = submitted offer
+            * 3 = winner offer
+            * 4 = looser offer
+            * 5 = response to a closed RFI
+            * 6 = response to a closed RFQ
+            * 7 = partial winner offer
+          enum:
+            - -2
+            - -101
+            - -102
+            - -103
+            - -104
+            - -105
+            - -1
+            - 1
+            - 3
+            - 4
+            - 5
+            - 6
+            - 7
+        isWinner:
+          type: boolean
+          description: |+
+            * 0 = no 
+            * 1 = yes 
+            If WS configuration parameter IncludePartialWinner is set to 1 the supplier will be shown as winner even in case they are being only partial winner.
+        sellerRejectReason:
           type: string
-          example: "?????"
+          description: |+
+            Seller reason for not sending an offer
+        preEvalStatus:
+          type: boolean
+          description: |+
+           * 0 = offer accepted in pre-evaluation 
+           * 1 = offer rejected in pre-evaluation (visible only for value PRE_EVALUATION_INFO of the component filter OFFERS)
+        preEvalBuyerComments:
+          type: string
+          description: |+
+            Buyer comments on offer in pre-evaluation (visible only for value PRE_EVALUATION_INFO of the component filter OFFERS)
+        qualStatus:
+          type: boolean
+          description: |+
+           * 0 = qualification offer valid  
+           * 1 = qualification offer not valid
+        qualBuyerComments:
+          type: string
+          description: |+
+            Buyer comments on qualification offer
+        techStatus:
+          type: boolean
+          description: |+
+           * 0 = technical offer valid  
+           * 1 = technical offer not valid
+        techBuyerComments:
+          type: string
+          description: |+
+            Buyer comments on technical offer
+        commStatus:
+          type: boolean
+          description: |+
+           * 0 = commercial offer valid  
+           * 1 = commercial offer not valid
+        commBuyerComments:
+          type: string
+          description: |+
+            Buyer comments on commercial offer
+        lastUpdateDate:
+          type: string
+          format: date-time
+          description: |+
+            Offer last update date
+        techPoints:
+          type: integer
+          description: |+
+            Technical total points
+        commPoints:
+          type: integer
+          description: |+
+            Commercial total points
+        totPoints:
+          type: integer
+          description: |+
+            Total points
+        confirmedAmount:
+          type: number
+          format: float
+          description: |+
+            Buyer confirmed total offer amount
+            (it can have exponential notation)
+        ranking:
+          type: integer
+          description: |+
+            Original ranking
+        qualOffer:
+          allOf:
+            - $ref: '#/components/schemas/ResponseCommercialParameters' 
+          description: |+
+            Response to qualification parameters [see section “Suppliers Offer: Response to technical and qualification parameters” below]
+        techOffer:
+          allOf:
+            - $ref: '#/components/schemas/ResponseTechAndQualParameters' 
+          description: |+
+            Response to technical parameters [see section “Suppliers Offer: Response to technical and qualification parameters” below]
+        commOffer:
+          allOf:
+            - $ref: '#/components/schemas/ResponseCommercialParameters' 
+          description: |+
+            Response to commercial parameters [see section “Suppliers Offer: Response to commercial parameters” below]
+        consortium:
+          description: |+
+            Consortium [see section “Suppliers Offer: Consortium” below]
+        awardRanking:
+          description: |+
+            Awarding Ranking
+            BA_17_04
+        parameterId:
+          type: integer
+          description: |+
+            Id if the qualification/technical field
+        parameterType:
+          type: string
+          description: |+
+            Type of the qualification/technical field
+        value:
+          type: string
+          description: |+
+            Response value (s).
+            Filename in case of attachment parameter.
+            Global list item (row values concatenated) in case of global list parameter (GLBLIST).
+        valueId:
+          type: integer
+          description: |+
+            Id of the attachment in case of attachment parameter.
+            Id of the global list item in case of global list parameter.
+        attachment:
+          allOf:
+            - $ref: '#/components/schemas/AttachmentsToOffer'
+          description: |+
+            Offer attachment [see section “Suppliers Offer: Attachments to offer” below]
+        signedAttachment:
+          allOf:
+            - $ref: '#/components/schemas/AttachmentsToOffer'
+          description: |+
+            Offer signed attachment [see section “Suppliers Offer: Attachments to offer” below]
+        questionType:
+          description: |+
+            It can be LOCAL for parameter belonging to Question section, BUYER for for parameter belonging to Evaluation section, DE_EVM_SELLER for for parameter belonging to Profile Question section
+            JA_19_00
+          enum:
+            - LOCAL 
+            - BUYER 
+            - DE_EVM_SELLER
+
+
+    ResponseCommercialParameters:
+      title: Response to commercial parameters 
+      type: object
+      properties:
+        parameterID:  
+          description: |+
+            to Complete
+            
+    ResponseTechAndQualParameters:
+      title: Response to commercial parameters 
+      type: object
+      properties:
+        parameterID:  
+          description: |+
+            to Complete
+            
+    AttachmentsToOffer:
+      title: Attachments to offer (for each single envelope)  
+      type: object
+      properties:
+        parameterID:  
+          description: |+
+            to Complete
+        
+        
         
     EvaluationGroupList:
       title: Evaluation Group List
@@ -1601,6 +2334,31 @@ components:
           items:
             $ref: '#/components/schemas/EvaluationGroup'
             
+    
+    OpeningCommittee:
+      title: Rfx Tioc
+      type: object
+      properties:
+        tiocCount:
+          type: integer
+          example: 0
+          
+    BusinessUnitList:
+      title: Rfx Tioc
+      type: object
+      properties:
+        tiocCount:
+          type: integer
+          example: 0
+          
+    RegionList:
+      title: Rfx Tioc
+      type: object
+      properties:
+        tiocCount:
+          type: integer
+          example: 0
+            
     RfxTioc:
       title: Rfx Tioc
       type: object
@@ -1616,33 +2374,149 @@ components:
       properties:
         rfxId:
           type: string
+          description: |+
+            JA internal identifier
+            
+            Mandatory:
+            • N for CREATE or CREATEUPDATE
+            • Y for UPDATE
           example: "rfi_39864"
         rfxReferenceCode:
           type: string
+          description: |+
+            JA identifier (visible to user)
+            
+            Mandatory:
+            • N for CREATE or CREATEUPDATE
+            • Y for UPDATE
           example: "rfi_1"
         rfiFlag:
           type: boolean
-          example: "1"
+          description: |+
+            Defines if the RfX is an RFI or an RFQ 
+            • 1 = RFI 
+            • 0 = RFQ
+          default: 0
+          example: "0"
         dummyFlag:
           type: boolean
+          description: |+
+            Defines if the RfX is a dummy RfX (1=true)
           example: "0"
         statusCode:
           type: integer
+          description: |+
+            RfX status code.
+            * 0 = To be Published
+            * 50 = Awarded to Offline Response
+            * 100 = To Be Approved
+            * 200 = Approval Declined
+            * 300 = Running
+            * 350 = Qualification Clarification
+            * 400 = To Be Evaluated
+            * 500 = Awarded
+            * 600 = Auction
+            * 700 = Not Awarded
+            * 750 = Qualification Evaluation
+            * 800 = Technical Evaluation
+            * 900 = Commercial Evaluation
+            * 950 = Final Evaluation
+            * 975 = Final Evaluation – Pre-Awarded
+            * 985 = Awarding Approval
+            * 1100 = Suspended
+            * 1200 = Closed
+            * 1300 = Best and Final Offer
+            * 1400 = Best and Final Offer Evaluation
+            * 1500 = Ended
+            * 1600 = Mixed Awarding
+            * 1800 = Round Created in a new RFQ
+            * 1900 = Evaluation Transferred to RFQ
+            * 2000 = TIOC in Progress
+            * 2100 = TIOC Closed
+          enum:
+            - 0
+            - 50
+            - 100
+            - 200
+            - 350
+            - 400
+            - 500
+            - 600
+            - 700
+            - 750
+            - 800
+            - 900
+            - 950
+            - 975
+            - 985
+            - 1100
+            - 1200
+            - 1300
+            - 1400
+            - 1500
+            - 1600
+            - 1800
+            - 1900
+            - 2000
+            - 2100
           example: 0
         status:
           type: string
+          description: |+
+            RfX status string in the default language
           example: "To be Published"
         tenderCode:
           type: string
+          description: |+
+            Code of the project/tender (internal identifier)
           example: "TENDER_TEMPLATE"
+        tenderReferenceCode:
+          type: string
+          description: |+
+            Code of the project/tender (user visible identifier)
+        templateId:
+          type: string
+          description: |+
+            id of the originating Rfx template (if any)
+        templateReferenceCode:
+          type: string
+          description: |+
+            Reference code of the originating Rfx template (if any)
+        templateTitle:
+          type: string
+          description: |+
+            Title of the originating Rfx template (if any)
+        contractIdFrom:
+          type: string
+          description: |+
+            Internal identifier of the originating Contract
+        contractReferenceCodeFrom:
+          type: string
+          description: |+
+            User visible identifier of the originating Contract
+        rfxIdFrom:
+          type: string
+          description: |+
+            Internal identifier of the originating RfX
+        rfxReferenceCodeFrom:
+          type: string
+          description: |+
+            User visible identifier of the originating RfX
+
         shortDescription:
           type: string
+          description: |+
+            RfX short /title
           example: "Selection Questionnaire Template"
         longDescription:
           type: string
+          description: |+
+            RfX long description
           example: ""
         archiveStatus:
           type: integer
+          description: |+
+            If the RfX is archived (0 not archived, 1 archived)
           example: 0
         buyerCompany:
           $ref: '#/components/schemas/Organisation'
@@ -1650,130 +2524,630 @@ components:
           $ref: '#/components/schemas/RFXUser'        
         divisionName: 
           type: string
+          description: |+
+            Name of the RfX division
           example: "Division"
         divisionId: 
           type: integer
+          description: |+
+            Id of the RfX division
           example: 7173496
         supplierAccess:
           type: string
+          description: |+
+            Type of supplier access:
+            * RFQ_TYPE_PRIVATE_WITH_ANSWER
+            * RFQ_TYPE_PUBLIC_WITH_ANSWER
+            * RFQ_TYPE_PRIVATE_NO_ANSWER
+            * RFQ_TYPE_PUBLIC_NO_ANSWER
+            * RFQ_TYPE_SIMPLIFIED
+            * RFQ_TYPE_PRIVATE_PPB
+            * RFQ_TYPE_PUBLIC_PPB
+          enum:
+            - RFQ_TYPE_PRIVATE_WITH_ANSWER
+            - RFQ_TYPE_PUBLIC_WITH_ANSWER
+            - RFQ_TYPE_PRIVATE_NO_ANSWER
+            - RFQ_TYPE_PUBLIC_NO_ANSWER
+            - RFQ_TYPE_SIMPLIFIED
+            - RFQ_TYPE_PRIVATE_PPB
+            - RFQ_TYPE_PUBLIC_PPB
           example: "RFQ_TYPE_PUBLIC_WITH_ANSWER"
         offersOpeningCriteria:
           type: string
+          description: |+
+            Envelope opening criteria:
+            * NONE 
+            * OPEN_PARALLEL
+            * BLIND_PARALLEL
+            * BLIND_SEQUENTIAL
+          enum:
+            - NONE 
+            - OPEN_PARALLEL
+            - BLIND_PARALLEL
+            - BLIND_SEQUENTIAL
           example: "BLIND_PARALLEL"
+        procedureType:
+          type: string
+          description: |+
+            Name of type of the procedure
+        contractObject:
+          type: string
+          description: |+
+            Object of the contract
         value: 
           type: number
-          example: 0.0,
+          format: float
+          description: |+
+            Value of the RfX (it can have exponential notation)
+          example: 0.0
+        valueCurrency:
+          type: string
+          description: |+
+            External code of the value currency
+        bidCurrency:
+          type: string
+          description: |+
+            External code of the bids currency
         envelopeDigitalSignature:
           type: string
+          description: |+
+            Envelope digital signature configuration: 
+            * NOT_MANDATORY
+            * NO
+          enum:
+            - NOT_MANDATORY
+            - NO
           example: "NO"
         rankingStrategy: 
           type: string
+          description: |+
+            Ranking strategy: 
+            * NONE 
+            * NO_RANKING 
+            * BEST_TECHNICAL_SCORE 
+            * BEST_ECONOMICAL_OFFER
+            * MOST_ECONOMICAL_ADVANTAGEOUS
+          enum:
+            - NONE 
+            - NO_RANKING 
+            - BEST_TECHNICAL_SCORE 
+            - BEST_ECONOMICAL_OFFER
+            - MOST_ECONOMICAL_ADVANTAGEOUS
           example: "NO_RANKING"
         techScoreWeight:
           type: number
+          description: |+
+            Tech score weight in percentage. If only tech, then it will be = 100, if absolute weight will be transformed in percentages.
           example: 0.0
         comScoreWeight:
           type: number
+          description: |+
+            Commercial score weight in percentage. 
           example:  0.0,
         numInvolvedSuppliers:
           type: integer
+          description: |+
+            Number of suppliers associated to the RFx
           example: 0
         numRespondedSuppliers:
           type: integer
+          description: |+
+            Number of suppliers having submitted a valid response in the last round (regardless if then excluded during pre-evaluation or evaluation phase)
           example: 0
         numExcludedSuppliers:
           type: integer
+          description: |+
+            Number of suppliers having submitted a valid response in the last round, but then excluded during pre-evaluation or evaluation phase.
+            This is a subset of the suppliers counted in numRespondedSuppliers.
           example: 0
         numAwardedSuppliers:
           type: integer
+          description: |+
+            Number of suppliers having partial or full awarding flag.
+            If WS configuration parameter IncludePartialWinner is set to 1 partial awarded suppliers will be included
           example: 0
         qualEvaluationTeamSize: 
           type: integer
+          description: |+
+            0 = evaluation team not defined.
           example: 0
         techEvaluationTeamSize:
           type: integer
+          description: |+
+            0 = evaluation team not defined.
           example: 0
         commEvaluationTeamSize: 
           type: integer
+          description: |+
+            0 = evaluation team not defined.
           example: 0
         qualEnvStatus:
           type: integer
+          description: |+
+            Status of the envelope:
+            * 0 = not active 
+            * 1 = active with no response attachments 
+            * 2 = active with response attachments allowed
+          enum:
+            - 0
+            - 1 
+            - 2
           example: 1
         techEnvStatus:
           type: integer
+          description: |+
+            Status of the envelope:
+            * 0 = not active 
+            * 1 = active with no response attachments 
+            * 2 = active with response attachments allowed
+          enum:
+            - 0
+            - 1 
+            - 2
           example: 0
         commEnvStatus:
           type: integer
+          description: |+
+            Status of the envelope:
+            * 0 = not active 
+            * 1 = active with no response attachments 
+            * 2 = active with response attachments allowed
+          enum:
+            - 0
+            - 1 
+            - 2
           example: 0
         lastUpdate: 
           type: string
+          description: |+
+            RfX last update date/time
           format: date-time
           example: "2018-01-23T13:53:54.000Z"
+        publishDate:
+          description: |+
+            First date of publishing
+        closeDate:
+          description: |+
+            Last close date
+        qualOffersOpeningDate:
+          description: |+
+            Opening Date of Qualification Responses
+        techOffersOpeningDate:
+          description: |+
+            Opening Date of Technical Responses
+        commOffersOpeningDate:
+          description: |+
+            Opening Date of Commercial Responses
+        preEvaluationCloseDate:
+          description: |+
+            Date when the preliminary evaluation is frozen
+        qualEvaluationCloseDate:
+          description: |+
+            Date when the qualification evaluation is frozen
+        techEvaluationCloseDate:
+          description: |+
+            Date when the technical evaluation is frozen
+        commEvaluationCloseDate:
+          description: |+
+            Date when the commercial evaluation is frozen
+        awardDate:
+          description: |+
+            RfX award date.This date is filled also when the RfX reaches a final state:
+            * 1000 = not valid
+            * 200 = not approved
+            * 50 = offline ended
+            * 600 = moved to auction       
+            * 1500 = Rfi ended
+            * 500 = awarded
+            * 700 = not awarded (cancelled)
+            * 1800 = moved to Rfq
+            * 1900 = multi-lot transfer suppliers
+            * 1600 = Rfq multi-awarded
+          enum:
+            - 1000
+            - 200
+            - 50
+            - 600      
+            - 1500
+            - 500
+            - 700
+            - 1800
+            - 1900
+            - 1600
+        deleted:
+          type: boolean
+          description: |+
+            RFx deletion status flag: 
+            * 0 = RFx isn’t deleted 
+            * 1 = RFx has been deleted
+            This information is inserted only if “deletedStatus” condition filter has been set (no matter value).
+            Available from version: 12_1_03
         autopublish: 
-          type: integer
+          type: boolean
+          description: |+
+            Auto-publish flag: 
+            * 0 = RFx has to be published manually 
+            * 1 = RFx must be published automatically on date expressed in autopublishDate
+            Available from version: 12_2_00
           example: 0
+        autopublishDate:
+          type: string
+          format: date-time
+          description: |+
+            Auto-publishing date. If RFx is auto published, it is the date when the RFx will be published. 
+            Information is inserted only if autopublish is 1 and a valid date has been inserted.
+            Available from version: 12_2_00
         creationDate:
           type: string
           format: date-time
+          description: |+
+            RfX creation date/time
+            Available from version: 12_3_03
           example: "2018-01-22T15:02:15.000Z"
         awardingStrategy:
           type: string
+          description: |+
+            Awarding strategy:
+            * NONE
+            * NO_RANKING
+            * BEST_TECHNICAL_SCORE 
+            * BEST_ECONOMICAL_OFFER
+            * MOST_ECONOMICAL_ADVANTAGEOUS
+            The strategy for the classification of supplier answers to use in the final evaluation.
+            Available from version: 12_3_03
+          enum:
+            - NONE
+            - NO_RANKING
+            - BEST_TECHNICAL_SCORE 
+            - BEST_ECONOMICAL_OFFER
+            - MOST_ECONOMICAL_ADVANTAGEOUS
           example: "NONE"
         awardingLevel:
           type: string
+          description: |+
+            Awarding level:
+            * OVERALL
+            * WORKSHEET
+            * ITEM
+            Available from version: 12_3_03
+          enum:
+            - OVERALL
+            - WORKSHEET
+            - ITEM
           example: "OVERALL"
         awardingSource:
           type: string
+          description: |+
+            Awarding source: 
+            * PRICE
+            * TCO 
+            Available from version: 12_3_03
+          enum:
+            - PRICE
+            - TCO
           example: "PRICE"
-        prDocumentType: {}
+        priceAwardingStrategy:
+          type: string
+          description: |+
+            The strategy for the classification of prices to use in the final evaluation. 
+            * REVERSE = the lowest price wins
+            * DIRECT = the highest price wins
+            Available from version: 12_3_03
+          enum:
+            - REVERSE
+            - DIRECT
+
+        prDocumentType:
+          description: |+
+            PR document type (only if PR_DOCUMENT_TYPE component filter is available):
+            * documentTypeId: internal identifier of the document type;
+            * shortDescription: short description of the document type;
+            * detailedDescription: detailed description of the document type;
+            * documentTypeOwner: company owner of the document type:
+               * id: internal identifier of the company
+               * code: external code of the company
+               * name: name of the company
+        rfxType:
+          type: string
+          description: |+
+            RfX Typology external code
+            Available from version: 12_3_1_01
+        rfxTypeDescription:
+          type: string
+          description: |+
+            RfX Typology short description (default language)
+            Available from version: 12_3_1_01
         qualEnvelopeDigitalSignature:
           type: string
+          description: |+
+            Qualification envelope digital signature configuration: 
+            * NOT_MANDATORY
+            * NO
+            Available from version: 12_4_0_00
           example:  "NO"
         techEnvelopeDigitalSignature:
           type: string
+          description: |+
+            Technical envelope digital signature configuration:  
+            * NOT_MANDATORY
+            * NO
+            Available from version: 12_4_0_00
           example: "NO"
         commEnvelopeDigitalSignature:
           type: string
+          description: |+
+            Commercial envelope digital signature configuration:  
+            * NOT_MANDATORY
+            * NO
+            Available from version: 12_4_0_00
           example: "NO"
+          
+        supplierAgreementFeeAmount:
+          type: string
+          description: |+
+            When the supplier agreement is “Contract Fee” it indicates the fee amount that supplier must pay
+            Available from version: 12_4_0_03
+        tcoHeader:
+          type: string
+          description: |+
+            Redefined header for TCO additional column
+            Available from version: BA_16_01
         tcoVisibleToSuppliers:
-          type: integer
+          type: boolean
+          description: |+
+            Visibility of TCO additional column:
+            * 0 = not visible to suppliers
+            * 1 = visible to suppliers
+            Available from version: BA_16_01
           example: 0
         consortiumAvailable: 
           type: integer
+          description: |+
+            Flag to allow suppliers to respond by consortium.
+            In case of Rfx single lot, possible values are:
+            * 0 = not allowed
+            * 1 = allowed
+            In case of Rfx multi lots, possible values are:
+            * 0 = not allowed
+            * 1 = allowed and can be different for each lot
+            * 2 = allowed and must be the same for all lots
+            Available from version: BA_16_02
+          enum:
+            - 0
+            - 1
+            - 2
           example: 1
+        defaultScoringCalcCriteria:
+          type: string
+          description: |+
+            Default type of scoring calculation.  
+            Available when rankingStrategy is BEST_TECHNICAL_SCORE or MOST_ECONOMICAL_ADVANTAGEOUS.
+            Possible values:
+            * AUTOMATIC
+            * ON_DEMAND
+            Available from version: BA_16_03
+          enum:
+            - AUTOMATIC
+            - ON_DEMAND
+        scoringMethod:
+          type: string
+          description: |+
+            Flag indicating the scoring method. 
+            Available when rankingStrategy is BEST_TECHNICAL_SCORE or MOST_ECONOMICAL_ADVANTAGEOUS.
+            Possible values:
+            * A = Absolute
+            * W = Percentage Weight
+            Available from version: BA_16_03
+          enum:
+            - A
+            - W
+        maxTechScore:
+          type: integer
+          description: |+
+            Maximum technical score. 
+            Only for scoringMethod = A.
+            Available from version: BA_16_03
+        maxCommScore:
+          type: string
+          description: |+
+            Maximum commercial score.
+            Only for scoringMethod = A.
+            Available from version: BA_16_03
         commEnvScoringMode:
           type: integer
+          description: |+
+            Scoring algorithm level (only for best score absolute or percentage). 
+            Possible values:
+            * 0 = Based on Supplier Total Price (Grand total)
+            * 1 = Aggregation of Supplier Section Scores (Section total)
+            Available from version: BA_16_03
           example: 0
+        commScoringAlgorithm:
+          type: string
+          description: |+
+            Scoring algorithm to calculate the score. 
+            Available when commEnvScoringMode = 0.
+            Possible values:
+            * PROPORTIONAL_VS_BEST = Proportional vs Best
+            * BETTER_ABOVE_AVERAGE_DISCOUNT = Better Above Average Discount
+            * DIFFERENTIAL_VS_BASE_PRICE = Differential vs Base Price
+            * LINEAR = Linear (Worst=0)
+            * COPY_TCO = Copy of TCO
+            * NO_FORMULA = No formula
+            Available from version: BA_16_03
+            
+        commAlgorithmInputData:
+          type: string
+          description: |+
+            Source for Scoring algorithm. 
+            Available when commScoringAlgorithm is not NO_FORMULA.
+            Possible values:
+            * PRICE
+            * TCO
+            Available from version: BA_16_03
+        commAlgorithmValuesStrategy:
+          type: string
+          description: |+
+            Price values strategy. 
+            Available when commScoringAlgorithm is not NO_FORMULA.
+            Possible values:
+            * REVERSE = lower price preferred
+            * DIRECT = higher price preferred
+            Available from version: BA_16_03
+        commAlgorithmBaseValue:
+          type: string
+          description: |+
+            Base value for scoring algorithm. 
+            Available when commScoringAlgorithm is BETTER_ABOVE_AVERAGE_DISCOUNT or
+            DIFFERENTIAL_VS_BASE_PRICE.
+            Available from version: BA_16_03
+        commAlgorithmXParam:
+          type: string
+          description: |+
+            X parameter between 0 and 1. Available when commScoringAlgorithm is BETTER_ABOVE_AVERAGE_DISCOUNT. 
+            Available from version: BA_16_03
         hideValueFromSupplier: 
           type: integer
+          description: |+
+            Hide value from suppliers flag:
+            * 0 = value visible to suppliers
+            * 1 = value not visible to suppliers
+            Available from version: BA_16_04
           example: 1
         reservedPrice:
           type: number
+          description: |+
+            Reserved price
+            Available from version: BA_16_04
           example: 0.0
         enableOpeningCommittees:
           type: integer
+          description: |+
+            Enable opening committees flag:
+            * 0 = disable opening committees
+            * 1 = enable opening committees
+            Available from version: BA_16_04
           example: 0
+        endDateBuyerReplyMessages:
+          type: string
+          format: date-time
+          description: |+
+            End date and time for buyer replies to messages
+            Available from version: BA_16_04
         maxScoreVisibleToSuppliers:
           type: integer
+          description: |+
+            Max score visible to suppliers flag. Available only when supplier response ranking is BEST_TECHNICAL_SCORE (Best Technical Score) or 
+            MOST_ECONOMICAL_ADVANTAGEOUS (Best Score).
+            Possible values:
+            * 0 = No
+            * 1 = Envelope Level Only
+            * 2 = Including Section and Question Level
+            Available from version: BA_16_04
           example: 0
         numReOpenRounds:
           type: integer
+          description: |+
+            Number of re-opening rounds
+            Available from version: BA_17_00
           example: 0
         numUltimateOffers:
           type: integer
+          description: |+
+            Number of ultimate offers requested
+            Available from version: BA_17_00
           example: 0
         multicurrencyBids: 
-          type: integer
+          type: boolean
+          description: |+
+            Multicurrency bidding flag:
+            * 0 = disable multicurrency bidding
+            * 1 = enable multicurrency bidding
+            Available from version: BA_17_01
           example: 0
         multicurrencyTCO:
-          type: integer
+          type: boolean
+          description: |+
+            Flag to apply currency conversion to TCO:
+            * 0 = not apply currency conversion to TCO
+            * 1 = apply currency conversion to TCO
+            Available from version: BA_17_01
           example: 0
+        rfqMlotBehaviour:
+          type: boolean
+          description: |+
+            Rfq behaviour in project. Visible in case of multi lot tender. 
+            * 1 = qualification only;
+            * 0 = technical/ commercial;
+            Available from version: BA_17_02
         visibilityEGComments:
-          type: integer
+          type: boolean
+          description: |+
+            Blind evaluation comments for evaluation groups. Values:
+            * 0 - Always visible
+            * 1 - Blind behaviour
+            Available from version: BA_18_00
           example: 1
+        rfxAwardingType:
+          type: integer
+          description: |+
+            RfX Awarding Typology external code
+            Available from version: BA_18_03
+        rfxAwardingTypeDescription:
+          type: string
+          description: |+
+            RfX Awarding Typology short description (default language)
+            Available from version: BA_18_03
         templateFolderName: 
           type: string
+          description: |+
           example: "PQQ Templates"
+          
+    PrDocumentType:
+      description: |+
+        PR document type (only if PR_DOCUMENT_TYPE component filter is available):
+        * documentTypeId: internal identifier of the document type;
+        * shortDescription: short description of the document type;
+        * detailedDescription: detailed description of the document type;
+        * documentTypeOwner: company owner of the document type:
+          * id: internal identifier of the company
+          * code: external code of the company
+          * name: name of the company
+      type: object
+      properties:
+        documentTypeId:
+          description: |+
+            internal identifier of the document type;
+        shortDescription:
+          description: |+
+            short description of the document type;
+        detailedDescription:
+          description: |+
+            detailed description of the document type;
+        documentTypeOwner:
+          $ref: '#/components/schemas/DocumentTypeOwner'
+             
+            
+               
+    DocumentTypeOwner:
+      description: |+
+        company owner of the document type:
+      type: object
+      properties:
+        id:
+          type: string
+          description: |+
+            internal identifier of the company
+        code:
+          type: string
+          description: |+
+            external code of the company
+        name:
+          type: string
+          description: |+
+            name of the company
+     
+          
           
     Value:
       title: Value
@@ -1783,25 +3157,84 @@ components:
         properties:
           value:
             type: string
+            maxLength: 2000
+            description: |+
+              Data-element value(s). In case of attachment data-element contains the filename
+              In case of option/multichoice data element, the value is extracted in the system default language. 
+              If the condition filter independentLocale is set, the value will be extracted in the “neutral” language.
             example: "Call Off (Competition)"
             #VARCHAR2(2000 CHAR)
           id:
             type: string
+            description: |+
+              In case of attachment the Internal identifier of the attachment, to be used for calling attachments web service to download it
+              In case of choice/multichoice the id of the choice
+
             example:  "0"
             #NUMBER(38)
           secureToken:
             type: string
+            maxLength: 38
+            description: |+
+              In case of attachment it is the secure token to be used for calling attachments web service to download the attachment file.
+              Available from version: BA_17_03
             #VARCHAR2(32 CHAR)
 
     
           
     RFxPlanning:
-      title: RFX Planning
+      title: Value
       type: object
-      properties:
-        todo:
+      properties:   
+        plannedSendingDate:
           type: string
-          example: "?????"
+          format: date-time
+          description: |+
+          	Planned Publishing Date
+          deprecated: true
+        plannedNotificationDate:
+          type: string
+          format: date-time
+          description: |+
+            Planned Notification Date
+          deprecated: true
+        modifiedNotificationDate:
+          type: string
+          format: date-time
+          description: |+
+            Modified Notification Date
+          deprecated: true
+        actualContractCommissionDate:
+          type: string
+          format: date-time
+          description: |+
+            Actual Contract Commission Date
+          deprecated: true
+        plannedContractStartDate:
+          type: string
+          format: date-time
+          description: |+
+            Planned Contract Start Date
+          deprecated: true
+        eligibilityCommissionDate:
+          type: string
+          format: date-time
+          description: |+
+            Eligibility Commission Date
+          deprecated: true
+        otherDateType:
+          type: string
+          format: date-time
+          description: |+
+            * 1 = Notification Date
+            * 2 = Purchasing Strategy Validation Date 
+            * 3 = Other Date
+          deprecated: true
+        otherDateVal:
+          type: string
+          description: |+
+          	Value for the date above
+          deprecated: true
           
     
             

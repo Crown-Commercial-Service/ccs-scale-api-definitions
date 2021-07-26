@@ -2098,6 +2098,8 @@ components:
           description: |+
             Response to commercial parameters [see section “Suppliers Offer: Response to commercial parameters” below]
         consortium:
+          allOf:
+            - $ref: '#/components/schemas/SuppliersOfferConsortium' 
           description: |+
             Consortium [see section “Suppliers Offer: Consortium” below]
         awardRanking:
@@ -2147,10 +2149,169 @@ components:
       title: Response to commercial parameters 
       type: object
       properties:
-        parameterID:  
+        parameterID: 
+          type: integer
           description: |+
-            to Complete
+            Id if the commercial field
+        price:
+          type : number
+          format: float
+          description: |+
+            Seller price (it can have exponential notation)
+        quantity:
+          type: integer
+          description: |+
+            Seller Quantity
+        notes:
+          description: |+
+            Seller Notes
+        buyerPrice:
+          description: |+
+            Price confirmed by the buyer
+        awardState:
+          type: string
+          description: |+
+            Awarding state of the single offer item:
+            * 0 = not mixed awarding
+            * 1 = mixed-awarding – item awarded to the current supplier
+            * 2 = mixed-awarding – item not-awarded to the current supplier
+            * 3 = mixed-awarding – item moved to auction
+          enum:
+            - 0
+            - 1
+            - 2
+            - 3
+        priceByQuantityValues:
+          type: array
+          items:
+            $ref: '#/components/schemas/SuppliersOfferPrice'
+          description: |+
+            Price by quantity parameter response [see section “Suppliers Offer: Price by quantity commercial parameters response” below]
+        additionalColumnValues:
+          type: array
+          items:
+            $ref: '#/components/schemas/SuppliersOfferAdditional'
+          description: |+
+            Additional columns response [see section “Suppliers Offer: Additional columns response” below]
             
+    SuppliersOfferPrice:
+      title: Suppliers Offer - Price by quantity commercial parameters response 
+      type: object
+      properties:
+        from:
+          type: integer
+          description: |+
+            Quantity from reference
+        to: 
+          type: integer
+          description: |+
+            Quantity to reference
+        unitPrice:
+          type : number
+          format: float
+          description: |+
+            Offer price (it can have exponential notation)
+        supplierResponseUnitPrice:
+          type : number
+          format: float
+          description: |+
+            Price in the currency of the supplier
+            
+    SuppliersOfferAdditional:
+      title: Suppliers Offer - Additional columns response  
+      type: object
+      properties:
+        additionalColunId:
+          type: integer
+          description: |+
+            Id of the additional column the value is referred to
+        value:
+          type: integer
+          description: |+
+            Value for the referred additional columns
+        fileId:
+          type: integer
+          description: |+
+            Internal identifier of the attachment, to be used for calling attachments web service to download it
+        fileName:
+          type: string
+          description: |+
+            Attachment filename
+        fileDescription:
+          type: string
+          description: |+
+            Attachment description
+        filePath:
+          type: string
+          description: |+
+            Attachment full path 
+        fileSize:
+          type: integer
+          description: |+
+            Attachment size in bytes
+        creationDate:
+          type: string
+          format: date-time
+          description: |+
+            Attachment creation date
+            BA_17_01
+        secureToken:
+          type: string
+          description: |+
+            It is the secure token to be used for calling attachments web service to download the attachment file.
+                
+               
+    SuppliersOfferConsortium:
+      title: Suppliers Offer - Consortium 
+      type: object
+      properties:
+        consortiumTypeCode:
+          type: integer  
+          description: |+
+            Consortium type code
+        consortiumTypeDesc:
+          type: string
+          description: |+
+            Consortium type description
+        numberOfOrganisations:
+          type: integer
+          description: |+
+            Number of organisations that are part of the consortium
+            
+    SuppliersOfferOrganisation:        
+      title: Suppliers Offer - Organistion 
+      type: object
+      properties:
+        name:
+          type: string  
+          description: |+
+            Organisation name
+        fiscalCode:
+          type: string  
+          description: |+
+            Organisation fiscal code
+        vat:
+          type: number
+          format: float  
+          description: |+
+            Organisation VAT
+        address:
+          type: string  
+          description: |+
+            Organisation address
+        participationSharePerc:
+          type: integer
+          description: |+
+            Percentage of share participation of the organisation in the consortium
+        representativeLegal:
+          type: string  
+          description: |+
+            Legal representative of the organisation
+        notes:
+          type: string  
+          description: |+
+            Notes   
+                
     ResponseTechAndQualParameters:
       title: Response to commercial parameters 
       type: object
@@ -2184,6 +2345,15 @@ components:
       properties:
         envelope:
           type: string
+          description: |+
+            Envelope type: 
+            * QUAL
+            * TECH
+            * PRICE
+          enum:
+            - QUAL
+            - TECH
+            - PRICE
           example: "TECH"
         evaluationGroupMember:
           type: array
@@ -2195,9 +2365,27 @@ components:
       type: object
       properties:              
         evaluationUser:
-          $ref: '#/components/schemas/User' 
+          allOf:
+            - $ref: '#/components/schemas/User'
+          type: object
+          properties:
+            id:
+              description: |+
+                Evaluation user Internal identifier
+            code:
+              description: |+
+                Evaluation user External code 
+            name:
+              description: |+
+                Evaluation user full-name 
+            login:
+              description: |+
+                Evaluation user login (if configured to be exported)
         active:
-          type: integer
+          type: boolean
+          description: |+
+            * 1 = evaluation user is active
+            * 0 = evaluation user is not active	
           example: 1
         evaluationList:
           $ref: '#/components/schemas/Evaluation'
@@ -2206,9 +2394,22 @@ components:
       title: Evaluation
       type: object
       properties:
-        evaluation:
+        evalNumber:
           type: string
-          example: "?????"
+          description: |+
+            Evaluation number
+        evalStartDate:
+          type: string
+          format: date-time
+          description: |+
+            Evaluation start date and time
+        evalEndDate:
+          type: string
+          format: date-time
+          description: |+
+            Evaluation end date and time
+          
+       
             
     EmailRecipientList:
       title: Email Recipient List
@@ -2227,15 +2428,24 @@ components:
           $ref: '#/components/schemas/RFXUser'
         email:
           type: string
+          description: |+
+            Recipient user e-mail
           example: "nicholas.openshaw@crowncommercial.gov.uk"
         division:
           type: string
+          description: |+
+            Recipient user division name
           example: "Central Government"
         profile:
           type: string
+          description: |+
+            Recipient user profile name
           example: "Non-CCS Call-Off Buyer"
         objectVisibility:
-          type: integer
+          type: boolean
+          description: |+
+           * 1 = user can view the RfX
+           * 0 = user cannot view the RfX
           example: 1
         divisionId:
           type: integer
@@ -2248,9 +2458,136 @@ components:
       title: Evaluation Group List
       type: object
       properties:
-        todo:        
+        envelopeCommentList:        
+          description: |+
+            List of evaluation envelope comments [see section “Envelope Comment” below]
+        envelopeSupplierCommentList:
+          description: |+
+            List of evaluation supplier envelope comments [see section “Envelope Supplier Comment” below]
+        envelopeAnswerCommentList:
+          description: |+
+            List of evaluation answer comments (parameter level) [see section “Envelope Answer Comment” below]
+        awardingCommentList:
+          description: |+
+            List of awarding comments (final evaluation) [see section “Awarding Comment” below
+        awardingSupplierCommentList:
+          description: |+
+            List of supplier awarding comments [see section “Awarding Supplier Comment” below]
+        envelope:
+          description: |+
+            Envelope type:
+            * QUAL
+            * TECH
+            * PRICE
+        numberOfComments:
+          type: integer
+          description: |+
+            Number of comments for envelope
+        commentData:
+          description: |+
+            Complex type containing the detail of the comment [see section “Comment Data” below]
+    
+    EnvelopeSupplierComment:
+      title: EnvelopeSupplierComment
+      type: object
+      properties:
+        envelope:
           type: string
-          example: "?????"
+          description: |+
+            Envelope type:
+            * QUAL
+            * TECH
+            * PRICE
+        supplierId:
+          description: |+
+            Supplier internal identifier
+        numberOfComments:
+          description: |+
+            Number of comments for envelope/supplier
+        commentData:
+          description: |+
+            Complex type containing the detail of the comment [see section “Comment Data” below]
+
+            
+    EnvelopeAnswerComment:
+      title: EnvelopeSupplierComment
+      type: object
+      properties:
+        envelope:
+          type: string
+          description: |+
+            Envelope type:
+            * QUAL
+            * TECH
+            * PRICE
+        supplierId:
+          description: |+
+            Supplier internal identifier
+        numberOfComments:
+          description: |+
+            Number of comments for envelope/supplier/parameter
+        commentData:
+          description: |+
+            Complex type containing the detail of the comment [see section “Comment Data” below]
+     
+    AwardingComment:
+      title: AwardingComment
+      type: object
+      properties:
+        numberOfComments:
+          type: integer
+          description: |+
+            Number of general awarding comments
+        commentData:
+          description: |+
+            Complex type containing the detail of the comment [see section “Comment Data” below]
+         
+    CommentData:
+      title: Comment Data
+      type: object
+      properties:
+        creationDate:
+          description: |+
+            Date of creation of the comment
+        comment:
+          description: |+
+            Comment of the user
+        attachment:
+          description: |+
+            Attachment of the comment (if any) [see section “Comment Attachment” below]
+            
+    commentAttachment:
+      title: Comment Data
+      type: object
+      properties:
+        fileId:
+          type: integer
+          description: |+
+            Internal identifier of the attachment, to be used for calling attachments web service to download it
+        fileName:
+          type: string
+          description: |+
+            Attachment filename
+        fileDescription:
+          type: string
+          description: |+
+            Attachment description
+        fileSize:
+          type: integer
+          description: |+
+            Attachment size in bytes
+        creationDate:
+          type: string
+          format: date-time
+          description: |+
+            Attachment creation date
+            BA_17_01
+        secureToken:
+          type: string
+          description: |+
+            It is the secure token to be used for calling attachments web service to download the attachment file.
+            BA_17_01
+                
             
     OfflineAnswersList:
       title: Evaluation Group List

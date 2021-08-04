@@ -3066,7 +3066,7 @@ components:
                 - DA
                 - FC
               description: Derived from eventType, Direct Award (DA) or Further Competition (FC)
-            procurementCurrency:
+            procurementValue:
               title: Procurement Spend
               description: 'The total upper estimated value of the procurement. A negative value indicates that the contracting process may involve payments from the supplier to the buyer (commonly used in concession contracts).'
               allOf:

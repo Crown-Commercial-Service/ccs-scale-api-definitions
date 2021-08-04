@@ -3,8 +3,11 @@ openapi: 3.0.0
 info:
   title: Tenders API
   description: Optional multiline or single-line description in [CommonMark](http://commonmark.org/help/) or HTML.
-  version: 0.1.9
+  version: 0.1.9.a
 servers:
+  # Added by API Auto Mocking Plugin
+  - description: SwaggerHub API Auto Mocking
+    url: https://virtserver.swaggerhub.com/Crown-Commercial/tempCAT-tenders/0.1.9.a
   - url: http://api.example.com/v1
     description: Optional server description, e.g. Main (production) server
   - url: http://staging-api.example.com
@@ -533,7 +536,9 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/AgreementDetails'
+              allOf:
+                - $ref: '#/components/schemas/AgreementDetails'
+                - $ref: '#/components/schemas/EventRequest'
       responses:
         '200':
           description: ok
@@ -598,7 +603,7 @@ paths:
       description: Lists the projects the user has access too within the filters imposed. Filters include active/archived, summary/OCDS, 
       tags:
         - Manage Procurement Project
-      operationId: RettrieveProcurementProjects
+      operationId: RetrieveProcurementProjects
       responses:
         '200':
           description: ok
@@ -607,7 +612,13 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/ProjectPackageSummary'
+                  allOf:
+                    - $ref: '#/components/schemas/ProjectPackageSummary'
+                    - $ref: '#/components/schemas/AgreementDefinition'
+                    - type: object
+                      properties:
+                        buyer:
+                          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OCDS_Standards/CCS-OCDS_Schema.yaml#/components/schemas/Organization'
         '401':
           $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/401Unauthorized'
         '403':
@@ -1361,7 +1372,8 @@ paths:
             
       
     post:
-      description: Creates a new Event for the Procurement Project.
+      description: Creates a new Event for the Procurement Project. Specify the eventType as tender.
+      # DH Note: OCDS Tender Competitive Ext adds 'competitive' boolean. So DA is setting this to false. Doesn't fix eventType though. So added a wrapper, moved Tender down a level
       tags:
         - Manage Procurement Project
       operationId: createCaseRFx
@@ -1369,7 +1381,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OCDS_Standards/CCS-OCDS_Schema.yaml#/components/schemas/Tender'
+              $ref: '#/components/schemas/EventRequest'
       responses:
         '200':
           description: ok
@@ -1645,7 +1657,15 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/EventDetail'
+                  allOf:
+                    - $ref: '#/components/schemas/AgreementDefinition'
+                    - $ref: '#/components/schemas/ProjectPackageSummary'
+                    - type: object
+                      properties:
+                        eventDetail:
+                          $ref: '#/components/schemas/EventDetail'
+
+             
         '401':
           $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/401Unauthorized'
         '403':
@@ -2802,14 +2822,27 @@ components:
     AgreementDetails:
       type: object
       properties:
-        agreementID:
+        agreementId:
           allOf:
             - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Schema.yaml#/components/schemas/AgreementId'
           readOnly: false
-        lotID:
+        lotId:
           allOf:
             - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Schema.yaml#/components/schemas/LotId'
           readOnly: false
+
+    AgreementDefinition:
+        allOf:
+          - $ref: '#/components/schemas/AgreementDetails'
+          - type: object
+            properties:
+              agreementName:
+                type: string
+                example: "Linen and Laundry Services"
+              lotName:
+                type: string
+                example: "Linen Hire with Standard Wash Linen and Laundry Services"
+
           
     ExtendCriteria:
       description: >-
@@ -2823,7 +2856,6 @@ components:
             type: string
             nullable: true
             format: date-time
-            
             
     ProjectPackageSummary:
       title: Project Package Summary
@@ -2864,28 +2896,25 @@ components:
           type: string
           format: date-time
           example: 01/01/2021
-        projectID:
+        projectId:
           $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Schema.yaml#/components/schemas/ProcurementProjectId'
         projectName:
           example: RM6118-Lot 2-Crown Commercial Services
           type: string
+        projectCreated:
+          type: string
+          format: date-time
+          title: Project Creation Date
+          example: 2017-10-12T10:08:54-04:00
+          description: Date and time the project containing the event was created (This is a project value not an event value so placed with project summary data)
         supportId:
           example: project_1055
           type: string
+        buyer:
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OCDS_Standards/CCS-OCDS_Schema.yaml#/components/schemas/Organization'
         activeEvent:
-          type: object
-          properties:
-            eventId: 
-              $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Schema.yaml#/components/schemas/ProcurementEventId'
-            eventSuppordId:
-              example: itt_2468
-              type: string
-            eventType:
-              $ref: '#/components/schemas/EventType'
-            eventStage:
-              example: Tender
-              type: string
-              
+          $ref: '#/components/schemas/EventSummary'
+
     ProjectPackage:
       allOf:
         - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OCDS_Standards/CCS-OCDS_Schema.yaml#/components/schemas/RecordPackage'
@@ -2937,7 +2966,23 @@ components:
         - complete
         - withdrawn
       example: "cancelled"
-        
+
+
+    EventRequest:
+      title: Event Request
+      description: >-
+        Data required to create an event. Assumed that 1) User data is available from the logged in user; 2) Agreement data is available from the project so neither of these are required as input
+      allOf:
+        - type: object
+          properties:
+            eventType: 
+              $ref: '#/components/schemas/EventType'
+            downselectedSuppliers:
+              type: boolean
+              example: false
+              description: Whether a supplier downselection has taken place
+        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/OCDS/OCDS_Vanilla.yaml#/components/schemas/Tender'
+
     EventType:
       title: Event type
       description: >-
@@ -2958,12 +3003,12 @@ components:
         
     EventStatus:
       description: >-
-        Generic term for an event put out to the market. Each is an optional procurement step in the procurement process. This casll shows the current status of each in the procurement process.
+        Generic term for an event put out to the market. Each is an optional procurement step in the procurement process. This call shows the current status of each in the procurement process.
       allOf:
         - $ref: '#/components/schemas/EventSummary'
       type: object
       properties:
-        projectID: 
+        projectId: 
           $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Schema.yaml#/components/schemas/ProcurementProjectId'
               #description: project_1055 mapped to CaT (project ID) 00002468
           
@@ -2972,16 +3017,16 @@ components:
         Generic term for an event put out to the market. Each is an optional procurement step in the procurement process. This casll shows the current status of each in the procurement process.
       type: object
       properties:   
-        eventID:
+        eventId:
           $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Schema.yaml#/components/schemas/ProcurementEventId'
             #type: string
             #example: 00013579
             #description: itt_2468 mapped to CaT (eventID) 00013579 
-        eventSupportID:
+        eventSupportId:
           type: string
           example: itt_2468
           description: ID to allow support staff to support this event. 
-        name:
+        eventName:
           type: string
           example: RM6118-Lot 2-Crown Commercial Services
           description: Name of the event.
@@ -2990,11 +3035,20 @@ components:
         eventStage:
           example: Tender
           type: string
-        status:
+        eventStatus:
           type: string
           allOf:
             - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OCDS_Standards/CCS-OCDS_Schema.yaml#/components/schemas/TenderStatus'
-                  
+        eventLastUpdated:
+          type: string
+          format: date-time
+          description: Timestamp of last update to the event
+        eventResponseDate:
+          type: string
+          format: date
+          description: Date by which responses must be received
+     
+    # DH Notes: I'd had to create a lot of the fields that were here at a higher level for the projects call (437) so have deleted anything 'raised' from this list. EventDetail was only to be found in the GET projects and GET Event calls.             
     EventDetail:
       description: >-
         Generic term for an event put out to the market. Each is an optional procurement step in the procurement process. This casll shows the current status of each in the procurement process.
@@ -3005,38 +3059,34 @@ components:
             - $ref: '#/components/schemas/EventSummary'
           type: object
           properties:
-            buyer:
+            procurementRoute:
               type: string
-              example: Fred Bloggs
-              description: Name of individual creating the Event (Is this needed?)
-            commercialAgreement:
-              type: string
-              example: RM6118
-              description: Reference number to agreement being used (Is this not part of the project not the event?)
-            lastUpdated:
-              type: string
-              format: date-time
-              example: 2017-10-12T10:08:54-04:00
-              description: Date and time the event was last modified
-            responseDate:
-              type: string
-              format: date-time
-              example: 2017-10-12T10:08:54-04:00
-              description: Closing date for event (may be null if not yet defined)
-            buyerOrg:
-              type: string
-              example: GB-COH-123456
-              description: Identifier for organisation creating the event (procuringEntity in OCDS is reference)
-            projectCreated:
-              type: string
-              format: date-time
-              example: 2017-10-12T10:08:54-04:00
-              description: Date and time the project containing the event was created (This is a project value not an event value)
+              example: FC
+              enum:
+                - DA
+                - FC
+              description: Derived from eventType, Direct Award (DA) or Further Competition (FC)
+            procurementCurrency:
+              title: Procurement Spend
+              description: 'The total upper estimated value of the procurement. A negative value indicates that the contracting process may involve payments from the supplier to the buyer (commonly used in concession contracts).'
+              allOf:
+                - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OCDS_Standards/CCS-OCDS_Schema.yaml#/components/schemas/Value'              
             eventCreated:
               type: string
               format: date-time
               example: 2017-10-12T10:08:54-04:00
               description: Date and time the event was created (This is a project value not an event value)
+            # DH Note: I know these next two are copied from OCDS but they describe event.published and .closing, and enquiries.clarificationPeriodClosed pretty well (start/end dates as appropriate)
+            tenderPeriod:
+              title: Tender period
+              description: The period when the tender is open for submissions. The end date is the closing date for tender submissions.
+              allOf:
+                - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OCDS_Standards/CCS-OCDS_Schema.yaml#/components/schemas/Period'
+            enquiryPeriod:
+              title: Enquiry period
+              description: 'The period during which potential bidders may submit questions and requests for clarification to the entity managing procurement. Details of how to submit enquiries should be provided in attached notices, or in submissionMethodDetails. Structured dates for when responses to questions will be made can be provided using tender milestones.'
+              allOf:
+                - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OCDS_Standards/CCS-OCDS_Schema.yaml#/components/schemas/Period' 
             responseVisibility:
               type: string
               example: Blind
@@ -3069,13 +3119,22 @@ components:
               description: Method used to score responses
               enum:
                 - Percentage Weight
+            defaultScoringCalcCriteria:
+              type: string
+              example: Automatic - On demand
+              description: Default Scoring Calculation Criteria
             techWeight:
               type: integer
               example: Percentage Weight
               description: Highest score that can be awarded, lowest being zero.
             weightVisible:
               type: boolean
-              description: Should the weighting be visible to suppliers.    
+              description: Should the weighting be visible to suppliers.  
+            downselectedSuppliers:
+              type: boolean
+              example: false
+              description: Whether a supplier downselection has taken place
+
               
         OCDS:
           #$ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OCDS_Standards/CCS-OCDS_Schema.yaml#/components/schemas/Tender'

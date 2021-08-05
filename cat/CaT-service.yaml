@@ -536,9 +536,7 @@ paths:
         content:
           application/json:
             schema:
-              allOf:
-                - $ref: '#/components/schemas/AgreementDetails'
-                - $ref: '#/components/schemas/EventRequest'
+              $ref: '#/components/schemas/ProjectRequest'
       responses:
         '200':
           description: ok
@@ -612,9 +610,8 @@ paths:
               schema:
                 type: array
                 items:
-                  allOf:
-                    - $ref: '#/components/schemas/ProjectPackageSummary'
-                    - $ref: '#/components/schemas/AgreementDefinition'
+                  $ref: '#/components/schemas/ProjectPackageSummary'
+
         '401':
           $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/401Unauthorized'
         '403':
@@ -1653,13 +1650,7 @@ paths:
           content:
             application/json:
               schema:
-                  allOf:
-                    - $ref: '#/components/schemas/AgreementDefinition'
-                    - $ref: '#/components/schemas/ProjectPackageSummary'
-                    - type: object
-                      properties:
-                        eventDetail:
-                          $ref: '#/components/schemas/EventDetail'
+                $ref: '#/components/schemas/EventDetail'
 
              
         '401':
@@ -2852,13 +2843,11 @@ components:
             type: string
             nullable: true
             format: date-time
-            
-    ProjectPackageSummary:
-      title: Project Package Summary
+
+    ProjectSummary:
+      title: Project Summary
       description: >-
-        The project package contains a list of Event records within a single Procurement Project along with some publishing metadata. The Event Records pull together all the releases of a procurement process
-        under a single Open Contracting ID and compile them into the latest version of the information along with the history of any data changes. This summary shows the primary fields of the project package
-        and supporting data including the active event. Following the URI will provide the project details in OIDC format.
+        The project summary contains (non-OCDS) summary information about the project. Following the URI will provide the project details in OIDC format.
       type: object
       properties:
         uri:
@@ -2867,25 +2856,6 @@ components:
           type: string
           example: 'https://www.crowncommercial.gov.uk/tenders/projects/{proc-id}'
           format: uri
-        #version:
-        #  title: OCDS schema version
-        #  description: 'The version of the OCDS schema used in this package, expressed as major.minor For example: 1.0 or 1.1'
-        #  type: string
-        #  pattern: ^(\d+\.)(\d+)$
-        #  example: '1.0'
-        #license:
-        #  title: License
-        #  description: 'A link to the license that applies to the data in this package. A Public Domain Dedication or [Open Definition Conformant](http://opendefinition.org/licenses/) license is recommended. The canonical URI of the license should be used. Documents linked from this file may be under other license conditions.'
-        #  nullable: true
-        #  type: string
-        #  format: uri
-        #publicationPolicy:
-        #  title: Publication policy
-        #  description: A link to a document describing the publishers publication policy.
-        #  nullable: true
-        #  type: string
-        #  format: uri
-        #  example: 'https://www.crowncommercial.gov.uk/agreements/publicationPolicy'
         publishedDate:
           title: Published date
           description: 'The date that this package was published. If this package is generated ''on demand'', this date should reflect the date of the last change to the underlying contents of the package.'
@@ -2908,6 +2878,20 @@ components:
           type: string
         buyer:
           $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OCDS_Standards/CCS-OCDS_Schema.yaml#/components/schemas/Organization'
+        agreement:
+          $ref: '#/components/schemas/AgreementDefinition'
+            
+    ProjectPackageSummary:
+      title: Project Package Summary
+      # DH Note - this description is now wrong. It returns summary data about the 'active' event alongside project details which include buyer and agreement detail.  Suggest an OCDS extension to present all the required data in OCDS form.
+      description: >-
+        The project package contains a list of Event records within a single Procurement Project along with some publishing metadata. The Event Records pull together all the releases of a procurement process
+        under a single Open Contracting ID and compile them into the latest version of the information along with the history of any data changes. This summary shows the primary fields of the project package
+        and supporting data including the active event. Following the URI will provide the project details in OIDC format.
+      type: object
+      properties:
+        project:
+          $ref: '#/components/schemas/ProjectSummary'
         activeEvent:
           $ref: '#/components/schemas/EventSummary'
 
@@ -2924,8 +2908,7 @@ components:
       title: Project Package
       description: The record package contains a list of Event records within a single procurement project along with some publishing metadata. The Event Records pull together all the releases of a procurement under a single Open Contracting ID and compile them into the latest version of the information along with the history of any data changes.
       type: object
-              
-              
+
     
     TerminationTypes:
       title: Termination Options
@@ -2963,6 +2946,14 @@ components:
         - withdrawn
       example: "cancelled"
 
+
+    ProjectRequest:
+      title: Project Request
+      description: >-
+        Data required to create a project. Assumed that 1) User data is available from the logged in user so not are required as input
+      allOf:
+        - $ref: '#/components/schemas/AgreementDetails'
+        - $ref: '#/components/schemas/EventRequest'
 
     EventRequest:
       title: Event Request
@@ -3047,7 +3038,7 @@ components:
     # DH Notes: I'd had to create a lot of the fields that were here at a higher level for the projects call (437) so have deleted anything 'raised' from this list. EventDetail was only to be found in the GET projects and GET Event calls.             
     EventDetail:
       description: >-
-        Generic term for an event put out to the market. Each is an optional procurement step in the procurement process. This casll shows the current status of each in the procurement process.
+        Generic term for an event put out to the market. Each is an optional procurement step in the procurement process. This call shows the current status of each in the procurement process.
       type: object
       properties:
         nonOCDS:
@@ -3055,6 +3046,8 @@ components:
             - $ref: '#/components/schemas/EventSummary'
           type: object
           properties:
+            project:
+              $ref: '#/components/schemas/ProjectSummary'
             procurementRoute:
               type: string
               example: FC

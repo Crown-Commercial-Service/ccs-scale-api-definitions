@@ -3054,7 +3054,7 @@ components:
         Generic term for an event put out to the market. Each is an optional procurement step in the procurement process. This casll shows the current status of each in the procurement process.
       type: object
       properties:
-        Non-OCDS:
+        nonOCDS:
           allOf:
             - $ref: '#/components/schemas/EventSummary'
           type: object

@@ -3034,17 +3034,11 @@ components:
           type: string
           format: date
           description: Date by which responses must be received
-     
-    # DH Notes: I'd had to create a lot of the fields that were here at a higher level for the projects call (437) so have deleted anything 'raised' from this list. EventDetail was only to be found in the GET projects and GET Event calls.             
-    EventDetail:
-      description: >-
-        Generic term for an event put out to the market. Each is an optional procurement step in the procurement process. This call shows the current status of each in the procurement process.
-      type: object
-      properties:
-        nonOCDS:
-          allOf:
-            - $ref: '#/components/schemas/EventSummary'
-          type: object
+
+    EventDetailNonOCDS:
+      allOf:
+        - $ref: '#/components/schemas/EventSummary'                   
+        - type: object
           properties:
             project:
               $ref: '#/components/schemas/ProjectSummary'
@@ -3124,6 +3118,15 @@ components:
               example: false
               description: Whether a supplier downselection has taken place
 
+
+    # DH Notes: I'd had to create a lot of the fields that were here at a higher level for the projects call (437) so have deleted anything 'raised' from this list. EventDetail was only to be found in the GET projects and GET Event calls.             
+    EventDetail:
+      description: >-
+        Generic term for an event put out to the market. Each is an optional procurement step in the procurement process. This call shows the current status of each in the procurement process.
+      type: object
+      properties:
+        nonOCDS:
+          $ref: '#/components/schemas/EventDetailNonOCDS'
               
         OCDS:
           #$ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OCDS_Standards/CCS-OCDS_Schema.yaml#/components/schemas/Tender'

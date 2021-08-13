@@ -2953,23 +2953,32 @@ components:
         Data required to create a project. Assumed that 1) User data is available from the logged in user so not are required as input
       allOf:
         - $ref: '#/components/schemas/AgreementDetails'
-        - $ref: '#/components/schemas/EventRequest'
+        - $ref: '#/components/schemas/ProjectEventDetails'
+        
+    ProjectEventDetails:
+      title: Event Event Details
+      description: Event data required to create an project. Assumed that 1) User data is available from the logged in user; 2) Agreement data is available from the project so neither of these are required as input
+      type: object
+      properties:
+        eventType:
+          $ref: '#/components/schemas/EventType'
+        downselectedSuppliers:
+          type: array
+          items:
+            $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/OCDS/OCDS_Vanilla.yaml#/components/schemas/OrganizationReference'
+          description: A list of suppliers if supplier downselection has taken place. An empty list or no list indicates no downselection and suppliers will deafualt to those on the agreement. If the agreement does not support downselection this will result in an error.
+          nullable: true
 
     EventRequest:
       title: Event Request
-      description: >-
-        Data required to create an event. Assumed that 1) User data is available from the logged in user; 2) Agreement data is available from the project so neither of these are required as input
-      allOf:
-        - type: object
-          properties:
-            eventType: 
-              $ref: '#/components/schemas/EventType'
-            downselectedSuppliers:
-              type: boolean
-              example: false
-              description: Whether a supplier downselection has taken place
-        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/OCDS/OCDS_Vanilla.yaml#/components/schemas/Tender'
-
+      description: Data required to create an event. Assumed that 1) User data is available from the logged in user; 2) Agreement data is available from the project so neither of these are required as input
+      type: object
+      properties:
+        eventType:
+          $ref: '#/components/schemas/EventType'
+        tenderData:
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/OCDS/OCDS_Vanilla.yaml#/components/schemas/Tender'
+        
     EventType:
       title: Event type
       description: >-

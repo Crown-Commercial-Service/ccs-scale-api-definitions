@@ -810,11 +810,10 @@ components:
           type: string
           description: |+
             Web Link
-            
             UI: Weblink
       	  #VARCHAR2(256 CHAR)
-      	opportunityAdditionalInfo:
-      	  $ref: '#/components/schemas/AdditionalInfoList'
+        opportunityAdditionalInfo:
+          $ref: '#/components/schemas/AdditionalInfoList'
         opportunityAttachmentList:
           $ref: '#/components/schemas/Attachment'
         
@@ -823,23 +822,23 @@ components:
       title: Category
       type: object
       properties: 	  
-      	categoryCode:
+        categoryCode:
           type: string
           description: |+
             Category Code
             
             UI\: Category (as “categoryCode – categoryName”)
-      	  #VARCHAR2(80 CHAR)
-      	categoryName:
+          #VARCHAR2(80 CHAR)
+        categoryName:
           type: string
           description: |+
             Category Name - Category name/description in the default language 
             
             UI\: Category (as “categoryCode – categoryName”)	 
-      	  #VARCHAR2(256 CHAR)
-      	name:
-      	  type: string
-      	  # VARCHAR2(80 CHAR)
+          #VARCHAR2(256 CHAR)
+        name:
+          type: string
+          # VARCHAR2(80 CHAR)
           description: |+
             Name of an existing additional info (data element)
         type:
@@ -4738,13 +4737,6 @@ components:
           type: string
           # DATE
           description: |+
-          	Value for the date above
+            Value for the date above
           deprecated: true
-          
-    
-            
-            
-    
-            
-    
           

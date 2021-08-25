@@ -1370,7 +1370,7 @@ paths:
           application/json:
             schema:
               properties:
-                Non-OCDS:
+                nonOCDS:
                   type: object
                   properties:
                     eventType:
@@ -2858,17 +2858,18 @@ components:
         contact:
           allOf:
             - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OCDS_Standards/CCS-OCDS_Schema.yaml#/components/schemas/ContactPoint'
-          properties:
-            name:
-              description: Name of the tream member
-            email:
-              description: eMail address of the tream member
-            telephone:
-              description: Telephone number of the tream member
-            faxNumber:
-              description: Fax number of the tream member
-            url:
-              description: URL of the tream member
+            - type: object
+              properties:
+                name:
+                  description: Name of the tream member
+                email:
+                  description: eMail address of the tream member
+                telephone:
+                  description: Telephone number of the tream member
+                faxNumber:
+                  description: Fax number of the tream member
+                url:
+                  description: URL of the tream member
               
     AgreementDetails:
       type: object
@@ -2939,16 +2940,17 @@ components:
     ProjectPackage:
       allOf:
         - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OCDS_Standards/CCS-OCDS_Schema.yaml#/components/schemas/RecordPackage'
-      properties:
-        uri:
-          title: Package identifier
-          description: The URI of this package that identifies it uniquely in the world.
-          type: string
-          example: 'https://www.crowncommercial.gov.uk/tenders/projects/{proc-id}'
-          format: uri
+        - type: object
+          properties:
+            uri:
+              title: Package identifier
+              description: The URI of this package that identifies it uniquely in the world.
+              type: string
+              example: 'https://www.crowncommercial.gov.uk/tenders/projects/{proc-id}'
+              format: uri
       title: Project Package
       description: The record package contains a list of Event records within a single procurement project along with some publishing metadata. The Event Records pull together all the releases of a procurement under a single Open Contracting ID and compile them into the latest version of the information along with the history of any data changes.
-      type: object
+    
               
               
     
@@ -3030,10 +3032,10 @@ components:
         Generic term for an event put out to the market. Each is an optional procurement step in the procurement process. This call shows the current status of each in the procurement process.
       allOf:
         - $ref: '#/components/schemas/EventSummary'
-      type: object
-      properties:
-        projectId: 
-          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Schema.yaml#/components/schemas/ProcurementProjectId'
+        - type: object
+          properties:
+            projectId: 
+              $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Schema.yaml#/components/schemas/ProcurementProjectId'
               #description: project_1055 mapped to CaT (project ID) 00002468
           
     EventSummary:
@@ -3069,32 +3071,31 @@ components:
         Generic term for an event put out to the market. Each is an optional procurement step in the procurement process. This call shows the current status of each in the procurement process.
       type: object
       properties:
-        Non-OCDS:
+        nonOCDS:
           allOf:
             - $ref: '#/components/schemas/EventSummary'
-          type: object
-          properties:
-            
-            responseVisibility:
-              type: string
-              example: Blind
-              description: When responses will be made visible to the buyer
-              enum:
-                - blind
-                - visible
+            - type: object
+              properties:
+                responseVisibility:
+                  type: string
+                  example: Blind
+                  description: When responses will be made visible to the buyer
+                  enum:
+                    - blind
+                    - visible
             # May be required post MDP
             #groupBids:
             #  type: boolean
             #  default: false
             #  description: Can a group of organisation cooperate to provide a single bid
-            responseViewing:
-              type: string
-              example: sealed-parallel
-              description: When responses will be made visible to the buyer
-              enum:
-                - sealed-parallel
-                - sealed-sequential
-                - unsealed
+                responseViewing:
+                  type: string
+                  example: sealed-parallel
+                  description: When responses will be made visible to the buyer
+                  enum:
+                    - sealed-parallel
+                    - sealed-sequential
+                    - unsealed
             # covered by Tender.awardCriteria
             #responseRanking:
             #  type: string
@@ -3103,19 +3104,19 @@ components:
             #  enum:
             #    - Best Tech Score
             #    - No ranking
-            scoringMethod:
-              type: string
-              example: Percentage Weight
-              description: Method used to score responses
-              enum:
-                - Percentage Weight
-            techWeight:
-              type: integer
-              example: Percentage Weight
-              description: Highest score that can be awarded, lowest being zero.
-            weightVisible:
-              type: boolean
-              description: Should the weighting be visible to suppliers.    
+                scoringMethod:
+                  type: string
+                  example: Percentage Weight
+                  description: Method used to score responses
+                  enum:
+                    - Percentage Weight
+                techWeight:
+                  type: integer
+                  example: Percentage Weight
+                  description: Highest score that can be awarded, lowest being zero.
+                weightVisible:
+                  type: boolean
+                  description: Should the weighting be visible to suppliers.    
               
         OCDS:
           allOf:
@@ -3154,7 +3155,14 @@ components:
                         durationInDays:
                           deprecated: true
                 enquiryPeriod:
-                  deprecated: true
+                  allOf:
+                    - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OCDS_Standards/CCS-OCDS_Schema.yaml#/components/schemas/Period'
+                    - type: object
+                      properties:
+                        maxExtentDate:
+                          deprecated: true
+                        durationInDays:
+                          deprecated: true
                 hasEnquiries:
                   deprecated: true
                 eligibilityCriteria:
@@ -3187,33 +3195,33 @@ components:
                               - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/OCDS/OCDS_Techniques_Ext.yaml#/components/schemas/Techniques'
                               - type: object
                                 properties:
-                                 frameworkAgreement:
-                                   allOf:
-                                     - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/OCDS/OCDS_Techniques_Ext.yaml#/components/schemas/FrameworkAgreement'
-                                     - type: object
-                                       properties:
-                                         minimumParticipants:
-                                           deprecated: true
-                                         maximumParticipants:
-                                           deprecated: true
-                                         method:
-                                           deprecated: true
-                                         periodRationale:
-                                           deprecated: true
-                                         buyerCategories:
-                                           deprecated: true
-                                         value:
-                                           deprecated: true
-                                         period:
-                                           deprecated: true
-                                 hasDynamicPurchasingSystem:
-                                   deprecated: true
-                                 dynamicPurchasingSystem:
-                                   deprecated: true
-                                 hasElectronicAuction:
-                                   deprecated: true
-                                 electronicAuction:
-                                   deprecated: true
+                                  frameworkAgreement:
+                                    allOf:
+                                      - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/OCDS/OCDS_Techniques_Ext.yaml#/components/schemas/FrameworkAgreement'
+                                      - type: object
+                                        properties:
+                                          minimumParticipants:
+                                            deprecated: true
+                                          maximumParticipants:
+                                            deprecated: true
+                                          method:
+                                            deprecated: true
+                                          periodRationale:
+                                            deprecated: true
+                                          buyerCategories:
+                                            deprecated: true
+                                          value:
+                                            deprecated: true
+                                          period:
+                                            deprecated: true
+                                  hasDynamicPurchasingSystem:
+                                    deprecated: true
+                                  dynamicPurchasingSystem:
+                                    deprecated: true
+                                  hasElectronicAuction:
+                                    deprecated: true
+                                  electronicAuction:
+                                    deprecated: true
                 lotDetails:
                   deprecated: true
                 lotGroups:

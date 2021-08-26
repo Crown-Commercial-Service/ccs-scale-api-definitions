@@ -1369,77 +1369,7 @@ paths:
         content:
           application/json:
             schema:
-              properties:
-                nonOCDS:
-                  type: object
-                  properties:
-                    eventType:
-                      $ref: '#/components/schemas/DefineEventType'
-                OCDS:
-                  allOf:
-                    - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OCDS_Standards/CCS-OCDS_Schema.yaml#/components/schemas/Tender'
-                    - type: object
-                      properties:
-                        status:
-                          readOnly: true
-                        procuringEntity:
-                          readOnly: true
-                        items:
-                          deprecated: true
-                        minValue:
-                          deprecated: true
-                        procurementMethodDetails:
-                          deprecated: true
-                        procurementMethodRationale:
-                          deprecated: true
-                        mainProcurementCategory:
-                          deprecated: true
-                        additionalProcurementCategories:
-                          deprecated: true
-                        awardCriteriaDetails:
-                          deprecated: true
-                        submissionMethod:
-                          deprecated: true
-                        submissionMethodDetails:
-                          deprecated: true
-                        tenderPeriod:
-                          readOnly: true
-                        enquiryPeriod:
-                          deprecated: true
-                        hasEnquiries:
-                          readOnly: true
-                        eligibilityCriteria:
-                          deprecated: true
-                        awardPeriod:
-                          deprecated: true
-                        contractPeriod:
-                          deprecated: true
-                        numberOfTenderers:
-                          readOnly: true
-                        tenderers:
-                          readOnly: true
-                        documents:
-                          readOnly: true
-                        milestones:
-                          deprecated: true
-                        amendments:
-                          deprecated: true
-                        competitive:
-                          deprecated: true
-                        lots:
-                          readOnly: true
-                        lotDetails:
-                          deprecated: true
-                        lotGroups:
-                          deprecated: true
-                        enquiries:
-                          readOnly: true
-                        criteria:
-                          readOnly: true
-                        selectionCriteria:
-                          deprecated: true
-                        techniques:
-                          readOnly: true
+              $ref: '#/components/schemas/CreateEvent'
                           
       responses:
         '200':
@@ -3263,6 +3193,82 @@ components:
                     electronicAuction:
                       deprecated: true
 
+    CreateEventOCDS:
+      allOf:
+        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OCDS_Standards/CCS-OCDS_Schema.yaml#/components/schemas/Tender'
+        - type: object
+          properties:
+            status:
+              readOnly: true
+            procuringEntity:
+              readOnly: true
+            items:
+              deprecated: true
+            minValue:
+              deprecated: true
+            procurementMethodDetails:
+              deprecated: true
+            procurementMethodRationale:
+              deprecated: true
+            mainProcurementCategory:
+              deprecated: true
+            additionalProcurementCategories:
+              deprecated: true
+            awardCriteriaDetails:
+              deprecated: true
+            submissionMethod:
+              deprecated: true
+            submissionMethodDetails:
+              deprecated: true
+            tenderPeriod:
+              readOnly: true
+            enquiryPeriod:
+              deprecated: true
+            hasEnquiries:
+              readOnly: true
+            eligibilityCriteria:
+              deprecated: true
+            awardPeriod:
+              deprecated: true
+            contractPeriod:
+              deprecated: true
+            numberOfTenderers:
+              readOnly: true
+            tenderers:
+              readOnly: true
+            documents:
+              readOnly: true
+            milestones:
+              deprecated: true
+            amendments:
+              deprecated: true
+            competitive:
+              deprecated: true
+            lots:
+              readOnly: true
+            lotDetails:
+              deprecated: true
+            lotGroups:
+              deprecated: true
+            enquiries:
+              readOnly: true
+            criteria:
+              readOnly: true
+            selectionCriteria:
+              deprecated: true
+            techniques:
+              readOnly: true
+    
+    CreateEvent:
+      type: object
+      properties:
+        nonOCDS:
+          type: object
+          properties:
+            eventType:
+              $ref: '#/components/schemas/DefineEventType'
+        OCDS:
+          $ref: '#/components/schemas/CreateEventOCDS'
 
     EventDetail:
       description: >-

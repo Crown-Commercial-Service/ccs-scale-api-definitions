@@ -3065,37 +3065,32 @@ components:
           type: string
           allOf:
             - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OCDS_Standards/CCS-OCDS_Schema.yaml#/components/schemas/TenderStatus'
-                  
-    EventDetail:
-      description: >-
-        Generic term for an event put out to the market. Each is an optional procurement step in the procurement process. This call shows the current status of each in the procurement process.
-      type: object
-      properties:
-        nonOCDS:
-          allOf:
-            - $ref: '#/components/schemas/EventSummary'
-            - type: object
-              properties:
-                responseVisibility:
-                  type: string
-                  example: Blind
-                  description: When responses will be made visible to the buyer
-                  enum:
-                    - blind
-                    - visible
+
+    EventDetailNonOCDS:
+      allOf:
+        - $ref: '#/components/schemas/EventSummary'
+        - type: object
+          properties:
+            responseVisibility:
+              type: string
+              example: Blind
+              description: When responses will be made visible to the buyer
+              enum:
+                - blind
+                - visible
             # May be required post MDP
             #groupBids:
             #  type: boolean
             #  default: false
             #  description: Can a group of organisation cooperate to provide a single bid
-                responseViewing:
-                  type: string
-                  example: sealed-parallel
-                  description: When responses will be made visible to the buyer
-                  enum:
-                    - sealed-parallel
-                    - sealed-sequential
-                    - unsealed
+            responseViewing:
+              type: string
+              example: sealed-parallel
+              description: When responses will be made visible to the buyer
+              enum:
+                - sealed-parallel
+                - sealed-sequential
+                - unsealed
             # covered by Tender.awardCriteria
             #responseRanking:
             #  type: string
@@ -3104,19 +3099,28 @@ components:
             #  enum:
             #    - Best Tech Score
             #    - No ranking
-                scoringMethod:
-                  type: string
-                  example: Percentage Weight
-                  description: Method used to score responses
-                  enum:
-                    - Percentage Weight
-                techWeight:
-                  type: integer
-                  example: Percentage Weight
-                  description: Highest score that can be awarded, lowest being zero.
-                weightVisible:
-                  type: boolean
-                  description: Should the weighting be visible to suppliers.    
+            scoringMethod:
+              type: string
+              example: Percentage Weight
+              description: Method used to score responses
+              enum:
+                - Percentage Weight
+            techWeight:
+              type: integer
+              example: Percentage Weight
+              description: Highest score that can be awarded, lowest being zero.
+            weightVisible:
+              type: boolean
+              description: Should the weighting be visible to suppliers.    
+
+
+    EventDetail:
+      description: >-
+        Generic term for an event put out to the market. Each is an optional procurement step in the procurement process. This call shows the current status of each in the procurement process.
+      type: object
+      properties:
+        nonOCDS:
+          $ref: '#/components/schemas/EventDetailNonOCDS'
               
         OCDS:
           allOf:

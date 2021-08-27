@@ -2920,10 +2920,9 @@ components:
         - withdrawn
       example: "cancelled"
         
- # Defines the Event Types available    
     DefineEventType:
-      title: Event type
       description: >-
+        Define event type for POST/PUT (writes).  
         Generic term for an event put out to the market. There are several types-
 
           * EOI - Expression of Interest
@@ -2939,23 +2938,25 @@ components:
           - DA
           - SL
           
-    # Adds Undefined Event type for GETs      
     EventType:
-      allOf:
-        - $ref: '#/components/schemas/DefineEventType'
-        - type: string
-          description: >-
-            Generic term for an event put out to the market. There are several types-
-              * EOI - Expression of Interest
-              * RFI -  Request for Information
-              * RFP - Request for Proposal
-              * DA  - Direct Award
-              * SL  - Short Listing
-              * TBD - To be defined
-              
-            Note - TBD is not a real event type and must be defined before going to market.
-          enum:
-            - TBD
+      description: >-
+        Event type for GETs (read only).
+        Generic term for an event put out to the market. There are several types-
+
+          * EOI - Expression of Interest
+          * RFI -  Request for Information
+          * RFP - Request for Proposal
+          * DA  - Direct Award
+          * SL  - Short Listing
+        Note - TBD is not a real event type and must be defined before going to market.
+      type: string
+      enum:
+          - EOI
+          - RFI
+          - RFP
+          - DA
+          - SL
+          - TBD
         
     EventStatus:
       description: >-

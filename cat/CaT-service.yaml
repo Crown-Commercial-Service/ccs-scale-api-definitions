@@ -1369,77 +1369,7 @@ paths:
         content:
           application/json:
             schema:
-              properties:
-                nonOCDS:
-                  type: object
-                  properties:
-                    eventType:
-                      $ref: '#/components/schemas/DefineEventType'
-                OCDS:
-                  allOf:
-                    - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OCDS_Standards/CCS-OCDS_Schema.yaml#/components/schemas/Tender'
-                    - type: object
-                      properties:
-                        status:
-                          readOnly: true
-                        procuringEntity:
-                          readOnly: true
-                        items:
-                          deprecated: true
-                        minValue:
-                          deprecated: true
-                        procurementMethodDetails:
-                          deprecated: true
-                        procurementMethodRationale:
-                          deprecated: true
-                        mainProcurementCategory:
-                          deprecated: true
-                        additionalProcurementCategories:
-                          deprecated: true
-                        awardCriteriaDetails:
-                          deprecated: true
-                        submissionMethod:
-                          deprecated: true
-                        submissionMethodDetails:
-                          deprecated: true
-                        tenderPeriod:
-                          readOnly: true
-                        enquiryPeriod:
-                          deprecated: true
-                        hasEnquiries:
-                          readOnly: true
-                        eligibilityCriteria:
-                          deprecated: true
-                        awardPeriod:
-                          deprecated: true
-                        contractPeriod:
-                          deprecated: true
-                        numberOfTenderers:
-                          readOnly: true
-                        tenderers:
-                          readOnly: true
-                        documents:
-                          readOnly: true
-                        milestones:
-                          deprecated: true
-                        amendments:
-                          deprecated: true
-                        competitive:
-                          deprecated: true
-                        lots:
-                          readOnly: true
-                        lotDetails:
-                          deprecated: true
-                        lotGroups:
-                          deprecated: true
-                        enquiries:
-                          readOnly: true
-                        criteria:
-                          readOnly: true
-                        selectionCriteria:
-                          deprecated: true
-                        techniques:
-                          readOnly: true
+              $ref: '#/components/schemas/CreateEvent'
                           
       responses:
         '200':
@@ -2990,10 +2920,9 @@ components:
         - withdrawn
       example: "cancelled"
         
- # Defines the Event Types available    
     DefineEventType:
-      title: Event type
       description: >-
+        Define event type for POST/PUT (writes).  
         Generic term for an event put out to the market. There are several types-
 
           * EOI - Expression of Interest
@@ -3009,23 +2938,25 @@ components:
           - DA
           - SL
           
-    # Adds Undefined Event type for GETs      
     EventType:
-      allOf:
-        - $ref: '#/components/schemas/DefineEventType'
-        - type: string
-          description: >-
-            Generic term for an event put out to the market. There are several types-
-              * EOI - Expression of Interest
-              * RFI -  Request for Information
-              * RFP - Request for Proposal
-              * DA  - Direct Award
-              * SL  - Short Listing
-              * TBD - To be defined
-              
-            Note - TBD is not a real event type and must be defined before going to market.
-          enum:
-            - TBD
+      description: >-
+        Event type for GETs (read only).
+        Generic term for an event put out to the market. There are several types-
+
+          * EOI - Expression of Interest
+          * RFI -  Request for Information
+          * RFP - Request for Proposal
+          * DA  - Direct Award
+          * SL  - Short Listing
+        Note - TBD is not a real event type and must be defined before going to market.
+      type: string
+      enum:
+          - EOI
+          - RFI
+          - RFP
+          - DA
+          - SL
+          - TBD
         
     EventStatus:
       description: >-
@@ -3065,37 +2996,32 @@ components:
           type: string
           allOf:
             - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OCDS_Standards/CCS-OCDS_Schema.yaml#/components/schemas/TenderStatus'
-                  
-    EventDetail:
-      description: >-
-        Generic term for an event put out to the market. Each is an optional procurement step in the procurement process. This call shows the current status of each in the procurement process.
-      type: object
-      properties:
-        nonOCDS:
-          allOf:
-            - $ref: '#/components/schemas/EventSummary'
-            - type: object
-              properties:
-                responseVisibility:
-                  type: string
-                  example: Blind
-                  description: When responses will be made visible to the buyer
-                  enum:
-                    - blind
-                    - visible
+
+    EventDetailNonOCDS:
+      allOf:
+        - $ref: '#/components/schemas/EventSummary'
+        - type: object
+          properties:
+            responseVisibility:
+              type: string
+              example: Blind
+              description: When responses will be made visible to the buyer
+              enum:
+                - blind
+                - visible
             # May be required post MDP
             #groupBids:
             #  type: boolean
             #  default: false
             #  description: Can a group of organisation cooperate to provide a single bid
-                responseViewing:
-                  type: string
-                  example: sealed-parallel
-                  description: When responses will be made visible to the buyer
-                  enum:
-                    - sealed-parallel
-                    - sealed-sequential
-                    - unsealed
+            responseViewing:
+              type: string
+              example: sealed-parallel
+              description: When responses will be made visible to the buyer
+              enum:
+                - sealed-parallel
+                - sealed-sequential
+                - unsealed
             # covered by Tender.awardCriteria
             #responseRanking:
             #  type: string
@@ -3104,169 +3030,256 @@ components:
             #  enum:
             #    - Best Tech Score
             #    - No ranking
-                scoringMethod:
-                  type: string
-                  example: Percentage Weight
-                  description: Method used to score responses
-                  enum:
-                    - Percentage Weight
-                techWeight:
-                  type: integer
-                  example: Percentage Weight
-                  description: Highest score that can be awarded, lowest being zero.
-                weightVisible:
-                  type: boolean
-                  description: Should the weighting be visible to suppliers.    
-              
+            scoringMethod:
+              type: string
+              example: Percentage Weight
+              description: Method used to score responses
+              enum:
+                - Percentage Weight
+            techWeight:
+              type: integer
+              example: Percentage Weight
+              description: Highest score that can be awarded, lowest being zero.
+            weightVisible:
+              type: boolean
+              description: Should the weighting be visible to suppliers.    
+
+    EventDetailOCDS:
+      allOf:
+        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OCDS_Standards/CCS-OCDS_Schema.yaml#/components/schemas/Tender'
+        - type: object
+          properties:
+            description:
+              deprecated: true
+            status:
+              deprecated: true
+            items:
+              deprecated: true
+            minValue:
+              deprecated: true
+            procurementMethodDetails:
+              deprecated: true
+            procurementMethodRationale:
+              deprecated: true
+            mainProcurementCategory:
+              deprecated: true
+            additionalProcurementCategories:
+              deprecated: true
+            awardCriteriaDetails:
+              deprecated: true
+            submissionMethod:
+              deprecated: true
+            submissionMethodDetails:
+              deprecated: true
+            tenderPeriod:
+              allOf:
+                - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OCDS_Standards/CCS-OCDS_Schema.yaml#/components/schemas/Period'
+                - type: object
+                  properties:
+                    maxExtentDate:
+                      deprecated: true
+                    durationInDays:
+                      deprecated: true
+            enquiryPeriod:
+              allOf:
+                - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OCDS_Standards/CCS-OCDS_Schema.yaml#/components/schemas/Period'
+                - type: object
+                  properties:
+                    maxExtentDate:
+                      deprecated: true
+                    durationInDays:
+                      deprecated: true
+            hasEnquiries:
+              deprecated: true
+            eligibilityCriteria:
+              deprecated: true
+            awardPeriod:
+              deprecated: true
+            contractPeriod:
+              deprecated: true
+            numberOfTenderers:
+              deprecated: true
+            tenderers:
+              deprecated: true
+            documents:
+              deprecated: true
+            milestones:
+              deprecated: true
+            amendments:
+              deprecated: true
+            competitive:
+              deprecated: true
+            lots:
+              type: array
+              items:
+                allOf:
+                  - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/OCDS/OCDS_Lot_Ext.yaml#/components/schemas/Lot'
+                  - type: object
+                    properties:
+                      techniques:
+                        allOf:
+                          - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/OCDS/OCDS_Techniques_Ext.yaml#/components/schemas/Techniques'
+                          - type: object
+                            properties:
+                              frameworkAgreement:
+                                allOf:
+                                  - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/OCDS/OCDS_Techniques_Ext.yaml#/components/schemas/FrameworkAgreement'
+                                  - type: object
+                                    properties:
+                                      minimumParticipants:
+                                        deprecated: true
+                                      maximumParticipants:
+                                        deprecated: true
+                                      method:
+                                        deprecated: true
+                                      periodRationale:
+                                        deprecated: true
+                                      buyerCategories:
+                                        deprecated: true
+                                      value:
+                                        deprecated: true
+                                      period:
+                                        deprecated: true
+                              hasDynamicPurchasingSystem:
+                                deprecated: true
+                              dynamicPurchasingSystem:
+                                deprecated: true
+                              hasElectronicAuction:
+                                deprecated: true
+                              electronicAuction:
+                                deprecated: true
+            lotDetails:
+              deprecated: true
+            lotGroups:
+              deprecated: true
+            enquiries:
+              deprecated: true
+            criteria:
+              deprecated: true
+            selectionCriteria:
+              deprecated: true
+            techniques:
+              allOf:
+                - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/OCDS/OCDS_Techniques_Ext.yaml#/components/schemas/Techniques'
+                - type: object
+                  properties:
+                    frameworkAgreement:
+                      allOf:
+                        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/OCDS/OCDS_Techniques_Ext.yaml#/components/schemas/FrameworkAgreement'
+                        - type: object
+                          properties:
+                            minimumParticipants:
+                              deprecated: true
+                            maximumParticipants:
+                              deprecated: true
+                            method:
+                              deprecated: true
+                            periodRationale:
+                              deprecated: true
+                            buyerCategories:
+                              deprecated: true
+                            value:
+                              deprecated: true
+                            period:
+                              deprecated: true
+                            description:
+                              example: RM6118
+                              description: Reference number to agreement being used (Is this not part of the project not the event?)
+                    hasDynamicPurchasingSystem:
+                      deprecated: true
+                    dynamicPurchasingSystem:
+                      deprecated: true
+                    hasElectronicAuction:
+                      deprecated: true
+                    electronicAuction:
+                      deprecated: true
+
+    CreateEventOCDS:
+      allOf:
+        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OCDS_Standards/CCS-OCDS_Schema.yaml#/components/schemas/Tender'
+        - type: object
+          properties:
+            status:
+              readOnly: true
+            procuringEntity:
+              readOnly: true
+            items:
+              deprecated: true
+            minValue:
+              deprecated: true
+            procurementMethodDetails:
+              deprecated: true
+            procurementMethodRationale:
+              deprecated: true
+            mainProcurementCategory:
+              deprecated: true
+            additionalProcurementCategories:
+              deprecated: true
+            awardCriteriaDetails:
+              deprecated: true
+            submissionMethod:
+              deprecated: true
+            submissionMethodDetails:
+              deprecated: true
+            tenderPeriod:
+              readOnly: true
+            enquiryPeriod:
+              deprecated: true
+            hasEnquiries:
+              readOnly: true
+            eligibilityCriteria:
+              deprecated: true
+            awardPeriod:
+              deprecated: true
+            contractPeriod:
+              deprecated: true
+            numberOfTenderers:
+              readOnly: true
+            tenderers:
+              readOnly: true
+            documents:
+              readOnly: true
+            milestones:
+              deprecated: true
+            amendments:
+              deprecated: true
+            competitive:
+              deprecated: true
+            lots:
+              readOnly: true
+            lotDetails:
+              deprecated: true
+            lotGroups:
+              deprecated: true
+            enquiries:
+              readOnly: true
+            criteria:
+              readOnly: true
+            selectionCriteria:
+              deprecated: true
+            techniques:
+              readOnly: true
+    
+    CreateEvent:
+      type: object
+      properties:
+        nonOCDS:
+          type: object
+          properties:
+            eventType:
+              $ref: '#/components/schemas/DefineEventType'
         OCDS:
-          allOf:
-            - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OCDS_Standards/CCS-OCDS_Schema.yaml#/components/schemas/Tender'
-            - type: object
-              properties:
-                description:
-                  deprecated: true
-                status:
-                  deprecated: true
-                items:
-                  deprecated: true
-                minValue:
-                  deprecated: true
-                procurementMethodDetails:
-                  deprecated: true
-                procurementMethodRationale:
-                  deprecated: true
-                mainProcurementCategory:
-                  deprecated: true
-                additionalProcurementCategories:
-                  deprecated: true
-                awardCriteriaDetails:
-                  deprecated: true
-                submissionMethod:
-                  deprecated: true
-                submissionMethodDetails:
-                  deprecated: true
-                tenderPeriod:
-                  allOf:
-                    - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OCDS_Standards/CCS-OCDS_Schema.yaml#/components/schemas/Period'
-                    - type: object
-                      properties:
-                        maxExtentDate:
-                          deprecated: true
-                        durationInDays:
-                          deprecated: true
-                enquiryPeriod:
-                  allOf:
-                    - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OCDS_Standards/CCS-OCDS_Schema.yaml#/components/schemas/Period'
-                    - type: object
-                      properties:
-                        maxExtentDate:
-                          deprecated: true
-                        durationInDays:
-                          deprecated: true
-                hasEnquiries:
-                  deprecated: true
-                eligibilityCriteria:
-                  deprecated: true
-                awardPeriod:
-                  deprecated: true
-                contractPeriod:
-                  deprecated: true
-                numberOfTenderers:
-                  deprecated: true
-                tenderers:
-                  deprecated: true
-                documents:
-                  deprecated: true
-                milestones:
-                  deprecated: true
-                amendments:
-                  deprecated: true
-                competitive:
-                  deprecated: true
-                lots:
-                  type: array
-                  items:
-                    allOf:
-                      - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/OCDS/OCDS_Lot_Ext.yaml#/components/schemas/Lot'
-                      - type: object
-                        properties:
-                          techniques:
-                            allOf:
-                              - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/OCDS/OCDS_Techniques_Ext.yaml#/components/schemas/Techniques'
-                              - type: object
-                                properties:
-                                  frameworkAgreement:
-                                    allOf:
-                                      - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/OCDS/OCDS_Techniques_Ext.yaml#/components/schemas/FrameworkAgreement'
-                                      - type: object
-                                        properties:
-                                          minimumParticipants:
-                                            deprecated: true
-                                          maximumParticipants:
-                                            deprecated: true
-                                          method:
-                                            deprecated: true
-                                          periodRationale:
-                                            deprecated: true
-                                          buyerCategories:
-                                            deprecated: true
-                                          value:
-                                            deprecated: true
-                                          period:
-                                            deprecated: true
-                                  hasDynamicPurchasingSystem:
-                                    deprecated: true
-                                  dynamicPurchasingSystem:
-                                    deprecated: true
-                                  hasElectronicAuction:
-                                    deprecated: true
-                                  electronicAuction:
-                                    deprecated: true
-                lotDetails:
-                  deprecated: true
-                lotGroups:
-                  deprecated: true
-                enquiries:
-                  deprecated: true
-                criteria:
-                  deprecated: true
-                selectionCriteria:
-                  deprecated: true
-                techniques:
-                  allOf:
-                    - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/OCDS/OCDS_Techniques_Ext.yaml#/components/schemas/Techniques'
-                    - type: object
-                      properties:
-                        frameworkAgreement:
-                          allOf:
-                            - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/OCDS/OCDS_Techniques_Ext.yaml#/components/schemas/FrameworkAgreement'
-                            - type: object
-                              properties:
-                                minimumParticipants:
-                                  deprecated: true
-                                maximumParticipants:
-                                  deprecated: true
-                                method:
-                                  deprecated: true
-                                periodRationale:
-                                  deprecated: true
-                                buyerCategories:
-                                  deprecated: true
-                                value:
-                                  deprecated: true
-                                period:
-                                  deprecated: true
-                                description:
-                                  example: RM6118
-                                  description: Reference number to agreement being used (Is this not part of the project not the event?)
-                        hasDynamicPurchasingSystem:
-                          deprecated: true
-                        dynamicPurchasingSystem:
-                          deprecated: true
-                        hasElectronicAuction:
-                          deprecated: true
-                        electronicAuction:
-                          deprecated: true
+          $ref: '#/components/schemas/CreateEventOCDS'
+
+    EventDetail:
+      description: >-
+        Generic term for an event put out to the market. Each is an optional procurement step in the procurement process. This call shows the current status of each in the procurement process.
+      type: object
+      properties:
+        nonOCDS:
+          $ref: '#/components/schemas/EventDetailNonOCDS'
+        OCDS:
+          $ref: '#/components/schemas/EventDetailOCDS'
             
     ProjectTerminationType:
       #allOf:

@@ -3313,13 +3313,13 @@ components:
       properties:
         name:
           type: string
-          example: <agreementID>-<lotID>-<org>
+          example: <agreementId>-<lotId>-<org>
         components:
           type: object
           properties:
-            agreementID:
+            agreementId:
               $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Schema.yaml#/components/schemas/AgreementId'
-            lotID:
+            lotId:
               $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Schema.yaml#/components/schemas/LotId'
             org:
               type: string

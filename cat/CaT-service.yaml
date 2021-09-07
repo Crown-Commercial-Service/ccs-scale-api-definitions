@@ -3288,7 +3288,7 @@ components:
     DraftProcurementProject:
       type: object
       properties:
-        pocurementID:
+        pocurementId:
           $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Schema.yaml#/components/schemas/ProcurementProjectId'
         eventId:
           $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Schema.yaml#/components/schemas/ProcurementEventId'
@@ -3300,13 +3300,13 @@ components:
       properties:
         name:
           type: string
-          example: <agreementID>-<lotID>-<org>
+          example: <agreementId>-<lotId>-<org>
         components:
           type: object
           properties:
-            agreementID:
+            agreementId:
               $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Schema.yaml#/components/schemas/AgreementId'
-            lotID:
+            lotId:
               $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Schema.yaml#/components/schemas/LotId'
             org:
               type: string
@@ -3363,7 +3363,7 @@ components:
       #      type: string       
                     
   securitySchemes:
-    openID:
+    openId:
       type: openIdConnect
       openIdConnectUrl: 'https://accounts.google.com/.well-known/openid-configuration'
     OAuth2:

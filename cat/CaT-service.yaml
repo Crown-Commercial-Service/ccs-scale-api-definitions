@@ -1816,7 +1816,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OCDS_Standards/CCS-OCDS_Schema.yaml#/components/schemas/RequirementResponse'
+                  $ref: '#/components/schemas/ResponseSummary'
         '401':
           $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/401Unauthorized'
         '403':
@@ -1832,11 +1832,11 @@ paths:
             - buyer
       summary: Get all responses to an RFx
       
-  /tenders/projects/{proc-id}/events/{event-id}/responses/suppliers/{supplier-id}:
+  /tenders/projects/{proc-id}/events/{event-id}/responses/{supplier-id}:
     parameters:
       - $ref: '#/components/parameters/ProcurementParam'
       - $ref: '#/components/parameters/EventParam'
-      - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Params.yaml#/components/parameters/SupplierParam'
+      - $ref: '#/components/parameters/ResponseParam'
 
 
     get:
@@ -1867,40 +1867,9 @@ paths:
         - OAuth2:
             - buyer
       summary: Get responses from a supplier to an RFx
-  /tenders/projects/{proc-id}/events/{event-id}/responses/{response-id}:
-    parameters:
-      - $ref: '#/components/parameters/ProcurementParam'
-      - $ref: '#/components/parameters/EventParam'
-      - $ref: '#/components/parameters/ResponseParam'
-
-
-    get:
-      description: Get responses Details
-      tags:
-        - View Responses
-      operationId: ResponseDetail
-      responses:
-        '200':
-          description: ok
-          content:
-            application/json:
-              schema:
-                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OCDS_Standards/CCS-OCDS_Schema.yaml#/components/schemas/RequirementResponse'
-        '401':
-          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/401Unauthorized'
-        '403':
-          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/403Forbidden'
-        '429':
-          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/429TooManyRequests'
-        '500':
-          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/500InternalServerError'
-        '502':
-          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/502BadGateway'
-      security:
-        - OAuth2:
-            - buyer
-      summary: Get response details
-  /tenders/projects/{proc-id}/events/{event-id}/responses/{response-id}/needs:
+  
+  
+  /tenders/projects/{proc-id}/events/{event-id}/responses/{supplier-id}/needs:
     parameters:
       - $ref: '#/components/parameters/ProcurementParam'
       - $ref: '#/components/parameters/EventParam'
@@ -1936,7 +1905,7 @@ paths:
             - buyer
       summary: Get responses to a need
       
-  /tenders/projects/{proc-id}/events/{event-id}/responses/{response-id}/needs/{question-id}/forms:
+  /tenders/projects/{proc-id}/events/{event-id}/responses/{supplier-id}/needs/{question-id}/forms:
     parameters:
       - $ref: '#/components/parameters/ProcurementParam'
       - $ref: '#/components/parameters/EventParam'
@@ -2002,7 +1971,7 @@ paths:
             - buyer
       summary: Update form response
       
-  /tenders/projects/{proc-id}/events/{event-id}/responses/{response-id}/needs/{question-id}/documents:
+  /tenders/projects/{proc-id}/events/{event-id}/responses/{supplier-id}/needs/{question-id}/documents:
     parameters:
       - $ref: '#/components/parameters/ProcurementParam'
       - $ref: '#/components/parameters/EventParam'
@@ -2633,12 +2602,12 @@ components:
 
         
     ResponseParam:
-      name: response-id
+      name: supplier-id
       in: path
       required: true
       description: Response ID to a Procurement Need
       schema:
-        $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Schema.yaml#/components/schemas/GenericId'
+        $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Params.yaml#/components/parameters/SupplierParam'
 
   schemas:
   
@@ -3373,7 +3342,39 @@ components:
       #  type: object
       #  properties:
       #    id: 
-      #      type: string       
+      #      type: string 
+      
+
+    ResponseSummary:
+      description: >-
+        This is summary of the responses from suppliers
+  
+      type: object
+      properties:
+        supplier: 
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OCDS_Standards/CCS-OCDS_Schema.yaml#/components/schemas/OrganizationReference'
+        responseState: 
+          type: string
+          description: |+
+            Defines how far the supplier has progressed in providing a response
+              * None - No response has been supplied
+              * Draft - The supplier has added some response data but not submitted
+              * Submitted - The supplier has met all criteria to submit an confirmed they wish to do so.
+          enum:
+            - None
+            - Draft
+            - Submitted
+        readState: 
+          type: string
+          description: |+
+            Defines if the buyer has reacted to the supplier response
+              * Waiting - The Buyer is waiting for a response to be submitted
+              * Unread - The buyer has not opened the response
+              * Read - The buyer has opened the response 
+          enum:
+            - Draft
+            - Unread
+            - Read
                     
   securitySchemes:
     openID:

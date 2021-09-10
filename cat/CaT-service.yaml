@@ -1030,10 +1030,10 @@ paths:
 
 
     get:
-      description: Get the Needs required for this Event
+      description: Get summary of the buyer requirements within the group
       tags:
         - Define Procurement Event
-      operationId: Get Eval Criterion Group Questions
+      operationId: GetCriterionGroupQuestions
       responses:
         '200':
           description: ok
@@ -1056,10 +1056,9 @@ paths:
       security:
         - OAuth2:
             - buyer
-      summary: Get Event Evaluation Criteria Groups
-      
+      summary: Get Questions within a Group
     post:
-      description: Create a Question within this group
+      description: Create a single buyer requirement expressed as a question, that the supplier must enter, within this group
       tags:
         - Define Procurement Event
       operationId: CreateEvalGroupQuestion
@@ -1088,21 +1087,22 @@ paths:
       security:
         - OAuth2:
             - buyer
-      summary: Confirm procurement project
+      summary: Create a Question within a Group
       
-  /tenders/projects/{proc-id}/events/{event-id}/evals/{criterion-id}/groups/questions/{question-id}:
+  /tenders/projects/{proc-id}/events/{event-id}/evals/{criterion-id}/groups/{group-id}/questions/{question-id}:
     parameters:
       - $ref: '#/components/parameters/ProcurementParam'
       - $ref: '#/components/parameters/EventParam'
       - $ref: '#/components/parameters/CriterionParam'
+      - $ref: '#/components/parameters/GroupParam'
       - $ref: '#/components/parameters/NeedParam'
 
 
     get:
-      description: Get the Needs required for this Event
+      description: Get a single customer requirement expressed as a question that the supplier must enter
       tags:
         - Define Procurement Event
-      operationId: Get Eval Criterion Group Question
+      operationId: GetCriterionGroupQuestionDetails
       responses:
         '200':
           description: ok
@@ -1125,7 +1125,329 @@ paths:
       security:
         - OAuth2:
             - buyer
-      summary: Get Event Evaluation Criteria Groups
+      summary: Get question details
+      
+  /tenders/projects/{proc-id}/events/{event-id}/evals/{criterion-id}/groups/{group-id}/questions/{question-id}/templates:
+    parameters:
+      - $ref: '#/components/parameters/ProcurementParam'
+      - $ref: '#/components/parameters/EventParam'
+      - $ref: '#/components/parameters/CriterionParam'
+      - $ref: '#/components/parameters/GroupParam'
+      - $ref: '#/components/parameters/NeedParam'
+
+
+    get:
+      description: |+
+        Get templates to create document's for a supplier to respond to this question.
+        This includes details of placeholders required to digitally generate the required 
+        document's.
+      tags:
+        - Define Procurement Event
+      operationId: GetCriterionGroupQuestionDocTemplates
+      responses:
+        '200':
+          description: ok
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/TemplateDetails'
+                
+        '401':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/401Unauthorized'
+        '403':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/403Forbidden'
+        '429':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/429TooManyRequests'
+        '500':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/500InternalServerError'
+        '502':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/502BadGateway'
+      security:
+        - OAuth2:
+            - buyer
+      summary: Get Document Templates
+      
+  /tenders/projects/{proc-id}/events/{event-id}/evals/{criterion-id}/groups/{group-id}/questions/{question-id}/templates/{template-id}:
+    parameters:
+      - $ref: '#/components/parameters/ProcurementParam'
+      - $ref: '#/components/parameters/EventParam'
+      - $ref: '#/components/parameters/CriterionParam'
+      - $ref: '#/components/parameters/GroupParam'
+      - $ref: '#/components/parameters/NeedParam'
+      - $ref: '#/components/parameters/TemplateParam'
+
+
+    get:
+      description: Get the details of a CCS template that the buyer can use with the question
+      tags:
+        - Define Procurement Event
+      operationId: GetCriterionGroupQuestionDocTemplate
+      responses:
+        '200':
+          description: ok
+          content:
+            application/json:
+              schema:
+                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OCDS_Standards/CCS-OCDS_Schema.yaml#/components/schemas/Document'
+        '401':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/401Unauthorized'
+        '403':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/403Forbidden'
+        '429':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/429TooManyRequests'
+        '500':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/500InternalServerError'
+        '502':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/502BadGateway'
+      security:
+        - OAuth2:
+            - buyer
+      summary: Get CCS Template Document
+
+    put:
+      description: Generate digital document for the question using the temlate
+      tags:
+        - Define Procurement Event
+      operationId: GenerateFromTemplate
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: string
+
+      responses:
+        '200':
+          description: ok
+          content:
+            application/json:
+              schema:
+                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OCDS_Standards/CCS-OCDS_Schema.yaml#/components/schemas/Document'
+        '401':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/401Unauthorized'
+        '403':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/403Forbidden'
+        '429':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/429TooManyRequests'
+        '500':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/500InternalServerError'
+        '502':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/502BadGateway'
+      security:
+        - OAuth2:
+            - buyer
+      summary: Generate Digital Document
+
+  /tenders/projects/{proc-id}/events/{event-id}/evals/{criterion-id}/groups/{group-id}/questions/{question-id}/templates/{template-id}/placeholders/{placeholder-id}:
+    parameters:
+      - $ref: '#/components/parameters/ProcurementParam'
+      - $ref: '#/components/parameters/EventParam'
+      - $ref: '#/components/parameters/CriterionParam'
+      - $ref: '#/components/parameters/GroupParam'
+      - $ref: '#/components/parameters/NeedParam'
+      - $ref: '#/components/parameters/TemplateParam'
+      - $ref: '#/components/parameters/PlaceholderParam'
+      
+    put:
+      description: Create or replace a placeholder in a document
+      tags:
+        - Define Procurement Event
+      operationId: UpdateEvalGroupQuestionTemplateData
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: string
+
+      responses:
+        '200':
+          description: ok
+          content:
+            application/json:
+              schema:
+                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Schema.yaml#/components/schemas/GenericId'
+        '401':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/401Unauthorized'
+        '403':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/403Forbidden'
+        '429':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/429TooManyRequests'
+        '500':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/500InternalServerError'
+        '502':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/502BadGateway'
+      security:
+        - OAuth2:
+            - buyer
+      summary: Update placeholder with data
+
+
+    get:
+      description: Get the current value of a placeholder
+      tags:
+        - Define Procurement Event
+      operationId: GetEvalGroupQuestionTemplateData
+      responses:
+        '200':
+          description: ok
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  type:
+                    $ref: '#/components/schemas/PlaceholderFormat'
+                  value:
+                    type: string
+
+        '401':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/401Unauthorized'
+        '403':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/403Forbidden'
+        '429':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/429TooManyRequests'
+        '500':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/500InternalServerError'
+        '502':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/502BadGateway'
+      security:
+        - OAuth2:
+            - buyer
+      summary: Get placeholder data
+
+  /tenders/projects/{proc-id}/events/{event-id}/evals/{criterion-id}/groups/{group-id}/questions/{question-id}/documents:
+    parameters:
+      - $ref: '#/components/parameters/ProcurementParam'
+      - $ref: '#/components/parameters/EventParam'
+      - $ref: '#/components/parameters/CriterionParam'
+      - $ref: '#/components/parameters/GroupParam'
+      - $ref: '#/components/parameters/NeedParam'
+      
+    post:
+      description: Upload a document that the supplier must fill in to answer the given question
+      tags:
+        - Define Procurement Event
+      operationId: EvalGroupQuestionDocUpload
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OCDS_Standards/CCS-OCDS_Schema.yaml#/components/schemas/Document'
+      responses:
+        '200':
+          description: ok
+          content:
+            application/json:
+              schema:
+                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Schema.yaml#/components/schemas/GenericId'
+        '401':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/401Unauthorized'
+        '403':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/403Forbidden'
+        '429':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/429TooManyRequests'
+        '500':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/500InternalServerError'
+        '502':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/502BadGateway'
+      security:
+        - OAuth2:
+            - buyer
+      summary: Upload Question Documents
+
+
+    get:
+      description: Get Question Documents.
+      tags:
+        - Define Procurement Event
+      operationId: EvalGroupQuestionDocDownload
+      responses:
+        '200':
+          description: ok
+          content:
+            application/json:
+              schema:
+                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OCDS_Standards/CCS-OCDS_Schema.yaml#/components/schemas/Document'
+        '401':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/401Unauthorized'
+        '403':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/403Forbidden'
+        '429':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/429TooManyRequests'
+        '500':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/500InternalServerError'
+        '502':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/502BadGateway'
+      security:
+        - OAuth2:
+            - buyer
+      summary: Get Question Documents
+      
+  /tenders/projects/{proc-id}/events/{event-id}/evals/{criterion-id}/groups/{group-id}/questions/{question-id}/documents/{document-id}:
+    parameters:
+      - $ref: '#/components/parameters/ProcurementParam'
+      - $ref: '#/components/parameters/EventParam'
+      - $ref: '#/components/parameters/CriterionParam'
+      - $ref: '#/components/parameters/GroupParam'
+      - $ref: '#/components/parameters/NeedParam'
+      - $ref: '#/components/parameters/DocumentParam'
+      
+    put:
+      description: Replace an existing document associated with a question
+      tags:
+        - Define Procurement Event
+      operationId: ReplaceGroupQuestionDoc
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OCDS_Standards/CCS-OCDS_Schema.yaml#/components/schemas/Document'
+      responses:
+        '200':
+          description: ok
+          content:
+            application/json:
+              schema:
+                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Schema.yaml#/components/schemas/GenericId'
+        '401':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/401Unauthorized'
+        '403':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/403Forbidden'
+        '429':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/429TooManyRequests'
+        '500':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/500InternalServerError'
+        '502':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/502BadGateway'
+      security:
+        - OAuth2:
+            - buyer
+      summary: Replace Question Document
+      
+    delete:
+      description: Remove document associated with question.
+      tags:
+        - Define Procurement Event
+      operationId: removeQuestionDocument
+      responses:
+        '200':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/200Success'
+        '401':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/401Unauthorized'
+        '403':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/403Forbidden'
+        '429':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/429TooManyRequests'
+        '500':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/500InternalServerError'
+        '502':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/502BadGateway'
+      security:
+        - OAuth2:
+            - buyer
+      summary: Remove Question Document 
+
       
   /tenders/projects/{proc-id}/events/{event-id}/needs/{question-id}/forms:
     parameters:
@@ -2071,11 +2393,11 @@ paths:
         - OAuth2:
             - buyer
       summary: Supplier Complete
+      
   /tenders/projects/{proc-id}/events/{event-id}/responses/furtherInfo:
     parameters:
       - $ref: '#/components/parameters/ProcurementParam'
       - $ref: '#/components/parameters/EventParam'
-
 
     get:
       description: 'Get a request for further information (includes free text and any files}'
@@ -2609,6 +2931,31 @@ components:
       schema:
         $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Params.yaml#/components/parameters/SupplierParam'
 
+    TemplateParam:
+      name: template-id
+      in: path
+      required: true
+      description: Template ID
+      schema:
+        $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Schema.yaml#/components/schemas/GenericId'
+
+    PlaceholderParam:
+      name: placeholder-id
+      in: path
+      required: true
+      description: Template place holder ID
+      schema:
+        $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Schema.yaml#/components/schemas/GenericId'
+
+    DocumentParam:
+      name: document-id
+      in: path
+      required: true
+      description: Document ID
+      schema:
+        $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Schema.yaml#/components/schemas/GenericId'
+
+  
   schemas:
   
     SalesforceProjectTender:
@@ -3375,6 +3722,66 @@ components:
             - Draft
             - Unread
             - Read
+            
+    TemplateDetails:
+      description: >-
+        Describes a CCS document template that can be used to create document 
+      type: object
+      properties:
+        name: 
+          type: string
+          description: |+
+            Name of the CCS template
+        description:
+          type: string
+          description: Description of what the template is used for.
+        placeholders:
+          type: array
+          items:
+            $ref: '#/components/schemas/PlaceholderDefinition'
+            
+    PlaceholderFormat:
+      type: string
+      enum:
+        - date
+        - date-time
+        - number
+        - email
+      description: |+
+        Defines the format of the string acceptible to the placeholder
+          * date – full-date notation as defined by RFC 3339, section 5.6, for example, 2017-07-21
+          * date-time – the date-time notation as defined by RFC 3339, section 5.6, for example, 2017-07-21T17:32:28Z
+          * number - 
+          * email - .....
+                      
+    
+    PlaceholderDefinition:
+      description: >-
+        Describes the permissable value of a string placeholder 
+      type: object
+      properties:
+        format:
+          $ref: '#/components/schemas/PlaceholderFormat'
+        description:
+          description: Defines the format in a human readable form.
+        minLength:
+          description: Defines what the minimum length for the placeholder
+          type: integer
+        maxLength:
+          description: Defines what the maximum length for the placeholder
+          type: integer
+        pattern:
+          description: |+ 
+            The pattern keyword lets you define a regular expression template 
+            for the string value. Only the values that match this template will be 
+            accepted. The regular expression syntax used is from JavaScript 
+            (more specifically, ECMA 262). 
+          type: string
+        options:
+          type: array
+          items:
+            type: string
+                      
                     
   securitySchemes:
     openID:

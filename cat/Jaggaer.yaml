@@ -16,7 +16,8 @@ paths:
   /esop/jint/api/ja/v1/projects/:
     post:
       tags:
-        - PROJECT       
+        - PROJECT  
+      summary: Create Project     
       description: Creates a new CCS procurement case in the Jaggaer eSourcing platform.
       operationId: CreateProjects
       requestBody:
@@ -42,7 +43,7 @@ paths:
       deprecated: false
       tags:
         - PROJECT 
-      summary: "US3-6 - Update an ITT event's details (in Salesforce) when it has been published on the eSourcing platform to the invited suppliers."
+      summary: "View Project List"
       operationId: GetProjectList   
       parameters:
         - $ref: '#/components/parameters/ConditionParam'
@@ -70,7 +71,7 @@ paths:
       deprecated: false
       tags:
         - PROJECT 
-      summary: "US3-6 - Update an ITT event's details (in Salesforce) when it has been published on the eSourcing platform to the invited suppliers."
+      summary: "View Project Details"
       operationId: GetProject   
       parameters:
         - $ref: '#/components/parameters/ConditionParam'
@@ -96,7 +97,8 @@ paths:
   /esop/jint/api/ja/v1/rfxs/:
     post:
       tags:
-        - RFX       
+        - RFX
+      summary: Create RFX     
       description: Creates a new CCS procurement case in the Jaggaer eSourcing platform.
       operationId: CreateRFx
       requestBody:
@@ -122,7 +124,7 @@ paths:
       deprecated: false
       tags:
         - RFX 
-      summary: "US3-6 - Update an ITT event's details (in Salesforce) when it has been published on the eSourcing platform to the invited suppliers."
+      summary: "List RFX's"
       operationId: GetRFxList   
       parameters:
         - $ref: '#/components/parameters/ConditionParam'
@@ -150,10 +152,9 @@ paths:
       deprecated: false
       tags:
         - RFX 
-      summary: "US3-6 - Update an ITT event's details (in Salesforce) when it has been published on the eSourcing platform to the invited suppliers."
+      summary: "Get RFX Details"
       operationId: GetRFx   
       parameters:
-        
         - $ref: '#/components/parameters/ConditionParam'
         - $ref: '#/components/parameters/DataElementConditionParam'
         - $ref: '#/components/parameters/ComponentParam'
@@ -169,6 +170,496 @@ paths:
           description: "Wrong or missing data in the request"
         '404':
           description: "The object with the provided id does not exist"
+        '401':
+          description: "Unauthorized request ( i.e. the provided credentials are invalid)"
+        '500':
+          description: "Internal error"
+       
+  /esop/jint/api/ja/v1/attachments/:
+    get:
+      deprecated: false
+      tags:
+        - ATTACH
+      summary: "Retrieve an attachment"
+      description: Allows downloading any attachment from JA. For instance it could be used for getting a buyer attachment or the content of an attachment data-element.
+      operationId: GetAttachment   
+      parameters:
+        - $ref: '#/components/parameters/FileIDParam'
+        - $ref: '#/components/parameters/FileNameParam'
+        - $ref: '#/components/parameters/SecureTokenParam'
+        - $ref: '#/components/parameters/FileComponentParam'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AttachmentExport'      
+          description: "Query successfully executed"
+        '400':
+          description: "Wrong or missing data in the request"
+        '401':
+          description: "Unauthorized request ( i.e. the provided credentials are invalid)"
+        '500':
+          description: "Internal error"
+          
+  /esop/jint/api/ja/v1/messages/:
+    get:
+      deprecated: false
+      tags:
+        - MESSAGE
+      summary: "Search for a Message"
+      description: Allows downloading any attachment from JA. For instance it could be used for getting a buyer attachment or the content of an attachment data-element.
+      operationId: GetMessages   
+      parameters:
+        - $ref: '#/components/parameters/MessageConditionParam'
+        - $ref: '#/components/parameters/MessageComponentParam'
+        - $ref: '#/components/parameters/StartParam'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MessageListResponse'      
+          description: "Query successfully executed"
+        '400':
+          description: "Wrong or missing data in the request"
+        '401':
+          description: "Unauthorized request ( i.e. the provided credentials are invalid)"
+        '500':
+          description: "Internal error"
+          
+  /esop/jint/api/ja/v1/messages/{message-id}:
+    get:
+      deprecated: false
+      tags:
+        - MESSAGE
+      summary: "Retrieve a Message"
+      description: Allows downloading any attachment from JA. For instance it could be used for getting a buyer attachment or the content of an attachment data-element.
+      operationId: GetMessage   
+      parameters:
+        - $ref: '#/components/parameters/MessageParam'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Message'      
+          description: "Query successfully executed"
+        '400':
+          description: "Wrong or missing data in the request"
+        '401':
+          description: "Unauthorized request ( i.e. the provided credentials are invalid)"
+        '404':
+          description: "The object with the provided id does not exist "
+        '500':
+          description: "Internal error"
+          
+  /esop/jint/api/ja/v1/changehistory/:
+    get:
+      deprecated: false
+      tags:
+        - HISTORY
+      summary: "Search HistoryChange "
+      description: Allows downloading any attachment from JA. For instance it could be used for getting a buyer attachment or the content of an attachment data-element.
+      operationId: SearchHistory   
+      parameters:
+        - $ref: '#/components/parameters/HistoryComponentParam'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HistoryListResponse'      
+          description: "Query successfully executed"
+        '400':
+          description: "Wrong or missing data in the request"
+        '401':
+          description: "Unauthorized request ( i.e. the provided credentials are invalid)"
+        '500':
+          description: "Internal error"
+          
+  /esop/jint/api/ja/v1/changehistory/{history-id}:
+    get:
+      deprecated: false
+      tags:
+        - HISTORY
+      summary: "Retrieve a single HistoryChange"
+      description: Allows downloading any attachment from JA. For instance it could be used for getting a buyer attachment or the content of an attachment data-element.
+      operationId: GetHistory   
+      parameters:
+        - $ref: '#/components/parameters/HistoryParam'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HistoryChange'      
+          description: "Query successfully executed"
+        '400':
+          description: "Wrong or missing data in the request"
+        '401':
+          description: "Unauthorized request ( i.e. the provided credentials are invalid)"
+        '404':
+          description: "The object with the provided id does not exist "
+        '500':
+          description: "Internal error"
+          
+  /esop/jint/api/ja/v1/prfxworkflows/evaluations/start:
+    post:
+      tags:
+        - WORKFLOW 
+      summary: Start Evaluation    
+      description: |+
+        Formally initialize the evaluation process by starting the pre-evaluation stage
+      operationId: StartEvaluationWorkflow
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BaseWorkflowRequest'
+      responses:               
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WorkflowResult'    
+          description: "Aquery successfully executed"
+        '400':
+          description: "Wrong or missing data in the request"
+        '401':
+          description: "Unauthorized request ( i.e. the provided credentials are invalid)"
+        '500':
+          description: "Internal error"
+          
+  /esop/jint/api/ja/v1/prfxworkflows/evaluations/complete:
+    post:
+      tags:
+        - WORKFLOW  
+      summary: Close pre evaluation stage     
+      description: |+
+        Formally freeze the Pre-Evaluation stage and move to the evaluation of responses. 
+        The initial acceptance/rejection of all responses will be set
+      operationId: CompletePreEvaluation
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BaseWorkflowRequest'
+      responses:               
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WorkflowResult'    
+          description: "Aquery successfully executed"
+        '400':
+          description: "Wrong or missing data in the request"
+        '401':
+          description: "Unauthorized request ( i.e. the provided credentials are invalid)"
+        '500':
+          description: "Internal error"
+          
+  /esop/jint/api/ja/v1/prfxworkflows/evaluations/finalize:
+    post:
+      tags:
+        - WORKFLOW  
+      summary: Perform full Evaluation     
+      description: |+
+        Execute all previously listed operations that are required to move the evaluation 
+        onto the Awarding stage.
+        That means that if RfX has already performed some of required steps, 
+        such step are skipped and only remaining operations are performed.
+      operationId: completeQualification
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BaseWorkflowRequest'
+      responses:               
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WorkflowResult'    
+          description: "Aquery successfully executed"
+        '400':
+          description: "Wrong or missing data in the request"
+        '401':
+          description: "Unauthorized request ( i.e. the provided credentials are invalid)"
+        '500':
+          description: "Internal error"
+          
+  /esop/jint/api/ja/v1/prfxworkflows/publish:
+    post:
+      tags:
+        - WORKFLOW  
+      summary: Publish RfX     
+      description: Publish created RfX moving it to running
+      operationId: PublishWorkflow
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PublishOrUndoInvalidateRfx'
+      responses:               
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WorkflowResult'    
+          description: "Aquery successfully executed"
+        '400':
+          description: "Wrong or missing data in the request"
+        '401':
+          description: "Unauthorized request ( i.e. the provided credentials are invalid)"
+        '500':
+          description: "Internal error"
+
+  /esop/jint/api/ja/v1/prfxworkflows/extend:
+    post:
+      tags:
+        - WORKFLOW  
+      summary: Reopen closed RfX    
+      description: |+
+        Extend deadline of a closed RFQ, resetting it as running, by specifying a new RFQ
+        closing date. No new round is created.
+      operationId: ExtendWorkflow
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ExtendWorkflowRequest'
+      responses:               
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WorkflowResult'    
+          description: "Aquery successfully executed"
+        '400':
+          description: "Wrong or missing data in the request"
+        '401':
+          description: "Unauthorized request ( i.e. the provided credentials are invalid)"
+        '500':
+          description: "Internal error"
+          
+  /esop/jint/api/ja/v1/prfxworkflows/complete:
+    post:
+      tags:
+        - WORKFLOW  
+      summary: Close an RFI or complete an RFQ     
+      description: Close an RFI or complete an RFQ that is in final evaluation status
+      operationId: Complete
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BaseWorkflowRequest'
+      responses:               
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WorkflowResult'    
+          description: "Aquery successfully executed"
+        '400':
+          description: "Wrong or missing data in the request"
+        '401':
+          description: "Unauthorized request ( i.e. the provided credentials are invalid)"
+        '500':
+          description: "Internal error"
+
+          
+  /esop/jint/api/ja/v1/prfxworkflows/completetechnical:
+    post:
+      tags:
+        - WORKFLOW  
+      summary: Initialize and freeze Technical stage     
+      description: If not already done, open the Technical envelope in order to continue the evaluation process. Formally Freeze the Technical Envelope to conclude the evaluation of this envelope.  This decision will be final and will move the evaluation onto the next stage
+      operationId: CompleteTechnicalWorkflow
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BaseWorkflowRequest'
+      responses:               
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UpdateResponse'    
+          description: "Aquery successfully executed"
+        '400':
+          description: "Wrong or missing data in the request"
+        '401':
+          description: "Unauthorized request ( i.e. the provided credentials are invalid)"
+        '500':
+          description: "Internal error"
+        
+  /esop/jint/api/ja/v1/prfxworkflows/completecommercial:
+    post:
+      tags:
+        - WORKFLOW  
+      summary: Initialize and freeze Commercial stage    
+      description: If not already done, open the Commercial envelope in order to continue the evaluation process. Formally Freeze the Commercial Envelope to conclude the evaluation of this envelope.  This decision will be final and will move the evaluation onto the Awarding stage
+      operationId: CompleteCommercialWorkflow
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BaseWorkflowRequest'
+      responses:               
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WorkflowResult'    
+          description: "Aquery successfully executed"
+        '400':
+          description: "Wrong or missing data in the request"
+        '401':
+          description: "Unauthorized request ( i.e. the provided credentials are invalid)"
+        '500':
+          description: "Internal error"
+
+
+  /esop/jint/api/ja/v1/prfxworkflows/completequalification:
+    post:
+      tags:
+        - WORKFLOW  
+      summary: Initialize and freeze Qualification stage    
+      description: |+
+        If not already done, open the Qualification envelope in order to continue the 
+        evaluation process. Formally Freeze the Qualification Envelope to conclude the 
+        evaluation of this envelope. This decision will be final and will move the 
+        evaluation onto the next stage.
+      operationId: CompleteQualification
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Project'
+      responses:               
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WorkflowResult'    
+          description: "Aquery successfully executed"
+        '400':
+          description: "Wrong or missing data in the request"
+        '401':
+          description: "Unauthorized request ( i.e. the provided credentials are invalid)"
+        '500':
+          description: "Internal error"
+
+  /esop/jint/api/ja/v1/prfxworkflows/invalidate:
+    post:
+      tags:
+        - WORKFLOW  
+      summary: Invalidate a running or closed RFQ    
+      description: Invalidate a running or closed RFQ
+      operationId: InvalidateWorkflow
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/InvalidateWorkflowRequest'
+      responses:               
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WorkflowResult'    
+          description: "Aquery successfully executed"
+        '400':
+          description: "Wrong or missing data in the request"
+        '401':
+          description: "Unauthorized request ( i.e. the provided credentials are invalid)"
+        '500':
+          description: "Internal error"
+
+
+  /esop/jint/api/ja/v1/prfxworkflows/undoinvalidate:
+    post:
+      tags:
+        - WORKFLOW  
+      summary: Restore a previously invalidated RFQ     
+      description: |+
+        Restore a previously invalidated RFQ, restoring it as Running 
+        (if existing closing date is not expired or if a new future 
+        closing date is provided)
+        or Closed (if existing deadline is not changed and expired).
+        When RFQ is reset to running, no mail is sent to invited suppliers.
+      operationId: UndoInvalidateWorkflow
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PublishOrUndoInvalidateRfx'
+      responses:               
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UpdateResponse'    
+          description: "Aquery successfully executed"
+        '400':
+          description: "Wrong or missing data in the request"
+        '401':
+          description: "Unauthorized request ( i.e. the provided credentials are invalid)"
+        '500':
+          description: "Internal error"
+
+  /esop/jint/api/ja/v1/prfxworkflows/delete:
+    post:
+      tags:
+        - WORKFLOW  
+      summary: Delete an RfX     
+      description: Delete an RfX. This operation does not have undo.
+      operationId: DeleteWorkflow
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BaseWorkflowRequest'
+      responses:               
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WorkflowResult'    
+          description: "Aquery successfully executed"
+        '400':
+          description: "Wrong or missing data in the request"
+        '401':
+          description: "Unauthorized request ( i.e. the provided credentials are invalid)"
+        '500':
+          description: "Internal error"
+
+  /esop/jint/api/ja/v1/prfxworkflows/reopen:
+    post:
+      tags:
+        - WORKFLOW  
+      summary: Reopen RfX     
+      description: |+
+        Extend deadline of a closed RFQ, resetting it as running, by specifying a new RFQ
+         closing date. No new round is created.
+      operationId: ReopenWorkflow
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ReOpenWorkflowRequest'
+      responses:               
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WorkflowResult'    
+          description: "Aquery successfully executed"
+        '400':
+          description: "Wrong or missing data in the request"
         '401':
           description: "Unauthorized request ( i.e. the provided credentials are invalid)"
         '500':
@@ -290,9 +781,150 @@ components:
       schema:
         type: integer
         minimum: 1    
-    
+        
+    FileIDParam:
+      name: fileId
+      in: query
+      required: false
+      description: Attachment internal identifier to be retrieved
+      schema:
+        type: integer
+        example: 3412121
+        minimum: 1  
           
+    FileNameParam:
+      name: fileName
+      in: query
+      required: false
+      description: Attachment file name
+      schema:
+        type: string
+        example: Bravosolution_Integration_Services-development_kit_RFX_v12.4.0_003.doc
+        
+    SecureTokenParam:
+      name: secureToken
+      in: query
+      required: false
+      description: Secure token related to the attachment to be retrieved
+      schema:
+        type: string
+        # VARCHAR2(32)
+        example: "SOsCF552h5NWEMjDIA99+Pq1EE4chj0bWcmmJI/bcRVVghOpl7bHmY0QXleO+HFkbMZ66Fe0bU/KvRkcCgUn93eaNmSuYTM8jYwHjk3utO9Po1uiZQgjRHcuXlo9f9m6NKIvgjc12Bw="
+    
+    FileComponentParam:
+      name: comp
+      in: query
+      required: false
+      description: 
+        Component filters only option currently is 
+      
+          * SIGNATURE_REPORT - Export information available in signature report generated by platform.
+      schema:
+        type: string
+        enum:
+          - SIGNATURE_REPORT
+        # VARCHAR2(32)
+        
+    MessageParam:
+      name: message-id
+      in: path
+      required: true
+      description: Jaggaer internal id of the configuration
+      schema:
+        type: integer
+        minimum: 1 
+        
+    MessageComponentParam:
+      name: comp
+      in: query
+      required: true
+      description: Component Filters
+      schema:
+        type: array
+        items:
+          type: string
+          enum:
+            - MESSAGE_BODY
+            - MESSAGE_CATEGORY
+            - MESSAGE_ATTACHMENT
+            - MESSAGE_READING
+            
+    HistoryParam:
+      name: history-id
+      in: path
+      required: true
+      description: Jaggaer internal id of the configuration
+      schema:
+        type: integer
+        minimum: 1 
+            
+    HistoryComponentParam:
+      name: comp
+      in: query
+      required: true
+      description: Component Filters
+      schema:
+        type: array
+        items:
+          type: string
+          enum:
+            - HISTORY_CHANGE_NOTES
+            - HISTORY_CHANGE_ACTION_DETAIL
+            - HISTORY_CHANGE_ACTION_MAPPING
+            
+    MessageConditionParam:
+      name: flt
+      in: query
+      required: true
+      description: MAIN Condition Filters
+      schema:
+        type: array
+        items:
+          type: string
+          enum:
+            - objectId
+            - objectReferenceCode
+            - objectType
+            - objectSubType
+            - sendDate
+            - readDate
+            - buyerCompanyId
+            - buyerCompanyCode
+            - buyerCompanyName
+            - companyName
+            - divisionName
+            - opportunityDescription
+            - workCategory
+            - procurementRoute
+            - categoryReferenceCode
+            - projectType
+            - projectOwner 
+            - deletedStatus
+            - companyId
+            - divisionId
+            - projectOwnerId
+            - independentLocale 
+            
+            
+    HistoryConditionParam:
+      name: flt
+      in: query
+      required: true
+      description: MAIN Condition Filters
+      schema:
+        type: array
+        items:
+          type: string
+          enum:
+            - objectId
+            - objectReferenceCode
+            - parentReferenceCode
+            - objectType
+            - lastUpdate
+            
+           
   schemas:
+    
     UpdateResponse:
       title: Project Response
       type: object
@@ -364,7 +996,69 @@ components:
           type: integer
           example: 0
         dataList:
-          $ref: '#/components/schemas/RFxList'    
+          $ref: '#/components/schemas/RFxList' 
+          
+    MessageListResponse:
+      title: RFX Response
+      type: object
+      required:
+        - returnCode
+        - returnMessage
+        - totRecords
+        - returnedRecords
+        - startAt
+        - datatList
+      properties:
+        returnCode:
+          type: integer
+          example: 0
+        returnMessage:
+          type: string
+          example: "OK"
+        totRecords:
+          type: integer
+          example: 2119
+        returnedRecords:
+          type: integer
+          example: 100
+        startAt:
+          type: integer
+          example: 0
+        messageList:
+          type: array
+          items:
+            $ref: '#/components/schemas/Message'
+            
+    HistoryListResponse:
+      title: History Response
+      type: object
+      required:
+        - returnCode
+        - returnMessage
+        - totRecords
+        - returnedRecords
+        - startAt
+        - historyChangeList
+      properties:
+        returnCode:
+          type: integer
+          example: 0
+        returnMessage:
+          type: string
+          example: "OK"
+        totRecords:
+          type: integer
+          example: 2119
+        returnedRecords:
+          type: integer
+          example: 100
+        startAt:
+          type: integer
+          example: 0
+        historyChangeList:
+          type: array
+          items:
+            $ref: '#/components/schemas/HistoryChange'     
     
     ProjectList:
       title: ProjectList
@@ -1326,8 +2020,381 @@ components:
         fileBase64:
           type: string
           description: |+
-            Attachment body - These fields are used to set value for instructional attachment           
-    
+            Attachment body - These fields are used to set value for instructional attachment    
+            
+    AttachmentExport:
+      type: object
+      required:
+        - fileId
+        - fileName
+        - fileBase64
+      properties:
+        fileId:
+          type: integer
+          description: Attachment internal identifier
+          example: 3412121
+        fileName:
+          type: string
+          description: Attachment file name
+          example: "Bravosolution_Integration_Services-development_kit_RFX_v12.4.0_003.doc"
+        fileDescription:
+          type: string
+          description: Attachment description
+        fileBase64:
+          type: string
+          description: Attachment body
+        tagList:
+          description: List of tag representing attachment metadata
+          type: array
+          items:
+            type: object
+            properties:
+              tag:
+                type: object
+                properties:
+                  tagName:
+                    type: string
+                    description: Metadata name
+                  tagValue:
+                    type: string
+                    description: Metadata value
+          
+        signatureReport: 
+          $ref: '#/components/schemas/SignatureReport'
+            
+          
+    SignatureReport:
+      title: SignatureReport
+      description: |+
+            Container for signature report information. Available from version BA 17_00 
+            when SIGNATURE_REPORT component filter has been requested and if such 
+            report has already been generated in platform.
+            
+            Available from version: BA_17_00
+      type: object
+      properties: 
+        uploadDate:
+          description: |+
+            Date and time attachment has been upoloaded
+            
+            Available from version: BA_17_00
+        uploadedBy:
+          description: |+
+            User that uploaded the attachment
+            
+            Available from version: BA_17_00
+        reportGenerationPertainDate:
+          description: |+
+            Date and time report has been generated in the platform
+            
+            Available from version: BA_17_00
+        knownSignatureFormatCode:
+          description: |+
+            Flag stating if signature format has been recognized. Possible Value:
+              * -1: signature hasn’t been verified yet
+              * 0: signature format hasn’t been recognized
+              * 1: signature format has been recognized
+              * 2: signature not verified since maximum allowed file size exceeded
+
+            
+            Available from version: BA_17_00
+        knownSignatureFormatDesc:
+          description: |+
+            Textual description, in default language, for ‘knownSignatureFormatCode’ 
+            field, as reported in platform report
+            
+            Available from version: BA_17_00
+        envelopeInfoList:
+          description: |+
+            List of EnvelopeInfo objects, representing signature envelope
+            
+            Available from version: BA_17_00
+          type: array
+          items:
+            $ref: '#/components/schemas/EnvelopeInfo'
+            
+    EnvelopeInfo:
+      title: Envelope Info
+      type: object
+      properties:
+        envelopeIndex:
+          description: |+
+            Progressive number of the envelope
+            
+            Available from version: BA_17_00
+        signedContentEncoding:
+          description: |+
+            Encoding adopted to sign content
+            
+            Available from version: BA_17_00
+        signedDataVerificationTime:
+          description: |+
+            Date and time signature verification can be referred to.
+            
+            Available from version: BA_17_00
+        verificationTimestampUsed:
+          description: |+
+            Flag better defining the meaning of ‘signedDataVerificationTime’ field:
+              * 0: The date indicated is the time stamp of file upload
+              * 1: The date indicated is the time stamp included in the signature
+
+            Available from version: BA_17_00
+        consistentSignedContent:
+          description: |+
+            Flag stating If signed content is consistent with
+            Signatures.
+              * 0: not consistent
+              * 1: consistent
+
+            
+            Available from version: BA_17_00
+        signatureVerificationList:
+          description: |+
+            List of SignatureVerification objects, representing verification of signature included in current container
+            
+            Available from version: BA_17_00
+          type: array
+          items:
+            $ref: '#/components/schemas/SignatureVerification'
+           
+    SignatureVerification:
+      title: Signature Verification
+      description: |+
+        Container for all signature found inside current envelope
+      type: object
+      properties:
+        signatureIndex:
+          type: integer
+          description: |+
+            Progressive number of the signature inside current envelope
+        fullName:
+          type: string
+          description: |+
+            Signer full name
+        certificateValidityStatus:
+          type: string
+          enum:
+            -  NOT_YET_CHECKED
+            -  EXPIRED
+            -  NOT_YET_VALID
+            -  NOT_TRUSTED 
+            -  TAMPERED
+            -  INVALID_ALGORITHM 
+            -  VALID
+            -  TRUSTED
+          description: |+
+            Signer Certificate validity status stating if certificate validity period was valid at the time report was verified
+            It can assume following value:
+              * NOT_YET_CHECKED: verification not completed, yet
+              * EXPIRED: verification occurred after validity period
+              * NOT_YET_VALID: verification occurred before starting of validity period
+              * NOT_TRUSTED: temporal validity verified, but not signed via trusted certificate 
+              * TAMPERED: temporal validity verified, but certificate is invalid respect to X509 certificate
+              * INVALID_ALGORITHM: temporal validity verified, but certificate uses a not supported  encoding algorithm 
+              * VALID: temporarily valid but issuer hasn’t been verified for trustiness
+              * TRUSTED: temporarily valid and signed via trusted certificate
+        certificateValidityDesc:
+          type: string
+          description: |+
+            Textual description, in default language, for ‘certificateValidityStatus’ field, as reported in platform report
+        certificateFromTrustedCA:
+          type: integer
+          enum:
+            - -1
+            - 0
+            - 1
+          description: |+
+            Flag stating if certificate is from a trusted certificate authority. Possible value:
+              * -1: check not performed
+              * 0: from untrusted CA
+              * 1: from trusted CA
+        certificateFromTrustedCADesc:
+          type: string
+          description: |+
+            Textual description, in default language, for ‘certificateFromTrustedCA’ field, as reported in platform report
+        caCertificateValidityStatus:
+          type: string
+          enum:
+            - NOT_YET_CHECKED
+            - NOT_YET_VALID
+            - EXPIRED
+            - VALID
+          description: |+
+            Certification Authority certificate status validity regarding validity period.
+            Allowed value:
+              * NOT_YET_CHECKED: validity period not checked yet
+              * NOT_YET_VALID: validation performed before validity period beginning 
+              * EXPIRED: validation performed after validity period end
+              * VALID: valid
+        caCertificateValidityDesc:
+          type: string
+          description: |+
+            Textual description, in default language, for ‘caCertificateValidityStatus’ field, as reported in platform report
+        signerValidityStatus:
+          type: string
+          enum:
+            - NOT_YET_CHECKED
+            - INVALID_SIGNATURE
+            - VALIDATE_WITHOUT_CA
+            - VALIDATE_WITHOUT_CRL
+            - REVOKED
+            - VALID 
+          description: |+
+            Signer validation status.
+            Possible value:
+              * NOT_YET_CHECKED
+              * INVALID_SIGNATURE
+              * VALIDATE_WITHOUT_CA
+              * VALIDATE_WITHOUT_CRL
+              * REVOKED
+              * VALID
+        isRevokeStatusByOCSP:
+          type: boolean
+          description: |+
+            Flag stating if Revoke status is retrieved from OCSP instead of CRL.
+            Allowed value:
+              * 0: Revoke status is retrieved by CRL (Certificate Revocation List)
+              * 1: Revoke status is retrieved by OCSP (Online Certificate Status Protocol)
+        revocationDate:
+          description: |+
+            Date and time at which certificate has been revoked
+        crlCheckResult:
+          type: string
+          description: |+
+            Textual description, in default language, for the check performed on certificate revocation, as reported in platform report
+        authorisedCertificateUse:
+          type: string
+          enum:
+            - digitalSignature
+            - nonRepudiation
+            - keyEncipherment
+            - dataEncipherment
+            - keyAgreement
+            - keyCertSign
+            - cRLSign
+            - encipherOnly
+            - decipherOnly 
+          description: |+
+            Authorised certification usage:
+            Allowed value:
+              * digitalSignature
+              * nonRepudiation
+              * keyEncipherment
+              * dataEncipherment
+              * keyAgreement
+              * keyCertSign
+              * cRLSign
+              * encipherOnly
+              * decipherOnly
+        signingTime:
+          type: string
+          format: date-time
+          description: |+
+            Signature date
+        signatureTrustedTimestamp:
+          type: string
+          format: date-time
+          description: |+
+            Third party signed signing date
+        signatoryVerificationDetailedInfo:
+          $ref: '#/components/schemas/SignatoryVerificationDetailedInfo'
+        caGeneralInfo:
+          $ref: '#/components/schemas/CAGeneralInfo'
+
+
+    SignatoryVerificationDetailedInfo:
+      title: Signature Verification Detail
+      type: object
+      description: |+
+        Detailed Information on Signatory Verification
+      properties:
+        signatoryName:
+          type: string
+          description: |+
+            Signer Name
+        signatorySurname:
+          type: string
+          description: |+
+            Signer Surname
+        organisationName:
+          type: string
+          description: |+
+            Name of signer organization
+        country:
+          type: string
+          description: |+
+            Signer country
+        signerSerialNumber:
+          type: string
+          description: |+
+            Signer unique code
+        certificateID:
+          type: string
+          description: |+
+            Certificate identifier
+        countersignerOf:
+          type: string
+          description: |+
+            Full name of an eventual signer for which this object represents the countersign of. Valorised only if current element represents a ‘countersign’
+        signatureTokenOf:
+          type: string
+          description: |+
+            Full name of an eventual signer for which this object represents a trusted time stamp of. Valorised only if current element represents a ‘token of’
+        certificateValidityStart:
+          type: string
+          format: date-time
+          description: |+
+            Date and time representing the start of certificate validity
+        certificateValidityEnd:
+          type: string
+          format: date-time
+          description: |+
+            Date and time representing the end of certificate validity
+        certificateSerialNumber:
+          type: string
+          description: |+
+            Certificate unique code
+        digestAlgorithm:
+          type: string
+          description: |+
+            Algorithm used for the Digital Signature
+        certKeyLength:
+          type: string
+          description: |+
+            Digital Signature Key Length
+
+      
+    CAGeneralInfo:
+      title: Certificate Authority Information
+      type: object
+      description: |+
+        General Information on Certificate Authority that issued the certificate
+      properties:
+        fullName:
+          type: string
+          description: |+
+            Certification Authority full name
+        organisationName:
+          type: string
+          description: |+
+            Certification Authority name
+        country:
+          type: string
+          description: |+
+            Certification Authority country
+        issuerSerialNumber:
+          type: string
+          description: |+
+            Certification Authority Unique code
+        issuerCertificateValidityStart:
+          type: string
+          description: |+
+            Date and time representing the start of Certification Authority certificate validity
+        issuerCertificateValidityEnd:
+          type: string
+          description: |+
+            Date and time representing the end of Certification Authority certificate validity
+
                     
     AwardAttachmentList:      
       title: Award Attachment List
@@ -2447,7 +3514,7 @@ components:
             UI: Ranking
             
             Awarding Ranking
-            BA_17_04
+            Available from version: BA_17_04
         parameterId:
           type: integer
           # NUMBER(38)
@@ -2497,7 +3564,7 @@ components:
       title: Response to commercial parameters 
       type: object
       properties:
-        parameterID: 
+        parameterId: 
           type: integer
           # NUMBER(38)
           description: |+
@@ -2655,7 +3722,7 @@ components:
             UI: Creation Date/Time
             
             Attachment creation date
-            BA_17_01
+            Available from version: BA_17_01
         secureToken:
           type: string
           # VARCHAR2(32)
@@ -2725,7 +3792,7 @@ components:
       title: Response to commercial parameters 
       type: object
       properties:
-        parameterID:  
+        parameterId:  
           description: |+
             to Complete
             
@@ -3113,13 +4180,48 @@ components:
             UI: Creation Date/Time
             
             Attachment creation date
-            BA_17_01
+            Available from version: BA_17_01
         secureToken:
           type: string
           # VARCHAR2(32)
+          
+    MessageAttachment:
+      title: Comment Data
+      type: object
+      properties:
+        fileId:
+          type: integer
+          # NUMBER(38)
+          description: |+
+            Internal identifier of the attachment, to be used for calling attachments web service to download it
+        fileName:
+          type: string
+          maxLength: 256
+          # VARCHAR2(256 CHAR)
+          description: |+
+            UI: Attachment Name
+            
+            Attachment filename
+        fileDescription:
+          type: string
+          maxLength: 2000
+          # VARCHAR2(2000 CHAR)
+          description: |+
+            UI: Attachment Description
+            
+            Attachment description
+        fileSize:
+          type: integer
+          # NUMBER(38)
+          description: |+            
+            Attachment size in bytes
+        secureToken:
+          type: string
+          maxLength: 1000
+          # VARCHAR2(1000)
           description: |+
             It is the secure token to be used for calling attachments web service to download the attachment file.
-            BA_17_01
+            Available from version: BA_17_02
                 
             
     OfflineAnswersList:
@@ -4740,3 +5842,828 @@ components:
             Value for the date above
           deprecated: true
           
+       
+    Message:
+      title: Message
+      type: object
+      properties:   
+        messageId:
+          type: number
+          # NUMBER(38,0)
+          description: |+            
+            JA message internal identifier
+        sender:
+          type: object
+          description: |+
+            Complex type for message sender company. Following elements are defined
+              * Id: sender (company) internal identifier
+              * Code: sender external code
+              * Name: sender name 
+          properties:
+            id:
+              type: number
+              # NUMBER(38,0)
+            code:
+              type: string
+              maxLength: 100
+              # VARCHAR2(100 CHAR)
+            name:
+              type: string
+              maxLength: 256
+              # VARCHAR2(256 CHAR)
+              description: |+
+                UI: Sender/Sent by
+        sendDate:
+          type: string
+          format: date-time
+          # DATE
+          description: |+
+            UI: Date
+            Message sending date       
+        sendUser:
+          type: object
+          description: |+
+            Complex type for message sender user. Following elements are defined
+             * Id: internal identifier of the user who sent the message
+             * Code: message sender user external code
+             * Name: message sender user name and surname
+             
+            Available from version: BA_17_01
+          properties:
+            id:
+              type: number
+              # NUMBER(38,0)
+            code:
+              type: string
+              maxLength: 100
+              # VARCHAR2(100 CHAR)
+            name:
+              type: string
+              maxLength: 257
+              # VARCHAR2(257 CHAR)
+              description: |+
+                UI: Sent from User
+        subject:
+          type: string
+          maxLength: 512
+          # VARCHAR2(512 CHAR)
+          description: |+
+            UI: Subject
+            
+            Message subject           
+        body:
+          type: string
+          # CLOB
+          description: |+
+            UI: Message
+            
+            Message body          
+        object:
+          $ref: '#/components/schemas/Object'      
+        folderId:
+          type: number
+          # NUMBER(38,0)
+          description: |+
+            Message folder internal identifier          
+        direction:
+          type: string
+          # VARCHAR2(10 CHAR)
+          enum:
+            - SENT
+            - FWD
+            - RECEIVED
+          description: |+ 
+            Direction of the message:
+             * SENT
+             * FWD
+             * RECEIVED
+        isBroadcast:
+          type: boolean
+          # NUMBER(1)
+          description: |+
+            UI: Broadcast Message
+          
+            Broadcast message flag:
+             * 1 = broadcast 
+             * 0 = not broadcast
+             
+            Available from version: BA_17_01
+        parentMessageId:
+          type: number
+          # NUMBER(38,0)
+          description: |+
+            Parent message internal identifier: it identifies the original message in case
+            of reply. 
+            
+            Available from version: BA_17_01           
+        receiveDate:
+          type: string
+          format: date-time
+          # DATE
+          description: |+
+            Date when the message has been received. In general, it is equal to the message 
+            sending date (sendDate). In case of broadcast message on Rfq, if a new supplier 
+            is added after sending the broadcast message, it is the date on which the 
+            supplier was invited.
+            
+            Available from version: BA_17_01   
+        category:
+          type: object
+          description: |+
+            Complex type for message category. Following elements are defined
+             * categoryId: category internal identifier
+             * categoryName: category name
+             * categoryLabel: category label in the default language
+          properties:
+            id:
+              type: number
+              # NUMBER(38,0)
+            name:
+              type: string
+              maxLength: 2000
+              # VARCHAR2(2000 CHAR)
+            label:
+              type: string
+              maxLength: 2000
+              # VARCHAR2(2000 CHAR)
+              description: |+
+                UI: Message Classification
+        receiverList:
+          type: array
+          items:
+            $ref: '#/components/schemas/Receiver' 
+        readingList:
+          type: array
+          items:
+            $ref: '#/components/schemas/Reading'         
+        attachmentList:
+          type: array
+          items:
+            $ref: '#/components/schemas/MessageAttachment'           
+          
+    Object:
+      title: Object
+      type: object
+      properties:   
+        objectId:
+          type: string
+          maxLength: 512
+          # VARCHAR2(512)
+          description: |+            
+            Internal identifier of the object
+        objectReferenceCode:
+          type: string
+          maxLength: 80
+          # VARCHAR2(80)
+          description: |+
+            Object reference code
+        objectTitle:
+          type: string
+          maxLength: 256
+          # VARCHAR2(256)
+          description: |+
+            Object title
+        objectType:
+          type: string
+          # VARCHAR2(5)
+          enum:
+            - RFQ 
+            - AUC
+            - ECM
+            - COL
+            - SC
+            - EVM
+          description: |+
+            Object type:
+             * RFQ (rfq/rfi)
+             * AUC (auction)
+             * ECM (contract)
+             * COL (collaboration)
+             * SC (scorecard)
+             * EVM (assessment)
+        objectSubType:
+          type: string
+          # VARCHAR2(80 CHAR)
+          description: |+
+            It depends on the object type.
+             * SubType for type RFQ is the rfi flag:
+                * 0 = Rfq
+                * 1 = Rfi
+             * SubType for type AUC is the multi lot flag:
+                * 0 = single lot
+                * 1 = multi lot
+             * SubType for type ECM is the contract type
+             * SubType for type COL is the collaboration type:
+                * 0 = join-editing
+                * 1 = collect comments
+                * 2 = collect values
+                * 3 = evaluate supplier
+                * 4 = I fill in
+             * SubType for type SC is the scorecard type:
+                * ENTERPRISE
+                * CONTRACT
+                * ASMT_CATEGORY
+                * ASMT_SEGMENTATION
+                * ASMT_QUALIFICATION
+                * ASMT_RISK
+             * SubType for type EVM is the assessment dimension:
+                * CASMT = Category (QR)
+                * SASMT = Segmentation 
+                * QASMT = Qualification
+                * RASMT = Risk
+        tenderCode:
+          type: string
+          maxLength: 80
+          # VARCHAR2(80 CHAR)
+          description: |+
+            Internal identify of the tender associated to the object (if exists)
+        tenderReferenceCode:
+          type: string
+          maxLength: 80
+          # VARCHAR2(80 CHAR)
+          description: |+
+            Reference code of the tender associated to the object
+            
+    Receiver:
+      title: Receiver
+      type: object
+      properties:         
+        id:
+          type: number
+          # NUMBER(38,0)
+          description: |+
+            Internal identifier of the receiver
+        code:
+          type: string
+          maxLength: 100
+          # VARCHAR2(100 CHAR)
+          description: |+
+            External code of the receiver
+        name:
+          type: string
+          maxLength: 2000
+          # VARCHAR2(2000 CHAR)
+          description: |+
+            UI: Recipient
+            
+            Name of the receiver.
+            It depends on the type:
+                * For type usr, it is the concatenation of the user name and surname;
+                * For type com, div, rqe it is the company name;
+                * For type ext, it is the e-mail address;
+        type:
+          type: string
+          # VARCHAR2(3 CHAR)
+          enum:
+            - usr
+            - com
+            - div
+            - rqe
+            - ext
+          description: |+
+            Receiver type:
+                * usr = User
+                * com = Company
+                * div = Division
+                * rqe = Entity Request
+                * ext = External user
+            For type usr,com,div,rqe it is the type of the message box where the message was received. 
+
+    Reading:
+      title: Reading
+      type: object
+      properties:         
+        readerId:
+          type: number
+          # NUMBER(38,0)
+          description: |+
+            Reader (user) internal identify
+        readerCode:
+          type: string
+          description: |+
+            Reader external code
+        readerName:
+          type: string
+          description: |+
+            Reader name and surname
+        readerCompany:
+          type: object
+          description: |+
+            Complex type for reader company. Following elements are defined
+                * Id: company internal identifier
+                * Code: company external code
+                * Name: company name
+          properties:
+            id:
+              type: number
+              # NUMBER(38,0)
+            code:
+              type: string
+              maxLength: 100
+              # VARCHAR2(100 CHAR)
+            name:
+              type: string
+              maxLength: 257
+              # VARCHAR2(257 CHAR)
+        readerType:
+          type: string
+          # VARCHAR2(3 CHAR)
+          enum:
+            - usr
+            - com
+            - div
+            - rqe
+            - ext
+          description: |+
+            Reader type:
+              * usr = User
+              * com = Company
+              * div = Division
+              * rqe = Entity Request
+              * ext = External user
+            For type usr,com,div,rqe it is the type of the message box where the message was opened for reading by the user reader. 
+        readingDate:
+          type: string
+          format: date-time
+          # DATE
+          description: |+
+            Reading date
+            
+    HistoryChange:
+      title: History Change
+      type: object
+      properties:         
+        historyChangeId:
+          type: number
+          # NUMBER(38,0)
+          description: |+
+            History change internal identifier
+            
+            Available from version: JINT_20_02_00
+        object:
+          $ref: '#/components/schemas/HistoryObject'
+        stepList:
+          type: array
+          items:
+            $ref: '#/components/schemas/Step'
+            
+          
+    HistoryObject:
+      title: Object
+      type: object
+      properties:         
+        objectId:
+          type: string
+          maxLength: 512
+          # VARCHAR2(512)
+          description: |+
+            Internal identifier of the object
+        objectReferenceCode:
+          type: number
+          # VARCHAR2(80 CHAR)
+          description: |+
+            Internal identifier of the object
+        parentReferenceCode:
+          type: number
+          # VARCHAR2(80 CHAR)
+          description: |+
+            Internal identifier of the object
+            
+            Available from version: JINT_21_02_00
+        objectTitle:
+          type: string
+          description: |+
+            Object title
+        objectType:
+          type: string
+          enum:
+            - RFQ
+            - AUC
+            - ECM
+            - TND
+            - SAV
+            - COL
+            - SC
+            - SCT
+            - CFR
+            - SDP
+            - SDA
+           # NUMBER(38,0)
+          description: |+
+             Object type:
+              * RFQ (rfq/rfi)
+              * AUC (auction)
+              * ECM (contract)
+              * TND (tender)
+              * SAV (saving initiative)
+              * COL (collaboration project)
+              * SC (scorecard)
+              * SCT (scorecard template)
+              * CFR (call for requirements)
+              * SDP (supplier development plan)
+              * SDA (supplier action)
+              
+             Available from version: JINT_21_02_00 SDP and SDA
+                                     JINT_20_02_00 for Others
+
+    Step:
+      title: Step
+      type: object
+      properties:         
+        stepId:
+          type: number
+          # NUMBER(38,0)
+          description: |+
+            Step internal identifier
+            
+            Available from version: JINT_20_02_00
+        user:
+          type: object
+          description: |+
+            Complex type for the user who performed the step. Following elements are defined
+                * Id: user internal identifier
+                * Code: user external code
+                * Name: user name and surname
+          properties:
+            id:
+              type: number
+              # NUMBER(38,0)
+            code:
+              type: string
+              maxLength: 100
+              # VARCHAR2(100 CHAR)
+            name:
+              type: string
+              maxLength: 257
+              # VARCHAR2(257 CHAR)
+        company:
+          type: object
+          description: |+
+            Complex type for the company that performed the step. Following elements are defined
+                * Id: company internal identifier
+                * Code: company external code
+                * Name: company name 
+          properties:
+            id:
+              type: number
+              # NUMBER(38,0)
+            code:
+              type: string
+              maxLength: 100
+              # VARCHAR2(100 CHAR)
+            name:
+              type: string
+              maxLength: 257
+              # VARCHAR2(257 CHAR)
+        latUpdate:
+          type: string
+          format: date-time
+          description: |+
+            Recording date of the action
+        scope:
+          type: string
+          description: |+
+            Action scope 
+        description:
+          type: string
+          description: |+
+            Action description
+        notes:
+          type: string
+          description: |+
+            User comments
+        actionDetails:
+            $ref: '#/components/schemas/ActionDetail'
+            
+    ActionDetail:
+      title: Action Detail
+      type: object
+      properties:         
+        actionNumber:
+          type: number
+          # NUMBER(38,0)
+          description: |+
+            Action progressive number
+            
+            Available from version: JINT_20_02_00
+        description:
+          type: string
+          description: |+
+            Text with the detailed description of the action
+        actionChangeList:
+          type: array
+          items:
+            $ref: '#/components/schemas/ActionChange'
+            
+    ActionChange:
+      title: Action Change
+      type: object
+      properties:         
+        key:
+          type: string
+          description: |+
+            Key of the field before/after change
+        value:
+          type: string
+          description: |+
+            Value of the field before/after change
+            
+    BaseWorkflowRequest:
+      title: Workflow Requestr
+      type: object
+      properties:         
+        rfxId:
+          type: string
+          example: aqr_1162
+          description: |+
+            JA internal identifier
+        rfxRefernceCode:
+          type: string
+          example: test_dani1
+          description: |+
+            A identifier (visible to user)
+        operatorUser:
+          type: object
+          description: |+
+            Reference to the buyer user (external code –code field- or JA internal id –id field) to be used as Rfx evaluating operator. If not specified, super user is used 
+          properties:         
+                id:
+                  type: string
+                  example: 26802
+                  description: |+
+                    JA internal identifier
+                code:
+                  type: object
+                  example: extCodeUsrBatch
+                  description: |+
+                    External code 
+                name:
+                  type: string
+                  example: 'n_26802 c_26802'
+                  description: |+
+                    Company name
+
+
+    ReOpenWorkflowRequest:
+      title: Reopen Workflow Request
+      allOf:
+        - $ref: '#/components/schemas/BaseWorkflowRequest'
+        - type: object
+          properties:         
+            newColingDate:
+              type: string
+              description: |+
+                Newest closing date
+            suppliersList:
+              type: object
+              description: |+
+                Value of the field before/after change  
+              properties:         
+                id:
+                  type: string
+                  description: |+
+                    JA internal identifier
+                code:
+                  type: object
+                  description: |+
+                    External code 
+                name:
+                  type: string
+                  description: |+
+                    Company name
+                extUniqueCode:
+                  type: object
+                  description: |+
+                    External unique code
+                    
+    ExtendWorkflowRequest:
+      title: Extend Workflow Request
+      allOf:
+        - $ref: '#/components/schemas/BaseWorkflowRequest'
+        - type: object
+          required:
+            - newClosingDate
+          properties:         
+            newClosingDate:
+              type: string
+              description: |+
+                New close date to be set on new RfX round (for reopenRfx method) or to extend RfX up to (for extend method)
+                  
+    InvalidateWorkflowRequest:
+      title: Invalidate Rfx Data
+      allOf:
+        - $ref: '#/components/schemas/BaseWorkflowRequest'
+        - type: object
+          required:
+            - invalidateReason
+          properties:         
+            invalidateReason:
+              type: string
+              description: |+
+                Optional description (up to 256 characters) of the reason RfX has been invalidated for
+                  
+    PublishOrUndoInvalidateRfx:
+      title: Undo Invalidate Rfx Data
+      allOf:
+        - $ref: '#/components/schemas/BaseWorkflowRequest'
+        - type: object
+          required:
+            - newClosingDate
+          properties:         
+            newClosingDate:
+              type: string
+              description: |+
+                Newest closing date.
+                If not provided, system uses the original closing date.
+                If retrieved or provided date represents a future instant, RfX is reset to running. Otherwise, RfX is reset to close.
+                
+    WorkflowResult:
+      title: Undo Invalidate Rfx Data
+      type: object
+      properties:         
+        returnCode:
+          type: number
+          example: 1
+          description: |+
+            Operation result. Possible code are listed in the table below
+        returnMessage:
+          type: string
+          example: Final requested awarding state already set
+          description: |+
+            Operation result description. If operation completed successfully, 
+            it is “OK”, otherwise it is a brief explanation of mismatches found
+        rfxId:
+          type: string
+          maxLength: 80
+          # VARCHAR2(80 CHAR)
+          example: aqr_1162
+          description: |+
+            RfX internal identifier
+        rfxReferenceCode:
+          type: string
+          maxLength: 80
+          # VARCHAR2(80 CHAR)
+          example: test_dani1
+          description: |+
+            UI: Rfq Code
+              
+            RfX user visible identifier
+        initialStatusCode:
+          type: number
+          # NUMBER(5)
+          example: 750
+          description: |+
+            Status code of the Rfx when operation was called
+        initialStatus:
+          type: string
+          maxLength: 128
+          # VARCHAR2(128 CHAR)
+          example: Qualification Evaluation
+          description: |+
+            UI: Status
+              
+            Status code description (in the default language) of the Rfx when operation 
+            was called
+        finalStatusCode:
+          type: number
+          # NUMBER(5)
+          example: 750
+          description: |+
+            Status code of the Rfx when operation completed
+        finalStatus:
+          type: string
+          maxLength: 128
+          # VARCHAR2(128 CHAR)
+          example: Qualification Evaluation
+          description: |+
+            UI: Status
+              
+            Status code description (in the default language) of the Rfx when operation completed
+        reopenRound:
+          type: number
+          # NUMBER
+          example: 0
+          description: |+
+            Current Rfx round
+        numInvolvedSuppliers:
+          type: number
+          # NUMBER
+          example: 3
+          description: |+
+            Number of suppliers associated to the RFx
+        numRespondedSuppliers:
+          type: number
+          # NUMBER
+          example: 1
+          description: |+
+            Number of suppliers having a valid response in the last round
+        numExcludedSuppliers:
+          type: number
+          # NUMBER
+          example: 0
+          description: |+
+            Number of suppliers having a valid response at the last round being excluded during evaluation
+        qualEnvStatus:
+          type: number
+          # NUMBER(1)
+          enum:
+            - 0
+            - 1
+            - 2
+          example: 1
+          description: |+
+            Status of the envelope = 0 not active, 
+            1=active with no response attachments, 
+            2=active with response attachments allowed
+        techEnvStatus:
+          type: number
+          # NUMBER(1)
+          enum:
+            - 0
+            - 1
+            - 2
+          example: 1
+          description: |+
+            Status of the envelope = 0 not active,
+            1=active with no response attachments, 
+            2=active with response attachments allowed
+        commEnvStatus:
+          type: number
+          # NUMBER(1)
+          enum:
+            - 0
+            - 1
+            - 2
+          example: 1
+          description: |+
+            Status of the envelope = 0 not active, 
+            1=active with no response attachments, 
+            2=active with response attachments allowed
+        publishDate:
+          type: string
+          format: date-time
+          # DATE
+          example: '2008-08-05T13:18:35.000Z'
+          description: |+
+            First date of publishing
+        closeDate:
+          type: string
+          format: date-time
+          # DATE
+          example: '2008-08-05T14:00:00.000Z'
+          description: |+
+            Last close date
+        preEvaluationCloseDate:
+          type: string
+          format: date-time
+          # DATE
+          example: '2008-08-07T15:59:19.000Z'
+          description: |+
+            Date when the preliminary evaluation is frozen
+        qualOffersOpeningDate:
+          type: string
+          format: date-time
+          # DATE
+          example: '2008-08-07T15:58:57.000Z'
+          description: |+
+            Opening Date of Qualification Responses
+        qualEvaluationCloseDate:
+          type: string
+          format: date-time
+          # DATE
+          example: '2008-08-07T15:58:57.000Z'
+          description: |+
+            Date when the qualification evaluation is frozen
+        techOffersOpeningDate:
+          type: string
+          format: date-time
+          # DATE
+          example: '2008-08-07T15:58:57.000Z'
+          description: |+
+            Opening Date of Technical Responses
+        techEvaluationCloseDate:
+          type: string
+          format: date-time
+          # DATE
+          example: '2008-08-07T15:58:57.000Z'
+          description: |+
+            Date when the technical evaluation is frozen
+        commOffersOpeningDate:
+          type: string
+          format: date-time
+          # DATE
+          example: '2008-08-07T15:58:57.000Z'
+          description: |+
+            Opening Date of Commercial Responses
+        commEvaluationCloseDate:
+          type: string
+          format: date-time
+          # DATE
+          example: '2008-08-07T15:58:57.000Z'
+          description: |+
+            Date when the commercial evaluation is frozen
+ 
+
+
+            
+        

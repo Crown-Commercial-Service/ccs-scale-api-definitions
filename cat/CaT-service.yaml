@@ -1368,7 +1368,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OCDS_Standards/CCS-OCDS_Schema.yaml#/components/schemas/Document'
+                $ref: '#/components/schemas/QustionDocument'
         '401':
           $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/401Unauthorized'
         '403':
@@ -2302,7 +2302,7 @@ paths:
 
 
     get:
-      description: Gets a file that can be updated off line and then uploaded when complete. (Should this always be blank or only the first time?)
+      description: Gets a file that can be updated off line and then uploaded when complete.
       tags:
         - View Responses
       operationId: HLNeedsDocumentResponse
@@ -3781,7 +3781,25 @@ components:
           type: array
           items:
             type: string
-                      
+    
+    QuestionDocument:
+      description: >-
+        Describes the permissable value of a string placeholder 
+      type: object
+      properties:
+        nonOCDS:
+          type: object
+          properties:
+            source:
+              type: string
+              enum:
+                - Upload
+                - Generated
+              description: |+
+                Indicator showing if the document was digitally generated from a CCS template or uploaded
+                An uploaded document could be generated offline from a CCS template or without the CCS tempolate all together.
+        OCDS:
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OCDS_Standards/CCS-OCDS_Schema.yaml#/components/schemas/Document'            
                     
   securitySchemes:
     openID:

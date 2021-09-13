@@ -3778,9 +3778,11 @@ components:
             (more specifically, ECMA 262). 
           type: string
         options:
+          description: Provides a list of options for the placeholder for the buyer to choose from
           type: array
           items:
             type: string
+          
     
     QuestionDocument:
       description: >-

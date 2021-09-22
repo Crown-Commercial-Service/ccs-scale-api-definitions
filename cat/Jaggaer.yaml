@@ -687,9 +687,9 @@ paths:
               schema:
                 anyOf:
                   - $ref: '#/components/schemas/CompanyInfo'
-                  - $ref: '#/components/schemas/ClassificationInfo'
+                  - $ref: '#/components/schemas/CategoryInfo'
                   - $ref: '#/components/schemas/SubUserInfo'
-                  - $ref: '#/components/schemas/AdditionalStatusInfo'
+                  - $ref: '#/components/schemas/AdditionalInfo'
           description: "Query successfully executed"
         '400':
           description: "Wrong or missing data in the request"
@@ -709,13 +709,17 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/ReOpenWorkflowRequest'
+              $ref: '#/components/schemas/CompanyImportRequest'
       responses:               
         '200':
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/WorkflowResult'    
+                anyOf:
+                  - $ref: '#/components/schemas/CompanyInfo'
+                  - $ref: '#/components/schemas/CategoryInfo'
+                  - $ref: '#/components/schemas/SubUserInfo'
+                  - $ref: '#/components/schemas/AdditionalInfo'   
           description: "Aquery successfully executed"
         '400':
           description: "Wrong or missing data in the request"
@@ -739,7 +743,11 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/HistoryChange'      
+                anyOf:
+                  - $ref: '#/components/schemas/CompanyInfo'
+                  - $ref: '#/components/schemas/CategoryInfo'
+                  - $ref: '#/components/schemas/SubUserInfo'
+                  - $ref: '#/components/schemas/AdditionalInfo'     
           description: "Query successfully executed"
         '400':
           description: "Wrong or missing data in the request"
@@ -1147,7 +1155,7 @@ components:
   schemas:
     
     UpdateResponse:
-      title: Project Response
+      title: Project Update Response
       type: object
       required:
         - returnCode
@@ -1220,7 +1228,7 @@ components:
           $ref: '#/components/schemas/RFxList' 
           
     MessageListResponse:
-      title: RFX Response
+      title: Message Response
       type: object
       required:
         - returnCode
@@ -1251,7 +1259,7 @@ components:
             $ref: '#/components/schemas/Message'
             
     ProfileListResponse:
-      title: RFX Response
+      title: Profile Response
       type: object
       required:
         - returnCode
@@ -1355,7 +1363,7 @@ components:
         rfxAdditionalInfoList:
           type: array
           items:
-            $ref: '#/components/schemas/AdditionalInfoList'
+            $ref: '#/components/schemas/AdditionalInfo'
         buyerAttachmentsList:
           type: array
           items:
@@ -1503,6 +1511,7 @@ components:
           format: date-time
           description: |+
             Actual completion date of a project
+            
             UI: Project Completion date
           example: "2018-01-23T00:00:00.000Z"
           #DATE
@@ -1529,7 +1538,7 @@ components:
           description: |+
             Return reation date procedure
             
-            #UI: Project Creation Date
+            UI: Project Creation Date
           example: "2018-01-23T00:00:00.000Z"
         requirementsDate:
           type: string
@@ -1551,8 +1560,9 @@ components:
         divisionName:  
           type: string
           example: "Division"
-          #UI: Division Name
           #VARCHAR2(80 CHAR)
+          description: |+
+            UI: Division Name
         tenderState:
           type: integer
           example: 100
@@ -1569,8 +1579,9 @@ components:
         sourceTemplateReferenceCode:
           type: string
           example: " - "
-          #UI: Project Origin
           #VARCHAR2(80 CHAR)
+          description: |+
+            UI: Project Origin
         lotType:
           type: string
           example: "SINGLELOTS"
@@ -1578,20 +1589,23 @@ components:
             - SINGLELOTS
             - MULTILOTS
           default: SINGLELOTS
-          #UI: RFQ Behaviour in Project
           #VARCHAR2(10 CHAR)
+          description: |+
+            UI: RFQ Behaviour in Project
         projectType:
           type: string
           example: ""
-          #UI: Project Type
           #VARCHAR2(100 CHAR)
+          description: |+
+            UI: Project Type
         workFlowType:
           type: string
           example: "NONE"
           enum:
             - NONE
-          #UI: Workflow Type
           #VARCHAR2(8 CHAR)
+          description: |+
+            UI: Workflow Type
         archiveStatus:
           type: integer
           example: 0
@@ -1611,7 +1625,7 @@ components:
         additionalInfoList:
           type: array
           items:
-            $ref: '#/components/schemas/AdditionalInfoList'
+            $ref: '#/components/schemas/AdditionalInfo'
         buyerAttachmentList:
           type: array
           items:
@@ -1759,7 +1773,7 @@ components:
             UI: Weblink
       	  #VARCHAR2(256 CHAR)
         opportunityAdditionalInfo:
-          $ref: '#/components/schemas/AdditionalInfoList'
+          $ref: '#/components/schemas/AdditionalInfo'
         opportunityAttachmentList:
           $ref: '#/components/schemas/Attachment'
         
@@ -1773,14 +1787,14 @@ components:
           description: |+
             Category Code
             
-            UI\: Category (as “categoryCode – categoryName”)
+            UI: Category (as “categoryCode – categoryName”)
           #VARCHAR2(80 CHAR)
         categoryName:
           type: string
           description: |+
             Category Name - Category name/description in the default language 
             
-            UI\: Category (as “categoryCode – categoryName”)	 
+            UI: Category (as “categoryCode – categoryName”)	 
           #VARCHAR2(256 CHAR)
         name:
           type: string
@@ -2036,7 +2050,7 @@ components:
             Flexible field value
           #VARCHAR2(2000 CHAR)
     
-    AdditionalInfoList:      
+    AdditionalInfo:   
       title: Additional Information List
       description: |+
         This section includes object attributes that can be defined by the account admin user. They are associated to each single object created.
@@ -2056,20 +2070,37 @@ components:
         type:
           type: integer
           example: "5"
+          enum:
+            - 1
+            - 2
+            - 3
+            - 4
+            - 5
+            - 6
+            - 7
           description: |+
-            Type of the data-element
+            Data element type;
+              * 0: text
+              * 1: number
+              * 2: date
+              * 3: boolean
+              * 4: attachment 
+              * 5: single choice
+              * 6: multiple choice
+              * 7: signed attachment   
           #NUMBER(1,0)
-        visibleToSupplier:
-          type: integer
-          example: 0
-          description: |+
-            Visible to supplier flag
-            * 0=no,
-            * 1=yes, 
-          #NUMBER(1,0)
+#        visibleToSupplier:
+#          type: integer
+#          example: 0
+#          description: |+
+#            Visible to supplier flag
+#            * 0=no,
+#            * 1=yes, 
+#          #NUMBER(1,0)
         label:
           type: string
           description: |+
+            Data element label in the default locale
             Label in the default language
           example: "Procurement Route"
           maxLength: 2000
@@ -2077,26 +2108,27 @@ components:
         labelLocale:
           type: string
           description: |+
+            Default locale (the locale of the data element label above, built up from language and country codes. E.g.: “en_GB” or “it_IT”)
+            
             default language
           example: "en_GB"
           maxLength: 5
           #CHAR(5)
         values: 
-          type: object
-          properties:
-            value:
-              $ref: '#/components/schemas/Value'
-        lastAnswerDate:
-          type: string
-          format: date-time
-          example: "2020-07-30T09:08:24.000Z"
-          description: |+
-            Date and time of the last answer
-            
-            UI: Last Modified
-          #DATE
-        lastAnswerUser: 
-          $ref: '#/components/schemas/LastAnswerUser'
+          type: array
+          items:
+            $ref: '#/components/schemas/ProfileValue'
+#        lastAnswerDate:
+#          type: string
+#          format: date-time
+#          example: "2020-07-30T09:08:24.000Z"
+#          description: |+
+#            Date and time of the last answer
+#            
+#            UI: Last Modified
+#          #DATE
+#        lastAnswerUser: 
+#          $ref: '#/components/schemas/LastAnswerUser'
           
     LastAnswerUser:
       title: Buyer Attachment List
@@ -4922,7 +4954,8 @@ components:
             UI: Region (as “code – description”)
             
             Region description
-
+            
+   
             
     RfxTioc:
       title: Rfx Tioc
@@ -7025,382 +7058,11 @@ components:
               * 1: mail is sent 
               * Any other value or not provided: no mail is sent
         dataElements:
-          $ref: '#/components/schemas/DeInfo'
+          $ref: '#/components/schemas/DataElementInfo'
 
     
             
-    CompanyInfo-2.1.1:
-      title: CompanyInfo
-      description: Company and super-user data [Import/Update of Company and Users Data]
-      type: object
-      properties:         
-        bravoId:
-          type: number
-          # NUMBER(38)
-          maxLength: 38
-          example: 1
-          description: |+
-            JA internal identifier
-        companyName:
-          type: string
-          # VARCHAR2(256 CHAR)
-          example: MyCorp Ltd
-          description: Company name
-        bizLegalStruct:
-          type: string
-          # VARCHAR2(256 CHAR)
-          example: MyCorp Ltd
-          description: |+
-            Legal structure title expressed according to company country
-            The special value “NOT_DEF” can be used to state no legal structure has been specified 
-        fiscalCode:
-          type: string
-          # VARCHAR2(256 CHAR)
-          example: ????
-          description: |+
-            Fiscal code
-        vat:
-          type: string
-          # VARCHAR2(256 CHAR)
-          example: ????
-          description: |+
-            Country VAT code
-        euVat:
-          type: string
-          # VARCHAR2(256 CHAR)
-          example: ????
-          description: |+
-            European VAT code
-        dAndBCode:
-          type: string
-          # VARCHAR2(20 CHAR)
-          example: ????
-          description: |+
-            Dun&BradStreet code
-        userAlias:
-          type: string
-          # VARCHAR2(250 CHAR)
-          example: ????
-          description: |+
-            Super user login
-            
-            Note: in order to update the userAlias it is necessary that the JA instance is 
-            configured with the userAlias set to Writeable at Profile level in the 
-            "Super User Registration Field Settings" section.
-        isoCountry:
-          type: string
-          # VARCHAR2(256 CHAR)
-          example: ????
-          description: |+
-            Company main postal address – Country (ISO code or country name)
-            
-            It may be used in case of UPDATE or DELETE or ENABLE to identify the company to work on, when the identification strategy is based on proper country identification code (fiscalCode, euVat or dAndBCode).
-            See section “Company identification strategy” in paragraph “Behavior”.
-        extCode:
-          type: string
-          # VARCHAR2(100 CHAR)
-          example: ????
-          description: |+
-            Company identification code within the external system
-            
-            It may be used in case of UPDATE to identify the company to work on, when the identification strategy is based on userAlias but web service has been called to update this value.
-            See section “Company identification strategy” in paragraph “Behavior”.
-        bizEmail:
-          type: string
-          # VARCHAR2(256 CHAR)
-          example: ????
-          description: |+
-            Company main email address
-            Use “;” (semicolon) to separate multiple addresses.
-        bizPhone:
-          type: string
-          # VARCHAR2(64 CHAR)
-          example: ????
-          description: |+
-            Company main telephone phone number
-        bizFax:
-          type: string
-          # VARCHAR2(64 CHAR)
-          example: ????
-          description: |+
-            Company Fax
-        webSite:
-          type: string
-          # VARCHAR2(256 CHAR)
-          example: ????
-          description: |+
-            Company web-site
-        address:
-          type: string
-          # VARCHAR2(256 CHAR)
-          example: ????
-          description: |+
-            Company main postal address
-        zip:
-          type: string
-          # VARCHAR2(50 CHAR)
-          example: ????
-          description: |+
-            Company main postal address – ZIP code
-        city:
-          type: string
-          # VARCHAR2(256 CHAR)
-          example: ????
-          description: |+
-            Company main postal address – City
-        province:
-          type: string
-          # VARCHAR2(256 CHAR)
-          example: ????
-          description: |+
-            Province/County name as presented to user.
-            It can contain the province description or its acronym.
-            Example: 
-              for isoCountry US and county Hawaii, province can be filled indifferently with 
-              * Hawaii	 
-              * HI
-              * US-HI
-              * US-Hawaii
-            The special value “NOT_DEF” (or “ALTRO”) can be used to specify a generic province
-        address2:
-          type: string
-          # VARCHAR2(256 CHAR)
-          example: ????
-          description: |+
-            Company alternative address
-        zip2:
-          type: string
-          # VARCHAR2(50 CHAR)
-          example: ????
-          description: |+
-            Company alternative postal address – ZIP code
-        city2:
-          type: string
-          # VARCHAR2(256 CHAR)
-          example: ????
-          description: |+
-            Company alternative postal address – City
-        province2:
-          type: string
-          # VARCHAR2(256 CHAR)
-          example: ????
-          description: |+
-            Alternative Province/County name as presented to user
-            It can contain the province description or its acronym.
-            Example: 
-              for isoCountry2 US and county Hawaii, province2 can be filled indifferently with 
-              * Hawaii	 
-              * HI
-              * US-HI
-              * US-Hawaii
-            The special value “NOT_DEF” (or “ALTRO”) can be used to specify a generic province
-        isoCountry2:
-          type: string
-          # VARCHAR2(256 CHAR)
-          example: ????
-          description: |+
-            Company alternative postal address –Country (ISO code or country name)
-        status:
-          type: string
-          # VARCHAR2(100 CHAR)
-          example: ????
-          description: |+
-            Alphanumeric external code of Seller extended status (secondary supplier status).
-            Use empty string to reset extended status.
-        paymentCondition:
-          type: string
-          # VARCHAR2(100 CHAR)
-          example: ????
-          description: |+
-            External (visible) payment term code
-        turnover:
-          type: string
-          # VARCHAR2(200 CHAR)
-          example: ????
-          description: |+
-            Annual Turnover
-        currency:
-          type: string
-          # VARCHAR2(100 CHAR)
-          example: ????
-          description: |+
-            External code of the company currency.
-        apeCode:
-          type: string
-          # VARCHAR2(100 CHAR)
-          example: ????
-          description: |+
-            External (visible) APE code
-        password:
-          type: string
-          # VARCHAR2(1000 CHAR)
-          example: ????
-          description: |+
-            Super user password
-        pwdQuestion:
-          type: string
-          # VARCHAR2(1024 CHAR)
-          example: ????
-          description: |+
-            Super user password retrieval question
-        pwdAnswer:
-          type: string
-          # VARCHAR2(1024 CHAR)
-          example: ????
-          description: |+
-            Super user password retrieval answer
-        userTitle:
-          type: string
-          # VARCHAR2(2000 CHAR)
-          example: ????
-          description: |+
-            Super user title as translated in default site locale, or default title value
-        userSurname:
-          type: string
-          # VARCHAR2(128 CHAR)
-          example: ????
-          description: |+
-            Super surname
-        userName:
-          type: string
-          # VARCHAR2(128 CHAR)
-          example: ????
-          description: |+
-            Super user name
-        userEmail:
-          type: string
-          # VARCHAR2(256 CHAR)
-          example: ????
-          description: |+
-            Super user email
-            Use “;” (semicolon) to separate multiple addresses.
-        userPhone:
-          type: string
-          # VARCHAR2(64 CHAR)
-          example: ????
-          description: |+
-            Super user telephone number
-        userFax:
-          type: string
-          # VARCHAR2(64 CHAR)
-          example: ????
-          description: |+
-            Super user fax number
-        userMobPhone:
-          type: string
-          # VARCHAR2(64 CHAR)
-          example: ????
-          description: |+
-            Super user mobile phone
-        userRole:
-          type: string
-          # VARCHAR2(2000 CHAR)
-          example: ????
-          description: |+
-            Super user company role (job title) code or name in current locale
-        locale:
-          type: string
-          # VARCHAR2(2000 CHAR)
-          example: ????
-          description: |+
-            Super user default language (built up from language and country codes. E.g.: “en_GB” or “it_IT”)
-            If an invalid code is provided, it is used the default site locale. The same happens during creation if no value is specified. 
-        timeZone:
-          type: string
-          # VARCHAR2(100 CHAR)
-          example: ????
-          description: |+
-            Super user time-zone identifier (e.g.: ‘Europe/Brussels’ or ‘America/New_York’)
-            If an invalid code is provided, it is used the default site timezone. The same happens during creation if no value is specified. 
-        prefContact:
-          type: string
-          # VARCHAR2(2000 CHAR)
-          example: ????
-          description: |+
-            Super user preferred contact mode code
-        prefFolder:
-          type: string
-          # VARCHAR2(300 CHAR)
-          example: ????
-        userExtCode:
-          type: string
-          # VARCHAR2(100 CHAR)
-          example: ????
-          description: |+
-            Super user identification code within the external system
-        userBusinessUnitCode:
-          type: string
-          # VARCHAR2(256 CHAR)
-          example: ????
-        userDivisionCode:
-          type: string
-          # VARCHAR2(80 CHAR)
-          example: ????
-          description: |+
-            Super user division id
-        userProfileCode:
-          type: string
-          # VARCHAR2(80 CHAR)
-          example: ????
-          description: |+
-            Super user profile code
-        extUniqueCode:
-          type: string
-          # VARCHAR2(256 CHAR)
-          example: ????
-          description: |+
-            Company unique identification code within the external system. 
-            When valorized it must be unique within the companies registered and enabled 
-            in the same toolkit group (companies deactivated and deleted are excluded).
-            Available from version 12_4_0_02.
-        accessAuctions:
-          type: boolean
-          # NUMBER(1)
-          description: |+
-            Flag that indicates access to auctions.
-            Default value: true.
-            Possible values: 1 = true, 0 = false.
-        accessRfx:
-          type: boolean
-          # NUMBER(1)
-          description: |+
-            Flag that indicates access to rfx.
-            Default value: true.
-            Possible values: 1 = true, 0 = false.
-        accessFileSharing:
-          type: boolean
-          # NUMBER(1)
-          description: |+
-            Flag that indicates access to file sharing.
-            Default value: true.
-            Possible values: 1 = true, 0 = false.
-        userPreferences:
-          type: string
-          example: ????
-          description: |+
-            Company web-site
-        ppbStartDate:
-          type: string
-          format: date-time
-          # DATE
-          example: 2019-03-08T17:00:00.000+01:00
-          description: |+
-            Pay per Bid starting date
-        ppbExpirationDate:
-          type: string
-          format: date-time
-          # DATE
-          example: 2019-03-08T17:00:00.000+01:00
-          description: |+
-            Pay per Bid expiration date
-        ppbNote:
-          type: string
-          # VARCHAR2(2000 CHAR)
-          example: ????
-          description: |+
-            Pay per Bid relative notes
-        ssoCodeData:
-          $ref: '#/components/schemas/SSOCodeData'
+    
         
         
     CompanyInfo:
@@ -7415,6 +7077,7 @@ components:
           example: 1
           description: |+
             JA internal identifier
+            
             UI: Organisation Name/Company Name
         companyName:
           type: string
@@ -7618,6 +7281,8 @@ components:
           # VARCHAR2(100 CHAR)
           example: ????
           description: |+
+            Payment condition description in current locale
+            
             External (visible) payment term code
             
             UI: Payment Terms
@@ -7626,6 +7291,8 @@ components:
           # VARCHAR2(200 CHAR)
           example: ????
           description: |+
+            Revenues range description in current locale
+            
             Annual Turnover
             
             UI: Annual Turnover
@@ -7634,6 +7301,8 @@ components:
           # VARCHAR2(100 CHAR)
           example: ????
           description: |+
+            Company currency description in current locale
+            
             External code of the company currency.
             
             UI: Preferred Currency
@@ -7653,6 +7322,8 @@ components:
           # VARCHAR2(100 CHAR)
           example: ????
           description: |+
+            APE code (if any)
+            
             External (visible) APE code
             
             UI: APE ID
@@ -7668,33 +7339,13 @@ components:
             "Super User Registration Field Settings" section.
             
             UI: Username
-        password:
-          type: string
-          # VARCHAR2(1000 CHAR)
-          example: ????
-          description: |+
-            Super user password
-        pwdQuestion:
-          type: string
-          # VARCHAR2(1024 CHAR)
-          example: ????
-          description: |+
-            Super user password retrieval question
-            
-            UI: User Verification Question
-        pwdAnswer:
-          type: string
-          # VARCHAR2(1024 CHAR)
-          example: ????
-          description: |+
-            Super user password retrieval answer
-            
-            UI: Answer to Your User Verification Question
         userTitle:
           type: string
           # VARCHAR2(2000 CHAR)
           example: ????
           description: |+
+            Super user title in current locale
+            
             Super user title as translated in default site locale, or default title value
             
             UI: Title
@@ -7785,6 +7436,8 @@ components:
           # VARCHAR2(2000 CHAR)
           example: ????
           description: |+
+            Super user preferred contact mode description in current locale 
+            
             Super user preferred contact mode code
             
             UI: Preferred Contact Method
@@ -7793,6 +7446,7 @@ components:
           # VARCHAR2(300 CHAR)
           example: ????
           description: |+
+            Default path for attachment download
             
             UI: Default path for attachments
         userExtCode:
@@ -7808,69 +7462,112 @@ components:
           # VARCHAR2(256 CHAR)
           example: ????
           description: |+
+            Super user business unit code
+            
             UI: Department
         userDivisionCode:
           type: string
           # VARCHAR2(80 CHAR)
           example: ????
           description: |+
+            Super user division name 
+            
             Super user division id
         userProfileCode:
           type: string
           # VARCHAR2(80 CHAR)
           example: ????
           description: |+
+            Super user profile name 
+            
             Super user profile code
         registrationDate:
           type: string
           format: date-time
+          deprecated: true
           # DATE
           example: 2019-03-08T17:00:00.000+01:00
-          description: |+   
+          description: |+ 
+            Registration date (format YYYY-MM-DD, without time).
+            
+            Replaced by registrationDateTime from BA_16_02
+
             UI: Registration Date
         isoProvince:
           type: string
           # VARCHAR2(15 CHAR)
           example: ????
+          description: |+ 
+            Company main postal address – Province/County ISO code
         isoProvince2:
           type: string
           # VARCHAR2(15 CHAR)
           example: ????
+          description: |+ 
+            Company alternative postal address – Province/County ISO code
         buyerManaged:
           type: boolean
           # NUMBER(1)
+          description: |+ 
+            1 – managed by buyer, 0 managed by seller [valid only for seller]
         extStatus:
           type: string
           # VARCHAR2(100 CHAR)
           example: ????
           description: |+
+            Alphanumeric external code of Seller extended status (secondary supplier status)
+            
             UI: Secondary Supplier Status
         type:
           type: string
           # VARCHAR2(7 CHAR)
-          example: ????  
+          enum:
+            - BUYER
+            - SELLER
+            - GURU
+            - SUPER
+          example: ???? 
+          description: |+
+            Company account type: BUYER, SELLER, GURU, SUPER  
         lastModTime:
           type: string
           format: date-time
           # DATE
+          description: |+
+            Company last updated date/time (global)
           example: 2019-03-08T17:00:00.000+01:00   
         userId:
           type: number
           # NUMBER(38)
+          description: |+
+            Super user internal identifier
         userDivisionId:
           type: number
-          # NUMBER(38) 
+          # NUMBER(38)
+          description: |+
+            Super user division id 
         userLoginCount:
           type: number
-          # NUMBER(38)  
+          # NUMBER(38)
+          description: |+
+            Super user login count 
         userLastLoginDate:
           type: string
           format: date-time
+          deprecated: true
           # DATE
-          example: 2019-03-08T17:00:00.000+01:00  
+          example: 2019-03-08T17:00:00.000+01:00
+          description: |+
+            Super user last login date (without time).
+            
+            Replaced by userLastLoginDateTime from BA_16_02
         deleted:
           type: boolean
           # NUMBER(1)
+          description: |+
+            Super user deletion status flag: 0 if user isn’t deleted, 1 it has been 
+            deleted. This information is inserted only if “deletedStatus” condition 
+            filter has been set (no matter value)
         extUniqueCode:
           type: string
           # VARCHAR2(256 CHAR)
@@ -7892,64 +7589,54 @@ components:
           type: string
           format: date-time
           # DATE
-          example: 2019-03-08T17:00:00.000+01:00 
+          example: 2019-03-08T17:00:00.000+01:00
+          description: |+ 
+            Super user last updated date/time
         companyLastModTime:
           type: string
           format: date-time
           # DATE
-          example: 2019-03-08T17:00:00.000+01:00 
+          example: 2019-03-08T17:00:00.000+01:00
+          description: |+
+            Company registration data last updated date/time 
         registrationDateTime:
           type: string
           format: date-time
           # DATE
           example: 2019-03-08T17:00:00.000+01:00
           description: |+
+            Registration date and time 
+            
             UI: Registration Date 
         userLastLoginDateTime:
           type: string
           format: date-time
           # DATE
-          example: 2019-03-08T17:00:00.000+01:00  
+          example: 2019-03-08T17:00:00.000+01:00
+          description: |+  
+            Super user last login date and time
         statusCode:
           type: number
           # NUMBER(5)
+          enum:
+            - 0
+            - 100
+            - -100
+            - -200
+            - -150
+          description: |+
+            Company platform registration status code:
+              * 0: Registered
+              * 100: Active
+              * -100: Deactivated
+              * -200: Deleted
+              * -150: Archived
         timezoneCode:
           type: string
           # VARCHAR2(50 CHAR)
-          example: ????  
-        accessAuctions:
-          type: boolean
-          # NUMBER(1)
+          example: ????
           description: |+
-            Flag that indicates access to auctions.
-            
-            Default value: true.
-            Possible values: 1 = true, 0 = false.
-            
-            UI: Access to Auctions
-        accessRfx:
-          type: boolean
-          # NUMBER(1)
-          description: |+
-            Flag that indicates access to rfx.
-            
-            Default value: true.
-            Possible values: 1 = true, 0 = false.
-            
-            UI: Access to RFx
-        accessFileSharing:
-          type: boolean
-          # NUMBER(1)
-          description: |+
-            Flag that indicates access to file sharing.
-            
-            Default value: true.
-            Possible values: 1 = true, 0 = false.
-            
-            UI: Access to File Sharing
-        userPreferences:
-          $ref: '#/components/schemas/UserPreferences'
-
+            Univocal super user time-zone identifier (e.g.: “Europe/London")
         ppbStartDate:
           type: string
           format: date-time
@@ -7983,6 +7670,16 @@ components:
         registerdMethod:
           type: boolean
           # NUMBER(1)
+          description: |+
+            How the seller company has been registered:
+              * 0 = Self-Registration
+              * 1 = Single Buyer Registration
+              * 2 = Massive Buyer Registration (via xlsx file)
+              * 3 = Suppliers import via Back-Office
+              * 4 = Supplier Registration via Web-Service
+              * 5 = Support Console registration, since version 18.0
+
+            No value for  buyer companies or seller companies registered before the release 12.4.0
         registerdByUser:
             $ref: '#/components/schemas/SSOCodeData'
         extStatusNote:
@@ -7993,6 +7690,65 @@ components:
         currencyExtCode:
           type: string
           # VARCHAR2(100 CHAR)
+          description: |+
+            Currency ext code
+     
+#               
+#        accessAuctions:
+#          type: boolean
+#          # NUMBER(1)
+#          description: |+
+#            Flag that indicates access to auctions.
+#            
+#            Default value: true.
+#            Possible values: 1 = true, 0 = false.
+#            
+#            UI: Access to Auctions
+#        accessRfx:
+#          type: boolean
+#          # NUMBER(1)
+#          description: |+
+#            Flag that indicates access to rfx.
+#            
+#            Default value: true.
+#            Possible values: 1 = true, 0 = false.
+#            
+#            UI: Access to RFx
+#        accessFileSharing:
+#          type: boolean
+#          # NUMBER(1)
+#          description: |+
+#            Flag that indicates access to file sharing.
+#            
+#            Default value: true.
+#            Possible values: 1 = true, 0 = false.
+#            
+#            UI: Access to File Sharing
+#        userPreferences:
+#          $ref: '#/components/schemas/UserPreferences'
+# 
+#         password:
+#           type: string
+#           # VARCHAR2(1000 CHAR)
+#           example: ????
+#           description: |+
+#             Super user password
+#         pwdQuestion:
+#           type: string
+#           # VARCHAR2(1024 CHAR)
+#           example: ????
+#           description: |+
+#             Super user password retrieval question
+#             
+#             UI: User Verification Question
+#         pwdAnswer:
+#           type: string
+#           # VARCHAR2(1024 CHAR)
+#           example: ????
+#          description: |+
+#             Super user password retrieval answer
+#             
+#             UI: Answer to Your User Verification Question
             
     SSOCodeData:
       title: SSOCodeData
@@ -8011,13 +7767,14 @@ components:
           type: string
           # VARCHAR2(2000 CHAR)
           description: |+
+            SSO user login
+          
             User code (user visible identifier)
             
             It accepts following values:
               * Any type of string entered by the user.
               * DELETE_SSO_LOGIN#: delete SSO Identity User
 
-            
     
     UserPreferences:
       title: User Preferences
@@ -8204,7 +7961,7 @@ components:
           type: string
           # VARCHAR2(256 CHAR)
           description: |+
-            User business unit name
+            User business unit name (department name)
             
             UI: Department
         rightsProfile:
@@ -8242,7 +7999,8 @@ components:
           type: string
           # VARCHAR2(100 CHAR)
           description: |+
-            User time-zone identifier (e.g.: ‘GMT’, ‘Europe/Brussels’ or ‘America/New_York’) or GMt specification (e,g,: ‘GMT’, ‘GMT + 1:00’, ‘GMT – 5:00’)
+            User time-zone identifier (e.g.: ‘GMT’, ‘Europe/Brussels’ or ‘America/New_York’) 
+            or GMt specification (e,g,: ‘GMT’, ‘GMT + 1:00’, ‘GMT – 5:00’)
             
             UI: Time Zone
         extCode:
@@ -8260,73 +8018,96 @@ components:
           # NUMBER(38)
           description: |+
             User internal identifier
-        userPreferences:
-          $ref: '#/components/schemas/UserPreferences'
-        ssoCodeData:
-          $ref: '#/components/schemas/SSOCodeData'
-        sendEmail:
-          type: integer
-          # NUMBER(38)
-          description: |+
-            For operations on sub user as CREATE, UPDATE, ENABLE, DISABLE, this flag states if a mail must be sent to notify the operation
-            
-            Possible value:
-              * 1: mail will be sent 
-              * 0: mail will not be sent
-
-            This field can override the sendEMail flag set at global level for all the sub users in the request.
         userState:
           type: boolean
           # NUMBER(1)
+          description: |+
+            User platform state – 0: enabled; 1: disabled
         divisionId:
           type: integer
           # NUMBER(38)
+          description: |+
+            Internal id of the user division
         creationDate:
           type: string
           format: date-time
           # DATE
           example: 2019-03-08T17:00:00.000+01:00
+          description: |+
+            User creation date
         lastLoginDate:
           type: string
           format: date-time
           # DATE
           example: 2019-03-08T17:00:00.000+01:00
+          description: |+
+            User last login date
         loginCount:
           type: integer
           # NUMBER(38)
+          description: |+
+            User login count
         lastModTime:
           type: string
           format: date-time
           # DATE
+          description: |+
+            User last modification date
         timezoneCode:
           type: string
           # VARCHAR2(50 CHAR)
+          description: |+
+            Univocal user time-zone identifier (e.g.: “Europe/London”)
+        userPreferences:
+          $ref: '#/components/schemas/UserPreferences'
+        ssoCodeData:
+          $ref: '#/components/schemas/SSOCodeData'
+#        sendEmail:
+#          type: integer
+#          # NUMBER(38)
+#          description: |+
+#            For operations on sub user as CREATE, UPDATE, ENABLE, DISABLE, this flag states if a mail must be sent to notify the operation
+#            
+#            Possible value:
+#              * 1: mail will be sent 
+#              * 0: mail will not be sent
+#
+#            This field can override the sendEMail flag set at global level for all the sub users in the request.
+
           
     CategoryInfo:
       title: Category Info
-      description: User caryining out Registratioj
-      allOf:
-        - $ref: '#/components/schemas/Identifier'
+      description: Category Info
       type: object
       properties:
         categoryCode:
           type: string
           # VARCHAR2(80 CHAR)
           description: |+
+            Category code
+            
             UI: Category Code
         categoryName:
           type: string
           # VARCHAR2(256 CHAR)
           description: |+
+            Category description 
+            
             UI: Category Title
         categoryQualificationStatus:
           type: string
           # VARCHAR2(100 CHAR)
           description: |+
+            Qualification status
+            
             UI: Assessment Status
             
-    DeInfo:
-      title: Category Info
+            
+        
+
+            
+    DataElementInfo:
+      title: Data Element Info
       description: |+
         This section includes object (in this case company) attributes that can be defined by the account admin user. They are associated to each single object created.
         They are the dynamic component of the specific data model associated to the related logical entity.
@@ -8340,43 +8121,68 @@ components:
           type: string
           # VARCHAR2(80 CHAR)
           description: |+
-            data element name
+            Data Element Name
             
             Name of an existing additional info data element associated to the company
             
             UI: Title
         type:
-          type: boolean
-          # NUMBER(1)
+          type: number
+          # NUMBER(1 CHAR)
+          enum:
+            - 1
+            - 2
+            - 3
+            - 4
+            - 5
+            - 6
+            - 7
           description: |+
+            Data element type;
+              * 0: text
+              * 1: number
+              * 2: date
+              * 3: boolean
+              * 4: attachment 
+              * 5: single choice
+              * 6: multiple choice
+              * 7: signed attachment
+              
             UI: Type
         defaultLabel:
           type: string
           # VARCHAR2(256 CHAR)
           description: |+
+            Data element label in the default locale
+            
             UI: Label
         defaultLabelLocale:
           type: string
-          # VARCHAR2(256 CHAR)
+          # VARCHAR2(5 CHAR)
           description: |+
-            UI: Default Language
+            Default locale (the locale of the data element label above, built up from 
+            language and country codes. E.g.: “en_GB” or “it_IT”)
+            
+            UI: Default Language           
         values:
           type: array
           items:
-            $ref: '#/components/schemas/DeInfoValue'
-        attachmentValues:
-          type: array
-          items:
-            $ref: '#/components/schemas/AttachmentValue'
+            $ref: '#/components/schemas/ProfileValue'
         attachmentExpiryDate:
           type: string
           format: date-time
           # DATE
           description: |+
+            Expiring date (without time) for data element type 4 and 7.
+            
             UI: Expiring on/Expiring Date
         attachmentExpiryDateManagedBy:
           type: string
           # VARCHAR2(12 CHAR)
+          description: |+
+            It indicates who can manage the expiring date:
+              * BUYER (only the buyer)
+              * BUYER_SELLER (buyer and seller)
         attachmentExpiryDateLastUpdateUser:
           $ref: '#/components/schemas/AttachmentExpiryUpdateUser'
         attachmentExpiryDateLastUpdateDate:
@@ -8384,64 +8190,96 @@ components:
           format: date-time
           # DATE
           description: |+
+            Last update date of the expiring date
+            
             UI: Expiry Date Last Modified on
-        deValue:
-          type: string
-          # VARCHAR2(2000 CHAR)
-          description: |+
-            UI: Current Response to this Question
-        LastAnswerDate:
+        lastAnswerDate:
           type: string
           format: date-time
           # DATE
           description: |+
-            UI: Last Modified
-        LastAnswer:
-          $ref: '#/components/schemas/LastAnswerUser'
-        
+            Date and time of the last answer
             
-    DeInfoValue:
-      title: Category Info
-      description: Data Element Value
-      type: object
-      properties:
-        id:
+            UI: Last Modified
+        lastAnswerUser:
+          $ref: '#/components/schemas/LastAnswerUser'
+        lastConfirmedDate:
           type: string
-          # VARCHAR2(38 CHAR)
+          format: date-time
+          # DATE
           description: |+
-            Attribute used to clear the data element value
-        secureToken:
-          type: string
-          # VARCHAR2(1000 CHAR)
-        restricted:
-          type: string
-          # VARCHAR2(1 CHAR)
+            Last confirmed date and time on data element answer
+            
+              
+              
+    ProfileValue:
+      title: Value
+      description: Data Element Value       
+      properties:
         value:
           type: object
           description: |+
+            Value of the Data Element (eVM answer)
+
             According to data element type, values can be:
-              * textual: text
-              * number: number formatted in the default locale without grouping separator
-              * date: date string in the format “yyyyMMdd” or timestamp in “yyyy-MM-dd HH:mm:ss.SSS Z” format. It is possible to configure a different format for date (example: “yyyy-MM-dd”). In this case the same format will be applied to import, export and data element condition filter.
-              * Boolean:’1’, ‘true’, ‘yes’ for true value, any other not empty string for false
-              * Choice and mutichoice: Choice Label in default language, as it appears in the choice list
+              * 0: text
+              * 1: number formatted in the default locale without grouping separator
+              * 2: date string in the format “yyyy-MM-dd”. It is possible to configure a different format for date (example: “yyyy-MM-dd”). In this case the same format will be applied to import, export and data element condition filter.
+              * 3: 0 for false, 1 for true
+              * 4 and 7: attachment filename
+              * 5 and 6: Choice Label in default language, as it appears in the choice list
+
+            In case of option/multichoice data element, the value is extracted in the system default language. 
+            If the condition filter independent Locale is set, the value will be extracted in the “neutral” language.
+        id:
+          # VARCHAR2(38 CHAR)
+          description: |+
+            In case of attachment, it is the Internal identifier of the attachment, 
+            to be used for calling attachments web service to download it.
+                      
+            In case of choice/multichoice the id of the choice
+        secureToken:
+          # VARCHAR2(1000 CHAR)
+          description: |+
+            In case of attachment, it is the secure token to be used for calling attachments web service to download the attachment file.
+        restricted:
+          type: string
+            # VARCHAR2(1 CHAR)
+          description: |+
+            Attribute to identify the data element marked as “RESTRICTED”
+              * 1 = restricted
+              * 0 = not restricted
 
           
     AttachmentExpiryUpdateUser:
       title: AttachmentExpiryDateLastUpdateUser
-      description: Data Element Value
+      description: |+
+        Last user who changed the expiring date:
+          * id: user internal identifier
+          * code: user external code
+          * name: user full name
+          * company:
+            * id: company internal identifier
+            * code: company external code
+            * name: company name
       type: object
       properties:
         id:
           type: string
           # VARCHAR2(38 CHAR)
+          description: |+
+            user internal identifier
         code:
           type: string
           # VARCHAR2(100 CHAR)
+          description: |+
+            user external code
         name:
           type: string
           # VARCHAR2(257 CHAR)
           description: |+
+            User full name
+            
             UI: Expiry Date Last Modified by
         company:
           allOf:
@@ -8463,94 +8301,114 @@ components:
         recordId:
           type: number
           # NUMBER(38,0)
+          description: |+
+            Additional status record internal identifier
         statusId:
           type: number
           # NUMBER(38,0)
+          description: |+
+            Additional status internal identifier
         statusName:
           type: string
           # VARCHAR2(256 CHAR)
+          description: |+
+            Additional status name
         statusDescription:
           type: string
           # VARCHAR2(2000 CHAR)
+          description: |+
+            Additional status description
         statusNote:
           type: string
           # VARCHAR2(2000 CHAR)
+          description: |+
+            Additional status comment
+        categoryList:
+          type: array
+          items:
+            $ref: '#/components/schemas/ProfileCategory'
+        businessUnitList:
+          type: array
+          items:
+            $ref: '#/components/schemas/ProfileBusinessUnit'
+        regionList:
+          type: array
+          items:
+            $ref: '#/components/schemas/ProfileRegion'
+        asAttributes:
+          type: string
+          
           
     ProfileCategory:
       title: Profile Category
-      description: Profile Category
+      description: List of categories related to additional status.
       type: object
       properties:
+        id:
+          type: string
+          description: |+
+            Category internal identifier
         code:
           type: string
           # VARCHAR2(80 CHAR)
+          description: |+
+            Category reference code
         name:
           type: string
           # VARCHAR2(256 CHAR)
+          description: |+
+            Category name
         description:
           type: string
           # VARCHAR2(2000 CHAR)
+          description: |+
+            Category description
           
     ProfileBusinessUnit:
       title: Business Unit
-      description: Business Unit
+      description: List of business units related to additional status.
       type: object
       properties:
+        id:
+          type: string
+          description: |+
+            Business unit internal identifier
         code:
           type: string
           # VARCHAR2(80 CHAR)
+          description: |+
+            Business unit reference code
         description:
           type: string
           # VARCHAR2(2000 CHAR)
-          
+          description: |+
+            Business unit description
+            
+            
     ProfileRegion:
       title: Business Unit
-      description: Business Unit
+      description: List of regions related to additional status.
       type: object
       properties:
+        id:
+          type: string
+          description: |+
+            Region internal identifier
         code:
           type: string
           # VARCHAR2(80 CHAR)
+          description: |+
+            Region reference code
         description:
           type: string
           # VARCHAR2(2000 CHAR)
+          description: |+
+            Region description
           
-    AdditionalProfileInfo:
-      title: Additional Infor
-      description: Additional Info
-      type: object
-      properties:
-        name:
-          type: string
-          # VARCHAR2(80 CHAR)
-          description: |+
-            UI: Title
-        type:
-          type: boolean
-          # NUMBER(1 CHAR)
-          description: |+
-            UI: Type
-        label:
-          type: string
-          # VARCHAR2(256 CHAR)
-          description: |+
-            UI: Label
-        labelLocale:
-          type: string
-          # VARCHAR2(5 CHAR)
-          description: |+
-            UI: Default Language
-        values:
-          type: array
-          items:
-            allOf:
-              - $ref: '#/components/schemas/Organisation'
-              - type: object
-                properties:
-                  restricted:
-                    type: string
-                    # VARCHAR2(1 CHAR)
+
+
           
+
               
 
 

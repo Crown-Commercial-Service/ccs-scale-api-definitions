@@ -919,7 +919,7 @@ paths:
       summary: Get Event Evaluation Criteria Groups
       
     post:
-      description: Create a Group within this Eval
+      description: Create a Group within this Evaluation Criteria
       tags:
         - Define Procurement Event
       operationId: CreateEvalCriterionGroup
@@ -948,7 +948,7 @@ paths:
       security:
         - OAuth2:
             - buyer
-      summary: Confirm procurement project
+      summary: Create a question group
       
  
  
@@ -961,7 +961,7 @@ paths:
 
       
     put:
-      description: Create a Group within this Eval
+      description: Edit group details within an evaluation criteria
       tags:
         - Define Procurement Event
       operationId: EditEvalCriterionGroup
@@ -990,7 +990,7 @@ paths:
       security:
         - OAuth2:
             - buyer
-      summary: Confirm procurement project
+      summary: Edit an Question Group
     
     delete:
       description: Delete a Group within this Eval
@@ -1019,7 +1019,7 @@ paths:
       security:
         - OAuth2:
             - buyer
-      summary: Delete project users
+      summary: Delete Question Group
       
   /tenders/projects/{proc-id}/events/{event-id}/criteria/{criterion-id}/groups/{group-id}/questions:
     parameters:
@@ -1056,7 +1056,7 @@ paths:
       security:
         - OAuth2:
             - buyer
-      summary: Get Event Evaluation Criteria Groups
+      summary: Get questions in a Group
       
     post:
       description: Create a Question within this group
@@ -1088,13 +1088,14 @@ paths:
       security:
         - OAuth2:
             - buyer
-      summary: Confirm procurement project
+      summary: Add a question
       
-  /tenders/projects/{proc-id}/events/{event-id}/criteria/{criterion-id}/groups/questions/{question-id}:
+  /tenders/projects/{proc-id}/events/{event-id}/criteria/{criterion-id}/groups/{group-id}/questions/{question-id}:
     parameters:
       - $ref: '#/components/parameters/ProcurementParam'
       - $ref: '#/components/parameters/EventParam'
       - $ref: '#/components/parameters/CriterionParam'
+      - $ref: '#/components/parameters/GroupParam'
       - $ref: '#/components/parameters/NeedParam'
 
 
@@ -1125,7 +1126,7 @@ paths:
       security:
         - OAuth2:
             - buyer
-      summary: Get Event Evaluation Criteria Groups
+      summary: Get question details
       
   /tenders/projects/{proc-id}/events/{event-id}/needs/{question-id}/forms:
     parameters:

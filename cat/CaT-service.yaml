@@ -847,7 +847,7 @@ paths:
       summary: Get all Questions at all levels.
       
     
-  /tenders/projects/{proc-id}/events/{event-id}/evals:
+  /tenders/projects/{proc-id}/events/{event-id}/criteria:
     parameters:
       - $ref: '#/components/parameters/ProcurementParam'
       - $ref: '#/components/parameters/EventParam'
@@ -882,7 +882,7 @@ paths:
             - buyer
       summary: Get Event Evaluation Criteria
       
-  /tenders/projects/{proc-id}/events/{event-id}/evals/{criterion-id}/groups:
+  /tenders/projects/{proc-id}/events/{event-id}/criteria/{criterion-id}/groups:
     parameters:
       - $ref: '#/components/parameters/ProcurementParam'
       - $ref: '#/components/parameters/EventParam'
@@ -952,7 +952,7 @@ paths:
       
  
  
-  /tenders/projects/{proc-id}/events/{event-id}/evals/{criterion-id}/groups/{group-id}:
+  /tenders/projects/{proc-id}/events/{event-id}/criteria/{criterion-id}/groups/{group-id}:
     parameters:
       - $ref: '#/components/parameters/ProcurementParam'
       - $ref: '#/components/parameters/EventParam'
@@ -1021,7 +1021,7 @@ paths:
             - buyer
       summary: Delete project users
       
-  /tenders/projects/{proc-id}/events/{event-id}/evals/{criterion-id}/groups/{group-id}/questions:
+  /tenders/projects/{proc-id}/events/{event-id}/criteria/{criterion-id}/groups/{group-id}/questions:
     parameters:
       - $ref: '#/components/parameters/ProcurementParam'
       - $ref: '#/components/parameters/EventParam'
@@ -1090,7 +1090,7 @@ paths:
             - buyer
       summary: Confirm procurement project
       
-  /tenders/projects/{proc-id}/events/{event-id}/evals/{criterion-id}/groups/questions/{question-id}:
+  /tenders/projects/{proc-id}/events/{event-id}/criteria/{criterion-id}/groups/questions/{question-id}:
     parameters:
       - $ref: '#/components/parameters/ProcurementParam'
       - $ref: '#/components/parameters/EventParam'

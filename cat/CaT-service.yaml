@@ -990,7 +990,7 @@ paths:
       security:
         - OAuth2:
             - buyer
-      summary: Edit an Question Group
+      summary: Edit a Question Group
     
     delete:
       description: Delete a Group within this Eval

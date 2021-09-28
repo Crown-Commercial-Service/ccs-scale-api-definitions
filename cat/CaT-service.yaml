@@ -847,7 +847,7 @@ paths:
       summary: Get all Questions at all levels.
       
     
-  /tenders/projects/{proc-id}/events/{event-id}/evals:
+  /tenders/projects/{proc-id}/events/{event-id}/criteria:
     parameters:
       - $ref: '#/components/parameters/ProcurementParam'
       - $ref: '#/components/parameters/EventParam'
@@ -882,7 +882,7 @@ paths:
             - buyer
       summary: Get Event Evaluation Criteria
       
-  /tenders/projects/{proc-id}/events/{event-id}/evals/{criterion-id}/groups:
+  /tenders/projects/{proc-id}/events/{event-id}/criteria/{criterion-id}/groups:
     parameters:
       - $ref: '#/components/parameters/ProcurementParam'
       - $ref: '#/components/parameters/EventParam'
@@ -919,7 +919,7 @@ paths:
       summary: Get Event Evaluation Criteria Groups
       
     post:
-      description: Create a Group within this Eval
+      description: Create a Group within this Evaluation Criteria
       tags:
         - Define Procurement Event
       operationId: CreateEvalCriterionGroup
@@ -948,11 +948,11 @@ paths:
       security:
         - OAuth2:
             - buyer
-      summary: Confirm procurement project
+      summary: Create a question group
       
  
  
-  /tenders/projects/{proc-id}/events/{event-id}/evals/{criterion-id}/groups/{group-id}:
+  /tenders/projects/{proc-id}/events/{event-id}/criteria/{criterion-id}/groups/{group-id}:
     parameters:
       - $ref: '#/components/parameters/ProcurementParam'
       - $ref: '#/components/parameters/EventParam'
@@ -961,7 +961,7 @@ paths:
 
       
     put:
-      description: Create a Group within this Eval
+      description: Edit group details within an evaluation criteria
       tags:
         - Define Procurement Event
       operationId: EditEvalCriterionGroup
@@ -990,7 +990,7 @@ paths:
       security:
         - OAuth2:
             - buyer
-      summary: Confirm procurement project
+      summary: Edit a Question Group
     
     delete:
       description: Delete a Group within this Eval
@@ -1019,9 +1019,9 @@ paths:
       security:
         - OAuth2:
             - buyer
-      summary: Delete project users
+      summary: Delete Question Group
       
-  /tenders/projects/{proc-id}/events/{event-id}/evals/{criterion-id}/groups/{group-id}/questions:
+  /tenders/projects/{proc-id}/events/{event-id}/criteria/{criterion-id}/groups/{group-id}/questions:
     parameters:
       - $ref: '#/components/parameters/ProcurementParam'
       - $ref: '#/components/parameters/EventParam'
@@ -1056,7 +1056,7 @@ paths:
       security:
         - OAuth2:
             - buyer
-      summary: Get Event Evaluation Criteria Groups
+      summary: Get questions in a Group
       
     post:
       description: Create a Question within this group
@@ -1088,13 +1088,14 @@ paths:
       security:
         - OAuth2:
             - buyer
-      summary: Confirm procurement project
+      summary: Add a question
       
-  /tenders/projects/{proc-id}/events/{event-id}/evals/{criterion-id}/groups/questions/{question-id}:
+  /tenders/projects/{proc-id}/events/{event-id}/criteria/{criterion-id}/groups/{group-id}/questions/{question-id}:
     parameters:
       - $ref: '#/components/parameters/ProcurementParam'
       - $ref: '#/components/parameters/EventParam'
       - $ref: '#/components/parameters/CriterionParam'
+      - $ref: '#/components/parameters/GroupParam'
       - $ref: '#/components/parameters/NeedParam'
 
 
@@ -1125,7 +1126,7 @@ paths:
       security:
         - OAuth2:
             - buyer
-      summary: Get Event Evaluation Criteria Groups
+      summary: Get question details
       
   /tenders/projects/{proc-id}/events/{event-id}/needs/{question-id}/forms:
     parameters:
@@ -1836,7 +1837,7 @@ paths:
     parameters:
       - $ref: '#/components/parameters/ProcurementParam'
       - $ref: '#/components/parameters/EventParam'
-      - $ref: '#/components/parameters/ResponseParam'
+      - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Params.yaml#/components/parameters/SupplierParam'
 
 
     get:
@@ -1873,7 +1874,7 @@ paths:
     parameters:
       - $ref: '#/components/parameters/ProcurementParam'
       - $ref: '#/components/parameters/EventParam'
-      - $ref: '#/components/parameters/ResponseParam'
+      - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Params.yaml#/components/parameters/SupplierParam'
 
 
     get:
@@ -1909,7 +1910,7 @@ paths:
     parameters:
       - $ref: '#/components/parameters/ProcurementParam'
       - $ref: '#/components/parameters/EventParam'
-      - $ref: '#/components/parameters/ResponseParam'
+      - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Params.yaml#/components/parameters/SupplierParam'
       - $ref: '#/components/parameters/NeedParam'
 
 
@@ -1975,7 +1976,7 @@ paths:
     parameters:
       - $ref: '#/components/parameters/ProcurementParam'
       - $ref: '#/components/parameters/EventParam'
-      - $ref: '#/components/parameters/ResponseParam'
+      - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Params.yaml#/components/parameters/SupplierParam'
       - $ref: '#/components/parameters/NeedParam'
 
 
@@ -2600,14 +2601,6 @@ components:
       schema:
         $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Schema.yaml#/components/schemas/GenericId'
 
-        
-    ResponseParam:
-      name: supplier-id
-      in: path
-      required: true
-      description: Response ID to a Procurement Need
-      schema:
-        $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Params.yaml#/components/parameters/SupplierParam'
 
   schemas:
   

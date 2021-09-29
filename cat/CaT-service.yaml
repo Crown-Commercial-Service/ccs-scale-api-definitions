@@ -1059,7 +1059,7 @@ paths:
       summary: Get questions in a Group
       
     post:
-      description: Create a Question within this group
+      description: Create a Question within this group. This only allowed where multi-answer is true for questions within the group.
       tags:
         - Define Procurement Event
       operationId: CreateEvalGroupQuestion
@@ -1067,7 +1067,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/QuestionGroup'
+              $ref: '#/components/schemas/Question'
       responses:
         '200':
           description: ok
@@ -1100,10 +1100,10 @@ paths:
 
 
     get:
-      description: Get the Needs required for this Event
+      description: Get the details of a question held within its structure
       tags:
         - Define Procurement Event
-      operationId: Get Eval Criterion Group Question
+      operationId: GetEvalCriterionGroupQuestion
       responses:
         '200':
           description: ok
@@ -1127,6 +1127,68 @@ paths:
         - OAuth2:
             - buyer
       summary: Get question details
+      
+    put:
+      description: Edit Question details within its structure
+      tags:
+        - Define Procurement Event
+      operationId: EditEvalCriterionGroupQuestion
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Question'
+      responses:
+        '200':
+          description: ok
+          content:
+            application/json:
+              schema:
+                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Schema.yaml#/components/schemas/Question'
+        '401':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/401Unauthorized'
+        '403':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/403Forbidden'
+        '429':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/429TooManyRequests'
+        '500':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/500InternalServerError'
+        '502':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/502BadGateway'
+      security:
+        - OAuth2:
+            - buyer
+      summary: Edit a Question details
+      
+    delete:
+      description: Delete a question. This only allowed where multi-answer is true for questions within the group.
+      tags:
+        - Define Procurement Event
+      operationId: DeleteEvalCriterionGroupQuestion
+      responses:
+        '200':
+          description: ok
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Question'
+        '401':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/401Unauthorized'
+        '403':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/403Forbidden'
+        '429':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/429TooManyRequests'
+        '500':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/500InternalServerError'
+        '502':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/502BadGateway'
+      security:
+        - OAuth2:
+            - buyer
+      summary: Delete a Question
+      
       
   /tenders/projects/{proc-id}/events/{event-id}/needs/{question-id}/forms:
     parameters:
@@ -3005,7 +3067,13 @@ components:
               description: Highest score that can be awarded, lowest being zero.
             weightVisible:
               type: boolean
-              description: Should the weighting be visible to suppliers.    
+              description: Should the weighting be visible to suppliers. 
+            eventCreated:
+              type: string
+              format: date-time
+              description: Date/time - Event Created
+
+                 
 
     EventDetailOCDS:
       allOf:
@@ -3328,15 +3396,60 @@ components:
           type: string         
  
     Question:
-      $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OCDS_Standards/CCS-OCDS_Schema.yaml#/components/schemas/Requirement'
-      #description: >-
-      #  Generic term for an event put out to the market. Each is an optional procurement step in the procurement process. This call shows the current status of each in the procurement process.
-      #type: array
-      #items:
-      #  type: object
-      #  properties:
-      #    id: 
-      #      type: string 
+      description: >-
+        A question that must be answered by the supplier as part of a tender or a question answered by the buyer to provide information to support the supplier.
+      type: object
+      properties:
+        non-OCDS:
+          type: object
+          properties:
+            questionType:
+              type: string
+              description: |+
+                Type of question to be displayed:
+                * Value (provides information in the expectedValue from buyer or supplier) 
+                * Range (provides a range for the expectedValue from buyer)
+                * SingleSelect (Provides a single select from options from the buyer or supplier)
+                * MultiSelect (Provides a multi select from options from the buyer or supplier)
+                * SingleSelectWithOptions (Provides options from the buyer to use in a single select for the supplier)
+                * MultiSelectWithOptions (Provides options from the buyer to use in a multiselect select for the supplier)
+                * Document (Requires a document from a supplier)
+                * DocumentWithTemplate (provides document from the buyer to be used as a template for the supplier)
+              enum:
+                - Value
+                - Range
+                - SingleSelect
+                - MultiSelect
+                - SingleSelectWithOptions
+                - MultiSelectWithOptions
+                - Document
+                - DocumentWithTemplate
+            answered: 
+              description: |+
+                Defines a the buyer or supplier has answered
+              type: boolean
+            mandatory: 
+              description: |+
+                Defines a the buyer or supplier must answer the question before a tender or response is published
+              type: boolean
+            multiAnswer:
+              description: |+
+                Defines a the buyer can add new questions of this type
+              type: boolean
+            options:
+              description: |+
+                Defines options
+              type: array
+              items:
+                type: object
+                properties:
+                  value:
+                    type: string
+                  selected:
+                    type: boolean
+        OCDS:
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OCDS_Standards/CCS-OCDS_Schema.yaml#/components/schemas/Requirement'
+      
       
 
     ResponseSummary:

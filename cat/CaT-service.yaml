@@ -3415,6 +3415,8 @@ components:
                 * MultiSelectWithOptions (Provides options from the buyer to use in a multiselect select for the supplier)
                 * Document (Requires a document from a supplier)
                 * DocumentWithTemplate (provides document from the buyer to be used as a template for the supplier)
+                * KeyValuePair (provides two related values)
+                * Address (provides an address from buyer or supplier using a post code manual input)
               enum:
                 - Value
                 - Range
@@ -3424,6 +3426,8 @@ components:
                 - MultiSelectWithOptions
                 - Document
                 - DocumentWithTemplate
+                - Address
+                - KeyValuePair
             answered: 
               description: |+
                 Defines a the buyer or supplier has answered

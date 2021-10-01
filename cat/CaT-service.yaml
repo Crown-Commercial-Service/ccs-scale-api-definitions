@@ -1344,7 +1344,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/EventStatus'
+                  $ref: '#/components/schemas/EventSummary'
         '401':
           $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/401Unauthorized'
         '403':
@@ -1378,7 +1378,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/EventStatus'
+                $ref: '#/components/schemas/EventSummary'
         '401':
           $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/401Unauthorized'
         '403':
@@ -2816,18 +2816,9 @@ components:
           example: project_1055
           type: string
         activeEvent:
-          type: object
-          properties:
-            eventId: 
-              $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Schema.yaml#/components/schemas/ProcurementEventId'
-            eventSuppordId:
-              example: itt_2468
-              type: string
-            eventType:
-              $ref: '#/components/schemas/EventType'
-            eventStage:
-              $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/OCDS/OCDS_CodeLists.yaml#/components/schemas/ReleaseTag'
+          $ref: '#/components/schemas/EventSummary'
 
+           
               
     ProjectPackage:
       allOf:
@@ -2920,48 +2911,58 @@ components:
           - SL
           - TBD
         
-    EventStatus:
-      description: >-
-        Generic term for an event put out to the market. Each is an optional procurement step in the procurement process. This call shows the current status of each in the procurement process.
-      allOf:
-        - $ref: '#/components/schemas/EventSummary'
-        - type: object
-          properties:
-            projectId: 
-              $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Schema.yaml#/components/schemas/ProcurementProjectId'
-              #description: project_1055 mapped to CaT (project ID) 00002468
+#    EventStatus:
+#      description: >-
+#        Generic term for an event put out to the market. Each is an optional procurement step in the procurement process. This call shows the current status of each in the procurement process.
+#      allOf:
+#        - $ref: '#/components/schemas/EventSummary'
+#        - type: object
+#          properties:
+#            projectId: 
+#              $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Schema.yaml#/components/schemas/ProcurementProjectId'
+#              #description: project_1055 mapped to CaT (project ID) 00002468
           
-    EventSummary:
+    NonOCDSEventSummary:
       description: >-
         Generic term for an event put out to the market. Each is an optional procurement step in the procurement process. This call shows the current status of each in the procurement process.
       type: object
       properties:   
-        eventId:
-          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Schema.yaml#/components/schemas/ProcurementEventId'
-            #type: string
-            #example: 00013579
-            #description: itt_2468 mapped to CaT (eventId) 00013579 
         eventSupportId:
           type: string
           example: itt_2468
           description: ID to allow support staff to support this event. 
-        name:
-          type: string
-          example: RM6118-Lot 2-Crown Commercial Services
-          description: Name of the event.
         eventType:
           $ref: '#/components/schemas/EventType'
-        eventStage:
-          example: Tender
-          type: string
-        status:
-          type: string
-          allOf:
-            - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OCDS_Standards/CCS-OCDS_Schema.yaml#/components/schemas/TenderStatus'
+          
+
+    EventSummary:
+      allOf:
+        - type: object
+          description: >-
+            Generic term for an event put out to the market. Each is an optional procurement step in the procurement process. This call shows the current status of each in the procurement process.
+          properties:   
+            id:
+              $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Schema.yaml#/components/schemas/ProcurementEventId'
+                #type: string
+                #example: 00013579
+                #description: itt_2468 mapped to CaT (eventId) 00013579
+            title:
+              title: Tender title
+              description: >-
+                A title for this tender. This will often be used by applications as a
+                headline to attract interest, and to help analysts understand the
+                nature of this procurement.
+              type: string
+              nullable: true
+            eventStage:
+              $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/OCDS/OCDS_CodeLists.yaml#/components/schemas/ReleaseTag'
+            status:
+              $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OCDS_Standards/CCS-OCDS_Schema.yaml#/components/schemas/TenderStatus'
+        - $ref: '#/components/schemas/NonOCDSEventSummary'
 
     EventDetailNonOCDS:
       allOf:
-        - $ref: '#/components/schemas/EventSummary'
+        - $ref: '#/components/schemas/NonOCDSEventSummary'
         - type: object
           properties:
             responseVisibility:

@@ -328,7 +328,7 @@ paths:
           $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/505HTTPVersionNotSupported'
   #
   #
-  /agreements/{agreement-id}/lots/{lot-id}/eventTypes:
+  /agreements/{agreement-id}/lots/{lot-id}/event-types:
     get:
       summary: Returns the Event Types for the Lot
       description: Returns details of the Event Types that can be run for the specified Lot for this Commercial Agreement
@@ -344,7 +344,7 @@ paths:
         - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Params.yaml#/components/parameters/x-client'
       responses:
         200:
-          description: Lot details
+          description: Event Types
           content:
             application/json:
               schema:
@@ -373,7 +373,7 @@ paths:
           $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/505HTTPVersionNotSupported'
 #
 #
-  /agreements/{agreement-id}/lots/{lot-id}/eventTypes/{event-type}/dataTemplates:
+  /agreements/{agreement-id}/lots/{lot-id}/event-types/{event-type}/data-templates:
     get:
       summary: Returns the template for use in an event
       description: Returns details of templates that define the expected information a buyer should answer to create requirements for a supplier when creating an event. These will be specific to an Event Type that can be run for the specified Lot for this Commercial Agreement
@@ -390,7 +390,7 @@ paths:
         - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Params.yaml#/components/parameters/x-client'
       responses:
         200:
-          description: Lot details
+          description: Data Templates
           content:
             application/json:
               schema:
@@ -417,7 +417,7 @@ paths:
           $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/505HTTPVersionNotSupported'
 #
 #
-  /agreements/{agreement-id}/lots/{lot-id}/eventTypes/{event-type}/documentTemplates:
+  /agreements/{agreement-id}/lots/{lot-id}/event-types/{event-type}/document-templates:
     get:
       summary: Returns the template for use in an event
       description: Returns details of templates that define the expected information a buyer should answer to create requirements for a supplier when creating an event. These will be specific to an Event Type that can be run for the specified Lot for this Commercial Agreement
@@ -434,7 +434,7 @@ paths:
         - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Params.yaml#/components/parameters/x-client'
       responses:
         200:
-          description: Lot details
+          description: Document Templates
           content:
             application/json:
               schema:

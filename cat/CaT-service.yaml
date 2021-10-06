@@ -1042,7 +1042,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/QuestionSummary'
+                  $ref: '#/components/schemas/Question'
         '401':
           $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/401Unauthorized'
         '403':
@@ -3377,21 +3377,7 @@ components:
           type: string
           readOnly: true
         description: 
-          type: string 
-          
-    QuestionSummary:
-      description: >-
-        This is summary of the questions within a Question Group
-      type: object
-      properties:
-        id: 
-          type: string
-        title: 
-          type: string 
-        description: 
-          type: string
-        dataType:
-          type: string         
+          type: string       
  
     Question:
       description: >-

@@ -1142,7 +1142,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Schema.yaml#/components/schemas/Question'
+                $ref: '#/components/schemas/Question'
         '401':
           $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/401Unauthorized'
         '403':
@@ -3384,7 +3384,7 @@ components:
         A question that must be answered by the supplier as part of a tender or a question answered by the buyer to provide information to support the supplier.
       type: object
       properties:
-        non-OCDS:
+        nonOCDS::
           type: object
           properties:
             questionType:

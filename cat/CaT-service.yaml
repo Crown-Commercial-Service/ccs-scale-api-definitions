@@ -151,7 +151,7 @@ paths:
     patch:
       tags:
         - Profile Management
-      description: Updates an existing Tenders API Org with Conclave user details (Conclave access only).
+      description: Updates an existing Tenders API Org with Conclave organisation details (Conclave access only).
       operationId: app.updateOrg
       requestBody:
         content:

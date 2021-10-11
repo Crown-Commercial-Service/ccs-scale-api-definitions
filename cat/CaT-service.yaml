@@ -3377,7 +3377,15 @@ components:
           type: string
           readOnly: true
         description: 
-          type: string       
+          type: string
+        prompt:
+          type: string
+          example: Specify each question you are requesting an answer to
+        task:
+          type: string
+          example: Add Information you are looking for
+        mandatory:
+          type: boolean
  
     Question:
       description: >-

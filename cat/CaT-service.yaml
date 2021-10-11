@@ -3373,26 +3373,41 @@ components:
         This is an arbitrary grouping of questions to make it within an individual Evaluation. Known as a Requirement Group in OCDS
       type: object
       properties:
-        id: 
-          type: string
-          readOnly: true
-        description: 
-          type: string
-        prompt:
-          type: string
-          example: Specify each question you are requesting an answer to
-        task:
-          type: string
-          example: Add Information you are looking for
-        mandatory:
-          type: boolean
+        nonOCDS:
+          type: object
+          properties:
+            prompt:
+              type: string
+              description: Provides a prompt to request the user to answer the question. 
+              example: Specify each question you are requesting an answer to
+            task:
+              type: string
+              description: Provides text to describe the task the user must undertake to define the question.
+              example: Add Information you are looking for
+            mandatory:
+              description: Defines if the user must answer the question to proceed.
+              type: boolean
+        OCDS:
+          allof:
+            - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OCDS_Standards/CCS-OCDS_Schema.yaml#/components/schemas/RequirementGroup'
+            - type: object
+              properties:
+                id:
+                  description: 'The identifier for this question group. It must be unique and cannot change within the Open Contracting Process it is part of (defined by a single ocid). See the [identifier guidance](http://standard.open-contracting.org/latest/en/schema/identifiers/) for further details.'
+                  readOnly: true
+                description: 
+                  description: A description of this question group.
+                requirements:
+                  deprecated: true
+                  description: Inherited from OCDS RequirementsGroup but returned with a call to Questions endpoint
+       
  
     Question:
       description: >-
         A question that must be answered by the supplier as part of a tender or a question answered by the buyer to provide information to support the supplier.
       type: object
       properties:
-        nonOCDS::
+        nonOCDS:
           type: object
           properties:
             questionType:

@@ -3374,7 +3374,7 @@ components:
     DraftProcurementProject:
       type: object
       properties:
-        procurementID:
+        pocurementID:
           $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Schema.yaml#/components/schemas/ProcurementProjectId'
         eventId:
           $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Schema.yaml#/components/schemas/ProcurementEventId'

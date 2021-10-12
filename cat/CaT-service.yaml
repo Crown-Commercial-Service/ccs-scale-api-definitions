@@ -3388,7 +3388,7 @@ components:
               description: Defines if the user must answer the question to proceed.
               type: boolean
         OCDS:
-          allof:
+          allOf:
             - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OCDS_Standards/CCS-OCDS_Schema.yaml#/components/schemas/RequirementGroup'
             - type: object
               properties:

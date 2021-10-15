@@ -1724,7 +1724,7 @@ paths:
       summary: Get RFx Summary
       
     put:
-      description: Update an existing procurement event. Only those event attributes defined in the `UpdateEvent` schema can be updated. If an invalid value is provided for an attribute, then no updates will be applied and a validation error message will be returned.
+      description: Update an existing procurement event. Only those event attributes defined in the `UpdateEvent` schema can be updated. If an invalid value is provided for an attribute, then no updates will be applied and a validation error message will be returned. Once eventType has been changed from 'TBD' to a valid value, it cannot then be updated again.
       tags:
         - Manage Procurement Project
       operationId: updateCaseRFx

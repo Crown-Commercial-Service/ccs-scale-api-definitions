@@ -1459,7 +1459,7 @@ paths:
       - $ref: '#/components/parameters/ProcurementParam'
       - $ref: '#/components/parameters/EventParam'
     put:
-      deprecated: false
+      deprecated: true
       description: Replace the name created for the event automatically with what the user wants.
       tags:
         - Manage Procurement Project
@@ -1722,6 +1722,41 @@ paths:
         - OAuth2:
             - buyer
       summary: Get RFx Summary
+      
+    put:
+      description: Update an existing procurement event. Only those event attributes defined in the `UpdateEvent` schema can be updated. If an invalid value is provided for an attribute, then no updates will be applied and a validation error message will be returned. Once eventType has been changed from 'TBD' to a valid value, it cannot then be updated again.
+      tags:
+        - Manage Procurement Project
+      operationId: updateCaseRFx
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateEvent'
+                          
+      responses:
+        '200':
+          description: ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EventSummary'
+        '400':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/400InvalidRequest'
+        '401':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/401Unauthorized'
+        '403':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/403Forbidden'
+        '429':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/429TooManyRequests'
+        '500':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/500InternalServerError'
+        '502':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/502BadGateway'
+      security:
+        - OAuth2:
+            - buyer
+      summary: Update a Procurement Event
       
   /tenders/projects/{proc-id}/events/{event-id}/GotoMarket/options:
     parameters:
@@ -3299,6 +3334,15 @@ components:
               $ref: '#/components/schemas/DefineEventType'
         OCDS:
           $ref: '#/components/schemas/CreateEventOCDS'
+          
+    UpdateEvent:
+      type: object
+      properties:
+        name:
+          type: string
+          example: New name
+        eventType:
+          $ref: '#/components/schemas/EventType'
 
     EventDetail:
       description: >-

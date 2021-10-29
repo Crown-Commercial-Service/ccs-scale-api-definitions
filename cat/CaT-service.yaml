@@ -3341,6 +3341,7 @@ components:
         name:
           type: string
           example: New name
+          pattern: ^[A-Z]{1,256}$
         eventType:
           $ref: '#/components/schemas/EventType'
 

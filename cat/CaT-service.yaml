@@ -3340,8 +3340,9 @@ components:
       properties:
         name:
           type: string
+          maxLength: 256
+          minLength: 1
           example: New name
-          pattern: '^[A-Z]{1,256}$'
         eventType:
           $ref: '#/components/schemas/EventType'
 

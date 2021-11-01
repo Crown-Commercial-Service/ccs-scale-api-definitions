@@ -3340,6 +3340,8 @@ components:
       properties:
         name:
           type: string
+          maxLength: 256
+          minLength: 1
           example: New name
         eventType:
           $ref: '#/components/schemas/EventType'

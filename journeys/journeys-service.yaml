@@ -1,0 +1,195 @@
+openapi: "3.0.1"
+info:
+  title: "SCALE Journeys Service"
+  version: v0.0.1
+  description: This API allows UI's to define journeys associated to a unique identifier supplied. This is used to store the state of progress within the journey. The UI is responsible for supplying a unique identifier within the bounds of itself and the user.
+#  PLACEHOLDERs - to be uncommented when implemented
+  termsOfService: "http://api.crowncommercial.gov.uk/terms/"
+  contact:
+    email: "apiteam@crowncommercial.gov.uk"
+  license:
+    name: "Open Government Licence 3.0"
+    url: "https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/"
+#
+#
+#security:
+#  - OAuth2:
+#    - read
+paths:
+  /journeys:
+    post:
+      description: Creates a new journey defining the number of states and their initial state.
+      tags:
+        - Journeys
+      operationId: create-journey
+      requestBody:
+        content:
+          application/json::
+            schema:
+              $ref: '#/components/schemas/Journey'
+
+      responses:
+        '201':
+            description: TeamID for the newly created Team
+            content:
+                application/json:
+                    schema:
+                        $ref: '#/components/schemas/JourneyId'
+        '401':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/401Unauthorized'
+        '403':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/403Forbidden'
+        '429':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/429TooManyRequests'
+        '500':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/500InternalServerError'
+        '502':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/502BadGateway'
+      summary: Create a new Journey
+      
+      
+  /journeys/{journey-id}/steps:
+    get:
+      summary: Return current Journey state.
+      description: Retrieves a list of states for each step within the process. 
+      tags:
+        - Journeys
+      operationId: get-journey-state
+      parameters:
+        - $ref: '#/components/parameters/JourneyParam'
+      responses:
+        200:
+          description: Journey State
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JourneyState'
+        '400':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/400InvalidRequest'
+        '403':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/403Forbidden'
+        '404':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/404NotFound'
+        '410':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/410Gone'
+        '429':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/429TooManyRequests'
+        '500':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/500InternalServerError'
+        '502':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/502BadGateway'
+        '503':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/503ServiceUnavailable'
+        '504':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/504GatewayTimeout'
+        '505':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/505HTTPVersionNotSupported'
+#
+  /agreements/{journey-id}/steps/{step-id}:
+    put:
+      description: Update the state of a step within the journey.
+      tags:
+        - Journeys
+      operationId: update-step-state
+      parameters:
+        - $ref: '#/components/parameters/JourneyParam'
+        - $ref: '#/components/parameters/StepParam'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/StepState'
+      responses:
+        '200':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/200Success'
+        '401':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/401Unauthorized'
+        '403':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/403Forbidden'
+        '429':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/429TooManyRequests'
+        '500':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/500InternalServerError'
+        '502':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/502BadGateway'
+      summary: Update Step
+
+components:
+
+# This needs to move to common as Event Types will be fixed across the organisation.
+  parameters:
+    JourneyParam:
+      name: journey-id
+      in: path
+      required: true
+      description: Journey ID
+      schema:
+        $ref: '#/components/schemas/JourneyId'
+    StepParam:
+      name: step-id
+      in: path
+      required: true
+      description: Step ID
+      schema:
+        $ref: '#/components/schemas/StepId'
+
+#  securitySchemes:
+#    OAuth2:
+#      type: oauth2
+#      flows:
+#        authorizationCode:
+#          authorizationUrl: http://ccsexample.com/oauth/auth
+#          tokenUrl: https://api.crowncommercial.gov.uk/oauth/token
+#          scopes:
+#            read: Grants read access
+#           only read for MVP
+  schemas:
+#
+    JourneyId:
+      type: string
+      description: Journey ID defined by the UI. Must be unique within the a client and user space.
+      example: "1234-5678"
+ #         
+    Journey:
+      type: object
+      properties:
+        journey-id:
+          $ref: '#/components/schemas/JourneyId'
+        states: 
+          $ref: '#/components/schemas/JourneyState'
+
+#
+    JourneyState:
+      type: array
+      items:
+        type: object
+        properties:
+          step:
+            $ref: '#/components/schemas/StepId'
+          state:
+            $ref: '#/components/schemas/StepState'
+
+    StepId:
+      type: integer
+      description: Identifier for step          
+
+#
+    StepState:
+      type: string
+      enum:
+        - Not started
+        - Cannot start yet
+        - In progress
+        - Completed
+      description: >-
+        Identifies the state of completion for a step:
+          - ‘Not started’ (in grey) if the user can start work on the task, but has not done so yet
+          - ‘Cannot start yet’ (in grey) if the user cannot start the task yet - for example because another task must be completed first
+          - ‘In progress’ (in light blue) if the user has started but not completed the task
+          - ‘Completed’ (in blue) if the user has completed the task
+
+
+servers:
+  # Added by API Auto Mocking Plugin
+  - description: SwaggerHub API Auto Mocking
+    url: https://virtserver.swaggerhub.com/davejhughes/agreement-service/v0.0.6

@@ -2974,17 +2974,17 @@ components:
         Generic term for an event put out to the market. There are several types-
 
           * EOI - Expression of Interest
-          * RFI -  Request for Information
-          * RFP - Request for Proposal
+          * RFI - Request for Information
+          * CA  - Capability Assessment
           * DA  - Direct Award
-          * SL  - Short Listing
+          * FC  - Further Competition
       type: string
       enum:
           - EOI
           - RFI
-          - RFP
+          - CA
           - DA
-          - SL
+          - FC
           
     ViewEventType:
       description: >-
@@ -2992,10 +2992,10 @@ components:
         Generic term for an event put out to the market. There are several types-
 
           * EOI - Expression of Interest
-          * RFI -  Request for Information
-          * RFP - Request for Proposal
+          * RFI - Request for Information
+          * CA  - Capability Assessment
           * DA  - Direct Award
-          * SL  - Short Listing
+          * FC  - Further Competition
           * TBD - To Be Determined
           
         Note - TBD is not a real event type and must be defined before going to market.
@@ -3003,9 +3003,9 @@ components:
       enum:
           - EOI
           - RFI
-          - RFP
+          - CA
           - DA
-          - SL
+          - FC
           - TBD
     
     EventType:

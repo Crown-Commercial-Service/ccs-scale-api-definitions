@@ -143,11 +143,25 @@ paths:
       operationId: app.updateOrg
       responses:
         '200':
-          description: Success for the update.
+          description: Success (for object update).
           content:
             application/json:
               schema:
-                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-conclave-api-definitions/main/OrgProfile/OrgService.yaml#/components/schemas/OrganisationProfileInfo'
+                type: object
+                properties:
+                  organisationAction:
+                    type: string
+                    enum:
+                      - created
+                      - pending
+                      - existed
+                  roles:
+                    type: array
+                    items:
+                      type: string
+                      enum:
+                        - buyer
+                        - supplier
         '400':
           $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/400InvalidRequest'
         '401':

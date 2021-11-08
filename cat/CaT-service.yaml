@@ -94,7 +94,7 @@ paths:
       summary: Register user to use Tenders (Jaggaer)
       
     get:
-      description: Retrieve the terms and conditions required for CaT and if the user has signed up to them.
+      description: Get the user (including roles)
       tags:
         - Profile Management
       operationId: app.findUser
@@ -104,15 +104,7 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  roles:
-                    type: array
-                    items:
-                      type: string
-                      enum:
-                        - buyer
-                        - supplier
+                $ref: '#/components/schemas/GetUserResponse'
         '401':
           $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/401Unauthorized'
         '403':
@@ -3725,7 +3717,18 @@ components:
             - Draft
             - Unread
             - Read
-                    
+
+    GetUserResponse:
+        type: object
+        properties:
+          roles:
+            type: array
+            items:
+              type: string
+              enum:
+                - buyer
+                - supplier
+
   securitySchemes:
     openID:
       type: openIdConnect

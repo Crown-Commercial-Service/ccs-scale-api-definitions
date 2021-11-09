@@ -3003,7 +3003,6 @@ components:
         id:  
           type: string
           readOnly: true
-          format: uuid
           description: 'ID of the team member'
           example: 222
         contact:

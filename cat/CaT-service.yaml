@@ -3065,11 +3065,16 @@ components:
       type: object
       properties:
           userType:
-            type: string
-            enum:
-              - EMAIL_RECIPIENT
-              - TEAM_MEMBER
-              - PROJECT_OWNER
+            $ref: '#/components/schemas/UpdateTeamMemberType'
+              
+    UpdateTeamMemberType:
+      description: >-
+        Defines which new permission should be granted to a project Team Member
+      type: string
+      enum:
+        - EMAIL_RECIPIENT
+        - TEAM_MEMBER
+        - PROJECT_OWNER
               
     AgreementDetails:
       type: object

@@ -403,7 +403,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/UserList'
+                $ref: '#/components/schemas/TeamMemberList'
         '401':
           $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/401Unauthorized'
         '403':
@@ -435,7 +435,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/User'
+              $ref: '#/components/schemas/TeamMember'
       responses:
         '200':
           $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/200Success'
@@ -471,7 +471,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/UserList'
+                $ref: '#/components/schemas/TeamMemberList'
         '401':
           $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/401Unauthorized'
         '403':
@@ -866,7 +866,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/UserList'
+                $ref: '#/components/schemas/TeamMemberList'
         '401':
           $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/401Unauthorized'
         '403':
@@ -931,7 +931,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/UserList'
+                $ref: '#/components/schemas/TeamMemberList'
         '401':
           $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/401Unauthorized'
         '403':
@@ -956,7 +956,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/UpdateUser'
+              $ref: '#/components/schemas/UpdateTeamMember'
               
       responses:
         '200':
@@ -964,7 +964,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/UserList'
+                $ref: '#/components/schemas/TeamMemberList'
         '401':
           $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/401Unauthorized'
         '403':
@@ -2994,26 +2994,26 @@ components:
           description: Name given to the team within the organisation
           example: Procurment Team A
           
-    UserList:
+    TeamMemberList:
       type: array
       items:
-        $ref: '#/components/schemas/User'
+        $ref: '#/components/schemas/TeamMember'
         
-    User:
+    TeamMember:
       type: object
-      description: System user details
+      description: Team who work together on bids or procurements
       required:
         - id
         - name
       properties: 
         OCDS:
           allOf:
-            - $ref: '#/components/schemas/UserOCDS'
+            - $ref: '#/components/schemas/TeamMemberOCDS'
         nonOCDS:
           allOf:
-            - $ref: '#/components/schemas/UserNonOCDS'
+            - $ref: '#/components/schemas/TeamMemberNonOCDS'
         
-    UserOCDS:
+    TeamMemberOCDS:
       type: object
       description: OCDS compliant user details
       required:
@@ -3023,7 +3023,7 @@ components:
         id:  
           type: string
           readOnly: true
-          description: 'ID of the user'
+          description: 'ID of the team member'
           example: 222
         contact:
           allOf:
@@ -3031,17 +3031,17 @@ components:
             - type: object
               properties:
                 name:
-                  description: Name of the user
+                  description: Name of the team member
                 email:
-                  description: eMail address of the user
+                  description: eMail address of the team member
                 telephone:
-                  description: Telephone number of the user
+                  description: Telephone number of the team member
                 faxNumber:
-                  description: Fax number of the user
+                  description: Fax number of the team member
                 url:
-                  description: URL of the user
+                  description: URL of the team member
                   
-    UserNonOCDS:
+    TeamMemberNonOCDS:
       type: object
       description: Non OCDS compliant user details
       required:
@@ -3061,7 +3061,7 @@ components:
           description: 'Is the user the project owner'
           example: false
           
-    UpdateUser:
+    UpdateTeamMember:
       type: object
       properties:
           userType:

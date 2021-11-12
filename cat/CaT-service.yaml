@@ -423,7 +423,7 @@ paths:
     parameters:
       - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Params.yaml#/components/parameters/OrgParam'
       - $ref: '#/components/parameters/TeamParam'
-      - $ref: '#/components/parameters/UserParam'
+      - $ref: '#/components/parameters/TeamMemberParam'
 
       
     put:
@@ -444,7 +444,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/UserId'
+                $ref: '#/components/schemas/TeamMemberId'
         '401':
           $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/401Unauthorized'
         '403':
@@ -2800,7 +2800,7 @@ components:
       schema:
         $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Schema.yaml#/components/schemas/GenericId'
         
-    UserParam:
+    TeamMemberParam:
       name: team-member-id
       in: path
       required: true
@@ -2963,7 +2963,7 @@ components:
       readOnly: true
       
 
-    UserId:
+    TeamMemberId:
       type: number
       format: integer
       example: 1234
@@ -3031,15 +3031,15 @@ components:
             - type: object
               properties:
                 name:
-                  description: Name of the tream member
+                  description: Name of the user
                 email:
-                  description: eMail address of the tream member
+                  description: eMail address of the user
                 telephone:
-                  description: Telephone number of the tream member
+                  description: Telephone number of the user
                 faxNumber:
-                  description: Fax number of the tream member
+                  description: Fax number of the user
                 url:
-                  description: URL of the tream member
+                  description: URL of the user
                   
     UserNonOCDS:
       type: object

@@ -952,6 +952,12 @@ paths:
       tags:
         - Manage Procurement Project
       operationId: AddProjectUser
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateUser'
+              
       responses:
         '200':
           description: ok
@@ -3054,6 +3060,16 @@ components:
           type: boolean
           description: 'Is the user the project owner'
           example: false
+          
+    UpdateUser:
+      type: object
+      properties:
+          userType:
+            type: string
+            enum:
+              - EMAIL_RECIPIENT
+              - TEAM_MEMBER
+              - PROJECT_OWNER
               
     AgreementDetails:
       type: object

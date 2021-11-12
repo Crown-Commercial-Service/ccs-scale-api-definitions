@@ -3,7 +3,7 @@ openapi: 3.0.0
 info:
   title: Tenders API
   description: Optional multiline or single-line description in [CommonMark](http://commonmark.org/help/) or HTML.
-  version: 0.1.10
+  version: 0.1.11
 servers:
   - url: http://api.example.com/v1
     description: Optional server description, e.g. Main (production) server
@@ -403,7 +403,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/TeamMemberList'
+                $ref: '#/components/schemas/UserList'
         '401':
           $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/401Unauthorized'
         '403':
@@ -423,7 +423,7 @@ paths:
     parameters:
       - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Params.yaml#/components/parameters/OrgParam'
       - $ref: '#/components/parameters/TeamParam'
-      - $ref: '#/components/parameters/TeamMemberParam'
+      - $ref: '#/components/parameters/UserParam'
 
       
     put:
@@ -435,7 +435,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/TeamMember'
+              $ref: '#/components/schemas/User'
       responses:
         '200':
           $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/200Success'
@@ -444,7 +444,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/TeamMemberId'
+                $ref: '#/components/schemas/UserId'
         '401':
           $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/401Unauthorized'
         '403':
@@ -471,7 +471,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/TeamMemberList'
+                $ref: '#/components/schemas/UserList'
         '401':
           $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/401Unauthorized'
         '403':
@@ -866,7 +866,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/TeamMemberList'
+                $ref: '#/components/schemas/UserList'
         '401':
           $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/401Unauthorized'
         '403':
@@ -931,7 +931,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/TeamMemberList'
+                $ref: '#/components/schemas/UserList'
         '401':
           $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/401Unauthorized'
         '403':
@@ -958,7 +958,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/TeamMemberList'
+                $ref: '#/components/schemas/UserList'
         '401':
           $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/401Unauthorized'
         '403':
@@ -2794,7 +2794,7 @@ components:
       schema:
         $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Schema.yaml#/components/schemas/GenericId'
         
-    TeamMemberParam:
+    UserParam:
       name: team-member-id
       in: path
       required: true
@@ -2957,7 +2957,7 @@ components:
       readOnly: true
       
 
-    TeamMemberId:
+    UserId:
       type: number
       format: integer
       example: 1234
@@ -2988,14 +2988,28 @@ components:
           description: Name given to the team within the organisation
           example: Procurment Team A
           
-    TeamMemberList:
+    UserList:
       type: array
       items:
-        $ref: '#/components/schemas/TeamMember'
+        $ref: '#/components/schemas/User'
         
-    TeamMember:
+    User:
       type: object
       description: Team who work together on bids or procurements
+      required:
+        - id
+        - name
+      properties: 
+        OCDS:
+          allOf:
+            - $ref: '#/components/schemas/UserOCDS'
+        nonOCDS:
+          allOf:
+            - $ref: '#/components/schemas/UserNonOCDS'
+        
+    UserOCDS:
+      type: object
+      description: System user details
       required:
         - id
         - name
@@ -3020,6 +3034,26 @@ components:
                   description: Fax number of the tream member
                 url:
                   description: URL of the tream member
+                  
+    UserNonOCDS:
+      type: object
+      description: Team who work together on bids or procurements
+      required:
+        - id
+        - name
+      properties: 
+        teamMember:  
+          type: boolean
+          description: 'Is the user a Team Member on the project'
+          example: true
+        emailRecipient:  
+          type: boolean
+          description: 'Is the user an EMail recipient of the current event on the project'
+          example: true
+        projectOwner:  
+          type: boolean
+          description: 'Is the user the project owner'
+          example: false
               
     AgreementDetails:
       type: object

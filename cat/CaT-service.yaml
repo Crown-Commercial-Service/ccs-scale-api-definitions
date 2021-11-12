@@ -3001,7 +3001,7 @@ components:
         
     User:
       type: object
-      description: Team who work together on bids or procurements
+      description: System user details
       required:
         - id
         - name
@@ -3015,7 +3015,7 @@ components:
         
     UserOCDS:
       type: object
-      description: System user details
+      description: OCDS compliant user details
       required:
         - id
         - name
@@ -3023,7 +3023,7 @@ components:
         id:  
           type: string
           readOnly: true
-          description: 'ID of the team member'
+          description: 'ID of the user'
           example: 222
         contact:
           allOf:
@@ -3043,7 +3043,7 @@ components:
                   
     UserNonOCDS:
       type: object
-      description: Team who work together on bids or procurements
+      description: Non OCDS compliant user details
       required:
         - id
         - name

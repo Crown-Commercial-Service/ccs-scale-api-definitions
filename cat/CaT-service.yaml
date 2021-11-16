@@ -3677,6 +3677,8 @@ components:
               items:
                 type: object
                 properties:
+                  text:
+                    type: string
                   value:
                     type: string
                   selected:

@@ -54,25 +54,7 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  userAction:
-                    type: string
-                    enum:
-                      - created
-                  organisationAction:
-                    type: string
-                    enum:
-                      - created
-                      - pending
-                      - existed
-                  roles:
-                    type: array
-                    items:
-                      type: string
-                      enum:
-                        - buyer
-                        - supplier
+                $ref: '#/components/schemas/RegisterUserResponse'
         '400':
           $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/400InvalidRequest'
         '401':
@@ -139,21 +121,7 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  organisationAction:
-                    type: string
-                    enum:
-                      - created
-                      - pending
-                      - existed
-                  roles:
-                    type: array
-                    items:
-                      type: string
-                      enum:
-                        - buyer
-                        - supplier
+                $ref: '#/components/schemas/UpdateOrgResponse'
         '400':
           $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/400InvalidRequest'
         '401':
@@ -3773,15 +3741,53 @@ components:
             - Read
 
     GetUserResponse:
-        type: object
-        properties:
-          roles:
-            type: array
-            items:
-              type: string
-              enum:
-                - buyer
-                - supplier
+      type: object
+      properties:
+        roles:
+          type: array
+          items:
+            type: string
+            enum:
+              - buyer
+              - supplier
+
+    RegisterUserResponse:
+      type: object
+      properties:
+        userAction:
+          type: string
+          enum:
+            - created
+        organisationAction:
+          type: string
+          enum:
+            - created
+            - pending
+            - existed
+        roles:
+          type: array
+          items:
+            type: string
+            enum:
+              - buyer
+              - supplier                
+    
+    UpdateOrgResponse:
+      type: object
+      properties:
+        organisationAction:
+          type: string
+          enum:
+            - created
+            - pending
+            - existed
+        roles:
+          type: array
+          items:
+            type: string
+            enum:
+              - buyer
+              - supplier
 
   securitySchemes:
     openID:

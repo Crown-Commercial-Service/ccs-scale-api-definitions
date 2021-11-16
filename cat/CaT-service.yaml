@@ -3,7 +3,7 @@ openapi: 3.0.0
 info:
   title: Tenders API
   description: Optional multiline or single-line description in [CommonMark](http://commonmark.org/help/) or HTML.
-  version: 0.1.10
+  version: 0.1.11
 servers:
   - url: http://api.example.com/v1
     description: Optional server description, e.g. Main (production) server
@@ -952,6 +952,12 @@ paths:
       tags:
         - Manage Procurement Project
       operationId: AddProjectUser
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateTeamMember'
+              
       responses:
         '200':
           description: ok
@@ -3000,6 +3006,20 @@ components:
         - id
         - name
       properties: 
+        OCDS:
+          allOf:
+            - $ref: '#/components/schemas/TeamMemberOCDS'
+        nonOCDS:
+          allOf:
+            - $ref: '#/components/schemas/TeamMemberNonOCDS'
+        
+    TeamMemberOCDS:
+      type: object
+      description: OCDS compliant user details
+      required:
+        - id
+        - name
+      properties: 
         id:  
           type: string
           readOnly: true
@@ -3011,15 +3031,50 @@ components:
             - type: object
               properties:
                 name:
-                  description: Name of the tream member
+                  description: Name of the team member
                 email:
-                  description: eMail address of the tream member
+                  description: eMail address of the team member
                 telephone:
-                  description: Telephone number of the tream member
+                  description: Telephone number of the team member
                 faxNumber:
-                  description: Fax number of the tream member
+                  description: Fax number of the team member
                 url:
-                  description: URL of the tream member
+                  description: URL of the team member
+                  
+    TeamMemberNonOCDS:
+      type: object
+      description: Non OCDS compliant user details
+      required:
+        - id
+        - name
+      properties: 
+        teamMember:  
+          type: boolean
+          description: 'Is the user a Team Member on the project'
+          example: true
+        emailRecipient:  
+          type: boolean
+          description: 'Is the user an EMail recipient of the current event on the project'
+          example: true
+        projectOwner:  
+          type: boolean
+          description: 'Is the user the project owner'
+          example: false
+          
+    UpdateTeamMember:
+      type: object
+      properties:
+          userType:
+            $ref: '#/components/schemas/UpdateTeamMemberType'
+              
+    UpdateTeamMemberType:
+      description: >-
+        Defines which new permission should be granted to a project Team Member
+      type: string
+      enum:
+        - EMAIL_RECIPIENT
+        - TEAM_MEMBER
+        - PROJECT_OWNER
               
     AgreementDetails:
       type: object

@@ -3736,6 +3736,8 @@ components:
                     type: string
                   selected:
                     type: boolean
+                  hint:
+                    type: string
         OCDS:
           $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OCDS_Standards/CCS-OCDS_Schema.yaml#/components/schemas/Requirement'
       

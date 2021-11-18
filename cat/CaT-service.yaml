@@ -3724,15 +3724,26 @@ components:
       properties:
         userAction:
           type: string
+          description: |+
+            What action if any was taken for the user:
+              * pending - Buyer user was not found in sales platform and was created in pending state
+              * created - Supplier user not found in sales platform and was created
+              * existed - User existed already in sales platform and was updated
           enum:
+            - pending      
             - created
-            - existed            
+            - existed
         organisationAction:
           type: string
+          description: |+
+            What action if any was taken for the organisation:
+              * created - Supplier org not found in sales platform and was created
+              * existed - Supplier org or Buyer already in sales platform - no action        
+              * pending - Not currently in use
           enum:
             - created
-            - pending
             - existed
+            - pending
         roles:
           type: array
           items:
@@ -3746,10 +3757,15 @@ components:
       properties:
         organisationAction:
           type: string
+          description: |+
+            What action if any was taken for the organisation:
+              * existed - Org existed already in sales platform and was updated (supplier orgs only)
+              * nonRequired - No action taken (buyer orgs only)
+              * pending - Not currently in use
           enum:
-            - created
-            - pending
             - existed
+            - nonRequired
+            - pending
         roles:
           type: array
           items:

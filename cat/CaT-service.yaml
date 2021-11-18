@@ -28,7 +28,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/RegisterUserResponse'
+                allOf:
+                  - $ref: '#/components/schemas/RegisterUserResponse'
+                  - type: object
+                    properties:
+                      userAction:
+                        example: created
+            
         '201':
           description: Success (for object creation). Its information is available in the
             data field at the top level of the response body. The API URL where
@@ -36,7 +42,12 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/RegisterUserResponse'
+                allOf:
+                  - $ref: '#/components/schemas/RegisterUserResponse'
+                  - type: object
+                    properties:
+                      userAction:
+                        example: existed
         '400':
           $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/400InvalidRequest'
         '401':
@@ -94,6 +105,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/UpdateOrgResponse'
+
+
         '400':
           $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/400InvalidRequest'
         '401':
@@ -3726,11 +3739,10 @@ components:
           type: string
           description: |+
             What action if any was taken for the user:
-              * pending - Buyer user was not found in sales platform and was created in pending state
               * created - Supplier user not found in sales platform and was created
               * existed - User existed already in sales platform and was updated
           enum:
-            - pending      
+     
             - created
             - existed
         organisationAction:
@@ -3739,7 +3751,7 @@ components:
             What action if any was taken for the organisation:
               * created - Supplier org not found in sales platform and was created
               * existed - Supplier org or Buyer already in sales platform - no action        
-              * pending - Not currently in use
+              * pending - Buyer org not found in sales platform and was created in pending state
           enum:
             - created
             - existed
@@ -3759,13 +3771,16 @@ components:
           type: string
           description: |+
             What action if any was taken for the organisation:
+              * nonRequired - No action taken (buyer orgs cannot currently be updated via this method)
+              * created - Not Currently in use (Orgs cannot currently be created via this method)
               * existed - Org existed already in sales platform and was updated (supplier orgs only)
-              * nonRequired - No action taken (buyer orgs only)
-              * pending - Not currently in use
+              * pending - Not currently in use (Orgs cannot currently be created via this method)
           enum:
-            - existed
             - nonRequired
+            - created
+            - existed
             - pending
+          example: existed
         roles:
           type: array
           items:
@@ -3773,6 +3788,7 @@ components:
             enum:
               - buyer
               - supplier
+            example: supplier
 
   securitySchemes:
     openID:

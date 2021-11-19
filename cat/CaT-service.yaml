@@ -33,7 +33,7 @@ paths:
                   - type: object
                     properties:
                       userAction:
-                        example: created
+                        example: existed
             
         '201':
           description: Success (for object creation). Its information is available in the
@@ -47,7 +47,7 @@ paths:
                   - type: object
                     properties:
                       userAction:
-                        example: existed
+                        example: created
         '400':
           $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/400InvalidRequest'
         '401':
@@ -3742,7 +3742,6 @@ components:
               * created - Supplier user not found in sales platform and was created
               * existed - User existed already in sales platform and was updated
           enum:
-     
             - created
             - existed
         organisationAction:

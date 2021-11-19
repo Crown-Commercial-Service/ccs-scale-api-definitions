@@ -28,25 +28,13 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  userAction:
-                    type: string
-                    enum:
-                      - existed
-                  organisationAction:
-                    type: string
-                    enum:
-                      - created
-                      - pending
-                      - existed
-                  roles:
-                    type: array
-                    items:
-                      type: string
-                      enum:
-                        - buyer
-                        - supplier
+                allOf:
+                  - $ref: '#/components/schemas/RegisterUserResponse'
+                  - type: object
+                    properties:
+                      userAction:
+                        example: existed
+            
         '201':
           description: Success (for object creation). Its information is available in the
             data field at the top level of the response body. The API URL where
@@ -54,7 +42,12 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/RegisterUserResponse'
+                allOf:
+                  - $ref: '#/components/schemas/RegisterUserResponse'
+                  - type: object
+                    properties:
+                      userAction:
+                        example: created
         '400':
           $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/400InvalidRequest'
         '401':
@@ -63,14 +56,8 @@ paths:
           $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/403Forbidden'
         '404':
           $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/404NotFound'
-        '429':
-          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/429TooManyRequests'
         '500':
           $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/500InternalServerError'
-        '502':
-          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/502BadGateway'
-        '504':
-          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/504GatewayTimeout'
         default:
           description: successful operation
       summary: Register user to use Tenders (Jaggaer)
@@ -93,19 +80,15 @@ paths:
           $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/403Forbidden'
         '404':
           $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/404NotFound'
-        '429':
-          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/429TooManyRequests'
+        '409':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/409Conflict'        
         '500':
           $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/500InternalServerError'
-        '502':
-          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/502BadGateway'
       security:
         - openID:
             - read
             - write
       summary: Check User registered to use Tenders API (Jaggaer)
-      
-
       
   /tenders/orgs/{org-id}:
     parameters:
@@ -122,6 +105,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/UpdateOrgResponse'
+
+
         '400':
           $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/400InvalidRequest'
         '401':
@@ -130,14 +115,8 @@ paths:
           $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/403Forbidden'
         '404':
           $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/404NotFound'
-        '429':
-          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/429TooManyRequests'
         '500':
           $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/500InternalServerError'
-        '502':
-          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/502BadGateway'
-        '504':
-          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/504GatewayTimeout'
         default:
           description: successful operation
       summary: Update org details in Tenders (Jaggaer)
@@ -3760,14 +3739,24 @@ components:
       properties:
         userAction:
           type: string
+          description: |+
+            What action if any was taken for the user:
+              * created - Supplier user not found in sales platform and was created
+              * existed - User existed already in sales platform and was updated
           enum:
             - created
+            - existed
         organisationAction:
           type: string
+          description: |+
+            What action if any was taken for the organisation:
+              * created - Supplier org not found in sales platform and was created
+              * existed - Supplier org or Buyer already in sales platform - no action        
+              * pending - Buyer org not found in sales platform and was created in pending state
           enum:
             - created
-            - pending
             - existed
+            - pending
         roles:
           type: array
           items:
@@ -3781,10 +3770,18 @@ components:
       properties:
         organisationAction:
           type: string
+          description: |+
+            What action if any was taken for the organisation:
+              * nonRequired - No action taken (buyer orgs cannot currently be updated via this method)
+              * created - Not Currently in use (Orgs cannot currently be created via this method)
+              * existed - Org existed already in sales platform and was updated (supplier orgs only)
+              * pending - Not currently in use (Orgs cannot currently be created via this method)
           enum:
+            - nonRequired
             - created
-            - pending
             - existed
+            - pending
+          example: existed
         roles:
           type: array
           items:
@@ -3792,6 +3789,7 @@ components:
             enum:
               - buyer
               - supplier
+            example: supplier
 
   securitySchemes:
     openID:

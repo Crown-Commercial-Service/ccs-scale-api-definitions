@@ -177,6 +177,7 @@ components:
     StepState:
       type: string
       enum:
+        - Optional
         - Not started
         - Cannot start yet
         - In progress
@@ -184,6 +185,7 @@ components:
       description: >-
         Identifies the state of completion for a step:
           - ‘Not started’ (in grey) if the user can start work on the task, but has not done so yet
+          - 'Optional' If the user can start work on the task but doesnt need to to complete the journey.
           - ‘Cannot start yet’ (in grey) if the user cannot start the task yet - for example because another task must be completed first
           - ‘In progress’ (in light blue) if the user has started but not completed the task
           - ‘Completed’ (in blue) if the user has completed the task

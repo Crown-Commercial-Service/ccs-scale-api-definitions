@@ -3023,17 +3023,25 @@ components:
         - TEAM_MEMBER
         - PROJECT_OWNER
               
+    # See openapi-generator issue: https://github.com/OpenAPITools/openapi-generator/issues/7342
+    # Hence why we are repeating the validation attributes here, until a fix is issued
     AgreementDetails:
       type: object
+      required:
+        - agreementId
+        - lotId
       properties:
         agreementId:
           allOf:
             - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Schema.yaml#/components/schemas/AgreementId'
           readOnly: false
+          pattern: 'RM[0-9]{4}([.][0-9]{1,2})?'
         lotId:
           allOf:
             - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Schema.yaml#/components/schemas/LotId'
           readOnly: false
+          pattern: '([a-zA-Z0-9]+[ ]*)+'
+          maxLength: 20
           
     ExtendCriteria:
       description: >-

@@ -3040,7 +3040,7 @@ components:
           allOf:
             - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Schema.yaml#/components/schemas/LotId'
           readOnly: false
-          pattern: '[a-zA-Z0-9 ]+'
+          pattern: '([a-zA-Z0-9]+[ ]*)+'
           maxLength: 20
           
     ExtendCriteria:

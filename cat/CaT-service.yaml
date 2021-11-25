@@ -3027,6 +3027,9 @@ components:
     # Hence why we are repeating the validation attributes here, until a fix is issued
     AgreementDetails:
       type: object
+      required:
+        - agreementId
+        - lotId
       properties:
         agreementId:
           allOf:

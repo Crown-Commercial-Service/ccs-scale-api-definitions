@@ -1757,8 +1757,6 @@ paths:
         content:
           application/json:
             schema:
-              type: array
-              items:
                 $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OCDS_Standards/CCS-OCDS_Schema.yaml#/components/schemas/OrganizationReference'
       responses:
         '201':

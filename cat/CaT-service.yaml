@@ -1719,9 +1719,8 @@ paths:
       - $ref: '#/components/parameters/ProcurementParam'
       - $ref: '#/components/parameters/EventParam'
 
-
     get:
-      description: Get RFx's for this case
+      description: List all suppliers on an event
       tags:
         - Define Procurement Event
       operationId: Suppliers
@@ -1747,9 +1746,10 @@ paths:
       security:
         - OAuth2:
             - buyer
-      summary: List Suppliers on RFx
+      summary: List suppliers on an event
+
     post:
-      description: Creates a new RFx for the case.
+      description: Add a supplier to an event
       tags:
         - Define Procurement Event
       operationId: addSupplier
@@ -1757,10 +1757,16 @@ paths:
         content:
           application/json:
             schema:
-              $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OCDS_Standards/CCS-OCDS_Schema.yaml#/components/schemas/OrganizationReference'
+              type: array
+              items:
+                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OCDS_Standards/CCS-OCDS_Schema.yaml#/components/schemas/OrganizationReference'
       responses:
         '201':
-          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/201Success'
+          description: ok
+          content:
+            application/json:
+              schema:
+                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OCDS_Standards/CCS-OCDS_Schema.yaml#/components/schemas/OrganizationReference'
         '401':
           $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/401Unauthorized'
         '403':
@@ -1774,7 +1780,7 @@ paths:
       security:
         - OAuth2:
             - buyer
-      summary: Update Suppliers on RFx
+      summary: Add a supplier to an event
       
   /tenders/projects/{proc-id}/events/{event-id}/suppliers/{supplier-id}:
     parameters:
@@ -1784,7 +1790,7 @@ paths:
 
 
     delete:
-      description: Creates a new RFx for the case.
+      description: Remove a supplier from an event
       tags:
         - Define Procurement Event
       operationId: removeSuppliers
@@ -1804,7 +1810,7 @@ paths:
       security:
         - OAuth2:
             - buyer
-      summary: Update Suppliers on RFx
+      summary: Remove a supplier from an event
       
 
   /tenders/projects/{proc-id}/events/{event-id}:

@@ -3924,15 +3924,25 @@ components:
               - supplier
             example: supplier
             
+    DocumentAudienceType:
+      description: Intended audience for a document
+      type: string
+      enum:
+        - buyer
+        - supplier
+              
     DocumentSummary:
-      description: >-
-        Metadata relating to an attached document
+      description: Metadata relating to an attached document
       type: object
       properties:
+          id:
+            type: string
           filename: 
             type: string          
           description: 
             type: string  
+          audience:
+            $ref: '#/components/schemas/DocumentAudienceType'
 
   securitySchemes:
     openID:

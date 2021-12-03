@@ -3682,6 +3682,10 @@ components:
               description: |+
                 Defines a the buyer or supplier must answer the question before a tender or response is published
               type: boolean
+            preMarket:
+              description: |+
+                Defines a the question belong to preMarket or not
+              type: boolean
             multiAnswer:
               description: |+
                 Defines a the buyer can add new questions of this type

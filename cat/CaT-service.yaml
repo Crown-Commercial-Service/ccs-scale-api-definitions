@@ -1932,11 +1932,7 @@ paths:
                   type: string
                   description: Description of document
                 audience:
-                  type: string
-                  enum:
-                    - buyer
-                    - supplier 
-                  description: Audience for the document - 'buyer' or 'seller'
+                  $ref: '#/components/schemas/DocumentAudienceType'
       responses:
         '200':
           description: ok

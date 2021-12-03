@@ -71,8 +71,7 @@ paths:
         '500':
           $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/500InternalServerError'
 
-#
-  /agreements/{journey-id}/steps/{step-id}:
+  /journeys/{journey-id}/steps/{step-id}:
     put:
       description: Update the state of a step within the journey.
       tags:

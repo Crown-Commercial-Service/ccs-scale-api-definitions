@@ -3674,7 +3674,7 @@ components:
                 - Address
                 - KeyValuePair
                 - Text
-            answered: 
+            answered:
               description: |+
                 Defines a the buyer or supplier has answered
               type: boolean
@@ -3684,7 +3684,7 @@ components:
               type: boolean
             preMarket:
               description: |+
-                Defines a the question belong to preMarket or not
+                Defines (if/whether) the question belong(s) to pre market activity
               type: boolean
             multiAnswer:
               description: |+

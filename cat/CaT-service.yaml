@@ -1885,7 +1885,7 @@ paths:
       - $ref: '#/components/parameters/EventParam'
 
     get:
-      description: Get documents attached to an event
+      description: Get summary information of documents attached to an event
       tags:
         - Define Procurement Event
       operationId: getDocuments
@@ -1911,10 +1911,10 @@ paths:
       security:
         - OAuth2:
             - buyer
-      summary: Get Event Documents
+      summary: Get documents attached to an event
       
     put:
-      description: Add/update a document
+      description: Add/update a document attached to an event
       tags:
         - Define Procurement Event
       operationId: updateDocument
@@ -1939,7 +1939,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/EventSummary'
+                $ref: '#/components/schemas/DocumentSummary'
         '400':
           $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/400InvalidRequest'
         '401':
@@ -1955,7 +1955,7 @@ paths:
       security:
         - OAuth2:
             - buyer
-      summary: Add/Update a document
+      summary: Add/update a document attached to an event
       
   /tenders/projects/{proc-id}/events/{event-id}/documents/{document-id}:
     parameters:
@@ -1964,7 +1964,7 @@ paths:
       - $ref: '#/components/parameters/DocumentParam'
 
     get:
-      description: Download a document
+      description: Download a document attached to an event
       tags:
         - Define Procurement Event
       operationId: getDocument
@@ -1972,13 +1972,16 @@ paths:
         '200':
           description: ok
           content:
-            application/json:
+            application/octet-stream:
               schema:
-                $ref: '#/components/schemas/DocumentSummary'
+                type: string
+                format: binary
         '401':
           $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/401Unauthorized'
         '403':
           $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/403Forbidden'
+        '404':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/404NotFound'
         '429':
           $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/429TooManyRequests'
         '500':
@@ -1988,7 +1991,7 @@ paths:
       security:
         - OAuth2:
             - buyer
-      summary: Get Event Document
+      summary: Download a document attached to an event
       
   /tenders/projects/{proc-id}/events/{event-id}/GotoMarket/options:
     parameters:
@@ -2932,7 +2935,9 @@ components:
       required: true
       description: Document ID
       schema:
-        $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Schema.yaml#/components/schemas/GenericId'
+        type: string
+        example: YnV5ZXJANzYxMzg0OUBjYXQtamFnZ2Flci1maWxlLXRlc3QtMi50eHQ=
+        readOnly: true
 
 
   schemas:

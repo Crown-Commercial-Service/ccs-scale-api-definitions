@@ -3662,6 +3662,7 @@ components:
                 * Address (provides an address from buyer or supplier using a post code manual input)
                 * KeyValuePair (provides two related values)
                 * Text (provides an text field similar to text area in UI)
+                * DateTime (provides an text field to store date time )
               enum:
                 - Value
                 - Range
@@ -3674,6 +3675,7 @@ components:
                 - Address
                 - KeyValuePair
                 - Text
+                - DateTime
             answered:
               description: |+
                 Defines a the buyer or supplier has answered

@@ -61,7 +61,9 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/JourneyState'
+                type: array
+                items:
+                  $ref: '#/components/schemas/JourneyStepState'
         '400':
           $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/400InvalidRequest'
         '404':
@@ -69,8 +71,7 @@ paths:
         '500':
           $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/500InternalServerError'
 
-#
-  /agreements/{journey-id}/steps/{step-id}:
+  /journeys/{journey-id}/steps/{step-id}:
     put:
       description: Update the state of a step within the journey.
       tags:
@@ -127,36 +128,33 @@ components:
 #            read: Grants read access
 #           only read for MVP
   schemas:
-#
     JourneyId:
       type: string
       description: Journey ID defined by the UI. Must be unique within the a client and user space.
       example: "1234-5678"
- #         
+   
     Journey:
       type: object
       properties:
         journey-id:
           $ref: '#/components/schemas/JourneyId'
-        states: 
-          $ref: '#/components/schemas/JourneyState'
+        states:
+          type: array
+          items:
+            $ref: '#/components/schemas/JourneyStepState'
 
-#
-    JourneyState:
-      type: array
-      items:
-        type: object
-        properties:
-          step:
-            $ref: '#/components/schemas/StepId'
-          state:
-            $ref: '#/components/schemas/StepState'
+    JourneyStepState:
+      type: object
+      properties:
+        step:
+          $ref: '#/components/schemas/StepId'
+        state:
+          $ref: '#/components/schemas/StepState'
 
     StepId:
       type: integer
       description: Identifier for step          
 
-#
     StepState:
       type: string
       enum:

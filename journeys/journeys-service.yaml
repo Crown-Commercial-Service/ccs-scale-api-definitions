@@ -135,6 +135,9 @@ components:
    
     Journey:
       type: object
+      required:
+        - journey-id
+        - states
       properties:
         journey-id:
           $ref: '#/components/schemas/JourneyId'
@@ -145,6 +148,9 @@ components:
 
     JourneyStepState:
       type: object
+      required:
+        - step
+        - state
       properties:
         step:
           $ref: '#/components/schemas/StepId'

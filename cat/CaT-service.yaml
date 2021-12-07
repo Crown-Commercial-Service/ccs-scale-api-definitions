@@ -3930,7 +3930,7 @@ components:
       type: string
       enum:
         - buyer
-        - seller
+        - supplier
               
     DocumentSummary:
       description: Metadata relating to an attached document

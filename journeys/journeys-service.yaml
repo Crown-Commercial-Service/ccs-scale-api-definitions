@@ -131,6 +131,7 @@ components:
     JourneyId:
       type: string
       description: Journey ID defined by the UI. Must be unique within the a client and user space.
+      minLength: 1
       example: "1234-5678"
    
     Journey:

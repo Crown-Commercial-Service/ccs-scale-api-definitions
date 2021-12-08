@@ -4006,8 +4006,7 @@ components:
           fileName: 
             type: string  
           fileSize:
-            type: number
-            format: integer
+            type: integer
           description: 
             type: string  
           audience:

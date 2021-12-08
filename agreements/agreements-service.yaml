@@ -574,6 +574,9 @@ components:
           description: Routes to Market for the Lot and associated bounds
           items:
             $ref: '#/components/schemas/RouteToMarket'
+        supplierCount:
+          type: number
+          description: The number of suppliers listed under the lot that can be considered for an award under the lot.
         sectors:
           type: array
           items:

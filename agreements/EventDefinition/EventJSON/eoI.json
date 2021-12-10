@@ -1,0 +1,45 @@
+                        "dataType":"date-time",
+                        "maxValue":null,
+                        "minValue":null,
+                        "description":"",
+                        "expectedValue":null
+                     },
+                     "nonOCDS":{
+                        "options":null,
+                        "answered":false,
+                        "mandatory":true,
+                        "multiAnswer":false,
+                        "questionType":"Value"
+                     }
+                  },
+                  {
+                     "OCDS":{
+                        "id":"Question 5",
+                        "title":"Confirm your next steps to suppliers",
+                        "period":null,
+                        "pattern":null,
+                        "dataType":"date-time",
+                        "maxValue":null,
+                        "minValue":null,
+                        "description":"",
+                        "expectedValue":null
+                     },
+                     "nonOCDS":{
+                        "options":null,
+                        "answered":false,
+                        "mandatory":true,
+                        "multiAnswer":false,
+                        "questionType":"Value"
+                     }
+                  }
+               ]
+            },
+            "nonOCDS":{
+               "task":"Your EoI timeline",
+               "prompt":"  <p class=\"govuk-body\">A suggested timeline of 10 working days is already entered below. This takes the process up to when suppliers have submitted their responses, and allows a further 6 working days for you to decide what to do next and confirm that to the suppliers.</p> \n        \n        <p class=\"govuk-body\">There are:\n           </p><ul class=\"govuk-list govuk-list--bullet\" style=\"margin-left: 10px;margin-top: -13px;\"><li> 4 working days from publishing the EoI until the clarification period closes</li> \n           <li>2 working days from the clarification period closing to publishing your responses to the clarification questions</li>\n        <li>4 working days from publishing responses to the clarification questions to the deadline for suppliers to submit their response</li></ul><p></p>\n\n        <p class=\"govuk-body\">The clarification period is when suppliers can ask you further questions before submitting their information. You must meet the deadline you set for responding to their questions.</p>\n\n        <p class=\"govuk-body\"><strong>You can change the length of time for each section to more suitable times for you.</strong></p>\n       <br>\n       \n        <div class=\"govuk-form-group ccs-page-section\">\n            <p class=\"govuk-body-l\"><strong>Timeline for your EoI</strong></p><br/>",
+               "mandatory":false
+            }
+         }
+      ]
+   }
+]

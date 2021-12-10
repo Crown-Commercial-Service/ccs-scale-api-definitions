@@ -3206,7 +3206,7 @@ components:
             $ref: '#/components/schemas/UpdateTeamMemberType'
               
     UpdateTeamMemberType:
-      description: >-
+      description:
         Defines which new permission should be granted to a project Team Member
       type: string
       enum:
@@ -3483,7 +3483,32 @@ components:
               type: string
               format: date-time
               description: Date/time - Event Created
-
+            buyerQuestions:
+              type: array
+              items:
+                allOf:
+                  - $ref: '#/components/schemas/EvalCriteria'
+                  - type: object
+                    properties:
+                      relatesTo:
+                        type: string
+                      relateItems:
+                        type: string
+                      requirementGroups:
+                        allOf:
+                          - $ref: '#/components/schemas/QuestionGroup'
+                          - type: object
+                            properties:
+                              OCDS:
+                                type: object
+                                properties:
+                                  requirements:
+                                    type: array
+                                    items:
+                                      $ref: '#/components/schemas/Question'
+                                
+              description: Defines the questions that the buyer should answer to create the event along with answers given.
+              
                  
 
     EventDetailOCDS:
@@ -3812,18 +3837,21 @@ components:
               description: Defines if the user must answer the question to proceed.
               type: boolean
         OCDS:
-          allOf:
-            - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OCDS_Standards/CCS-OCDS_Schema.yaml#/components/schemas/RequirementGroup'
-            - type: object
-              properties:
-                id:
-                  description: 'The identifier for this question group. It must be unique and cannot change within the Open Contracting Process it is part of (defined by a single ocid). See the [identifier guidance](http://standard.open-contracting.org/latest/en/schema/identifiers/) for further details.'
-                  readOnly: true
-                description: 
-                  description: A description of this question group.
-                requirements:
-                  deprecated: true
-                  description: Inherited from OCDS RequirementsGroup but returned with a call to Questions endpoint
+            # overrides: https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/OCDS/OCDS_Requirements_Ext.yaml#/components/schemas/RequirementGroup
+            type: object
+            properties:
+              id:
+                title: Identifier
+                description: 'The identifier for this question group. It must be unique and cannot change within the Open Contracting Process it is part of (defined by a single ocid). See the [identifier guidance](http://standard.open-contracting.org/latest/en/schema/identifiers/) for further details.'
+                type: string
+                minLength: 1
+                readOnly: true
+              description: 
+                title: Description
+                description: A description of this question group.
+                nullable: true
+                type: string
+                minLength: 1                
        
  
     Question:

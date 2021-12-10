@@ -3849,6 +3849,7 @@ components:
                 * Address (provides an address from buyer or supplier using a post code manual input)
                 * KeyValuePair (provides two related values)
                 * Text (provides an text field similar to text area in UI)
+                * Monetary (provides a monetary value)
               enum:
                 - Value
                 - Range
@@ -3861,6 +3862,7 @@ components:
                 - Address
                 - KeyValuePair
                 - Text
+                - Monetary
             answered: 
               description: |+
                 Defines a the buyer or supplier has answered

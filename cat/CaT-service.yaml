@@ -3840,15 +3840,17 @@ components:
                 Type of question to be displayed:
                 * Value (provides information in the expectedValue from buyer or supplier) 
                 * Range (provides a range for the expectedValue from buyer)
-                * SingleSelect (Provides a single select from options from the buyer or supplier)
-                * MultiSelect (Provides a multi select from options from the buyer or supplier)
-                * SingleSelectWithOptions (Provides options from the buyer to use in a single select for the supplier)
-                * MultiSelectWithOptions (Provides options from the buyer to use in a multiselect select for the supplier)
-                * Document (Requires a document from a supplier)
+                * SingleSelect (provides a single select from options from the buyer or supplier)
+                * MultiSelect (provides a multi select from options from the buyer or supplier)
+                * SingleSelectWithOptions (provides options from the buyer to use in a single select for the supplier)
+                * MultiSelectWithOptions (provides options from the buyer to use in a multiselect select for the supplier)
+                * Document (requires a document from a supplier)
                 * DocumentWithTemplate (provides document from the buyer to be used as a template for the supplier)
                 * Address (provides an address from buyer or supplier using a post code manual input)
                 * KeyValuePair (provides two related values)
                 * Text (provides an text field similar to text area in UI)
+                * Monetary (provides a monetary value field)
+                * Duration (provides duration fields for years, months anddays)
               enum:
                 - Value
                 - Range
@@ -3861,6 +3863,8 @@ components:
                 - Address
                 - KeyValuePair
                 - Text
+                - Monetary
+                - Duration
             answered: 
               description: |+
                 Defines a the buyer or supplier has answered

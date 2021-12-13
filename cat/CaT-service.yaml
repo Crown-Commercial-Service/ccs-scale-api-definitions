@@ -3495,17 +3495,19 @@ components:
                       relateItems:
                         type: string
                       requirementGroups:
-                        allOf:
-                          - $ref: '#/components/schemas/QuestionGroup'
-                          - type: object
-                            properties:
-                              OCDS:
-                                type: object
-                                properties:
-                                  requirements:
-                                    type: array
-                                    items:
-                                      $ref: '#/components/schemas/Question'
+                        type: array
+                        items:
+                          allOf:
+                            - $ref: '#/components/schemas/QuestionGroup'
+                            - type: object
+                              properties:
+                                OCDS:
+                                  type: object
+                                  properties:
+                                    requirements:
+                                      type: array
+                                      items:
+                                        $ref: '#/components/schemas/Question'
                                 
               description: Defines the questions that the buyer should answer to create the event along with answers given.
               

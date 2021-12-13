@@ -3486,32 +3486,8 @@ components:
             buyerQuestions:
               type: array
               items:
-                allOf:
-                  - $ref: '#/components/schemas/EvalCriteria'
-                  - type: object
-                    properties:
-                      relatesTo:
-                        type: string
-                      relateItems:
-                        type: string
-                      requirementGroups:
-                        type: array
-                        items:
-                          allOf:
-                            - $ref: '#/components/schemas/QuestionGroup'
-                            - type: object
-                              properties:
-                                OCDS:
-                                  type: object
-                                  properties:
-                                    requirements:
-                                      type: array
-                                      items:
-                                        $ref: '#/components/schemas/Question'
-                                
+                $ref: '#/components/schemas/BuyerQuestion'
               description: Defines the questions that the buyer should answer to create the event along with answers given.
-              
-                 
 
     EventDetailOCDS:
       allOf:
@@ -4047,6 +4023,32 @@ components:
           audience:
             $ref: '#/components/schemas/DocumentAudienceType'
 
+    BuyerQuestion:
+      description: Defines a question that the buyer should answer to create the event along with answers given.
+      allOf:
+        - $ref: '#/components/schemas/EvalCriteria'
+        - type: object
+          properties:
+            relatesTo:
+              type: string
+            relateItems:
+              type: string
+            requirementGroups:
+              type: array
+              items:
+                allOf:
+                  - $ref: '#/components/schemas/QuestionGroup'
+                  - type: object
+                    properties:
+                      OCDS:
+                        type: object
+                        properties:
+                          requirements:
+                            type: array
+                            items:
+                              $ref: '#/components/schemas/Question'
+                        
+      
   securitySchemes:
     openID:
       type: openIdConnect

@@ -4028,13 +4028,10 @@ components:
         - $ref: '#/components/schemas/QuestionGroup'
         - type: object
           properties:
-            OCDS:
-              type: object
-              properties:
-                requirements:
-                  type: array
-                  items:
-                    $ref: '#/components/schemas/Question'
+            requirements:
+              type: array
+              items:
+                $ref: '#/components/schemas/Question'
     
     BuyerQuestionEvalCriteria:
       description: Defines a question that the buyer should answer to create the event along with answers given.

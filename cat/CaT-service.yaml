@@ -3486,7 +3486,7 @@ components:
             buyerQuestions:
               type: array
               items:
-                $ref: '#/components/schemas/BuyerQuestion'
+                $ref: '#/components/schemas/BuyerQuestionEvalCriteria'
               description: Defines the questions that the buyer should answer to create the event along with answers given.
 
     EventDetailOCDS:
@@ -4023,7 +4023,20 @@ components:
           audience:
             $ref: '#/components/schemas/DocumentAudienceType'
 
-    BuyerQuestion:
+    BuyerQuestionGroup:
+      allOf:
+        - $ref: '#/components/schemas/QuestionGroup'
+        - type: object
+          properties:
+            OCDS:
+              type: object
+              properties:
+                requirements:
+                  type: array
+                  items:
+                    $ref: '#/components/schemas/Question'
+    
+    BuyerQuestionEvalCriteria:
       description: Defines a question that the buyer should answer to create the event along with answers given.
       allOf:
         - $ref: '#/components/schemas/EvalCriteria'
@@ -4036,18 +4049,7 @@ components:
             requirementGroups:
               type: array
               items:
-                allOf:
-                  - $ref: '#/components/schemas/QuestionGroup'
-                  - type: object
-                    properties:
-                      OCDS:
-                        type: object
-                        properties:
-                          requirements:
-                            type: array
-                            items:
-                              $ref: '#/components/schemas/Question'
-                        
+                $ref: '#/components/schemas/BuyerQuestionGroup'
       
   securitySchemes:
     openID:

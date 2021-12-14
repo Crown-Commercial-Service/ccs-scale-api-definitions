@@ -3483,11 +3483,6 @@ components:
               type: string
               format: date-time
               description: Date/time - Event Created
-            buyerQuestions:
-              type: array
-              items:
-                $ref: '#/components/schemas/BuyerQuestionEvalCriteria'
-              description: Defines the questions that the buyer should answer to create the event along with answers given.
 
     EventDetailOCDS:
       allOf:
@@ -3736,6 +3731,11 @@ components:
           $ref: '#/components/schemas/EventDetailNonOCDS'
         OCDS:
           $ref: '#/components/schemas/EventDetailOCDS'
+        buyerQuestions:
+          type: array
+          items:
+            $ref: '#/components/schemas/BuyerQuestionEvalCriteria'
+          description: Defines the questions that the buyer should answer to create the event along with answers given.
             
     ProjectTerminationType:
       #allOf:

@@ -3206,7 +3206,7 @@ components:
             $ref: '#/components/schemas/UpdateTeamMemberType'
               
     UpdateTeamMemberType:
-      description:
+      description: >-
         Defines which new permission should be granted to a project Team Member
       type: string
       enum:
@@ -3482,7 +3482,7 @@ components:
             eventCreated:
               type: string
               format: date-time
-              description: Date/time - Event Create
+              description: Date/time - Event Created
             buyerQuestions:
               type: array
               items:
@@ -4035,7 +4035,6 @@ components:
           audience:
             $ref: '#/components/schemas/DocumentAudienceType'
 
-      
   securitySchemes:
     openID:
       type: openIdConnect

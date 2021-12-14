@@ -3814,10 +3814,6 @@ components:
             mandatory:
               description: Defines if the user must answer the question to proceed.
               type: boolean
-            requirements:
-              type: array
-              items:
-                $ref: '#/components/schemas/Question'
         OCDS:
             # overrides: https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/OCDS/OCDS_Requirements_Ext.yaml#/components/schemas/RequirementGroup
             type: object
@@ -3833,7 +3829,11 @@ components:
                 description: A description of this question group.
                 nullable: true
                 type: string
-                minLength: 1                
+                minLength: 1  
+              requirements:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Question'
        
  
     Question:

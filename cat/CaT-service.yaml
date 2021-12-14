@@ -3814,6 +3814,10 @@ components:
             mandatory:
               description: Defines if the user must answer the question to proceed.
               type: boolean
+            requirements:
+              type: array
+              items:
+                $ref: '#/components/schemas/Question'
         OCDS:
             # overrides: https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/OCDS/OCDS_Requirements_Ext.yaml#/components/schemas/RequirementGroup
             type: object
@@ -4022,16 +4026,6 @@ components:
             type: string  
           audience:
             $ref: '#/components/schemas/DocumentAudienceType'
-
-    BuyerQuestionGroup:
-      allOf:
-        - $ref: '#/components/schemas/QuestionGroup'
-        - type: object
-          properties:
-            requirements:
-              type: array
-              items:
-                $ref: '#/components/schemas/Question'
     
     BuyerQuestionEvalCriteria:
       description: Defines a question that the buyer should answer to create the event along with answers given.
@@ -4046,7 +4040,7 @@ components:
             requirementGroups:
               type: array
               items:
-                $ref: '#/components/schemas/BuyerQuestionGroup'
+                $ref: '#/components/schemas/QuestionGroup'
       
   securitySchemes:
     openID:

@@ -3877,6 +3877,10 @@ components:
               description: |+
                 Defines a the buyer can add new questions of this type
               type: boolean
+            order:
+              description: |+
+                Defines an order of the qustion to be displayed in UI
+              type: integer
             options:
               description: |+
                 Defines options

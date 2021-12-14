@@ -3811,6 +3811,10 @@ components:
             mandatory:
               description: Defines if the user must answer the question to proceed.
               type: boolean
+            order:
+              description: |+
+                Defines an order of the qustion group to be displayed in UI
+              type: integer
         OCDS:
           allOf:
             - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OCDS_Standards/CCS-OCDS_Schema.yaml#/components/schemas/RequirementGroup'
@@ -3877,6 +3881,10 @@ components:
               description: |+
                 Defines a the buyer can add new questions of this type
               type: boolean
+            order:
+              description: |+
+                Defines an order of the qustion to be displayed in UI
+              type: integer
             options:
               description: |+
                 Defines options

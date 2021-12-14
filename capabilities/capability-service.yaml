@@ -1,0 +1,435 @@
+openapi: "3.0.1"
+info:
+  title: "SCALE Capability Service"
+  version: v0.0.1
+  description: This API allows UI's to Query Capabilities.
+#  PLACEHOLDERs - to be uncommented when implemented
+  termsOfService: "http://api.crowncommercial.gov.uk/terms/"
+  contact:
+    email: "apiteam@crowncommercial.gov.uk"
+  license:
+    name: "Open Government Licence 3.0"
+    url: "https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/"
+#
+#
+#security:
+#  - OAuth2:
+#    - read
+paths:
+  /capabilities/dimensions:
+    get:
+      summary: Return list of capabilities.
+      description: Retrieves a list of dimensions for an event within a lot. 
+      tags:
+        - View Capabilities
+      operationId: get-capabilities
+      responses:
+        200:
+          description: Capabilities
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Dimension'
+        '400':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/400InvalidRequest'
+        '404':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/404NotFound'
+        '500':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/500InternalServerError'
+
+  /capabilites/assessments:
+    post:
+      description: Creates a new assessment that the user will score suppliers based on requirements for an event within a lot.
+      tags:
+        - Manage Assessments
+      operationId: create-assessment
+      requestBody:
+        content:
+          application/json::
+            schema:
+              $ref: '#/components/schemas/Assessment'
+
+      responses:
+        '201':
+            description: JourneyID for the created journey
+            content:
+                application/json:
+                    schema:
+                        $ref: '#/components/schemas/AssessmentId'
+        '401':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/401Unauthorized'
+        '403':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/403Forbidden'
+        '422':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/422ValidationErrors'
+        '500':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/500InternalServerError'
+      summary: Create a new Assessment
+      
+    get:
+      summary: Return list of assessments.
+      description: Retrieves a list of assessments created by user. 
+      tags:
+        - Manage Assessments
+      operationId: get-users-assessments
+      responses:
+        200:
+          description: Journey State
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/AssessmentId'
+        '400':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/400InvalidRequest'
+        '404':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/404NotFound'
+        '500':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/500InternalServerError'
+
+      
+  /capabilites/assessments/{assessment-id}:
+    get:
+      summary: Return assessment state.
+      description: Retrieves assessment. 
+      tags:
+        - Manage Assessments
+      operationId: get-assessment
+      parameters:
+        - $ref: '#/components/parameters/AssessmentParam'
+      responses:
+        200:
+          description: Assessment State
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Assessment'
+        '400':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/400InvalidRequest'
+        '404':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/404NotFound'
+        '500':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/500InternalServerError'
+
+  /capabilites/assessments/{assessment-id}/dimensions/{dimension-id}/requirements:
+    post:
+      description: Add a supplier to an event
+      tags:
+        - Manage Requirements
+      operationId: addRequirement
+      parameters:
+        - $ref: '#/components/parameters/AssessmentParam'
+        - $ref: '#/components/parameters/DimensionParam'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NewRequirement'
+      responses:
+        '201':
+          description: ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RequirementId'
+        '401':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/401Unauthorized'
+        '403':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/403Forbidden'
+        '429':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/429TooManyRequests'
+        '500':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/500InternalServerError'
+        '502':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/502BadGateway'
+      summary: Create a requirement
+  
+  /capabilites/assessments/{assessment-id}/dimensions/{dimension-id}/requirements/{requirement-id}:
+    parameters:
+      - $ref: '#/components/parameters/AssessmentParam'
+      - $ref: '#/components/parameters/DimensionParam'
+      - $ref: '#/components/parameters/RequirementParam'
+    put:
+      description: Updates a requirement on an assessment.
+      tags:
+        - Manage Requirements
+      operationId: update-requirementd
+      requestBody:
+        content:
+          application/json::
+            schema:
+              $ref: '#/components/schemas/NewRequirement'
+
+      responses:
+        '201':
+            description: JourneyID for the created journey
+            content:
+                application/json:
+                    schema:
+                        $ref: '#/components/schemas/AssessmentId'
+        '401':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/401Unauthorized'
+        '403':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/403Forbidden'
+        '422':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/422ValidationErrors'
+        '500':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/500InternalServerError'
+      summary: Update a requirement
+      
+    delete:
+      description: Remove a supplier from an event
+      tags:
+        - Manage Requirements
+      operationId: removeSuppliers
+      responses:
+        '200':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/200Success'
+        '401':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/401Unauthorized'
+        '403':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/403Forbidden'
+        '429':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/429TooManyRequests'
+        '500':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/500InternalServerError'
+        '502':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/502BadGateway'
+      summary: Remove a requirement
+
+components:
+
+# This needs to move to common as Event Types will be fixed across the organisation.
+  parameters:
+    DimensionParam:
+      name: dimension-id
+      in: path
+      required: true
+      description: Requirement ID
+      schema:
+        $ref: '#/components/schemas/DimensionId'
+  
+    AssessmentParam:
+      name: assessment-id
+      in: path
+      required: true
+      description: Assessment ID
+      schema:
+        $ref: '#/components/schemas/AssessmentId'
+        
+    RequirementParam:
+      name: requirement-id
+      in: path
+      required: true
+      description: Requirement ID
+      schema:
+        $ref: '#/components/schemas/RequirementId'
+
+
+#  securitySchemes:
+#    OAuth2:
+#      type: oauth2
+#      flows:
+#        authorizationCode:
+#          authorizationUrl: http://ccsexample.com/oauth/auth
+#          tokenUrl: https://api.crowncommercial.gov.uk/oauth/token
+#          scopes:
+#            read: Grants read access
+#           only read for MVP
+  schemas:
+    DimensionId:
+      type: integer
+      description: Assessment ID provided when a new assessment is created.
+      example: 1  
+  
+    AssessmentId:
+      type: integer
+      description: Assessment ID provided when a new assessment is created.
+      example: 1
+      
+    RequirementId:
+      type: integer
+      description: Assessment ID provided when a new assessment is created.
+      example: 1
+   
+    Assessment:
+      type: object
+      properties:
+        assesment-id:
+          $ref: '#/components/schemas/AssessmentId'
+        requirements:
+          type: array
+          items:
+            $ref: '#/components/schemas/Requirements'
+        scores:
+          type: array
+          items:
+            $ref: '#/components/schemas/SupplierScores'
+            
+    Dimension:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+          example: Resource Profile (SC)
+        type:
+          type: string
+          enum:
+            - integer
+            - select
+            - multiselect
+          example: multiselect
+        options:
+          type: array
+          items:
+            type: object
+            properties:
+              name:
+                type: string
+                example: Data Analyst
+              groups:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    name:
+                      type: string
+                      example: data
+                    level:
+                      type: integer
+                      example: 1
+        values:
+          type: array
+          items:
+            type: object
+            properties:
+              name:
+                type: string
+                example: 'via Subcontractors'
+              type:
+                type: string
+                enum:
+                  - integer
+                  - option
+                example: option
+              options:
+                type: array
+                items:
+                  type: string
+                example: ['None','Baseline Personnel Security Standard (BPSS)','Counter Terrorist Check (CTC)','Security Check (SC)','Developed Vetting (DV)']
+    
+    NewRequirement:
+      type: object
+      properties:
+        name:
+          type: string
+          example: data
+        weighting:
+          type: integer
+          example: 10
+        values:
+          type: array
+          items:
+            type: object
+            properties:
+              name:
+                type: string
+                example: 'via Subcontractors'
+              value:
+                oneOf:
+                  - type: integer
+                  - type: string
+                example: 'Security Check (SC)'
+                
+    Requirements:
+      type: object
+      properties:
+        dimension:
+          type: string
+          example: Resource Profile (SC)
+        requirements:
+          type: array
+          items:
+            $ref: '#/components/schemas/Requirement'
+                  
+    Requirement:
+      type: object
+      properties:
+        id:
+          type: integer
+        
+        name:
+          type: string
+          example: Data Analyst
+        groups:
+          type: array
+          items:
+            type: object
+            properties:
+              name:
+                type: string
+                example: data
+              level:
+                type: integer
+                example: 1
+        values:
+          type: array
+          items:
+            type: object
+            properties:
+              name:
+                type: string
+                example: 'via Subcontractors'
+              type:
+                type: string
+                enum:
+                  - integer
+                  - option
+                example: option
+              options:
+                type: array
+                items:
+                  type: string
+                example: ['None','Baseline Personnel Security Standard (BPSS)','Counter Terrorist Check (CTC)','Security Check (SC)','Developed Vetting (DV)']
+              value:
+                oneOf:
+                  - type: integer
+                  - type: string
+                
+    
+      
+    SupplierScores:
+      type: object
+      properties:
+        supplier:
+          type: string
+        scores:
+          type: array
+          items:
+              $ref: '#/components/schemas/Score'
+        total:
+          type: integer
+              
+    Score:
+      type: object
+      properties:
+        requirement:
+          type: string
+        value:
+          type: integer
+        weightedValue:
+          type: integer
+
+
+
+servers:
+  # Added by API Auto Mocking Plugin
+  - description: SwaggerHub API Auto Mocking
+    url: https://virtserver.swaggerhub.com/davejhughes/agreement-service/v0.0.6

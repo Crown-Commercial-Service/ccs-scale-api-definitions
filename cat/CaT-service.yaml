@@ -3869,7 +3869,9 @@ components:
                 - Text
                 - Monetary
                 - Duration
-            answered: 
+                - Date
+                - DateTime
+            answered:
               description: |+
                 Defines a the buyer or supplier has answered
               type: boolean

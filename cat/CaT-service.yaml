@@ -3854,7 +3854,9 @@ components:
                 * KeyValuePair (provides two related values)
                 * Text (provides an text field similar to text area in UI)
                 * Monetary (provides a monetary value field)
-                * Duration (provides duration fields for years, months anddays)
+                * Duration (provides duration fields for years, months and days)
+                * Date (provides date format to be displayed in UI)
+                * DateTime (provides date time format to be displayed in UI)
               enum:
                 - Value
                 - Range

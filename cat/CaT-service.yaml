@@ -3483,8 +3483,11 @@ components:
               type: string
               format: date-time
               description: Date/time - Event Created
-
-                 
+            buyerQuestions:
+              type: array
+              items:
+                $ref: '#/components/schemas/EvalCriteria'
+              description: Defines the questions that the buyer should answer to create the event along with answers given.
 
     EventDetailOCDS:
       allOf:
@@ -3789,7 +3792,15 @@ components:
           title: 
             type: string          
           description: 
-            type: string  
+            type: string
+          relatesTo:
+            type: string
+          relateItems:
+            type: string
+          requirementGroups:
+            type: array
+            items:
+              $ref: '#/components/schemas/QuestionGroup'
             
             
     QuestionGroup:
@@ -3816,18 +3827,25 @@ components:
                 Defines an order of the qustion group to be displayed in UI
               type: integer
         OCDS:
-          allOf:
-            - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OCDS_Standards/CCS-OCDS_Schema.yaml#/components/schemas/RequirementGroup'
-            - type: object
-              properties:
-                id:
-                  description: 'The identifier for this question group. It must be unique and cannot change within the Open Contracting Process it is part of (defined by a single ocid). See the [identifier guidance](http://standard.open-contracting.org/latest/en/schema/identifiers/) for further details.'
-                  readOnly: true
-                description: 
-                  description: A description of this question group.
-                requirements:
-                  deprecated: true
-                  description: Inherited from OCDS RequirementsGroup but returned with a call to Questions endpoint
+            # overrides: https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/OCDS/OCDS_Requirements_Ext.yaml#/components/schemas/RequirementGroup
+            type: object
+            properties:
+              id:
+                title: Identifier
+                description: 'The identifier for this question group. It must be unique and cannot change within the Open Contracting Process it is part of (defined by a single ocid). See the [identifier guidance](http://standard.open-contracting.org/latest/en/schema/identifiers/) for further details.'
+                type: string
+                minLength: 1
+                readOnly: true
+              description: 
+                title: Description
+                description: A description of this question group.
+                nullable: true
+                type: string
+                minLength: 1  
+              requirements:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Question'
        
  
     Question:

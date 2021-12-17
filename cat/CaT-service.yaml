@@ -3,7 +3,7 @@ openapi: 3.0.0
 info:
   title: Tenders API
   description: Optional multiline or single-line description in [CommonMark](http://commonmark.org/help/) or HTML.
-  version: 0.1.12
+  version: 0.1.13
 servers:
   - url: http://api.example.com/v1
     description: Optional server description, e.g. Main (production) server
@@ -1213,7 +1213,7 @@ paths:
       - $ref: '#/components/parameters/EventParam'
       - $ref: '#/components/parameters/CriterionParam'
       - $ref: '#/components/parameters/GroupParam'
-      - $ref: '#/components/parameters/NeedParam'
+      - $ref: '#/components/parameters/QuestionParam'
 
 
     get:
@@ -2976,7 +2976,9 @@ components:
       required: true
       description: Criterion ID
       schema:
-        $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Schema.yaml#/components/schemas/GenericId'
+        type: string
+        example: 1
+        readOnly: true
         
     GroupParam:
       name: group-id
@@ -2984,7 +2986,19 @@ components:
       required: true
       description: Question Group ID
       schema:
-        $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Schema.yaml#/components/schemas/GenericId'
+        type: string
+        example: 1
+        readOnly: true
+        
+    QuestionParam:
+      name: question-id
+      in: path
+      required: true
+      description: Question ID
+      schema:
+        type: string
+        example: 1
+        readOnly: true
     
     NeedParam:
       name: question-id

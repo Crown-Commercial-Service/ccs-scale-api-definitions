@@ -2107,7 +2107,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OCDS_Standards/CCS-OCDS_Schema.yaml#/components/schemas/ProcurementMethod'
+              $ref: '#/components/schemas/PublishDates'
       responses:
         '200':
           $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/200Success'
@@ -4046,6 +4046,20 @@ components:
             type: string  
           audience:
             $ref: '#/components/schemas/DocumentAudienceType'
+            
+    PublishDates:
+      description: Metadata relating to an attached document
+      type: object
+      properties:
+        startDate:
+          type: string
+          format: date-time
+        endDate: 
+          type: string 
+          format: date-time
+          mandatory: true
+      required:
+        - endDate
 
   securitySchemes:
     openID:

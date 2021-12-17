@@ -4057,7 +4057,6 @@ components:
         endDate: 
           type: string 
           format: date-time
-          mandatory: true
       required:
         - endDate
 

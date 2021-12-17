@@ -40,6 +40,7 @@ paths:
         - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Params.yaml#/components/parameters/x-causation-id'
         - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Params.yaml#/components/parameters/x-channel'
         - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Params.yaml#/components/parameters/x-client'
+        - $ref: '#/components/parameters/ServiceParam'
       responses:
         '200':
           description: Collection of Commercial Agreement summary entities
@@ -475,6 +476,15 @@ components:
       schema:
         $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/cat/CaT-service.yaml#/components/schemas/DefineEventType'
 
+    ServiceParam:
+      name: service
+      in: query
+      required: false
+      description: Limits the returned agreements to thise supported by the supplied service
+      schema:
+        type: string
+        example: CaT
+        
 #  securitySchemes:
 #    OAuth2:
 #      type: oauth2

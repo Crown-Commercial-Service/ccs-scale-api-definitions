@@ -3835,32 +3835,7 @@ components:
           type: object
           properties:
             questionType:
-              type: string
-              description: |+
-                Type of question to be displayed:
-                * Value (provides information in the expectedValue from buyer or supplier) 
-                * Range (provides a range for the expectedValue from buyer)
-                * SingleSelect (Provides a single select from options from the buyer or supplier)
-                * MultiSelect (Provides a multi select from options from the buyer or supplier)
-                * SingleSelectWithOptions (Provides options from the buyer to use in a single select for the supplier)
-                * MultiSelectWithOptions (Provides options from the buyer to use in a multiselect select for the supplier)
-                * Document (Requires a document from a supplier)
-                * DocumentWithTemplate (provides document from the buyer to be used as a template for the supplier)
-                * Address (provides an address from buyer or supplier using a post code manual input)
-                * KeyValuePair (provides two related values)
-                * Text (provides an text field similar to text area in UI)
-              enum:
-                - Value
-                - Range
-                - SingleSelect
-                - MultiSelect
-                - SingleSelectWithOptions
-                - MultiSelectWithOptions
-                - Document
-                - DocumentWithTemplate
-                - Address
-                - KeyValuePair
-                - Text
+              $ref: '#/components/schemas/QuestionType'
             answered: 
               description: |+
                 Defines a the buyer or supplier has answered
@@ -3886,10 +3861,75 @@ components:
                     type: string
                   selected:
                     type: boolean
+            dependency:
+              description: |+
+                Describes any dependency this question has on another question
+              type: object
+              properties:
+                dependentOnId:
+                  type: string
+                questionType:
+                  $ref: '#/components/schemas/QuestionType'
+                dependencyType:
+                  $ref: '#/components/schemas/DependencyType'
+                dependencyValue:
+                  type: 
+                    oneOf:
+                      - type: string
+                      - type: integer
+                      - type: date
+                      - type: boolean
+                
         OCDS:
           $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OCDS_Standards/CCS-OCDS_Schema.yaml#/components/schemas/Requirement'
       
-      
+    QuestionType:
+      type: string
+      description: |+
+        Type of question to be displayed:
+          * Value (provides information in the expectedValue from buyer or supplier) 
+          * Range (provides a range for the expectedValue from buyer)
+          * SingleSelect (Provides a single select from options from the buyer or supplier)
+          * MultiSelect (Provides a multi select from options from the buyer or supplier)
+          * SingleSelectWithOptions (Provides options from the buyer to use in a single select for the supplier)
+          * MultiSelectWithOptions (Provides options from the buyer to use in a multiselect select for the supplier)
+          * Document (Requires a document from a supplier)
+          * DocumentWithTemplate (provides document from the buyer to be used as a template for the supplier)
+          * Address (provides an address from buyer or supplier using a post code manual input)
+          * KeyValuePair (provides two related values)
+          * Text (provides an text field similar to text area in UI)
+      enum:
+        - Value
+        - Range
+        - SingleSelect
+        - MultiSelect
+        - SingleSelectWithOptions
+        - MultiSelectWithOptions
+        - Document
+        - DocumentWithTemplate
+        - Address
+        - KeyValuePair
+        - Text
+    
+    DependencyType:
+      type: string
+      description: |+
+        Type of relationship to dependent field:
+          * GreaterThan (Greater than dependency value) 
+          * EqualTo (Equal to the dependency Value
+          * LessThan (Less than the dependency value)
+          * Inside (Inside a range or period)
+          * Outside (Outside a range or period)
+          * NotNull (Any answer has been provided)
+      enum:
+        - GreaterThan
+        - EqualTo
+        - LessThan
+        - Inside
+        - Outside
+        - NotNull
+        
+  
 
     ResponseSummary:
       description: >-

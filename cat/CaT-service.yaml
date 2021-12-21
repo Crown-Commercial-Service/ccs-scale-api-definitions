@@ -3866,20 +3866,31 @@ components:
                 Describes any dependency this question has on another question
               type: object
               properties:
-                dependentOnId:
-                  type: string
-                questionType:
-                  $ref: '#/components/schemas/QuestionType'
-                dependencyType:
-                  $ref: '#/components/schemas/DependencyType'
-                dependencyValue:
-                  type: 
-                    oneOf:
-                      - type: string
-                      - type: integer
-                      - type: date
-                      - type: boolean
-                
+                conditional:
+                  description: |+
+                    Describes the condition when this question should be shown based on another question.
+                  dependentOnId:
+                    type: string
+                  dependencyType:
+                    $ref: '#/components/schemas/DependencyType'
+                  dependencyValue:
+                    type: 
+                      oneOf:
+                        - type: string
+                        - type: integer
+                        - type: date
+                        - type: boolean
+                relationships:
+                  description: |+
+                    Describes the relationships the answers provided to a question.
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      dependentOnId:
+                        type: string
+                      relationshipType:
+                        $ref: '#/components/schemas/DependencyType'
         OCDS:
           $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OCDS_Standards/CCS-OCDS_Schema.yaml#/components/schemas/Requirement'
       
@@ -3928,6 +3939,25 @@ components:
         - Inside
         - Outside
         - NotNull
+        
+        
+    RelationshipType:
+      type: string
+      description: |+
+        Type of relationship to dependent field:
+          * GreaterThan (Greater than dependency value) 
+          * EqualTo (Equal to the dependency Value
+          * LessThan (Less than the dependency value)
+          * Inside (Inside a range or period)
+          * Outside (Outside a range or period)
+          * Alternative (only one may contain an answer)
+      enum:
+        - GreaterThan
+        - EqualTo
+        - LessThan
+        - Inside
+        - Outside
+        - Alternative
         
   
 

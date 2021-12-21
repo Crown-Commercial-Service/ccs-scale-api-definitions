@@ -802,27 +802,27 @@ components:
         The criteria are made up of questions to be asked of the buyer to support the two options. Questions may be broken in logical groups within each criteria.
        
       type: array
-        items:
-          allOf:
-            - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/cat/CaT-service.yaml#/components/schemas/EvalCriteria'
-            - type: object
-              properties:
-                relatesTo:
-                  type: string
-                relateItems:
-                  type: string
-                requirementGroups:
-                  allOf:
-                    - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/cat/CaT-service.yaml#/components/schemas/QuestionGroup'
-                    - type: object
-                      properties:
-                        OCDS:
-                          type: object
-                          properties:
-                            requirements:
-                              type: array
-                              items:
-                                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/cat/CaT-service.yaml#/components/schemas/Question'
+      items:
+        allOf:
+          - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/cat/CaT-service.yaml#/components/schemas/EvalCriteria'
+          - type: object
+            properties:
+              relatesTo:
+                 type: string
+              relateItems:
+                type: string
+              requirementGroups:
+                allOf:
+                  - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/cat/CaT-service.yaml#/components/schemas/QuestionGroup'
+                  - type: object
+                    properties:
+                      OCDS:
+                        type: object
+                        properties:
+                          requirements:
+                            type: array
+                            items:
+                              $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/cat/CaT-service.yaml#/components/schemas/Question'
 
 #
     DocumentTemplate:

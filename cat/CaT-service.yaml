@@ -3,7 +3,7 @@ openapi: 3.0.0
 info:
   title: Tenders API
   description: Optional multiline or single-line description in [CommonMark](http://commonmark.org/help/) or HTML.
-  version: 0.1.12
+  version: 0.1.13
 servers:
   - url: http://api.example.com/v1
     description: Optional server description, e.g. Main (production) server
@@ -1213,7 +1213,7 @@ paths:
       - $ref: '#/components/parameters/EventParam'
       - $ref: '#/components/parameters/CriterionParam'
       - $ref: '#/components/parameters/GroupParam'
-      - $ref: '#/components/parameters/NeedParam'
+      - $ref: '#/components/parameters/QuestionParam'
 
 
     get:
@@ -2058,13 +2058,13 @@ paths:
             - buyer
       summary: Download a document attached to an event
       
-  /tenders/projects/{proc-id}/events/{event-id}/GotoMarket/options:
+  /tenders/projects/{proc-id}/events/{event-id}/publish/options:
     parameters:
       - $ref: '#/components/parameters/ProcurementParam'
       - $ref: '#/components/parameters/EventParam'
 
     get:
-      description: Get the options open to go to market
+      description: Get the options for publishing an event to the market
       tags:
         - Manage Procurement Project
       operationId: GoToMarketOptions
@@ -2092,14 +2092,14 @@ paths:
             - buyer
       summary: Get Go to market options for an event
       
-  /tenders/projects/{proc-id}/events/{event-id}/GotoMarket/:
+  /tenders/projects/{proc-id}/events/{event-id}/publish:
     parameters:
       - $ref: '#/components/parameters/ProcurementParam'
       - $ref: '#/components/parameters/EventParam'
 
 
     put:
-      description: Release the Event to the market.
+      description: Publish the Event to the market.
       tags:
         - Manage Procurement Project
       operationId: GotoMarket
@@ -2107,7 +2107,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OCDS_Standards/CCS-OCDS_Schema.yaml#/components/schemas/ProcurementMethod'
+              $ref: '#/components/schemas/PublishDates'
       responses:
         '200':
           $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/200Success'
@@ -2126,7 +2126,7 @@ paths:
             - buyer
       summary: Go to market for an event
       
-  /tenders/projects/{proc-id}/events/{event-id}/GotoMarket/extend:
+  /tenders/projects/{proc-id}/events/{event-id}/publish/extend:
     parameters:
       - $ref: '#/components/parameters/ProcurementParam'
       - $ref: '#/components/parameters/EventParam'
@@ -2976,7 +2976,9 @@ components:
       required: true
       description: Criterion ID
       schema:
-        $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Schema.yaml#/components/schemas/GenericId'
+        type: string
+        example: 1
+        readOnly: true
         
     GroupParam:
       name: group-id
@@ -2984,7 +2986,19 @@ components:
       required: true
       description: Question Group ID
       schema:
-        $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Schema.yaml#/components/schemas/GenericId'
+        type: string
+        example: 1
+        readOnly: true
+        
+    QuestionParam:
+      name: question-id
+      in: path
+      required: true
+      description: Question ID
+      schema:
+        type: string
+        example: 1
+        readOnly: true
     
     NeedParam:
       name: question-id
@@ -3483,8 +3497,11 @@ components:
               type: string
               format: date-time
               description: Date/time - Event Created
-
-                 
+            buyerQuestions:
+              type: array
+              items:
+                $ref: '#/components/schemas/EvalCriteria'
+              description: Defines the questions that the buyer should answer to create the event along with answers given.
 
     EventDetailOCDS:
       allOf:
@@ -3789,7 +3806,15 @@ components:
           title: 
             type: string          
           description: 
-            type: string  
+            type: string
+          relatesTo:
+            type: string
+          relateItems:
+            type: string
+          requirementGroups:
+            type: array
+            items:
+              $ref: '#/components/schemas/QuestionGroup'
             
             
     QuestionGroup:
@@ -3811,19 +3836,30 @@ components:
             mandatory:
               description: Defines if the user must answer the question to proceed.
               type: boolean
+            order:
+              description: |+
+                Defines an order of the qustion group to be displayed in UI
+              type: integer
         OCDS:
-          allOf:
-            - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OCDS_Standards/CCS-OCDS_Schema.yaml#/components/schemas/RequirementGroup'
-            - type: object
-              properties:
-                id:
-                  description: 'The identifier for this question group. It must be unique and cannot change within the Open Contracting Process it is part of (defined by a single ocid). See the [identifier guidance](http://standard.open-contracting.org/latest/en/schema/identifiers/) for further details.'
-                  readOnly: true
-                description: 
-                  description: A description of this question group.
-                requirements:
-                  deprecated: true
-                  description: Inherited from OCDS RequirementsGroup but returned with a call to Questions endpoint
+            # overrides: https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/OCDS/OCDS_Requirements_Ext.yaml#/components/schemas/RequirementGroup
+            type: object
+            properties:
+              id:
+                title: Identifier
+                description: 'The identifier for this question group. It must be unique and cannot change within the Open Contracting Process it is part of (defined by a single ocid). See the [identifier guidance](http://standard.open-contracting.org/latest/en/schema/identifiers/) for further details.'
+                type: string
+                minLength: 1
+                readOnly: true
+              description: 
+                title: Description
+                description: A description of this question group.
+                nullable: true
+                type: string
+                minLength: 1  
+              requirements:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Question'
        
  
     Question:
@@ -3848,6 +3884,10 @@ components:
               description: |+
                 Defines a the buyer can add new questions of this type
               type: boolean
+            order:
+              description: |+
+                Defines an order of the qustion to be displayed in UI
+              type: integer
             options:
               description: |+
                 Defines options
@@ -4082,6 +4122,19 @@ components:
             type: string  
           audience:
             $ref: '#/components/schemas/DocumentAudienceType'
+            
+    PublishDates:
+      description: Metadata relating to an attached document
+      type: object
+      properties:
+        startDate:
+          type: string
+          format: date-time
+        endDate: 
+          type: string 
+          format: date-time
+      required:
+        - endDate
 
   securitySchemes:
     openID:

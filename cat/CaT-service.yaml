@@ -3919,7 +3919,11 @@ components:
               type: boolean
             order:
               description: |+
-                Defines an order of the qustion to be displayed in UI
+                Defines an order of the question to be displayed in UI
+              type: integer
+            length:
+              description: |+
+                Defines the maximum length of the question answer to be displayed in UI
               type: integer
             options:
               description: |+

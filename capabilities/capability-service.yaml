@@ -233,7 +233,7 @@ components:
       name: dimension-id
       in: path
       required: true
-      description: Requirement ID
+      description: Dimension ID
       schema:
         $ref: '#/components/schemas/DimensionId'
     AssessmentParam:

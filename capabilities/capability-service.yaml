@@ -31,7 +31,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/Dimension'
+                  $ref: '#/components/schemas/DimensionDefinition'
         '400':
           $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/400InvalidRequest'
         '404':
@@ -110,6 +110,40 @@ paths:
           $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/404NotFound'
         '500':
           $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/500InternalServerError'
+          
+  /capabilites/assessments/{assessment-id}/dimensions/{dimension-id}:
+    put:
+      description: Add a supplier to an event
+      tags:
+        - Manage Requirements
+      operationId: WeightDimension
+      parameters:
+        - $ref: '#/components/parameters/AssessmentParam'
+        - $ref: '#/components/parameters/DimensionParam'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DimensionRequirement'
+      responses:
+        '201':
+          description: ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RequirementId'
+        '401':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/401Unauthorized'
+        '403':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/403Forbidden'
+        '429':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/429TooManyRequests'
+        '500':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/500InternalServerError'
+        '502':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/502BadGateway'
+      summary: Create a requirement
+      
   /capabilites/assessments/{assessment-id}/dimensions/{dimension-id}/requirements:
     post:
       description: Add a supplier to an event
@@ -142,6 +176,7 @@ paths:
         '502':
           $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/502BadGateway'
       summary: Create a requirement
+  
   /capabilites/assessments/{assessment-id}/dimensions/{dimension-id}/requirements/{requirement-id}:
     parameters:
       - $ref: '#/components/parameters/AssessmentParam'
@@ -239,7 +274,9 @@ components:
         requirements:
           type: array
           items:
-            $ref: '#/components/schemas/Requirements'
+            allOf:
+              - $ref: '#/components/schemas/DimensionRequirement'
+              - $ref: '#/components/schemas/Requirements'
         scores:
           type: array
           readOnly: true
@@ -255,22 +292,30 @@ components:
           example: Resource Profile (SC)
         type:
           type: string
-          enum:
-            - integer
-            - select
-            - multiselect
-          example: multiselect
-          readOnly: true
-        weightingRange:
-          $ref: '#/components/schemas/WeightingRange'
-        options:
-          type: array
-          items:
-            $ref: '#/components/schemas/DimensionOption'
-        values:
-          type: array
-          items:
-            $ref: '#/components/schemas/Value'
+            
+    DimensionDefinition:
+      allOf:
+        - $ref: '#/components/schemas/Dimension'
+        - type: object
+          properties:
+            type:
+              type: string
+              enum:
+                - integer
+                - select
+                - multiselect
+              example: multiselect
+              readOnly: true
+            weightingRange:
+              $ref: '#/components/schemas/WeightingRange'
+            options:
+              type: array
+              items:
+                $ref: '#/components/schemas/DimensionOption'
+            values:
+              type: array
+              items:
+                $ref: '#/components/schemas/Value'
             
     DimensionOption:
       type: object
@@ -289,6 +334,7 @@ components:
               level:
                 type: integer
                 example: 1
+          readOnly: true
                   
     WeightingRange:
       type: object
@@ -303,22 +349,29 @@ components:
           minimum: 0
           maximum: 100
           example: 60
+          
+    DimensionRequirement:
+      allOf:
+        - $ref: '#/components/schemas/Dimension'
+        - type: object
+          properties:
+            weighting:
+              type: integer
+              example: 10
+            includedValues:
+              type: array
+              items:
+                $ref: '#/components/schemas/ValueDefinition'
     
     Requirements:
-      type: object
-      properties:
-        dimension-id:
-          $ref: '#/components/schemas/DimensionId'
-        dimension:
-          type: string
-          example: Resource Profile (SC)
-        weighting:
-          type: integer
-          example: 10
-        requirements:
-          type: array
-          items:
-            $ref: '#/components/schemas/Requirement'
+      allOf:
+        - $ref: '#/components/schemas/Dimension'
+        - type: object
+          properties:
+            requirements:
+              type: array
+              items:
+                $ref: '#/components/schemas/Requirement'
             
     Requirement:
       allOf:
@@ -331,37 +384,43 @@ components:
               type: array
               items:
                 $ref: '#/components/schemas/Value'
-          
-    Value:
+                
+    ValueDefinition:
       type: object
       properties:
         name:
           type: string
           example: via Subcontractors
-        type:
-          type: string
-          enum:
-            - integer
-            - select
-          example: select
-          readOnly: true
-        options:
-          type: array
-          items:
-            type: string
-          example:
-            - None
-            - Baseline Personnel Security Standard (BPSS)
-            - Counter Terrorist Check (CTC)
-            - Security Check (SC)
-            - Developed Vetting (DV)
-          readOnly: true
-        value:
-          oneOf:
-            - type: integer
-            - type: string
-          example: Security Check (SC)
-          writeOnly: true
+          
+    Value:
+      allOf:
+        - $ref: '#/components/schemas/ValueDefinition'
+        - type: object
+          properties:
+            type:
+              type: string
+              enum:
+                - integer
+                - select
+              example: select
+              readOnly: true
+            options:
+              type: array
+              items:
+                type: string
+              example:
+                - None
+                - Baseline Personnel Security Standard (BPSS)
+                - Counter Terrorist Check (CTC)
+                - Security Check (SC)
+                - Developed Vetting (DV)
+              readOnly: true
+            value:
+              oneOf:
+                - type: integer
+                - type: string
+              example: Security Check (SC)
+        
           
     SupplierScores:
       type: object

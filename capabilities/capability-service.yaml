@@ -253,7 +253,7 @@ components:
   schemas:
     DimensionId:
       type: integer
-      description: Dimension ID provided when defined in .
+      description: Dimension ID provided within the capability definition .
       example: 1
       readOnly: true
     AssessmentId:
@@ -263,7 +263,7 @@ components:
       readOnly: true
     RequirementId:
       type: integer
-      description: Assessment ID provided when a new assessment is created.
+      description: Requirement ID provided when a new requirement is added.
       example: 1
       readOnly: true
     Assessment:

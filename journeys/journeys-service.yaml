@@ -146,6 +146,7 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/JourneyStepState'
+          minItems: 1
 
     JourneyStepState:
       type: object

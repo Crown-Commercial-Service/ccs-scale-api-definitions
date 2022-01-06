@@ -16,13 +16,15 @@ info:
 #  - OAuth2:
 #    - read
 paths:
-  /capabilities/dimensions:
+  /capabilities/{tool-id}/dimensions:
     get:
       summary: Return list of capabilities.
       description: Retrieves a list of dimensions for an event within a lot. 
       tags:
         - View Capabilities
       operationId: get-capabilities
+      parameters:
+        - $ref: '#/components/parameters/ToolParam'
       responses:
         '200':
           description: Capabilities
@@ -79,7 +81,12 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/AssessmentId'
+                  type: object
+                  properties:
+                    assessment-id:
+                      $ref: '#/components/schemas/AssessmentId'
+                    tool-id:
+                      $ref: '#/components/schemas/ToolId'
         '400':
           $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/400InvalidRequest'
         '404':
@@ -113,10 +120,10 @@ paths:
           
   /capabilites/assessments/{assessment-id}/dimensions/{dimension-id}:
     put:
-      description: Add a supplier to an event
+      description: Adds/Updates dimension details on an assessment
       tags:
         - Manage Requirements
-      operationId: WeightDimension
+      operationId: update-dimension
       parameters:
         - $ref: '#/components/parameters/AssessmentParam'
         - $ref: '#/components/parameters/DimensionParam'
@@ -131,7 +138,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/RequirementId'
+                $ref: '#/components/schemas/OptionId'
         '401':
           $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/401Unauthorized'
         '403':
@@ -142,51 +149,19 @@ paths:
           $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/500InternalServerError'
         '502':
           $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/502BadGateway'
-      summary: Create a requirement
+      summary: Add/Update dimension
       
-  /capabilites/assessments/{assessment-id}/dimensions/{dimension-id}/requirements:
-    post:
-      description: Add a supplier to an event
-      tags:
-        - Manage Requirements
-      operationId: addRequirement
-      parameters:
-        - $ref: '#/components/parameters/AssessmentParam'
-        - $ref: '#/components/parameters/DimensionParam'
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/Requirement'
-      responses:
-        '201':
-          description: ok
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/RequirementId'
-        '401':
-          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/401Unauthorized'
-        '403':
-          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/403Forbidden'
-        '429':
-          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/429TooManyRequests'
-        '500':
-          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/500InternalServerError'
-        '502':
-          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/502BadGateway'
-      summary: Create a requirement
   
-  /capabilites/assessments/{assessment-id}/dimensions/{dimension-id}/requirements/{requirement-id}:
+  /capabilites/assessments/{assessment-id}/dimensions/{dimension-id}/requirements/{option-id}:
     parameters:
       - $ref: '#/components/parameters/AssessmentParam'
       - $ref: '#/components/parameters/DimensionParam'
       - $ref: '#/components/parameters/RequirementParam'
     put:
-      description: Updates a requirement on an assessment.
+      description: Adds/Updates a requirement on an assessment.
       tags:
         - Manage Requirements
-      operationId: update-requirementd
+      operationId: update-requirements
       requestBody:
         content:
           'application/json:':
@@ -207,7 +182,7 @@ paths:
           $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/422ValidationErrors'
         '500':
           $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/500InternalServerError'
-      summary: Update a requirement
+      summary: Add/Update requirement
     delete:
       description: Remove a supplier from an event
       tags:
@@ -229,6 +204,13 @@ paths:
       summary: Remove a requirement
 components:
   parameters:
+    ToolParam:
+      name: tool-id
+      in: path
+      required: true
+      description: Dimension ID
+      schema:
+        $ref: '#/components/schemas/ToolId'
     DimensionParam:
       name: dimension-id
       in: path
@@ -244,13 +226,17 @@ components:
       schema:
         $ref: '#/components/schemas/AssessmentId'
     RequirementParam:
-      name: requirement-id
+      name: option-id
       in: path
       required: true
       description: Requirement ID
       schema:
-        $ref: '#/components/schemas/RequirementId'
+        $ref: '#/components/schemas/OptionId'
   schemas:
+    ToolId:
+      type: integer
+      description: Defines the assessment tool being used.
+      example: 1
     DimensionId:
       type: integer
       description: Dimension ID provided within the capability definition .
@@ -261,16 +247,22 @@ components:
       description: Assessment ID provided when a new assessment is created.
       example: 1
       readOnly: true
-    RequirementId:
+    OptionId:
       type: integer
-      description: Requirement ID provided when a new requirement is added.
+      description: Option ID provided when a new requirement is added.
       example: 1
       readOnly: true
+    ValueId:
+      type: integer
+      description: Value ID provided within the capability definition within a dimension .
+      example: 1
     Assessment:
       type: object
       properties:
         assesment-id:
           $ref: '#/components/schemas/AssessmentId'
+        tool-id:
+          $ref: '#/components/schemas/ToolId'
         requirements:
           type: array
           items:
@@ -315,7 +307,7 @@ components:
             values:
               type: array
               items:
-                $ref: '#/components/schemas/Value'
+                $ref: '#/components/schemas/ValueDefinition'
             
     DimensionOption:
       type: object
@@ -379,7 +371,7 @@ components:
         - type: object
           properties:
             requirement-id:
-              $ref: '#/components/schemas/RequirementId'
+              $ref: '#/components/schemas/OptionId'
             values:
               type: array
               items:
@@ -388,33 +380,37 @@ components:
     ValueDefinition:
       type: object
       properties:
+        value-id:
+          $ref: '#/components/schemas/ValueId'
         name:
           type: string
           example: via Subcontractors
+          readOnly: true
+        type:
+          type: string
+          enum:
+            - integer
+            - select
+          example: select
+          readOnly: true
+        options:
+          type: array
+          items:
+            type: string
+          example:
+            - None
+            - Baseline Personnel Security Standard (BPSS)
+            - Counter Terrorist Check (CTC)
+            - Security Check (SC)
+            - Developed Vetting (DV)
+          readOnly: true
           
     Value:
       allOf:
         - $ref: '#/components/schemas/ValueDefinition'
         - type: object
           properties:
-            type:
-              type: string
-              enum:
-                - integer
-                - select
-              example: select
-              readOnly: true
-            options:
-              type: array
-              items:
-                type: string
-              example:
-                - None
-                - Baseline Personnel Security Standard (BPSS)
-                - Counter Terrorist Check (CTC)
-                - Security Check (SC)
-                - Developed Vetting (DV)
-              readOnly: true
+            
             value:
               oneOf:
                 - type: integer

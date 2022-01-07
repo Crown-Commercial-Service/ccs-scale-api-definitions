@@ -3800,21 +3800,34 @@ components:
         Details of an Evaluation type. This is known as an Envelope or Criterion
       type: object
       properties:
-          id: 
+          id:
+            title: Identifier
+            description: 'The identifier for this criterion. It must be unique and cannot change within the Open Contracting Process it is part of (defined by a single ocid). See the [identifier guidance](http://standard.open-contracting.org/latest/en/schema/identifiers/) for further details.'
             type: string
+            minLength: 1
             readOnly: true
-          title: 
-            type: string          
-          description: 
+          title:
+            title: Title
+            description: A title for this criterion.
+            nullable: true 
             type: string
+            minLength: 1          
+          description:
+            title: Description
+            description: A description of this criterion. Structured information should be provided in its other fields.
+            nullable: true
+            type: string
+            minLength: 1 
           relatesTo:
-            type: string
-          relateItems:
+            allOf:
+              - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/OCDS/OCDS_CodeLists_Ext.yaml#/components/schemas/RelatesTo'
+          relatedItems:
             type: string
           requirementGroups:
             type: array
             items:
               $ref: '#/components/schemas/QuestionGroup'
+            minItems: 1
             
             
     QuestionGroup:
@@ -3860,6 +3873,7 @@ components:
                 type: array
                 items:
                   $ref: '#/components/schemas/Question'
+                minItems: 1
        
  
     Question:

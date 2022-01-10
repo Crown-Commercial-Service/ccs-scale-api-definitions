@@ -3910,10 +3910,16 @@ components:
                 type: object
                 properties:
                   text:
+                    description: |+
+                      Defines the text to be displayed for an option
                     type: string
                   value:
+                    description: |+
+                      Defines value that the selection represents
                     type: string
                   selected:
+                    description: |+
+                      Indicates if the UI should show it as selected
                     type: boolean
             dependency:
               description: |+

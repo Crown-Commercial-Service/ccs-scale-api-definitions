@@ -4123,7 +4123,7 @@ components:
           type: object
           properties:
             links:
-              $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/OCDS/OCDS_Pagination_Ext.yaml#/components/schemas/Links'
+              $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Schema.yaml#/components/schemas/Links'
                   
     MessageDirection:
       type: string
@@ -4166,6 +4166,7 @@ components:
               type: string
               title: Identifier
               description: A unique identifier of for a message containing answer
+              
             direction:
               type: string
               enum:

@@ -2466,84 +2466,21 @@ paths:
         - OAuth2:
             - buyer
       summary: Supplier Complete
-  /tenders/projects/{proc-id}/events/{event-id}/responses/furtherInfo:
-    parameters:
-      - $ref: '#/components/parameters/ProcurementParam'
-      - $ref: '#/components/parameters/EventParam'
-
-
-    get:
-      description: 'Get a request for further information (includes free text and any files}'
-      tags:
-        - Messaging
-      operationId: furtherInfoRequest
-      responses:
-        '200':
-          description: ok
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OCDS_Standards/CCS-OCDS_Schema.yaml#/components/schemas/Enquiry'
-        '401':
-          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/401Unauthorized'
-        '403':
-          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/403Forbidden'
-        '429':
-          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/429TooManyRequests'
-        '500':
-          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/500InternalServerError'
-        '502':
-          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/502BadGateway'
-      security:
-        - OAuth2:
-            - buyer
-      summary: Request Further Info
-    post:
-      description: Create a new porocurement for the chosen Agreement.
-      tags:
-        - Messaging
-      operationId: createFurtherInfoRequest
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OCDS_Standards/CCS-OCDS_Schema.yaml#/components/schemas/Enquiry'
-      responses:
-        '200':
-          description: ok
-          content:
-            application/json:
-              schema:
-                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Schema.yaml#/components/schemas/GenericId'
-        '401':
-          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/401Unauthorized'
-        '403':
-          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/403Forbidden'
-        '429':
-          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/429TooManyRequests'
-        '500':
-          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/500InternalServerError'
-        '502':
-          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/502BadGateway'
-      security:
-        - OAuth2:
-            - buyer
-      summary: Create further info request
       
-  /tenders/projects/{proc-id}/events/{event-id}/responses/suppliers/{supplier-id}/furtherInfo:
+  /tenders/projects/{proc-id}/events/{event-id}/messages:
     parameters:
       - $ref: '#/components/parameters/ProcurementParam'
       - $ref: '#/components/parameters/EventParam'
-      - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Params.yaml#/components/parameters/SupplierParam'
-
+      - $ref: '#/components/parameters/MessageDirectionParam'
+      - $ref: '#/components/parameters/MessageSortParam'
+      - $ref: '#/components/parameters/PageParam'
+      - $ref: '#/components/parameters/PageSizeParam'
 
     get:
-      description: 'Get a request for further information (includes free text and any files}'
+      description: 'Gets a list of messages for the user relating to this event}'
       tags:
         - Messaging
-      operationId: supplierFurtherInfoRequest
+      operationId: listMessages
       responses:
         '200':
           description: ok
@@ -2552,7 +2489,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OCDS_Standards/CCS-OCDS_Schema.yaml#/components/schemas/Enquiry'
+                  $ref: '#/components/schemas/MessageSummary'
         '401':
           $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/401Unauthorized'
         '403':
@@ -2566,17 +2503,17 @@ paths:
       security:
         - OAuth2:
             - buyer
-      summary: Request Supplier Further Info
+      summary: Request messages for an event
     post:
-      description: Create a new porocurement for the chosen Agreement.
+      description: Create a new message.
       tags:
         - Messaging
-      operationId: createSupplierFurtherInfoRequest
+      operationId: createMessage
       requestBody:
         content:
           application/json:
             schema:
-              $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OCDS_Standards/CCS-OCDS_Schema.yaml#/components/schemas/Enquiry'
+              $ref: '#/components/schemas/Message'
       responses:
         '200':
           description: ok
@@ -2597,17 +2534,50 @@ paths:
       security:
         - OAuth2:
             - buyer
-      summary: Create supplier further info request
-    put:
-      description: Respond to a Request for further information
+      summary: Create a message for an event
+  /tenders/projects/{proc-id}/events/{event-id}/messages/{message-id}:
+    parameters:
+      - $ref: '#/components/parameters/ProcurementParam'
+      - $ref: '#/components/parameters/EventParam'
+      - $ref: '#/components/parameters/MessageParam'
+    get:
+      description: 'Gets a list of messages for the user relating to this event}'
       tags:
-        - Supplier Responds
-      operationId: supplierFurtherInfo
+        - Messaging
+      operationId: MessageDetails
+      responses:
+        '200':
+          description: ok
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Message'
+        '401':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/401Unauthorized'
+        '403':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/403Forbidden'
+        '429':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/429TooManyRequests'
+        '500':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/500InternalServerError'
+        '502':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/502BadGateway'
+      security:
+        - OAuth2:
+            - buyer
+      summary: Request messages for an event
+    put:
+      description: Respond to a message within an event
+      tags:
+        - Messaging
+      operationId: respondToMessage
       requestBody:
         content:
           application/json:
             schema:
-              $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Schema.yaml#/components/schemas/GenericId'
+              $ref: '#/components/schemas/Message'
       responses:
         '200':
           description: ok
@@ -2628,12 +2598,12 @@ paths:
       security:
         - OAuth2:
             - buyer
-      summary: Resturn Further Info
+      summary: Respond to a message
+      
   /tenders/projects/{proc-id}/events/{event-id}/responses/export:
     parameters:
       - $ref: '#/components/parameters/ProcurementParam'
       - $ref: '#/components/parameters/EventParam'
-
 
     get:
       description: Export all responses for all suppliers on an RFx
@@ -2969,6 +2939,46 @@ components:
       description: Procurement Event ID
       schema:
         $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Schema.yaml#/components/schemas/ProcurementEventId'
+        
+    MessageParam:
+      name: message-id
+      in: path
+      required: true
+      description: Message ID
+      schema:
+        $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Schema.yaml#/components/schemas/GenericId'
+    
+    MessageSortParam:
+      name: sort
+      in: query
+      required: true
+      description: Sort Field
+      schema:
+        $ref: '#/components/schemas/MessageSort'
+    
+    PageParam:
+      name: page
+      in: query
+      required: false
+      description: Page Number
+      schema:
+        $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Schema.yaml#/components/schemas/GenericId'
+    
+    PageSizeParam:
+      name: page-size
+      in: query
+      required: false
+      description: Number of items per page
+      schema:
+        $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Schema.yaml#/components/schemas/GenericId'
+        
+    MessageDirectionParam:
+      name: message-direction
+      in: query
+      required: false
+      description: Sent vs Received
+      schema:
+        $ref: '#/components/schemas/MessageDirection'
         
     CriterionParam:
       name: criterion-id
@@ -4077,7 +4087,115 @@ components:
           format: date-time
       required:
         - endDate
-
+        
+    CaTMessage:
+      allOf:
+        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OCDS_Standards/CCS-OCDS_Schema.yaml#/components/schemas/Enquiry'
+        - type: object
+          properties:
+            id:
+              readOnly: true
+            date:
+              readOnly: true
+            author:
+              readOnly: true
+            relatedLot:
+              readOnly: true
+            description:
+              deprecated: true
+            answer:
+              deprecated: true
+            dateAnswered:
+              deprecated: true
+            relatedItem:
+              deprecated: true
+            threadID:
+              deprecated: true
+              
+    MessageSummary:
+      description: summary of message between buyer and supplier
+      type: object
+      properties:
+        OCDS:
+          allOf:
+            - $ref: '#/components/schemas/CaTMessage'
+        nonOCDS:
+          type: object
+          properties:
+            links:
+              $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/OCDS/OCDS_Pagination_Ext.yaml#/components/schemas/Links'
+                  
+    MessageDirection:
+      type: string
+      enum:
+        - SENT
+        - RECEIVED
+        - ALL
+      description: Indicates if the user sent the message or recieved the message
+      readOnly: true
+      
+    MessageSort:
+      type: string
+      enum:
+        - DATE
+        - AUTHOR
+        - TITLE
+      description: Indicates if the user sent the message or recieved the message
+      readOnly: true
+        
+    Message:
+      description: Message between buyer and supplier
+      type: object
+      properties:
+        OCDS:
+          allOf:
+            - $ref: '#/components/schemas/CaTMessage'
+            - type: object
+              properties:
+                description:
+                  deprecated: false
+        nonOCDS:
+          type: object
+          properties:
+            answerId:
+              type: string
+              title: Identifier
+              description: A unique identifier of for a message containing answer
+              readOnly: true
+            parentId:
+              type: string
+              title: Identifier
+              description: A unique identifier of for a message containing answer
+            direction:
+              type: string
+              enum:
+                - SENT
+                - RECEIVED
+              description: Indicates if the user sent the message or recieved the message
+              readOnly: true
+            isBroadcast:
+              type: boolean
+              description: Indicates if the buyer sent the message to the author of the a parent message or to all suppliers
+            receiverList:
+              type: array
+              items:
+                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OCDS_Standards/CCS-OCDS_Schema.yaml#/components/schemas/OrganizationReference'
+              readOnly: true
+            readList:
+              type: array
+              items:
+                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OCDS_Standards/CCS-OCDS_Schema.yaml#/components/schemas/ContactPoint'
+              readOnly: true
+            attachments:
+              items:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                  name:
+                    type: string
+              readOnly: true
+                   
   securitySchemes:
     openID:
       type: openIdConnect

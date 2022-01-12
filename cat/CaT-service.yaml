@@ -2535,6 +2535,7 @@ paths:
         - OAuth2:
             - buyer
       summary: Create a message for an event
+      
   /tenders/projects/{proc-id}/events/{event-id}/messages/{message-id}:
     parameters:
       - $ref: '#/components/parameters/ProcurementParam'
@@ -2568,16 +2569,87 @@ paths:
         - OAuth2:
             - buyer
       summary: Request messages for an event
-    put:
-      description: Respond to a message within an event
+      
+  /tenders/projects/{proc-id}/events/{event-id}/messages/{message-id}/attachments:
+    parameters:
+      - $ref: '#/components/parameters/ProcurementParam'
+      - $ref: '#/components/parameters/EventParam'
+      - $ref: '#/components/parameters/MessageParam'
+    post:
+      description: Create a new attachment for a message.
       tags:
         - Messaging
-      operationId: respondToMessage
+      operationId: createAttachment
       requestBody:
         content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/Message'
+            application/octet-stream:
+              schema:
+                type: string
+                format: binary
+            application/msword:
+              schema:
+                type: string
+                format: binary
+            application/vnd.openxmlformats-officedocument.wordprocessingml.document:
+              schema:
+                type: string
+                format: binary
+            application/vnd.oasis.opendocument.spreadsheet:
+              schema:
+                type: string
+                format: binary
+            application/vnd.oasis.opendocument.text:
+              schema:
+                type: string
+                format: binary
+            application/vnd.ms-powerpoint:
+              schema:
+                type: string
+                format: binary
+            application/vnd.openxmlformats-officedocument.presentationml.presentation:
+              schema:
+                type: string
+                format: binary
+            application/rtf:
+              schema:
+                type: string
+                format: binary
+            application/vnd.ms-excel:
+              schema:
+                type: string
+                format: binary
+            application/vnd.openxmlformats-officedocument.spreadsheetml.sheet:
+              schema:
+                type: string
+                format: binary
+            application/xml:
+              schema:
+                type: string
+                format: binary
+            application/zip:
+              schema:
+                type: string
+                format: binary
+            application/vnd.google-earth.kml+xml application/vnd.google-earth.kmz:
+              schema:
+                type: string
+                format: binary
+            image/jpeg:
+              schema:
+                type: string
+                format: binary
+            image/png:
+              schema:
+                type: string
+                format: binary
+            text/csv:
+              schema:
+                type: string
+                format: binary
+            text/plain:
+              schema:
+                type: string
+                format: binary
       responses:
         '200':
           description: ok
@@ -2598,7 +2670,128 @@ paths:
       security:
         - OAuth2:
             - buyer
-      summary: Respond to a message
+      summary: Create a message for an event
+      
+  /tenders/projects/{proc-id}/events/{event-id}/messages/{message-id}/attachments/{document-id}:
+    parameters:
+      - $ref: '#/components/parameters/ProcurementParam'
+      - $ref: '#/components/parameters/EventParam'
+      - $ref: '#/components/parameters/MessageParam'
+      - $ref: '#/components/parameters/DocumentParam'
+    get:
+      description: 'Gets a message attachment'
+      tags:
+        - Messaging
+      operationId: retrieveAttachement
+      responses:
+        '200':
+          description: ok
+          content:
+            application/octet-stream:
+              schema:
+                type: string
+                format: binary
+            application/msword:
+              schema:
+                type: string
+                format: binary
+            application/vnd.openxmlformats-officedocument.wordprocessingml.document:
+              schema:
+                type: string
+                format: binary
+            application/vnd.oasis.opendocument.spreadsheet:
+              schema:
+                type: string
+                format: binary
+            application/vnd.oasis.opendocument.text:
+              schema:
+                type: string
+                format: binary
+            application/vnd.ms-powerpoint:
+              schema:
+                type: string
+                format: binary
+            application/vnd.openxmlformats-officedocument.presentationml.presentation:
+              schema:
+                type: string
+                format: binary
+            application/rtf:
+              schema:
+                type: string
+                format: binary
+            application/vnd.ms-excel:
+              schema:
+                type: string
+                format: binary
+            application/vnd.openxmlformats-officedocument.spreadsheetml.sheet:
+              schema:
+                type: string
+                format: binary
+            application/xml:
+              schema:
+                type: string
+                format: binary
+            application/zip:
+              schema:
+                type: string
+                format: binary
+            application/vnd.google-earth.kml+xml application/vnd.google-earth.kmz:
+              schema:
+                type: string
+                format: binary
+            image/jpeg:
+              schema:
+                type: string
+                format: binary
+            image/png:
+              schema:
+                type: string
+                format: binary
+            text/csv:
+              schema:
+                type: string
+                format: binary
+            text/plain:
+              schema:
+                type: string
+                format: binary
+        '401':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/401Unauthorized'
+        '403':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/403Forbidden'
+        '429':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/429TooManyRequests'
+        '500':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/500InternalServerError'
+        '502':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/502BadGateway'
+      security:
+        - OAuth2:
+            - buyer
+      summary: Download an attachment for the message.
+      
+    delete:
+      description: Remove an attachment from an message
+      tags:
+        - Messaging
+      operationId: removeAttachment
+      responses:
+        '200':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/200Success'
+        '401':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/401Unauthorized'
+        '403':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/403Forbidden'
+        '429':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/429TooManyRequests'
+        '500':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/500InternalServerError'
+        '502':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/502BadGateway'
+      security:
+        - OAuth2:
+            - buyer
+      summary: Remove an attachment from an message
       
   /tenders/projects/{proc-id}/events/{event-id}/responses/export:
     parameters:
@@ -4089,41 +4282,66 @@ components:
         - endDate
         
     CaTMessage:
-      allOf:
-        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OCDS_Standards/CCS-OCDS_Schema.yaml#/components/schemas/Enquiry'
-        - type: object
-          properties:
-            id:
-              readOnly: true
-            date:
-              readOnly: true
-            author:
-              readOnly: true
-            relatedLot:
-              readOnly: true
-            description:
-              deprecated: true
-            answer:
-              deprecated: true
-            dateAnswered:
-              deprecated: true
-            relatedItem:
-              deprecated: true
-            threadID:
-              deprecated: true
-              
-    MessageSummary:
-      description: summary of message between buyer and supplier
       type: object
       properties:
-        OCDS:
+        OCDS:    
           allOf:
-            - $ref: '#/components/schemas/CaTMessage'
+            - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OCDS_Standards/CCS-OCDS_Schema.yaml#/components/schemas/Enquiry'
+            - type: object
+              properties:
+                id:
+                  readOnly: true
+                date:
+                  readOnly: true
+                author:
+                  readOnly: true
+                relatedLot:
+                  readOnly: true
+                description:
+                  deprecated: true
+                answer:
+                  deprecated: true
+                dateAnswered:
+                  deprecated: true
+                relatedItem:
+                  deprecated: true
+                threadID:
+                  deprecated: true
         nonOCDS:
           type: object
           properties:
-            links:
-              $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Schema.yaml#/components/schemas/Links'
+            read:
+              type: boolean
+              description: Indicates if the message has been read by the user. (null if direction is SENT)
+            direction:
+              type: string
+              enum:
+                - SENT
+                - RECEIVED
+              description: Indicates if the user sent the message or recieved the message
+              readOnly: true
+              
+    MessageSummary:
+      description: summary of message between buyer and supplier
+      allOf:
+        - $ref: '#/components/schemas/CaTMessage'
+        - type: object
+          properties:
+            nonOCDS:
+              type: object
+              properties:
+                counts:
+                  $ref: '#/components/schemas/MessageTotals'
+                links:
+                  $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Schema.yaml#/components/schemas/Links'
+    
+    MessageTotals:
+      type: object
+      properties:
+        pageTotal:
+          type: integer
+        messagesTotal:
+          type: integer
                   
     MessageDirection:
       type: string
@@ -4145,57 +4363,52 @@ components:
         
     Message:
       description: Message between buyer and supplier
-      type: object
-      properties:
-        OCDS:
-          allOf:
-            - $ref: '#/components/schemas/CaTMessage'
-            - type: object
+      allOf:
+        - $ref: '#/components/schemas/CaTMessage'
+        - type: object
+          properties:
+            OCDS:
               properties:
                 description:
                   deprecated: false
-        nonOCDS:
-          type: object
-          properties:
-            answerId:
-              type: string
-              title: Identifier
-              description: A unique identifier of for a message containing answer
-              readOnly: true
-            parentId:
-              type: string
-              title: Identifier
-              description: A unique identifier of for a message containing answer
-              
-            direction:
-              type: string
-              enum:
-                - SENT
-                - RECEIVED
-              description: Indicates if the user sent the message or recieved the message
-              readOnly: true
-            isBroadcast:
-              type: boolean
-              description: Indicates if the buyer sent the message to the author of the a parent message or to all suppliers
-            receiverList:
-              type: array
-              items:
-                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OCDS_Standards/CCS-OCDS_Schema.yaml#/components/schemas/OrganizationReference'
-              readOnly: true
-            readList:
-              type: array
-              items:
-                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OCDS_Standards/CCS-OCDS_Schema.yaml#/components/schemas/ContactPoint'
-              readOnly: true
-            attachments:
-              items:
-                type: object
-                properties:
-                  id:
-                    type: integer
-                  name:
-                    type: string
-              readOnly: true
+            nonOCDS:
+              type: object
+              properties:
+                answerId:
+                  type: string
+                  title: Identifier
+                  description: A unique identifier of for a message containing answer
+                  readOnly: true
+                parentId:
+                  type: string
+                  title: Identifier
+                  description: A unique identifier of for a message containing answer (Null if first message in a thread)
+                isBroadcast:
+                  type: boolean
+                  description: Indicates if the buyer sent the message to the author of the a parent message or to all suppliers
+                receiverList:
+                  type: array
+                  items:
+                    $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OCDS_Standards/CCS-OCDS_Schema.yaml#/components/schemas/OrganizationReference'
+                  readOnly: true
+                  description: lists the organisations the message has been sent to. (Messages from supplier will only show buyer)
+                readList:
+                  type: array
+                  items:
+                    $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OCDS_Standards/CCS-OCDS_Schema.yaml#/components/schemas/ContactPoint'
+                  readOnly: true
+                  description: lists users who have read the message and their organiation.
+                attachments:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                      name:
+                        type: string
+                  readOnly: true
+                  description: list attachments sent with the message.
                    
   securitySchemes:
     openID:

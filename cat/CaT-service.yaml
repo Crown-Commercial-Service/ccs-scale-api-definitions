@@ -3929,13 +3929,15 @@ components:
                 conditional:
                   description: |+
                     Describes the condition when this question should be shown based on another question.
-                  dependentOnId:
-                    type: string
-                  dependencyType:
-                    $ref: '#/components/schemas/DependencyType'
-                  dependencyValue:
-                    type: 
-                      oneOf:
+                  type: object
+                  propereties:
+                    dependentOnId:
+                        type: string
+                    dependencyType:
+                      $ref: '#/components/schemas/DependencyType'
+                    dependencyValue:
+                      type: 
+                        oneOf:
                         - type: string
                         - type: integer
                         - type: date

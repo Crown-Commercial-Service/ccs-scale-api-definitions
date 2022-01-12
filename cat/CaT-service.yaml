@@ -3983,12 +3983,12 @@ components:
       type: string
       description: |+
         Type of relationship to dependent field:
-          * GreaterThan (Greater than dependency value) 
-          * EqualTo (Equal to the dependency Value
-          * LessThan (Less than the dependency value)
-          * Inside (Inside a range or period)
-          * Outside (Outside a range or period)
-          * NotNull (Any answer has been provided)
+          * GreaterThan (Dependent value greater than dependencyValue) 
+          * EqualTo (Dependent value equal to the dependencyValue)
+          * LessThan (Dependent value less than the dependency value)
+          * Inside (Dependent value inside a range or period)
+          * Outside (Dependent value outside a range or period)
+          * NotNull (Any Dependent value has been provided)
       enum:
         - GreaterThan
         - EqualTo
@@ -4013,12 +4013,12 @@ components:
       type: string
       description: |+
         Type of relationship to dependent field:
-          * GreaterThan (Greater than dependency value) 
-          * EqualTo (Equal to the dependency Value
-          * LessThan (Less than the dependency value)
-          * Inside (Inside a range or period)
-          * Outside (Outside a range or period)
-          * Alternative (only one may contain an answer)
+          * GreaterThan (Question value greater than dependent question value) 
+          * EqualTo (Question value equal to dependent question value)
+          * LessThan (Question value less than dependent question value)
+          * Inside (Question value inside a range or period defined in dependent question)
+          * Outside (Question value outside a range or period defined in dependent question)
+          * Alternative (Either question or dependent question may contain an answer not both)
       enum:
         - GreaterThan
         - EqualTo

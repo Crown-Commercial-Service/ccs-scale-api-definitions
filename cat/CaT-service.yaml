@@ -3927,35 +3927,13 @@ components:
               type: object
               properties:
                 conditional:
-                  description: |+
-                    Describes the condition when this question should be shown based on another question.
-                  type: object
-                  propereties:
-                    dependentOnId:
-                        type: string
-                    dependencyType:
-                      $ref: '#/components/schemas/DependencyType'
-                    dependencyValue:
-                      type: 
-                        oneOf:
-                        - type: string
-                        - type: integer
-                        - type: date
-                        - type: boolean
+                  $ref: '#/components/schemas/QuestionRelationship'
                 relationships:
-                  description: |+
-                    Describes the relationships the answers provided to a question.
-                  type: array
-                  items:
-                    type: object
-                    properties:
-                      dependentOnId:
-                        type: string
-                      relationshipType:
-                        $ref: '#/components/schemas/RelationshipType'
+                  $ref: '#/components/schemas/QuestionRelationship'
         OCDS:
           $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OCDS_Standards/CCS-OCDS_Schema.yaml#/components/schemas/Requirement'
-      
+        
+    
     QuestionType:
       type: string
       description: |+
@@ -3983,6 +3961,23 @@ components:
         - Address
         - KeyValuePair
         - Text
+        
+    QuestionDependancy:
+      type: object
+      description: |+
+        Describes the condition when this question should be shown based on another question.
+      propereties:
+        dependentOnId:
+          type: string
+        dependencyType:
+          $ref: '#/components/schemas/DependencyType'
+        dependencyValue:
+          type: 
+            oneOf:
+              - type: string
+              - type: integer
+              - type: date
+              - type: boolean
     
     DependencyType:
       type: string
@@ -4002,7 +3997,18 @@ components:
         - Outside
         - NotNull
         
-        
+    QuestionRelationship:
+      type: array
+      description: |+
+        Describes the relationships the answers provided to a question.
+      items:
+        type: object
+        properties:
+          dependentOnId:
+            type: string
+          relationshipType:
+            $ref: '#/components/schemas/RelationshipType'
+                
     RelationshipType:
       type: string
       description: |+

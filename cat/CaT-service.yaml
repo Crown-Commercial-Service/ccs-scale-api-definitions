@@ -3927,7 +3927,7 @@ components:
               type: object
               properties:
                 conditional:
-                  $ref: '#/components/schemas/QuestionRelationship'
+                  $ref: '#/components/schemas/QuestionDependancy'
                 relationships:
                   $ref: '#/components/schemas/QuestionRelationship'
         OCDS:

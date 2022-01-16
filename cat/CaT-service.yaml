@@ -2471,16 +2471,17 @@ paths:
     parameters:
       - $ref: '#/components/parameters/ProcurementParam'
       - $ref: '#/components/parameters/EventParam'
+
+    get:
+      description: 'Gets a list of messages for the user relating to this event'
+      tags:
+        - Messaging
+      operationId: listMessages
+      parameters:
       - $ref: '#/components/parameters/MessageDirectionParam'
       - $ref: '#/components/parameters/MessageSortParam'
       - $ref: '#/components/parameters/PageParam'
       - $ref: '#/components/parameters/PageSizeParam'
-
-    get:
-      description: 'Gets a list of messages for the user relating to this event}'
-      tags:
-        - Messaging
-      operationId: listMessages
       responses:
         '200':
           description: ok
@@ -2542,7 +2543,7 @@ paths:
       - $ref: '#/components/parameters/EventParam'
       - $ref: '#/components/parameters/MessageParam'
     get:
-      description: 'Gets a list of messages for the user relating to this event}'
+      description: 'Gets a message for the user relating to this event'
       tags:
         - Messaging
       operationId: MessageDetails
@@ -2568,7 +2569,7 @@ paths:
       security:
         - OAuth2:
             - buyer
-      summary: Request messages for an event
+      summary: Request a message for an event
       
   /tenders/projects/{proc-id}/events/{event-id}/messages/{message-id}/attachments:
     parameters:
@@ -2670,7 +2671,7 @@ paths:
       security:
         - OAuth2:
             - buyer
-      summary: Create a message for an event
+      summary: Create an attachment for message
       
   /tenders/projects/{proc-id}/events/{event-id}/messages/{message-id}/attachments/{document-id}:
     parameters:

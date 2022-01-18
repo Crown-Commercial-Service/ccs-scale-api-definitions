@@ -16,7 +16,7 @@ info:
 #  - OAuth2:
 #    - read
 paths:
-  /capabilities/{tool-id}/dimensions:
+  /assessments/tools/{tool-id}/dimensions:
     get:
       summary: Return list of capabilities.
       description: Retrieves a list of dimensions for an event within a lot. 
@@ -40,7 +40,7 @@ paths:
           $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/404NotFound'
         '500':
           $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/500InternalServerError'
-  /capabilites/assessments:
+  /assessments:
     post:
       description: Creates a new assessment that the user will score suppliers based on requirements for an event within a lot.
       tags:
@@ -93,7 +93,7 @@ paths:
           $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/404NotFound'
         '500':
           $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/500InternalServerError'
-  /capabilites/assessments/{assessment-id}:
+  /assessments/{assessment-id}:
     get:
       summary: Return assessment state.
       description: Retrieves assessment.
@@ -118,7 +118,7 @@ paths:
         '500':
           $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/500InternalServerError'
           
-  /capabilites/assessments/{assessment-id}/dimensions/{dimension-id}:
+  /assessments/{assessment-id}/dimensions/{dimension-id}:
     put:
       description: Adds/Updates dimension details on an assessment
       tags:
@@ -138,7 +138,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/OptionId'
+                $ref: '#/components/schemas/RequirementId'
         '401':
           $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/401Unauthorized'
         '403':
@@ -152,7 +152,7 @@ paths:
       summary: Add/Update dimension
       
   
-  /capabilites/assessments/{assessment-id}/dimensions/{dimension-id}/requirements/{option-id}:
+  /assessments/{assessment-id}/dimensions/{dimension-id}/requirements/{requirement-id}:
     parameters:
       - $ref: '#/components/parameters/AssessmentParam'
       - $ref: '#/components/parameters/DimensionParam'
@@ -226,12 +226,12 @@ components:
       schema:
         $ref: '#/components/schemas/AssessmentId'
     RequirementParam:
-      name: option-id
+      name: requirement-id
       in: path
       required: true
       description: Requirement ID
       schema:
-        $ref: '#/components/schemas/OptionId'
+        $ref: '#/components/schemas/RequirementId'
   schemas:
     ToolId:
       type: integer
@@ -247,9 +247,9 @@ components:
       description: Assessment ID provided when a new assessment is created.
       example: 1
       readOnly: true
-    OptionId:
+    RequirementId:
       type: integer
-      description: Option ID provided when a new requirement is added.
+      description: ID provided when a new requirement is added from the options provided in a dimension.
       example: 1
       readOnly: true
     ValueId:
@@ -371,7 +371,7 @@ components:
         - type: object
           properties:
             requirement-id:
-              $ref: '#/components/schemas/OptionId'
+              $ref: '#/components/schemas/RequirementId'
             values:
               type: array
               items:

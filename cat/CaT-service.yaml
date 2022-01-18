@@ -4125,6 +4125,23 @@ components:
               description: |+
                 Defines an order of the question to be displayed in UI
               type: integer
+            dependency:
+              type: object
+              conditional:
+                type: object
+                properties:
+                  dependentOnID:
+                    description: |+
+                      Defines dependent on
+                    type: string
+                  dependencyType:
+                    description: |+
+                      Defines dependent on
+                    type: string
+                  dependencyValue:
+                    description: |+
+                      Defines dependent on
+                    type: string
             length:
               description: |+
                 Defines the maximum length of the question answer to be displayed in UI

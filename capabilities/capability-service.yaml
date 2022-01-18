@@ -81,12 +81,7 @@ paths:
               schema:
                 type: array
                 items:
-                  type: object
-                  properties:
-                    assessment-id:
-                      $ref: '#/components/schemas/AssessmentId'
-                    tool-id:
-                      $ref: '#/components/schemas/ToolId'
+                  $ref: '#/components/schemas/AssessmentSummary'
         '400':
           $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/400InvalidRequest'
         '404':
@@ -277,6 +272,13 @@ components:
           readOnly: true
           items:
             $ref: '#/components/schemas/SupplierScores'
+    AssessmentSummary:
+      type: object
+      properties:
+        assessment-id:
+          $ref: '#/components/schemas/AssessmentId'
+        tool-id:
+          $ref: '#/components/schemas/ToolId'
     Dimension:
       type: object
       properties:

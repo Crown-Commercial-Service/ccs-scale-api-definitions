@@ -131,7 +131,10 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/DimensionRequirement'
+              allOf:
+                - $ref: '#/components/schemas/DimensionRequirement'
+                - $ref: '#/components/schemas/Requirements'
+
       responses:
         '201':
           description: ok
@@ -252,7 +255,7 @@ components:
       description: ID provided when a new requirement is added from the options provided in a dimension.
       example: 1
       readOnly: true
-    ValueId:
+    CriterionId:
       type: integer
       description: Value ID provided within the capability definition within a dimension .
       example: 1
@@ -304,10 +307,10 @@ components:
               type: array
               items:
                 $ref: '#/components/schemas/DimensionOption'
-            values:
+            evaluationCriteria:
               type: array
               items:
-                $ref: '#/components/schemas/ValueDefinition'
+                $ref: '#/components/schemas/CriterionDefinition'
             
     DimensionOption:
       type: object
@@ -332,14 +335,12 @@ components:
       type: object
       properties:
         min:
-          type: integer
-          minimum: 0
-          maximum: 100
+          allOf:
+            - $ref: '#/components/schemas/Percentage'
           example: 10
         max:
-          type: integer
-          minimum: 0
-          maximum: 100
+          allOf:
+            - $ref: '#/components/schemas/Percentage'
           example: 60
           
     DimensionRequirement:
@@ -348,19 +349,18 @@ components:
         - type: object
           properties:
             weighting:
-              type: integer
-              example: 10
-            includedValues:
+              $ref: '#/components/schemas/Percentage'
+            includedCriterion:
               type: array
               items:
-                $ref: '#/components/schemas/ValueDefinition'
+                $ref: '#/components/schemas/CriterionDefinition'
     
     Requirements:
       allOf:
         - $ref: '#/components/schemas/Dimension'
         - type: object
           properties:
-            requirements:
+            dimensionRequirements:
               type: array
               items:
                 $ref: '#/components/schemas/Requirement'
@@ -372,16 +372,18 @@ components:
           properties:
             requirement-id:
               $ref: '#/components/schemas/RequirementId'
+            weighting:
+              $ref: '#/components/schemas/Percentage'
             values:
               type: array
               items:
-                $ref: '#/components/schemas/Value'
+                $ref: '#/components/schemas/Criterion'
                 
-    ValueDefinition:
+    CriterionDefinition:
       type: object
       properties:
-        value-id:
-          $ref: '#/components/schemas/ValueId'
+        criterion-id:
+          $ref: '#/components/schemas/CriterionId'
         name:
           type: string
           example: via Subcontractors
@@ -405,12 +407,11 @@ components:
             - Developed Vetting (DV)
           readOnly: true
           
-    Value:
+    Criterion:
       allOf:
-        - $ref: '#/components/schemas/ValueDefinition'
+        - $ref: '#/components/schemas/CriterionDefinition'
         - type: object
           properties:
-            
             value:
               oneOf:
                 - type: integer
@@ -445,6 +446,13 @@ components:
           type: integer
         weightedValue:
           type: integer
+          
+    Percentage:
+      type: integer
+      minimum: 0
+      maximum: 100
+      example: 10
+      
 servers:
   - description: SwaggerHub API Auto Mocking
     url: https://virtserver.swaggerhub.com/davejhughes/agreement-service/v0.0.6

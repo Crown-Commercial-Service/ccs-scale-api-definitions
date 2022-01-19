@@ -3697,6 +3697,8 @@ components:
             weightVisible:
               type: boolean
               description: Should the weighting be visible to suppliers. 
+            assessmentId:
+              $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/capabilities/capability-service.yaml#/components/schemas/AssessmentId'
             eventCreated:
               type: string
               format: date-time
@@ -3931,6 +3933,8 @@ components:
           properties:
             eventType:
               $ref: '#/components/schemas/DefineEventType'
+            assessmentId:
+              $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/capabilities/capability-service.yaml#/components/schemas/AssessmentId'
         OCDS:
           $ref: '#/components/schemas/CreateEventOCDS'
           
@@ -3944,6 +3948,8 @@ components:
           example: New name
         eventType:
           $ref: '#/components/schemas/DefineEventType'
+        assessmentId:
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/capabilities/capability-service.yaml#/components/schemas/AssessmentId'
 
     EventDetail:
       description: >-

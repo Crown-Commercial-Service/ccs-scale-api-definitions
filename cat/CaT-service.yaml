@@ -4169,6 +4169,7 @@ components:
         - Address
         - KeyValuePair
         - Text
+        - Monetary
         - Integer
         - Date
         - DateTime

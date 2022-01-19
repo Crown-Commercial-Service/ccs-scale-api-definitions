@@ -3974,6 +3974,7 @@ components:
         dependencyValue:
           oneOf:
             - type: string
+              format: date
             - type: integer
             - type: boolean
     

@@ -3972,12 +3972,10 @@ components:
         dependencyType:
           $ref: '#/components/schemas/DependencyType'
         dependencyValue:
-          type: 
-            oneOf:
-              - type: string
-              - type: integer
-              - type: date
-              - type: boolean
+          oneOf:
+            - type: string
+            - type: integer
+            - type: boolean
     
     DependencyType:
       type: string

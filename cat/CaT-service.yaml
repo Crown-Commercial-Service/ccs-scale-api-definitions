@@ -3152,7 +3152,8 @@ components:
 
           * EOI - Expression of Interest
           * RFI - Request for Information
-          * CA  - Capability Assessment
+          * FCA - Further Competition Assessment
+          * DAA - Direct Award Assessment
           * DA  - Direct Award
           * FC  - Further Competition
       type: string
@@ -3170,7 +3171,8 @@ components:
 
           * EOI - Expression of Interest
           * RFI - Request for Information
-          * CA  - Capability Assessment
+          * FCA - Further Competition Assessment
+          * DAA - Direct Award Assessment
           * DA  - Direct Award
           * FC  - Further Competition
           * TBD - To Be Determined

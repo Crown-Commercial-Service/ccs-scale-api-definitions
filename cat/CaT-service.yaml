@@ -4169,6 +4169,11 @@ components:
         - Address
         - KeyValuePair
         - Text
+        - Integer
+        - Date
+        - DateTime
+        - Percentage
+        - ReadMe
         
     QuestionDependancy:
       type: object

@@ -4109,6 +4109,9 @@ components:
                 - Duration
                 - Date
                 - DateTime
+                - Integer
+                - Percentage
+                - ReadMe
             answered:
               description: |+
                 Defines a the buyer or supplier has answered
@@ -4127,21 +4130,22 @@ components:
               type: integer
             dependency:
               type: object
-              conditional:
-                type: object
-                properties:
-                  dependentOnID:
-                    description: |+
-                      Defines dependent on
-                    type: string
-                  dependencyType:
-                    description: |+
-                      Defines dependent on
-                    type: string
-                  dependencyValue:
-                    description: |+
-                      Defines dependent on
-                    type: string
+              properties:
+                conditional:
+                  type: object
+                  properties:
+                    dependentOnID:
+                      description: |+
+                         Defines dependent on
+                      type: string
+                    dependencyType:
+                      description: |+
+                          Defines dependent type
+                      type: string
+                    dependencyValue:
+                      description: |+
+                          Defines dependent value
+                      type: string
             length:
               description: |+
                 Defines the maximum length of the question answer to be displayed in UI

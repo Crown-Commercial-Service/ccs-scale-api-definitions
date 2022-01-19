@@ -4174,6 +4174,7 @@ components:
         - DateTime
         - Percentage
         - ReadMe
+        - Duration
         
     QuestionDependancy:
       type: object

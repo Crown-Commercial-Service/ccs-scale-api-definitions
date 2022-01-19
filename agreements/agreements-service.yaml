@@ -796,8 +796,6 @@ components:
           description: If set to 'true' indicates the Event Type is a pre-market activity
 #
     DataTemplate:
-      type: string
-      format: JSON
       description: |+
         A JSON structure that defines templates for data to be collected from a buyer to create a tender. These are grouped into Criteria. Each criterion can either:
             
@@ -805,6 +803,30 @@ components:
             * Provide support information for the supplier
             
         The criteria are made up of questions to be asked of the buyer to support the two options. Questions may be broken in logical groups within each criteria.
+       
+      type: array
+      items:
+        allOf:
+          - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/cat/CaT-service.yaml#/components/schemas/EvalCriteria'
+          - type: object
+            properties:
+              relatesTo:
+                 type: string
+              relateItems:
+                type: string
+              requirementGroups:
+                allOf:
+                  - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/cat/CaT-service.yaml#/components/schemas/QuestionGroup'
+                  - type: object
+                    properties:
+                      OCDS:
+                        type: object
+                        properties:
+                          requirements:
+                            type: array
+                            items:
+                              $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/cat/CaT-service.yaml#/components/schemas/Question'
+
 #
     DocumentTemplate:
       allOf:

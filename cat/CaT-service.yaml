@@ -4004,21 +4004,34 @@ components:
         Details of an Evaluation type. This is known as an Envelope or Criterion
       type: object
       properties:
-          id: 
+          id:
+            title: Identifier
+            description: 'The identifier for this criterion. It must be unique and cannot change within the Open Contracting Process it is part of (defined by a single ocid). See the [identifier guidance](http://standard.open-contracting.org/latest/en/schema/identifiers/) for further details.'
             type: string
+            minLength: 1
             readOnly: true
-          title: 
-            type: string          
-          description: 
+          title:
+            title: Title
+            description: A title for this criterion.
+            nullable: true 
             type: string
+            minLength: 1          
+          description:
+            title: Description
+            description: A description of this criterion. Structured information should be provided in its other fields.
+            nullable: true
+            type: string
+            minLength: 1 
           relatesTo:
-            type: string
-          relateItems:
+            allOf:
+              - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/OCDS/OCDS_CodeLists_Ext.yaml#/components/schemas/RelatesTo'
+          relatedItems:
             type: string
           requirementGroups:
             type: array
             items:
               $ref: '#/components/schemas/QuestionGroup'
+            minItems: 1
             
             
     QuestionGroup:
@@ -4064,6 +4077,7 @@ components:
                 type: array
                 items:
                   $ref: '#/components/schemas/Question'
+                minItems: 1
        
  
     Question:
@@ -4075,41 +4089,8 @@ components:
           type: object
           properties:
             questionType:
-              type: string
-              description: |+
-                Type of question to be displayed:
-                * Value (provides information in the expectedValue from buyer or supplier) 
-                * Range (provides a range for the expectedValue from buyer)
-                * SingleSelect (provides a single select from options from the buyer or supplier)
-                * MultiSelect (provides a multi select from options from the buyer or supplier)
-                * SingleSelectWithOptions (provides options from the buyer to use in a single select for the supplier)
-                * MultiSelectWithOptions (provides options from the buyer to use in a multiselect select for the supplier)
-                * Document (requires a document from a supplier)
-                * DocumentWithTemplate (provides document from the buyer to be used as a template for the supplier)
-                * Address (provides an address from buyer or supplier using a post code manual input)
-                * KeyValuePair (provides two related values)
-                * Text (provides an text field similar to text area in UI)
-                * Monetary (provides a monetary value field)
-                * Duration (provides duration fields for years, months and days)
-                * Date (provides date format to be displayed in UI)
-                * DateTime (provides date time format to be displayed in UI)
-              enum:
-                - Value
-                - Range
-                - SingleSelect
-                - MultiSelect
-                - SingleSelectWithOptions
-                - MultiSelectWithOptions
-                - Document
-                - DocumentWithTemplate
-                - Address
-                - KeyValuePair
-                - Text
-                - Monetary
-                - Duration
-                - Date
-                - DateTime
-            answered:
+              $ref: '#/components/schemas/QuestionType'
+            answered: 
               description: |+
                 Defines a the buyer or supplier has answered
               type: boolean
@@ -4137,15 +4118,123 @@ components:
                 type: object
                 properties:
                   text:
+                    description: |+
+                      Defines the text to be displayed for an option
                     type: string
                   value:
+                    description: |+
+                      Defines value that the selection represents
                     type: string
                   selected:
+                    description: |+
+                      Indicates if the UI should show it as selected
                     type: boolean
+            dependency:
+              description: |+
+                Describes any dependency this question has on another question
+              type: object
+              properties:
+                conditional:
+                  $ref: '#/components/schemas/QuestionDependancy'
+                relationships:
+                  $ref: '#/components/schemas/QuestionRelationship'
         OCDS:
           $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OCDS_Standards/CCS-OCDS_Schema.yaml#/components/schemas/Requirement'
-      
-      
+        
+    
+    QuestionType:
+      type: string
+      description: |+
+        Type of question to be displayed:
+          * Value (provides information in the expectedValue from buyer or supplier) 
+          * Range (provides a range for the expectedValue from buyer)
+          * SingleSelect (Provides a single select from options from the buyer or supplier)
+          * MultiSelect (Provides a multi select from options from the buyer or supplier)
+          * SingleSelectWithOptions (Provides options from the buyer to use in a single select for the supplier)
+          * MultiSelectWithOptions (Provides options from the buyer to use in a multiselect select for the supplier)
+          * Document (Requires a document from a supplier)
+          * DocumentWithTemplate (provides document from the buyer to be used as a template for the supplier)
+          * Address (provides an address from buyer or supplier using a post code manual input)
+          * KeyValuePair (provides two related values)
+          * Text (provides an text field similar to text area in UI)
+      enum:
+        - Value
+        - Range
+        - SingleSelect
+        - MultiSelect
+        - SingleSelectWithOptions
+        - MultiSelectWithOptions
+        - Document
+        - DocumentWithTemplate
+        - Address
+        - KeyValuePair
+        - Text
+        
+    QuestionDependancy:
+      type: object
+      description: |+
+        Describes the condition when this question should be shown based on another question.
+      properties:
+        dependentOnId:
+          type: string
+        dependencyType:
+          $ref: '#/components/schemas/DependencyType'
+        dependencyValue:
+          oneOf:
+            - type: string
+              format: date
+            - type: integer
+            - type: boolean
+    
+    DependencyType:
+      type: string
+      description: |+
+        Type of relationship to dependent field:
+          * GreaterThan (Dependent value greater than dependencyValue) 
+          * EqualTo (Dependent value equal to the dependencyValue)
+          * LessThan (Dependent value less than the dependency value)
+          * Inside (Dependent value inside a range or period)
+          * Outside (Dependent value outside a range or period)
+          * NotNull (Any Dependent value has been provided)
+      enum:
+        - GreaterThan
+        - EqualTo
+        - LessThan
+        - Inside
+        - Outside
+        - NotNull
+        
+    QuestionRelationship:
+      type: array
+      description: |+
+        Describes the relationships the answers provided to a question.
+      items:
+        type: object
+        properties:
+          dependentOnId:
+            type: string
+          relationshipType:
+            $ref: '#/components/schemas/RelationshipType'
+                
+    RelationshipType:
+      type: string
+      description: |+
+        Type of relationship to dependent field:
+          * GreaterThan (Question value greater than dependent question value) 
+          * EqualTo (Question value equal to dependent question value)
+          * LessThan (Question value less than dependent question value)
+          * Inside (Question value inside a range or period defined in dependent question)
+          * Outside (Question value outside a range or period defined in dependent question)
+          * Alternative (Either question or dependent question may contain an answer not both)
+      enum:
+        - GreaterThan
+        - EqualTo
+        - LessThan
+        - Inside
+        - Outside
+        - Alternative
+        
+  
 
     ResponseSummary:
       description: >-

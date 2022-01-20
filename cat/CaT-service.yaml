@@ -2781,6 +2781,7 @@ paths:
       responses:
         '200':
           $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/200Success'
+
         '401':
           $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/401Unauthorized'
         '403':
@@ -2794,7 +2795,109 @@ paths:
       security:
         - OAuth2:
             - buyer
-      summary: Remove an attachment from an message
+      
+  /tenders/projects/{proc-id}/events/{event-id}/q-and-a:
+    parameters:
+      - $ref: '#/components/parameters/ProcurementParam'
+      - $ref: '#/components/parameters/EventParam'
+    get:
+      description: 'Retrieve all the Question and Answer items created for an event'
+      tags:
+        - Q&A
+      operationId: retrieveQ&A
+      responses:
+        '200':
+          description: ok
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/QandA'
+        '401':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/401Unauthorized'
+        '403':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/403Forbidden'
+        '429':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/429TooManyRequests'
+        '500':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/500InternalServerError'
+        '502':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/502BadGateway'
+      security:
+        - OAuth2:
+            - buyer
+            - supplier
+      summary: List all the Q&A for an event
+      
+    post:
+      description: Create a new Question and Answer item for an event.
+      tags:
+        - Q&A
+      operationId: createQ&A
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/QandA'
+      responses:
+        '200':
+          description: ok
+          content:
+            application/json:
+              schema:
+                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Schema.yaml#/components/schemas/GenericId'
+        '401':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/401Unauthorized'
+        '403':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/403Forbidden'
+        '429':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/429TooManyRequests'
+        '500':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/500InternalServerError'
+        '502':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/502BadGateway'
+      security:
+        - OAuth2:
+            - buyer
+      summary: Create Q&A item for an event
+      
+  /tenders/projects/{proc-id}/events/{event-id}/q-and-a/{q&a-id}:
+    parameters:
+      - $ref: '#/components/parameters/ProcurementParam'
+      - $ref: '#/components/parameters/EventParam'
+      - $ref: '#/components/parameters/QandAParam'
+    put:
+      description: Edit a Question and Answer item
+      tags:
+        - Q&A
+      operationId: editQ&A
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/QandA'
+      responses:
+        '200':
+          description: ok
+          content:
+            application/json:
+              schema:
+                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Schema.yaml#/components/schemas/GenericId'
+        '401':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/401Unauthorized'
+        '403':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/403Forbidden'
+        '429':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/429TooManyRequests'
+        '500':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/500InternalServerError'
+        '502':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/502BadGateway'
+      security:
+        - OAuth2:
+            - buyer
+      summary: Edit existing Q&A event
       
   /tenders/projects/{proc-id}/events/{event-id}/responses/export:
     parameters:
@@ -3134,7 +3237,15 @@ components:
       required: true
       description: Procurement Event ID
       schema:
-        $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Schema.yaml#/components/schemas/ProcurementEventId'
+        $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Schema.yaml#/components/schemas/ProcurementEventId' 
+
+    QandAParam:
+      name: q&a-id
+      in: path
+      required: true
+      description: Question and Answer item ID
+      schema:
+        $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Schema.yaml#/components/schemas/GenericId'
         
     MessageParam:
       name: message-id
@@ -4388,7 +4499,29 @@ components:
           format: date-time
       required:
         - endDate
-        
+
+    QandA:
+      description: Question and Answer item
+      type: object
+      properties:
+        question:
+          type: string
+        answer:
+          type: string
+        lastUpdated:
+          type: string
+          format: date-time
+          readOnly: true
+        created: 
+          type: string 
+          format: date-time
+          readOnly: true
+      required:
+        - question
+        - answer
+        - lastUpdated
+        - created
+
     CaTMessage:
       type: object
       properties:

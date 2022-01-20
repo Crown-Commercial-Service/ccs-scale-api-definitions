@@ -2864,7 +2864,7 @@ paths:
     parameters:
       - $ref: '#/components/parameters/ProcurementParam'
       - $ref: '#/components/parameters/EventParam'
-      - $ref: '#/components/parameters/Q&AParam'
+      - $ref: '#/components/parameters/QandAParam'
     put:
       description: Edit a Question and Answer item
       tags:
@@ -3239,7 +3239,7 @@ components:
 
     QandAParam:
       name: q&a-id
-      in: query
+      in: path
       required: true
       description: Facilities Management Transfer ID
       schema:

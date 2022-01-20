@@ -3699,6 +3699,8 @@ components:
               description: Should the weighting be visible to suppliers. 
             assessmentId:
               $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/capabilities/capability-service.yaml#/components/schemas/AssessmentId'
+            assessmentSupplierTarget:
+              $ref: '#/components/schemas/AssessmentSupplierTarget'
             eventCreated:
               type: string
               format: date-time
@@ -3950,6 +3952,13 @@ components:
           $ref: '#/components/schemas/DefineEventType'
         assessmentId:
           $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/capabilities/capability-service.yaml#/components/schemas/AssessmentId'
+        assessmentSupplierTarget:
+          $ref: '#/components/schemas/AssessmentSupplierTarget'
+          
+    AssessmentSupplierTarget:
+      type: integer
+      description: Defines the number of suppliers the buyer wishes to leave and assesment with. If not present the user cannot delete during an FC or DA assessment. 
+      example: 5
 
     EventDetail:
       description: >-
@@ -4175,11 +4184,13 @@ components:
         - Address
         - KeyValuePair
         - Text
+        - Monetary
         - Integer
         - Date
         - DateTime
         - Percentage
         - ReadMe
+        - Duration
         
     QuestionDependancy:
       type: object

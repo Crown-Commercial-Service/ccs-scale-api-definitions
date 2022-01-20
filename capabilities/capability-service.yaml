@@ -1,7 +1,7 @@
 openapi: "3.0.1"
 info:
   title: "SCALE Capability Service"
-  version: v0.0.3
+  version: v0.0.1
   description: This API allows UI's to Query Capabilities.
 #  PLACEHOLDERs - to be uncommented when implemented
   termsOfService: "http://api.crowncommercial.gov.uk/terms/"
@@ -53,7 +53,7 @@ paths:
               $ref: '#/components/schemas/Assessment'
       responses:
         '201':
-          description: JourneyID for the created journey
+          description: Assessment ID for the created assessment
           content:
             application/json:
               schema:
@@ -75,7 +75,7 @@ paths:
       operationId: get-users-assessments
       responses:
         '200':
-          description: Journey State
+          description: Assessments List
           content:
             application/json:
               schema:
@@ -167,7 +167,7 @@ paths:
               $ref: '#/components/schemas/Requirement'
       responses:
         '201':
-          description: JourneyID for the created journey
+          description: Add/update requirement
           content:
             application/json:
               schema:

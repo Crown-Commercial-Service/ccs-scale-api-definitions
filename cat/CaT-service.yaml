@@ -3696,7 +3696,9 @@ components:
               description: Highest score that can be awarded, lowest being zero.
             weightVisible:
               type: boolean
-              description: Should the weighting be visible to suppliers. 
+              description: Should the weighting be visible to suppliers.
+            assessmentSupplierTarget:
+              $ref: '#/components/schemas/AssessmentSupplierTarget'
             eventCreated:
               type: string
               format: date-time
@@ -3944,6 +3946,13 @@ components:
           example: New name
         eventType:
           $ref: '#/components/schemas/DefineEventType'
+        assessmentSupplierTarget:
+          $ref: '#/components/schemas/AssessmentSupplierTarget'
+          
+    AssessmentSupplierTarget:
+      type: integer
+      description: Defines the number of suppliers the buyer wishes to leave and assesment with. If not present the user cannot delete during an FC or DA assessment. 
+      example: 5
 
     EventDetail:
       description: >-

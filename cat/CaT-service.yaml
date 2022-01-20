@@ -1780,18 +1780,18 @@ paths:
             - buyer
       summary: Add a supplier to an event
       
-  /tenders/projects/{proc-id}/events/{event-id}/suppliers/{supplier-id}:
-    parameters:
-      - $ref: '#/components/parameters/ProcurementParam'
-      - $ref: '#/components/parameters/EventParam'
-      - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Params.yaml#/components/parameters/SupplierParam'
-
-
     delete:
       description: Remove a supplier from an event
       tags:
         - Define Procurement Event
       operationId: removeSuppliers
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OCDS_Standards/CCS-OCDS_Schema.yaml#/components/schemas/OrganizationReference'
       responses:
         '200':
           $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/200Success'

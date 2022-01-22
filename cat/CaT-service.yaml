@@ -4253,6 +4253,10 @@ components:
                     description: |+
                       Indicates if the UI should show it as selected
                     type: boolean
+                  tableDefinition:
+                    $ref: '#/components/schemas/TableDefinition'
+            tableData:
+              $ref: '#/components/schemas/TableDefinition'
             dependency:
               description: |+
                 Describes any dependency this question has on another question
@@ -4264,6 +4268,62 @@ components:
                   $ref: '#/components/schemas/QuestionRelationship'
         OCDS:
           $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OCDS_Standards/CCS-OCDS_Schema.yaml#/components/schemas/Requirement'
+          
+    TableDefintion:
+      type: object
+      properties:
+        titles:
+          type: object
+          properties:
+            columns:
+              type: array
+              items:
+                allOf:
+                  - $ref: '#/components/schemas/TitleDefinition'
+                  - type: object
+                    properties:
+                      id: 
+                        minimum: 0
+            rows:
+              type: array
+              items:
+                $ref: '#/components/schemas/TitleDefinition'
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/TableData'
+                
+                
+    TableData:
+      type: object
+      properties:
+        row:
+          type: integer
+          minimum: 1
+          description: ID of one of the rows specified title definition
+        cols:
+          type: array
+          description: one item per column defined in title definition
+          items:
+            oneOf:
+              - type: string
+              - type: integer
+              - type: number
+              - type: boolean
+                
+    TitleDefinition:
+      type: object
+      properties:
+        id: 
+          type: integer
+          minimum: 1
+        name:
+          type: string
+        dataType:
+          type: string
+        enum:
+          - string
+          - integer
         
     
     QuestionType:
@@ -4281,6 +4341,14 @@ components:
           * Address (provides an address from buyer or supplier using a post code manual input)
           * KeyValuePair (provides two related values)
           * Text (provides an text field similar to text area in UI)
+          * Monetary (provides a field to input a monetary value)
+          * Integer (provides a field that will only allow monetary values)
+          * Date (provides input that will only allow a date) 
+          * DateTime (provides input that will only allow a date and time)
+          * Percentage (provides input that will only allow a percentage value)
+          * ReadMe (provides guidance to the user)
+          * Duration (provides input that will allow a length of time to be specified)
+          * Table (provides input to define a table)
       enum:
         - Value
         - Range
@@ -4300,6 +4368,7 @@ components:
         - Percentage
         - ReadMe
         - Duration
+        - Table
         
     QuestionDependancy:
       type: object

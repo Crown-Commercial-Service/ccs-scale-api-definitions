@@ -4284,10 +4284,16 @@ components:
                     properties:
                       id: 
                         minimum: 0
+                    name: TitleDefinition
             rows:
               type: array
               items:
-                $ref: '#/components/schemas/TitleDefinition'
+                allOf:
+                  - $ref: '#/components/schemas/TitleDefinition'
+                  - type: object
+                    properties:
+                      id: 
+                        minimum: 1
         data:
           type: array
           items:
@@ -4316,7 +4322,6 @@ components:
       properties:
         id: 
           type: integer
-          minimum: 1
         name:
           type: string
         dataType:

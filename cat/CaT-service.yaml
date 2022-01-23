@@ -3010,7 +3010,7 @@ paths:
       
   /tenders/events:
     get:
-      description: 
+      description: |
         Gets Events that have not been responded to
         * Procurements Events Issued (Supplier)
         * Responses to Procurement events (Buyer)
@@ -3629,7 +3629,7 @@ components:
     
     TerminationTypes:
       title: Termination Options
-      description: 
+      description: |
         Ways to terminate a tender. There are several types-
 
           * cancelled
@@ -3664,7 +3664,7 @@ components:
       example: "cancelled"
         
     DefineEventType:
-      description: 
+      description: |
         Define event type for POST/PUT (writes).  
         Generic term for an event put out to the market. There are several types-
 
@@ -3683,7 +3683,7 @@ components:
           - FC
           
     ViewEventType:
-      description: 
+      description: |
         Event type for GETs (read only).
         Generic term for an event put out to the market. There are several types-
 
@@ -4328,7 +4328,7 @@ components:
     
     QuestionType:
       type: string
-      description: 
+      description: |
         Type of question to be displayed
           * Value (provides information in the expectedValue from buyer or supplier) 
           * Range (provides a range for the expectedValue from buyer)
@@ -4388,7 +4388,7 @@ components:
     
     DependencyType:
       type: string
-      description: 
+      description: |
         Type of relationship to dependent field
           * GreaterThan (Dependent value greater than dependencyValue) 
           * EqualTo (Dependent value equal to the dependencyValue)
@@ -4418,7 +4418,7 @@ components:
                 
     RelationshipType:
       type: string
-      description: 
+      description: |
         Type of relationship to dependent field
           * GreaterThan (Question value greater than dependent question value) 
           * EqualTo (Question value equal to dependent question value)
@@ -4446,7 +4446,7 @@ components:
           $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OCDS_Standards/CCS-OCDS_Schema.yaml#/components/schemas/OrganizationReference'
         responseState: 
           type: string
-          description: 
+          description: |
             Defines how far the supplier has progressed in providing a response
               * None - No response has been supplied
               * Draft - The supplier has added some response data but not submitted
@@ -4457,7 +4457,7 @@ components:
             - Submitted
         readState: 
           type: string
-          description: 
+          description: |
             Defines if the buyer has reacted to the supplier response
               * Waiting - The Buyer is waiting for a response to be submitted
               * Unread - The buyer has not opened the response
@@ -4483,7 +4483,7 @@ components:
       properties:
         userAction:
           type: string
-          description: 
+          description: |
             What action if any was taken for the user
               * created - Supplier user not found in sales platform and was created
               * existed - User existed already in sales platform and was updated
@@ -4492,7 +4492,7 @@ components:
             - existed
         organisationAction:
           type: string
-          description: 
+          description: |
             What action if any was taken for the organisation
               * created - Supplier org not found in sales platform and was created
               * existed - Supplier org or Buyer already in sales platform - no action        
@@ -4514,7 +4514,7 @@ components:
       properties:
         organisationAction:
           type: string
-          description: 
+          description: |
             What action if any was taken for the organisation
               * nonRequired - No action taken (buyer orgs cannot currently be updated via this method)
               * created - Not Currently in use (Orgs cannot currently be created via this method)

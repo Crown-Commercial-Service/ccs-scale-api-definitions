@@ -4272,6 +4272,10 @@ components:
     TableDefinition:
       type: object
       properties:
+        editableCols: 
+          type: boolean
+        editableRows: 
+          type: boolean
         titles:
           type: object
           properties:

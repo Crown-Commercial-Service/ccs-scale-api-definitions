@@ -3010,7 +3010,7 @@ paths:
       
   /tenders/events:
     get:
-      description: |
+      description: 
         Gets Events that have not been responded to
         * Procurements Events Issued (Supplier)
         * Responses to Procurement events (Buyer)
@@ -3537,7 +3537,7 @@ components:
             $ref: '#/components/schemas/UpdateTeamMemberType'
               
     UpdateTeamMemberType:
-      description: >-
+      description: 
         Defines which new permission should be granted to a project Team Member
       type: string
       enum:
@@ -3566,13 +3566,13 @@ components:
           maxLength: 20
           
     ExtendCriteria:
-      description: >-
+      description: 
         Data required to extend the period for tender submissions. It must not exceed the orginal extention limit defined on a tender.
-        type: object
+      type: object
       properties:
         endDate:
             title: End date
-            description: >-
+            description: 
               The new end date for the period. 
             type: string
             nullable: true
@@ -3581,7 +3581,7 @@ components:
             
     ProjectPackageSummary:
       title: Project Package Summary
-      description: >-
+      description: 
         The project summary contains (non-OCDS) summary information about the project. Following the URI will provide the project details in OIDC format.
       type: object
       properties:
@@ -3629,7 +3629,7 @@ components:
     
     TerminationTypes:
       title: Termination Options
-      description: >-
+      description: 
         Ways to terminate a tender. There are several types-
 
           * cancelled
@@ -3652,7 +3652,7 @@ components:
       #allOf:
       #  - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OCDS_Standards/CCS-OCDS_Schema.yaml#/components/schemas/TenderStatus'
       title: Termination Type
-      description: >-
+      description: 
         Subset of the codes in [tenderStatus](https://standard.open-contracting.org/1.1/en/schema/codelists/#tender-status) codelist.
         This subset are those used to terminate an RFx.
       type: string
@@ -3664,7 +3664,7 @@ components:
       example: "cancelled"
         
     DefineEventType:
-      description: >-
+      description: 
         Define event type for POST/PUT (writes).  
         Generic term for an event put out to the market. There are several types-
 
@@ -3683,7 +3683,7 @@ components:
           - FC
           
     ViewEventType:
-      description: >-
+      description: 
         Event type for GETs (read only).
         Generic term for an event put out to the market. There are several types-
 
@@ -3718,7 +3718,7 @@ components:
           description: If set to 'true' indicates the Event Type is a pre-market activity
         
 #    EventStatus:
-#      description: >-
+#      description: 
 #        Generic term for an event put out to the market. Each is an optional procurement step in the procurement process. This call shows the current status of each in the procurement process.
 #      allOf:
 #        - $ref: '#/components/schemas/EventSummary'
@@ -3729,7 +3729,7 @@ components:
 #              #description: project_1055 mapped to CaT (project ID) 00002468
           
     NonOCDSEventSummary:
-      description: >-
+      description: 
         Generic term for an event put out to the market. Each is an optional procurement step in the procurement process. This call shows the current status of each in the procurement process.
       type: object
       properties:   
@@ -3744,7 +3744,7 @@ components:
     EventSummary:
       allOf:
         - type: object
-          description: >-
+          description: 
             Generic term for an event put out to the market. Each is an optional procurement step in the procurement process. This call shows the current status of each in the procurement process.
           properties:   
             id:
@@ -3754,7 +3754,7 @@ components:
                 #description: itt_2468 mapped to CaT (eventId) 00013579
             title:
               title: Tender title
-              description: >-
+              description: 
                 A title for this tender. This will often be used by applications as a
                 headline to attract interest, and to help analysts understand the
                 nature of this procurement.
@@ -4070,7 +4070,7 @@ components:
       example: 5
 
     EventDetail:
-      description: >-
+      description: 
         Generic term for an event put out to the market. Each is an optional procurement step in the procurement process. This call shows the current status of each in the procurement process.
       type: object
       properties:
@@ -4083,7 +4083,7 @@ components:
       #allOf:
       #  - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OCDS_Standards/CCS-OCDS_Schema.yaml#/components/schemas/TenderStatus'
       title: Project Termination Options
-      description: >-
+      description: 
         Subset of the codes in [tenderStatus](https://standard.open-contracting.org/1.1/en/schema/codelists/#tender-status) codelist.
         These are the statuses which the user can close the project. If the response is null then the project cannot be closed.
       type: array
@@ -4124,7 +4124,7 @@ components:
               example: CCS
               
     EvalCriteria:
-      description: >-
+      description: 
         Details of an Evaluation type. This is known as an Envelope or Criterion
       type: object
       properties:
@@ -4159,7 +4159,7 @@ components:
             
             
     QuestionGroup:
-      description: >-
+      description: 
         This is an arbitrary grouping of questions to make it within an individual Evaluation. Known as a Requirement Group in OCDS
       type: object
       properties:
@@ -4178,7 +4178,7 @@ components:
               description: Defines if the user must answer the question to proceed.
               type: boolean
             order:
-              description: |+
+              description: 
                 Defines an order of the qustion group to be displayed in UI
               type: integer
         OCDS:
@@ -4205,7 +4205,7 @@ components:
        
  
     Question:
-      description: >-
+      description: 
         A question that must be answered by the supplier as part of a tender or a question answered by the buyer to provide information to support the supplier.
       type: object
       properties:
@@ -4215,42 +4215,42 @@ components:
             questionType:
               $ref: '#/components/schemas/QuestionType'
             answered: 
-              description: |+
+              description: 
                 Defines a the buyer or supplier has answered
               type: boolean
             mandatory: 
-              description: |+
+              description: 
                 Defines a the buyer or supplier must answer the question before a tender or response is published
               type: boolean
             multiAnswer:
-              description: |+
+              description: 
                 Defines a the buyer can add new questions of this type
               type: boolean
             order:
-              description: |+
+              description: 
                 Defines an order of the question to be displayed in UI
               type: integer
             length:
-              description: |+
+              description: 
                 Defines the maximum length of the question answer to be displayed in UI
               type: integer
             options:
-              description: |+
+              description: 
                 Defines options
               type: array
               items:
                 type: object
                 properties:
                   text:
-                    description: |+
+                    description: 
                       Defines the text to be displayed for an option
                     type: string
                   value:
-                    description: |+
+                    description: 
                       Defines value that the selection represents
                     type: string
                   selected:
-                    description: |+
+                    description: 
                       Indicates if the UI should show it as selected
                     type: boolean
                   tableDefinition:
@@ -4258,7 +4258,7 @@ components:
             tableData:
               $ref: '#/components/schemas/TableDefinition'
             dependency:
-              description: |+
+              description: 
                 Describes any dependency this question has on another question
               type: object
               properties:
@@ -4269,7 +4269,7 @@ components:
         OCDS:
           $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OCDS_Standards/CCS-OCDS_Schema.yaml#/components/schemas/Requirement'
           
-    TableDefintion:
+    TableDefinition:
       type: object
       properties:
         titles:
@@ -4321,15 +4321,15 @@ components:
           type: string
         dataType:
           type: string
-        enum:
-          - string
-          - integer
+          enum:
+            - string
+            - integer
         
     
     QuestionType:
       type: string
-      description: |+
-        Type of question to be displayed:
+      description: 
+        Type of question to be displayed
           * Value (provides information in the expectedValue from buyer or supplier) 
           * Range (provides a range for the expectedValue from buyer)
           * SingleSelect (Provides a single select from options from the buyer or supplier)
@@ -4372,7 +4372,7 @@ components:
         
     QuestionDependancy:
       type: object
-      description: |+
+      description: 
         Describes the condition when this question should be shown based on another question.
       properties:
         dependentOnId:
@@ -4388,8 +4388,8 @@ components:
     
     DependencyType:
       type: string
-      description: |+
-        Type of relationship to dependent field:
+      description: 
+        Type of relationship to dependent field
           * GreaterThan (Dependent value greater than dependencyValue) 
           * EqualTo (Dependent value equal to the dependencyValue)
           * LessThan (Dependent value less than the dependency value)
@@ -4406,7 +4406,7 @@ components:
         
     QuestionRelationship:
       type: array
-      description: |+
+      description: 
         Describes the relationships the answers provided to a question.
       items:
         type: object
@@ -4418,8 +4418,8 @@ components:
                 
     RelationshipType:
       type: string
-      description: |+
-        Type of relationship to dependent field:
+      description: 
+        Type of relationship to dependent field
           * GreaterThan (Question value greater than dependent question value) 
           * EqualTo (Question value equal to dependent question value)
           * LessThan (Question value less than dependent question value)
@@ -4437,7 +4437,7 @@ components:
   
 
     ResponseSummary:
-      description: >-
+      description: 
         This is summary of the responses from suppliers
   
       type: object
@@ -4446,7 +4446,7 @@ components:
           $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OCDS_Standards/CCS-OCDS_Schema.yaml#/components/schemas/OrganizationReference'
         responseState: 
           type: string
-          description: |+
+          description: 
             Defines how far the supplier has progressed in providing a response
               * None - No response has been supplied
               * Draft - The supplier has added some response data but not submitted
@@ -4457,7 +4457,7 @@ components:
             - Submitted
         readState: 
           type: string
-          description: |+
+          description: 
             Defines if the buyer has reacted to the supplier response
               * Waiting - The Buyer is waiting for a response to be submitted
               * Unread - The buyer has not opened the response
@@ -4483,8 +4483,8 @@ components:
       properties:
         userAction:
           type: string
-          description: |+
-            What action if any was taken for the user:
+          description: 
+            What action if any was taken for the user
               * created - Supplier user not found in sales platform and was created
               * existed - User existed already in sales platform and was updated
           enum:
@@ -4492,8 +4492,8 @@ components:
             - existed
         organisationAction:
           type: string
-          description: |+
-            What action if any was taken for the organisation:
+          description: 
+            What action if any was taken for the organisation
               * created - Supplier org not found in sales platform and was created
               * existed - Supplier org or Buyer already in sales platform - no action        
               * pending - Buyer org not found in sales platform and was created in pending state
@@ -4514,8 +4514,8 @@ components:
       properties:
         organisationAction:
           type: string
-          description: |+
-            What action if any was taken for the organisation:
+          description: 
+            What action if any was taken for the organisation
               * nonRequired - No action taken (buyer orgs cannot currently be updated via this method)
               * created - Not Currently in use (Orgs cannot currently be created via this method)
               * existed - Org existed already in sales platform and was updated (supplier orgs only)

@@ -127,7 +127,7 @@ paths:
           application/json:
             schema:
               allOf:
-                - $ref: '#/components/schemas/Dimensions'
+                - $ref: '#/components/schemas/DimensionRequirement'
 
       responses:
         '201':
@@ -264,7 +264,7 @@ components:
           type: array
           items:
             allOf:
-              - $ref: '#/components/schemas/Dimensions'
+              - $ref: '#/components/schemas/DimensionRequirement'
         scores:
           type: array
           readOnly: true
@@ -343,7 +343,7 @@ components:
             - $ref: '#/components/schemas/Percentage'
           example: 60
           
-    Dimensions:
+    DimensionRequirement:
       allOf:
         - $ref: '#/components/schemas/Dimension'
         - type: object
@@ -354,7 +354,7 @@ components:
               type: array
               items:
                 $ref: '#/components/schemas/CriterionDefinition'
-            dimensionRequirements:
+            requirements:
               type: array
               items:
                 $ref: '#/components/schemas/Requirement'

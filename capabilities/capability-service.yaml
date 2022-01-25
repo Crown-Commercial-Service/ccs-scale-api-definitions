@@ -127,7 +127,7 @@ paths:
           application/json:
             schema:
               allOf:
-                - $ref: '#/components/schemas/Requirements'
+                - $ref: '#/components/schemas/Dimensions'
 
       responses:
         '201':

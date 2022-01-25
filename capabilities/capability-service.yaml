@@ -260,11 +260,11 @@ components:
           $ref: '#/components/schemas/AssessmentId'
         tool-id:
           $ref: '#/components/schemas/ToolId'
-        requirements:
+        dimensions:
           type: array
           items:
             allOf:
-              - $ref: '#/components/schemas/Requirements'
+              - $ref: '#/components/schemas/Dimensions'
         scores:
           type: array
           readOnly: true
@@ -343,7 +343,7 @@ components:
             - $ref: '#/components/schemas/Percentage'
           example: 60
           
-    Requirements:
+    Dimensions:
       allOf:
         - $ref: '#/components/schemas/Dimension'
         - type: object

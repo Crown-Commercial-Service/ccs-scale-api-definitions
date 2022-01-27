@@ -794,6 +794,9 @@ components:
         preMarketActivity:
           type: boolean
           description: If set to 'true' indicates the Event Type is a pre-market activity
+        assessmentToolId:
+          type: string
+          description: Identifies the capability assessment tool for a lot/event-type 
 #
     DataTemplate:
       description: |+

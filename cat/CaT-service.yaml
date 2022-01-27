@@ -3732,6 +3732,9 @@ components:
       description: >-
         Generic term for an event put out to the market. Each is an optional procurement step in the procurement process. This call shows the current status of each in the procurement process.
       type: object
+      required:
+        - eventSupportId
+        - eventType      
       properties:   
         eventSupportId:
           type: string
@@ -3739,7 +3742,8 @@ components:
           description: ID to allow support staff to support this event. 
         eventType:
           $ref: '#/components/schemas/ViewEventType'
-          
+        assessmentId:
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/capabilities/capability-service.yaml#/components/schemas/AssessmentId'
 
     EventSummary:
       allOf:
@@ -3811,7 +3815,9 @@ components:
               description: Highest score that can be awarded, lowest being zero.
             weightVisible:
               type: boolean
-              description: Should the weighting be visible to suppliers.
+              description: Should the weighting be visible to suppliers. 
+            assessmentId:
+              $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/capabilities/capability-service.yaml#/components/schemas/AssessmentId'
             assessmentSupplierTarget:
               $ref: '#/components/schemas/AssessmentSupplierTarget'
             eventCreated:
@@ -4048,6 +4054,8 @@ components:
           properties:
             eventType:
               $ref: '#/components/schemas/DefineEventType'
+            assessmentId:
+              $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/capabilities/capability-service.yaml#/components/schemas/AssessmentId'
         OCDS:
           $ref: '#/components/schemas/CreateEventOCDS'
           
@@ -4061,6 +4069,8 @@ components:
           example: New name
         eventType:
           $ref: '#/components/schemas/DefineEventType'
+        assessmentId:
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/capabilities/capability-service.yaml#/components/schemas/AssessmentId'
         assessmentSupplierTarget:
           $ref: '#/components/schemas/AssessmentSupplierTarget'
           

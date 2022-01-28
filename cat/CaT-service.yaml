@@ -3607,8 +3607,6 @@ components:
           type: string
         activeEvent:
           $ref: '#/components/schemas/EventSummary'
-
-           
               
     ProjectPackage:
       allOf:
@@ -3623,9 +3621,6 @@ components:
               format: uri
       title: Project Package
       description: The record package contains a list of Event records within a single procurement project along with some publishing metadata. The Event Records pull together all the releases of a procurement under a single Open Contracting ID and compile them into the latest version of the information along with the history of any data changes.
-    
-              
-              
     
     TerminationTypes:
       title: Termination Options
@@ -3645,7 +3640,6 @@ components:
         "complete",
         "withdrawn"
         ]
-        
           
     TerminationType:
       # Remove comments to get full codelist.
@@ -3678,9 +3672,10 @@ components:
       enum:
           - EOI
           - RFI
-          - CA
           - DA
           - FC
+          - FCA
+          - DAA
           
     ViewEventType:
       description: >-
@@ -3700,9 +3695,10 @@ components:
       enum:
           - EOI
           - RFI
-          - CA
           - DA
           - FC
+          - FCA
+          - DAA          
           - TBD
     
     EventType:

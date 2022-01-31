@@ -231,7 +231,7 @@ components:
         $ref: '#/components/schemas/RequirementId'
   schemas:
     ToolId:
-      type: string
+      type: integer
       description: Defines the assessment tool being used.
       example: 1
     DimensionId:

@@ -250,7 +250,7 @@ components:
       example: 1
       readOnly: true
     CriterionId:
-      type: integer
+      type: string
       description: Value ID provided within the capability definition within a dimension .
       example: 1
     Assessment:

@@ -4288,7 +4288,6 @@ components:
                     properties:
                       id: 
                         minimum: 0
-                    name: TitleDefinition
             rows:
               type: array
               items:

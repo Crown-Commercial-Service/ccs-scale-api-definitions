@@ -253,6 +253,14 @@ components:
       type: string
       description: Value ID provided within the capability definition within a dimension .
       example: 1
+    CriterionType:
+      type: string
+      enum:
+        - integer
+        - select
+        - multiselect
+      example: multiselect
+      readOnly: true
     Assessment:
       type: object
       properties:
@@ -294,13 +302,7 @@ components:
         - type: object
           properties:
             type:
-              type: string
-              enum:
-                - integer
-                - select
-                - multiselect
-              example: multiselect
-              readOnly: true
+              $ref: '#/components/schemas/CriterionType'
             weightingRange:
               $ref: '#/components/schemas/WeightingRange'
             options:
@@ -383,13 +385,7 @@ components:
           example: via Subcontractors
           readOnly: true
         type:
-          type: string
-          enum:
-            - integer
-            - select
-            - multiselect
-          example: select
-          readOnly: true
+          $ref: '#/components/schemas/CriterionType'
         options:
           type: array
           items:

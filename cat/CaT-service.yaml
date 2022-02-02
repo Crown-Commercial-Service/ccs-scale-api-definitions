@@ -2583,6 +2583,7 @@ paths:
       tags:
         - Messaging
       operationId: createAttachment
+      deprecated: true
       requestBody:
         content:
             application/octet-stream:
@@ -2686,6 +2687,7 @@ paths:
       tags:
         - Messaging
       operationId: retrieveAttachement
+      deprecated: true
       responses:
         '200':
           description: ok
@@ -2778,6 +2780,7 @@ paths:
       tags:
         - Messaging
       operationId: removeAttachment
+      deprecated: true
       responses:
         '200':
           $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/200Success'
@@ -4635,11 +4638,20 @@ components:
                 isBroadcast:
                   type: boolean
                   description: Indicates if the buyer sent the message to the author of the a parent message or to all suppliers
+                classification:
+                  type: string
+                  enum:
+                    - Technical Clarification
+                    - System Query
+                    - General Clarification
+                    - Procurement Outcome
+                    - Unclassified
+                  default: Unclassified
+                  description: Indicates putpose of the message. A response inherits classification from an inbound message.
                 receiverList:
                   type: array
                   items:
                     $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OCDS_Standards/CCS-OCDS_Schema.yaml#/components/schemas/OrganizationReference'
-                  readOnly: true
                   description: lists the organisations the message has been sent to. (Messages from supplier will only show buyer)
                 readList:
                   type: array

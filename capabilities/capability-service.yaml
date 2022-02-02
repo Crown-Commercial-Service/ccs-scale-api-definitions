@@ -16,7 +16,7 @@ info:
 #  - OAuth2:
 #    - read
 paths:
-  /assessments/tools/{tool-id}/dimensions:
+  /assessments/tools/{external-tool-id}/dimensions:
     get:
       summary: Return list of capabilities.
       description: Retrieves a list of dimensions for an event within a lot. 
@@ -128,7 +128,6 @@ paths:
             schema:
               allOf:
                 - $ref: '#/components/schemas/DimensionRequirement'
-                - $ref: '#/components/schemas/Requirements'
 
       responses:
         '201':
@@ -203,12 +202,12 @@ paths:
 components:
   parameters:
     ToolParam:
-      name: tool-id
+      name: external-tool-id
       in: path
       required: true
-      description: Dimension ID
+      description: External Tool ID
       schema:
-        $ref: '#/components/schemas/ToolId'
+        $ref: '#/components/schemas/ExternalToolId'
     DimensionParam:
       name: dimension-id
       in: path
@@ -231,8 +230,8 @@ components:
       schema:
         $ref: '#/components/schemas/RequirementId'
   schemas:
-    ToolId:
-      type: integer
+    ExternalToolId:
+      type: string
       description: Defines the assessment tool being used.
       example: 1
     DimensionId:
@@ -251,34 +250,36 @@ components:
       example: 1
       readOnly: true
     CriterionId:
-      type: integer
+      type: string
       description: Value ID provided within the capability definition within a dimension .
       example: 1
+
     Assessment:
       type: object
       properties:
-        assesment-id:
+        assessment-id:
           $ref: '#/components/schemas/AssessmentId'
-        tool-id:
-          $ref: '#/components/schemas/ToolId'
-        requirements:
+        external-tool-id:
+          $ref: '#/components/schemas/ExternalToolId'
+        dimensionRequirements:
           type: array
           items:
             allOf:
               - $ref: '#/components/schemas/DimensionRequirement'
-              - $ref: '#/components/schemas/Requirements'
         scores:
           type: array
           readOnly: true
           items:
             $ref: '#/components/schemas/SupplierScores'
+
     AssessmentSummary:
       type: object
       properties:
         assessment-id:
           $ref: '#/components/schemas/AssessmentId'
-        tool-id:
-          $ref: '#/components/schemas/ToolId'
+        external-tool-id:
+          $ref: '#/components/schemas/ExternalToolId'
+
     Dimension:
       type: object
       properties:
@@ -296,13 +297,7 @@ components:
         - type: object
           properties:
             type:
-              type: string
-              enum:
-                - integer
-                - select
-                - multiselect
-              example: multiselect
-              readOnly: true
+              $ref: '#/components/schemas/DimensionSelectionType'
             weightingRange:
               $ref: '#/components/schemas/WeightingRange'
             options:
@@ -313,7 +308,16 @@ components:
               type: array
               items:
                 $ref: '#/components/schemas/CriterionDefinition'
-            
+
+    DimensionSelectionType:
+      type: string
+      enum:
+        - integer
+        - select
+        - multiselect
+      example: multiselect
+      readOnly: true
+      
     DimensionOption:
       type: object
       properties:
@@ -352,17 +356,11 @@ components:
           properties:
             weighting:
               $ref: '#/components/schemas/Percentage'
-            includedCriterion:
+            includedCriteria:
               type: array
               items:
                 $ref: '#/components/schemas/CriterionDefinition'
-    
-    Requirements:
-      allOf:
-        - $ref: '#/components/schemas/Dimension'
-        - type: object
-          properties:
-            dimensionRequirements:
+            requirements:
               type: array
               items:
                 $ref: '#/components/schemas/Requirement'
@@ -391,12 +389,7 @@ components:
           example: via Subcontractors
           readOnly: true
         type:
-          type: string
-          enum:
-            - integer
-            - select
-          example: select
-          readOnly: true
+          $ref: '#/components/schemas/DimensionSelectionType'
         options:
           type: array
           items:

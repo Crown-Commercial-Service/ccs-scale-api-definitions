@@ -356,7 +356,7 @@ components:
           properties:
             weighting:
               $ref: '#/components/schemas/Percentage'
-            includedCriterion:
+            includedCriteria:
               type: array
               items:
                 $ref: '#/components/schemas/CriterionDefinition'

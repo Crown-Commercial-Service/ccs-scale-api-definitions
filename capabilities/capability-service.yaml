@@ -387,6 +387,7 @@ components:
           enum:
             - integer
             - select
+            - multiselect
           example: select
           readOnly: true
         options:

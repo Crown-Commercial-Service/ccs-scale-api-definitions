@@ -257,7 +257,7 @@ components:
     Assessment:
       type: object
       properties:
-        assesment-id:
+        assessment-id:
           $ref: '#/components/schemas/AssessmentId'
         external-tool-id:
           $ref: '#/components/schemas/ExternalToolId'

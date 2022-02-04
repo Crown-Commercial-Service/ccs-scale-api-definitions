@@ -329,6 +329,8 @@ components:
           items:
             type: object
             properties:
+              option-id:
+                $ref: '#/components/schemas/RequirementId'
               name:
                 type: string
                 example: data

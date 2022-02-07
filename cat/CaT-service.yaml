@@ -4274,7 +4274,9 @@ components:
                 conditional:
                   $ref: '#/components/schemas/QuestionDependancy'
                 relationships:
-                  $ref: '#/components/schemas/QuestionRelationship'
+                  type: array
+                  items:
+                    $ref: '#/components/schemas/QuestionRelationship'
         OCDS:
           $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OCDS_Standards/CCS-OCDS_Schema.yaml#/components/schemas/Requirement'
           
@@ -4422,16 +4424,14 @@ components:
         - NotNull
         
     QuestionRelationship:
-      type: array
+      type: object
       description: 
         Describes the relationships the answers provided to a question.
-      items:
-        type: object
-        properties:
-          dependentOnId:
-            type: string
-          relationshipType:
-            $ref: '#/components/schemas/RelationshipType'
+      properties:
+        dependentOnId:
+          type: string
+        relationshipType:
+          $ref: '#/components/schemas/RelationshipType'
                 
     RelationshipType:
       type: string
@@ -4443,6 +4443,7 @@ components:
           * Inside (Question value inside a range or period defined in dependent question)
           * Outside (Question value outside a range or period defined in dependent question)
           * Alternative (Either question or dependent question may contain an answer not both)
+          * MultiAnswerGroup (Question value is part of multi answered questions)
       enum:
         - GreaterThan
         - EqualTo
@@ -4450,6 +4451,7 @@ components:
         - Inside
         - Outside
         - Alternative
+        - MultiAnswerGroup
         
   
 

@@ -321,6 +321,8 @@ components:
     DimensionOption:
       type: object
       properties:
+        option-id:
+          $ref: '#/components/schemas/RequirementId'
         name:
           type: string
           example: Data Analyst
@@ -329,8 +331,6 @@ components:
           items:
             type: object
             properties:
-              option-id:
-                $ref: '#/components/schemas/RequirementId'
               name:
                 type: string
                 example: data

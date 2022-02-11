@@ -2481,6 +2481,7 @@ paths:
       operationId: listMessages
       parameters:
       - $ref: '#/components/parameters/MessageDirectionParam'
+      - $ref: '#/components/parameters/MessageReadParam'
       - $ref: '#/components/parameters/MessageSortParam'
       - $ref: '#/components/parameters/PageParam'
       - $ref: '#/components/parameters/PageSizeParam'
@@ -3286,9 +3287,17 @@ components:
       name: message-direction
       in: query
       required: false
-      description: Sent vs Received
+      description: Filter Sent vs Received
       schema:
         $ref: '#/components/schemas/MessageDirection'
+        
+    MessageReadParam:
+      name: message-read
+      in: query
+      required: false
+      description: Filter Read vs Unread
+      schema:
+        $ref: '#/components/schemas/MessageRead'
         
     CriterionParam:
       name: criterion-id
@@ -4651,6 +4660,16 @@ components:
                 - RECEIVED
               description: Indicates if the user sent the message or recieved the message
               readOnly: true
+            classification:
+                  type: string
+                  enum:
+                    - Technical Clarification
+                    - System Query
+                    - General Clarification
+                    - Procurement Outcome
+                    - Unclassified
+                  default: Unclassified
+                  description: Indicates putpose of the message. A response inherits classification from an inbound message.
               
     MessageSummary:
       description: summary of message between buyer and supplier
@@ -4681,6 +4700,15 @@ components:
         - RECEIVED
         - ALL
       description: Indicates if the user sent the message or recieved the message
+      readOnly: true
+      
+    MessageRead:
+      type: string
+      enum:
+        - READ
+        - UNREAD
+        - ALL
+      description: Indicates if the user has read a RECIEVED message or a recipient has read a sent the message
       readOnly: true
       
     MessageSort:
@@ -4717,16 +4745,6 @@ components:
                 isBroadcast:
                   type: boolean
                   description: Indicates if the buyer sent the message to the author of the a parent message or to all suppliers
-                classification:
-                  type: string
-                  enum:
-                    - Technical Clarification
-                    - System Query
-                    - General Clarification
-                    - Procurement Outcome
-                    - Unclassified
-                  default: Unclassified
-                  description: Indicates putpose of the message. A response inherits classification from an inbound message.
                 receiverList:
                   type: array
                   items:

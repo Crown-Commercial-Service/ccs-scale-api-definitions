@@ -414,30 +414,35 @@ components:
                 - type: integer
                 - type: string
               example: Security Check (SC)
-        
-          
+    
     SupplierScores:
       type: object
       properties:
         supplier:
           type: string
-        scores:
+        dimensionScores:
           type: array
           items:
-            type: object
-            properties:
-              dimension:
-                $ref: '#/components/schemas/DimensionId'
-              scores:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Score'
+            $ref: '#/components/schemas/DimensionScores'
         total:
-          type: integer
-    Score:
+          type: integer    
+    
+    DimensionScores:
+      type: object
+      properties:
+        dimension:
+          $ref: '#/components/schemas/DimensionId'
+        requirementScores:
+          type: array
+          items:
+            $ref: '#/components/schemas/RequirementScore'
+          
+    RequirementScore:
       type: object
       properties:
         requirement:
+          type: string
+        criterion:
           type: string
         value:
           type: integer

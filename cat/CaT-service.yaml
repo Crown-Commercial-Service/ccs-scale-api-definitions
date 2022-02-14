@@ -4603,6 +4603,8 @@ components:
       description: Question and Answer item
       type: object
       properties:
+        id:
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Schema.yaml#/components/schemas/GenericId'
         question:
           type: string
         answer:

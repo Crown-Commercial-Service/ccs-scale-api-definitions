@@ -4669,7 +4669,7 @@ components:
                     - Procurement Outcome
                     - Unclassified
                   default: Unclassified
-                  description: Indicates putpose of the message. A response inherits classification from an inbound message.
+                  description: Indicates purpose of the message. A response inherits classification from an inbound message.
               
     MessageSummary:
       description: summary of message between buyer and supplier
@@ -4708,7 +4708,7 @@ components:
         - READ
         - UNREAD
         - ALL
-      description: Indicates if the user has read a RECIEVED message or a recipient has read a sent the message
+      description: Indicates if the user has read a RECIEVED message sent to them or a recipient has read a SENT message sent by the user
       readOnly: true
       
     MessageSort:

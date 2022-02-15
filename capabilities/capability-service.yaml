@@ -425,7 +425,10 @@ components:
           items:
             $ref: '#/components/schemas/DimensionScores'
         total:
-          type: integer    
+          description: Supplier score, as a 2 decimal place percentage
+          type: number
+          format: double
+          example: 56.91
     
     DimensionScores:
       type: object
@@ -445,9 +448,14 @@ components:
         criterion:
           type: string
         value:
+          description: Supplier requirement submission value
           type: integer
+          example: 2
         weightedValue:
-          type: integer
+          description: Weighted supplier requirement score, as a 2 decimal place percentage
+          type: number
+          format: double
+          example: 15.75
           
     Percentage:
       type: integer

@@ -3617,6 +3617,18 @@ components:
         supportId:
           example: project_1055
           type: string
+        agreementId:
+          example: RM1045
+          type: string
+        agreementName:
+          example: Crown Hosting
+          type: string
+        lotId:
+          example: Lot 1
+          type: string
+        lotName:
+          example: Packaged Software
+          type: string
         activeEvent:
           $ref: '#/components/schemas/EventSummary'
               

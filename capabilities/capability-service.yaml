@@ -1,7 +1,7 @@
 openapi: "3.0.1"
 info:
   title: "SCALE Capability Service"
-  version: v0.0.1
+  version: v0.0.2
   description: This API allows UI's to Query Capabilities.
 #  PLACEHOLDERs - to be uncommented when implemented
   termsOfService: "http://api.crowncommercial.gov.uk/terms/"
@@ -238,7 +238,6 @@ components:
       type: integer
       description: Dimension ID provided within the capability definition .
       example: 1
-      readOnly: true
     AssessmentId:
       type: integer
       description: Assessment ID provided when a new assessment is created.
@@ -248,7 +247,6 @@ components:
       type: integer
       description: ID provided when a new requirement is added from the options provided in a dimension.
       example: 1
-      readOnly: true
     CriterionId:
       type: string
       description: Value ID provided within the capability definition within a dimension .
@@ -288,8 +286,10 @@ components:
         name:
           type: string
           example: Resource Profile (SC)
+          readOnly: true
         type:
           type: string
+          readOnly: true
             
     DimensionDefinition:
       allOf:
@@ -368,18 +368,20 @@ components:
                 $ref: '#/components/schemas/Requirement'
             
     Requirement:
-      allOf:
-        - $ref: '#/components/schemas/DimensionOption'
-        - type: object
-          properties:
-            requirement-id:
-              $ref: '#/components/schemas/RequirementId'
-            weighting:
-              $ref: '#/components/schemas/Percentage'
-            values:
-              type: array
-              items:
-                $ref: '#/components/schemas/Criterion'
+        type: object
+        properties:
+          requirement-id:
+            $ref: '#/components/schemas/RequirementId'
+          name:
+            type: string
+            example: Data Analyst
+            readOnly: true
+          weighting:
+            $ref: '#/components/schemas/Percentage'
+          values:
+            type: array
+            items:
+              $ref: '#/components/schemas/Criterion'
                 
     CriterionDefinition:
       type: object

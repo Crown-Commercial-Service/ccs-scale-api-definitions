@@ -4639,51 +4639,9 @@ components:
       type: object
       properties:
         OCDS:    
-          allOf:
-            - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OCDS_Standards/CCS-OCDS_Schema.yaml#/components/schemas/Enquiry'
-            - type: object
-              properties:
-                id:
-                  readOnly: true
-                date:
-                  readOnly: true
-                author:
-                  readOnly: true
-                relatedLot:
-                  readOnly: true
-                description:
-                  deprecated: true
-                answer:
-                  deprecated: true
-                dateAnswered:
-                  deprecated: true
-                relatedItem:
-                  deprecated: true
-                threadID:
-                  deprecated: true
+          $ref: '#/components/schemas/CaTMessageOCDS' 
         nonOCDS:
-          type: object
-          properties:
-            read:
-              type: boolean
-              description: Indicates if the message has been read by the user. (null if direction is SENT)
-            direction:
-              type: string
-              enum:
-                - SENT
-                - RECEIVED
-              description: Indicates if the user sent the message or recieved the message
-              readOnly: true
-            classification:
-                  type: string
-                  enum:
-                    - Technical Clarification
-                    - System Query
-                    - General Clarification
-                    - Procurement Outcome
-                    - Unclassified
-                  default: Unclassified
-                  description: Indicates purpose of the message. A response inherits classification from an inbound message.
+          $ref: '#/components/schemas/CaTMessageNonOCDS' 
               
     MessageSummary:
       description: summary of message between buyer and supplier
@@ -4733,20 +4691,69 @@ components:
         - TITLE
       description: Indicates if the user sent the message or recieved the message
       readOnly: true
+    
+    CaTMessageOCDS:
+       allOf:
+         - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OCDS_Standards/CCS-OCDS_Schema.yaml#/components/schemas/Enquiry'
+         - type: object
+           properties:
+                id:
+                  readOnly: true
+                date:
+                  readOnly: true
+                author:
+                  readOnly: true
+                relatedLot:
+                  readOnly: true
+                description:
+                  deprecated: true
+                answer:
+                  deprecated: true
+                dateAnswered:
+                  deprecated: true
+                relatedItem:
+                  deprecated: true
+                threadID:
+                  deprecated: true
         
-    Message:
-      description: Message between buyer and supplier
-      allOf:
-        - $ref: '#/components/schemas/CaTMessage'
+    CaTMessageNonOCDS:
+          type: object
+          properties:
+            read:
+              type: boolean
+              description: Indicates if the message has been read by the user. (null if direction is SENT)
+            direction:
+              type: string
+              enum:
+                - SENT
+                - RECEIVED
+              description: Indicates if the user sent the message or recieved the message
+              readOnly: true
+            classification:
+                  type: string
+                  enum:
+                    - Technical Clarification
+                    - System Query
+                    - General Clarification
+                    - Procurement Outcome
+                    - Unclassified
+                  default: Unclassified
+                  description: Indicates purpose of the message. A response inherits classification from an inbound message.
+    MessageOCDS:
+       allOf:
+         - $ref: '#/components/schemas/CaTMessageOCDS' 
+         - type: object
+           properties:
+                description:
+                  type: string
+                  deprecated: false
+                  
+                  
+    MessageNonOCDS:
+       allOf:
+        - $ref: '#/components/schemas/CaTMessageNonOCDS'
         - type: object
           properties:
-            OCDS:
-              properties:
-                description:
-                  deprecated: false
-            nonOCDS:
-              type: object
-              properties:
                 answerId:
                   type: string
                   title: Identifier
@@ -4781,6 +4788,14 @@ components:
                         type: string
                   readOnly: true
                   description: list attachments sent with the message.
+    Message:
+      description: Message between buyer and supplier
+      type: object
+      properties:
+        OCDS:
+          $ref: '#/components/schemas/MessageOCDS'
+        nonOCDS:
+          $ref: '#/components/schemas/MessageNonOCDS'           
                    
   securitySchemes:
     openID:

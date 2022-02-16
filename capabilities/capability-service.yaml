@@ -324,11 +324,12 @@ components:
     DimensionOption:
       type: object
       properties:
-        option-id:
+        requirement-id:
           $ref: '#/components/schemas/RequirementId'
         name:
           type: string
           example: Data Analyst
+          readOnly: true
         groups:
           type: array
           items:
@@ -371,20 +372,16 @@ components:
                 $ref: '#/components/schemas/Requirement'
             
     Requirement:
-        type: object
-        properties:
-          requirement-id:
-            $ref: '#/components/schemas/RequirementId'
-          name:
-            type: string
-            example: Data Analyst
-            readOnly: true
-          weighting:
-            $ref: '#/components/schemas/Percentage'
-          values:
-            type: array
-            items:
-              $ref: '#/components/schemas/Criterion'
+      allOf:
+        - $ref: '#/components/schemas/DimensionOption'
+        - type: object
+          properties:
+            weighting:
+              $ref: '#/components/schemas/Percentage'
+            values:
+              type: array
+              items:
+                $ref: '#/components/schemas/Criterion'
                 
     CriterionDefinition:
       type: object

@@ -2491,9 +2491,7 @@ paths:
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/MessageSummary'
+                 $ref: '#/components/schemas/MessageSummary'
         '401':
           $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/401Unauthorized'
         '403':
@@ -4645,18 +4643,17 @@ components:
               
     MessageSummary:
       description: summary of message between buyer and supplier
-      allOf:
-        - $ref: '#/components/schemas/CaTMessage'
-        - type: object
-          properties:
-            nonOCDS:
-              type: object
-              properties:
-                counts:
-                  $ref: '#/components/schemas/MessageTotals'
-                links:
-                  $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Schema.yaml#/components/schemas/Links'
-    
+      type: object
+      properties:
+        messages:
+          type: array
+          items:
+            $ref: '#/components/schemas/CaTMessage'
+        counts:
+            $ref: '#/components/schemas/MessageTotals'
+        links:
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Schema.yaml#/components/schemas/Links'
+
     MessageTotals:
       type: object
       properties:
@@ -4739,6 +4736,7 @@ components:
                     - Unclassified
                   default: Unclassified
                   description: Indicates purpose of the message. A response inherits classification from an inbound message.
+ 
     MessageOCDS:
        allOf:
          - $ref: '#/components/schemas/CaTMessageOCDS' 
@@ -4747,8 +4745,7 @@ components:
                 description:
                   type: string
                   deprecated: false
-                  
-                  
+
     MessageNonOCDS:
        allOf:
         - $ref: '#/components/schemas/CaTMessageNonOCDS'

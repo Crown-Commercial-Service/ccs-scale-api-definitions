@@ -3279,16 +3279,18 @@ components:
       in: query
       required: false
       description: Page Number
-      type: integer
-      default: 1
+      schema:
+        type: integer
+        default: 1
     
     PageSizeParam:
       name: page-size
       in: query
       required: false
       description: Number of items per page
-      type: integer
-      default: 20
+      schema:
+        type: integer
+        default: 20
 
     MessageDirectionParam:
       name: message-direction
@@ -4787,7 +4789,12 @@ components:
                 receiverList:
                   type: array
                   items:
-                    $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OCDS_Standards/CCS-OCDS_Schema.yaml#/components/schemas/OrganizationReference'
+                    allOf:
+                      - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OCDS_Standards/CCS-OCDS_Schema.yaml#/components/schemas/OrganizationReference'
+                      - type: object
+                        properties:
+                          name:
+                            readOnly: true
                   description: lists the organisations the message has been sent to. (Messages from supplier will only show buyer)
                 readList:
                   type: array

@@ -2483,6 +2483,7 @@ paths:
       - $ref: '#/components/parameters/MessageDirectionParam'
       - $ref: '#/components/parameters/MessageReadParam'
       - $ref: '#/components/parameters/MessageSortParam'
+      - $ref: '#/components/parameters/MessageSortOrderParam'
       - $ref: '#/components/parameters/PageParam'
       - $ref: '#/components/parameters/PageSizeParam'
       responses:
@@ -3260,27 +3261,35 @@ components:
     MessageSortParam:
       name: sort
       in: query
-      required: true
+      required: false
       description: Sort Field
       schema:
         $ref: '#/components/schemas/MessageSort'
+
+    MessageSortOrderParam:
+      name: sort-order
+      in: query
+      required: false
+      description: Sort Field
+      schema:
+        $ref: '#/components/schemas/MessageSortOrder'
     
     PageParam:
       name: page
       in: query
       required: false
       description: Page Number
-      schema:
-        $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Schema.yaml#/components/schemas/GenericId'
+      type: integer
+      default: 1
     
     PageSizeParam:
       name: page-size
       in: query
       required: false
       description: Number of items per page
-      schema:
-        $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Schema.yaml#/components/schemas/GenericId'
-        
+      type: integer
+      default: 20
+
     MessageDirectionParam:
       name: message-direction
       in: query
@@ -4668,6 +4677,7 @@ components:
         - SENT
         - RECEIVED
         - ALL
+      default: RECEIVED
       description: Indicates if the user sent the message or recieved the message
       readOnly: true
       
@@ -4677,6 +4687,7 @@ components:
         - READ
         - UNREAD
         - ALL
+      default: ALL
       description: Indicates if the user has read a RECIEVED message sent to them or a recipient has read a SENT message sent by the user
       readOnly: true
       
@@ -4686,7 +4697,17 @@ components:
         - DATE
         - AUTHOR
         - TITLE
-      description: Indicates if the user sent the message or recieved the message
+      default: DATE
+      description: Indicates the field that the messages are sorted by
+      readOnly: true
+
+    MessageSortOrder:
+      type: string
+      enum:
+        - ASCENDING
+        - DESCENDING
+      default: ASCENDING
+      description: Indicates which order the messages are sorted within the selected sort field
       readOnly: true
     
     CaTMessageOCDS:

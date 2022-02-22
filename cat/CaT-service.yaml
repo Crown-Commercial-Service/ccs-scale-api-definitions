@@ -3227,12 +3227,10 @@ paths:
         - OAuth2:
             - buyer
       summary: Get all scores for an RFx
-  /tenders/projects/{proc-id}/events/{event-id}/scores/suppliers/{supplier-id}/':
+  /tenders/projects/{proc-id}/events/{event-id}/scores/suppliers/:
     parameters:
       - $ref: '#/components/parameters/ProcurementParam'
       - $ref: '#/components/parameters/EventParam'
-      - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Params.yaml#/components/parameters/SupplierParam'
-
 
     put:
       description: Updates a suppliers score for an RFx

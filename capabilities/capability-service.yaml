@@ -1,7 +1,7 @@
 openapi: "3.0.1"
 info:
   title: "SCALE Capability Service"
-  version: v0.0.4
+  version: v0.0.5
   description: This API allows UI's to Query Capabilities.
 #  PLACEHOLDERs - to be uncommented when implemented
   termsOfService: "http://api.crowncommercial.gov.uk/terms/"
@@ -259,6 +259,8 @@ components:
           $ref: '#/components/schemas/AssessmentId'
         external-tool-id:
           $ref: '#/components/schemas/ExternalToolId'
+        status:
+          $ref: '#/components/schemas/AssessmentStatus'
         dimensionRequirements:
           type: array
           items:
@@ -278,11 +280,14 @@ components:
         external-tool-id:
           $ref: '#/components/schemas/ExternalToolId'
         status:
-          type: string
-          enum:
-            - active
-            - completed
-          example: active
+          $ref: '#/components/schemas/AssessmentStatus'
+
+    AssessmentStatus:
+      type: string
+      enum:
+        - active
+        - complete
+      example: active
 
     Dimension:
       type: object

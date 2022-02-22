@@ -3239,6 +3239,13 @@ paths:
       tags:
         - Scoring
       operationId: SupplierScore
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+               $ref: '#/components/schemas/ScoreAndCommentNonOCDS'
       responses:
         '200':
           description: ok
@@ -5229,7 +5236,24 @@ components:
             - Pre-award
             - Complete
                   
-                                          
+    ScoreAndCommentNonOCDS:
+      description: 
+        Details of an Score and Comment.
+      type: object
+      properties:
+          supplierId:
+            description: The identifier of organisation
+            type: string
+            minLength: 1
+          comment:
+            description: A comment for given score.
+            type: string
+          score:
+            description: Score for supplier
+            type: integer
+            minLength: 1
+            maxLength: 3       
+                    
   securitySchemes:
     openID:
       type: openIdConnect

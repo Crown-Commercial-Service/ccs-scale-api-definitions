@@ -3227,7 +3227,7 @@ paths:
         - OAuth2:
             - buyer
       summary: Get all scores for an RFx
-  /tenders/projects/{proc-id}/events/{event-id}/scores/suppliers/:
+  /tenders/projects/{proc-id}/events/{event-id}/scores/:
     parameters:
       - $ref: '#/components/parameters/ProcurementParam'
       - $ref: '#/components/parameters/EventParam'
@@ -5239,10 +5239,11 @@ components:
         Details of an Score and Comment.
       type: object
       properties:
-          supplierId:
+          organisationId:
             description: The identifier of organisation
             type: string
             minLength: 1
+            example: GB-COH-05684804
           comment:
             description: A comment for given score.
             type: string
@@ -5250,7 +5251,7 @@ components:
             description: Score for supplier
             type: integer
             minLength: 1
-            maxLength: 3       
+            maxLength: 3 
                     
   securitySchemes:
     openID:

@@ -1,7 +1,7 @@
 openapi: "3.0.1"
 info:
   title: "SCALE Capability Service"
-  version: v0.0.5
+  version: v0.0.6
   description: This API allows UI's to Query Capabilities.
 #  PLACEHOLDERs - to be uncommented when implemented
   termsOfService: "http://api.crowncommercial.gov.uk/terms/"
@@ -307,8 +307,6 @@ components:
         - $ref: '#/components/schemas/Dimension'
         - type: object
           properties:
-            type:
-              $ref: '#/components/schemas/DimensionSelectionType'
             weightingRange:
               $ref: '#/components/schemas/WeightingRange'
             options:
@@ -320,7 +318,7 @@ components:
               items:
                 $ref: '#/components/schemas/CriterionDefinition'
 
-    DimensionSelectionType:
+    CriteriaSelectionType:
       type: string
       enum:
         - integer
@@ -405,7 +403,7 @@ components:
           example: via Subcontractors
           readOnly: true
         type:
-          $ref: '#/components/schemas/DimensionSelectionType'
+          $ref: '#/components/schemas/CriteriaSelectionType'
         options:
           type: array
           items:

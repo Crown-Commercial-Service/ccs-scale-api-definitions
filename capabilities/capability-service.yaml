@@ -373,7 +373,7 @@ components:
               type: array
               items:
                 $ref: '#/components/schemas/CriterionDefinition'
-            overwriteRequiremnts:
+            overwriteRequirements:
               type: boolean
               example: false
               writeOnly: true

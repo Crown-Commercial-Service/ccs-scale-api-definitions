@@ -1,7 +1,7 @@
 openapi: "3.0.1"
 info:
   title: "SCALE Capability Service"
-  version: v0.0.6
+  version: v0.0.7
   description: This API allows UI's to Query Capabilities.
 #  PLACEHOLDERs - to be uncommented when implemented
   termsOfService: "http://api.crowncommercial.gov.uk/terms/"
@@ -373,6 +373,11 @@ components:
               type: array
               items:
                 $ref: '#/components/schemas/CriterionDefinition'
+            overwriteRequirements:
+              type: boolean
+              example: false
+              writeOnly: true
+              description: 'If `true` - all requirements will be replaced. If `false` - requirements will only be added/overwritten. Optional - defaults to `false`.'
             requirements:
               type: array
               items:

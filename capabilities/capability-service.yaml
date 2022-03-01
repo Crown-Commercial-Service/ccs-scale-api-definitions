@@ -447,8 +447,14 @@ components:
     DimensionScores:
       type: object
       properties:
-        dimension:
+        dimension-id:
           $ref: '#/components/schemas/DimensionId'
+        name:
+          type: string
+        score:
+          type: number
+          format: double
+          example: 56.91
         requirementScores:
           type: array
           items:
@@ -457,7 +463,7 @@ components:
     RequirementScore:
       type: object
       properties:
-        requirement:
+        name:
           type: string
         criterion:
           type: string
@@ -465,8 +471,8 @@ components:
           description: Supplier requirement submission value
           type: integer
           example: 2
-        weightedValue:
-          description: Weighted supplier requirement score, as a 2 decimal place percentage
+        score:
+          description: Supplier requirement score, calculated
           type: number
           format: double
           example: 15.75

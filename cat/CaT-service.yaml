@@ -2079,7 +2079,19 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/DocumentSummary'
+                  allOf:
+                    - $ref: '#/components/schemas/DocumentSummary'
+                    - type: object
+                      description: Metadata relating to a template
+                      properties:
+                        id:
+                          description: ID for the template
+                        fileName: 
+                          description: The suggested filename for the document
+                        fileSize:
+                          description: The size of the file when downloaded
+                        description: 
+                          description: Description of what the document contains                  
         '401':
           $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/401Unauthorized'
         '403':
@@ -2206,7 +2218,7 @@ paths:
       description: Get the current draft document for an event that uses the specified template.
       tags:
         - Define Procurement Event
-      operationId: getTemplate
+      operationId: getDocumentDraft
       responses:
         '200':
           description: ok
@@ -3593,6 +3605,16 @@ components:
         type: string
         example: YnV5ZXJANzYxMzg0OUBjYXQtamFnZ2Flci1maWxlLXRlc3QtMi50eHQ=
         readOnly: true
+    
+    TemplateParam:
+      name: template-id
+      in: path
+      required: true
+      description: Document ID
+      schema:
+        type: string
+        example: 12345
+        readOnly: true
 
 
   schemas:
@@ -4835,13 +4857,17 @@ components:
       properties:
           id:
             type: string
+            description: ID for the document
           fileName: 
-            type: string  
+            type: string
+            description: The suggested filename for the document
           fileSize:
             type: integer
             format: int64
+            description: The size of the file when downloaded
           description: 
             type: string  
+            description: Description of what the document contains
           audience:
             $ref: '#/components/schemas/DocumentAudienceType'
             

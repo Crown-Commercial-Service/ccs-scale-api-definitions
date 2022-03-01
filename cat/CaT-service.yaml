@@ -2107,7 +2107,7 @@ paths:
         - Define Procurement Event
       operationId: getTemplate
       responses:
-                '200':
+        '200':
           description: ok
           content:
             application/octet-stream:
@@ -2208,7 +2208,7 @@ paths:
         - Define Procurement Event
       operationId: getTemplate
       responses:
-                '200':
+        '200':
           description: ok
           content:
             application/octet-stream:

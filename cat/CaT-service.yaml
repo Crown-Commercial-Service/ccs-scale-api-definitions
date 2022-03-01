@@ -3213,7 +3213,7 @@ paths:
       
 
     put:
-      description: Awards the contract to a supplier. The current event must be of type FC or DA
+      description: Updates an Award to a supplier. This includes changing status from pre-award to award, or to whom it is awarded
       tags:
         - Manage Procurement Project
       operationId: UpdateAward
@@ -3238,7 +3238,7 @@ paths:
       security:
         - OAuth2:
             - buyer
-      summary: Award Procurement
+      summary: Update Award
       
   /tenders/projects/{proc-id}/events/{event-id}/signed/:
     parameters:

@@ -377,6 +377,7 @@ components:
               type: boolean
               example: false
               writeOnly: true
+              description: 'If `true` - all requirements will be replaced. If `false` - requirements will only be added/overwritten. Optional - defaults to `false`.'
             requirements:
               type: array
               items:
@@ -446,14 +447,8 @@ components:
     DimensionScores:
       type: object
       properties:
-        dimension-id:
+        dimension:
           $ref: '#/components/schemas/DimensionId'
-        name:
-          type: string
-        score:
-          type: number
-          format: double
-          example: 56.91
         requirementScores:
           type: array
           items:
@@ -462,7 +457,7 @@ components:
     RequirementScore:
       type: object
       properties:
-        name:
+        requirement:
           type: string
         criterion:
           type: string
@@ -470,8 +465,8 @@ components:
           description: Supplier requirement submission value
           type: integer
           example: 2
-        score:
-          description: Supplier requirement score, calculated
+        weightedValue:
+          description: Weighted supplier requirement score, as a 2 decimal place percentage
           type: number
           format: double
           example: 15.75

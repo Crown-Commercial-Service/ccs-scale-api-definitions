@@ -3891,6 +3891,8 @@ components:
               $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/OCDS/OCDS_CodeLists.yaml#/components/schemas/ReleaseTag'
             status:
               $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OCDS_Standards/CCS-OCDS_Schema.yaml#/components/schemas/TenderStatus'
+            tenderPeriod:
+              $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OCDS_Standards/CCS-OCDS_Schema.yaml#/components/schemas/Period'
         - $ref: '#/components/schemas/NonOCDSEventSummary'
 
     EventDetailNonOCDS:

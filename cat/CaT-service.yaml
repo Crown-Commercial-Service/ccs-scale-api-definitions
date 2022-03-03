@@ -4578,8 +4578,7 @@ components:
         - Outside
         - Alternative
         - MultiAnswerGroup
-        
-  
+        - PercentageGroup
 
     ResponseSummary:
       description: 

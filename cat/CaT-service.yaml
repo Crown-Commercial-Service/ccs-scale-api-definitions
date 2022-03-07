@@ -783,7 +783,9 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ProjectTerminationType'
+                type: array
+                items:
+                  $ref: '#/components/schemas/ProjectTerminationType'
         '401':
           $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/401Unauthorized'
         '403':
@@ -1454,6 +1456,11 @@ paths:
       tags:
         - Manage Procurement Project
       operationId: ProcurementProjectClose
+      requestBody:
+        content:
+          application/json:
+            schema:
+                $ref: '#/components/schemas/ProjectTerminationType'
       responses:
         '200':
           $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/200Success'
@@ -3717,6 +3724,13 @@ components:
         projectName:
           example: RM6118-Lot 2-Crown Commercial Services
           type: string
+        projectState:
+          description: Shows if the project has been closed or is still being worked on.
+          type: string
+          enum:
+            - open
+            - closed
+          default: open
         supportId:
           example: project_1055
           type: string
@@ -3865,6 +3879,9 @@ components:
           description: ID to allow support staff to support this event. 
         eventType:
           $ref: '#/components/schemas/ViewEventType'
+        online:
+          type: boolean
+          default: true
         assessmentId:
           $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/capabilities/capability-service.yaml#/components/schemas/AssessmentId'
 
@@ -4221,14 +4238,11 @@ components:
       description: 
         Subset of the codes in [tenderStatus](https://standard.open-contracting.org/1.1/en/schema/codelists/#tender-status) codelist.
         These are the statuses which the user can close the project. If the response is null then the project cannot be closed.
-      type: array
-      items:
-        type: string
-        enum:
-          - cancelled
-          - unsuccessful
-          - complete
-          - withdrawn.
+      type: string
+      enum:
+        - cancelled
+        - unsuccessful
+        - withdrawn.
 
               
     DraftProcurementProject:

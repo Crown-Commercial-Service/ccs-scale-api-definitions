@@ -5249,7 +5249,8 @@ components:
             type: string
           score:
             description: Score for supplier
-            type: integer
+            type: number
+            format: double
             minLength: 1
             maxLength: 3 
                     

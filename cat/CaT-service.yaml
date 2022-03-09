@@ -4560,13 +4560,10 @@ components:
       description: 
         Details of an Evaluation type. This is known as an Envelope or Criterion
       type: object
-      properties:
-        nonOCDS:
-          $ref: '#/components/schemas/EvalCriteriaNonOCDS'
-        OCDS:
-          allOf:
-            - $ref: '#/components/schemas/EvalCriteriaOCDS'
-            - readOnly: true
+      allOf:
+        - $ref: '#/components/schemas/EvalCriteriaNonOCDS'
+        - $ref: '#/components/schemas/EvalCriteriaOCDS'
+            
           
     EvalCriteriaOCDS:
       description: 
@@ -4585,23 +4582,28 @@ components:
           description: A title for this criterion.
           nullable: true 
           type: string
-          minLength: 1          
+          minLength: 1
+          readOnly: true
         description:
           title: Description
           description: A description of this criterion. Structured information should be provided in its other fields.
           nullable: true
           type: string
-          minLength: 1 
+          minLength: 1
+          readOnly: true
         relatesTo:
           allOf:
              - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/OCDS/OCDS_CodeLists_Ext.yaml#/components/schemas/RelatesTo'
+             - readOnly: true
         relatedItems:
           type: string
+          readOnly: true
         requirementGroups:
           type: array
           items:
             $ref: '#/components/schemas/QuestionGroup'
           minItems: 1
+          readOnly: true
           
               
     EvalCriteriaNonOCDS:
@@ -4609,10 +4611,10 @@ components:
         Details of an Evaluation type. This is known as an Envelope or Criterion
       type: object
       properties:
-        offlineAllowed:
+        offlineAllowedNonOCDS:
           type: boolean
           readOnly: true
-        offline:
+        offlineNonOCDS:
           type: boolean
           default: false
           

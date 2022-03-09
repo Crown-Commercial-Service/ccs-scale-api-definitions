@@ -3227,18 +3227,23 @@ paths:
         - OAuth2:
             - buyer
       summary: Get all scores for an RFx
-  /tenders/projects/{proc-id}/events/{event-id}/scores/suppliers/{supplier-id}/':
+  /tenders/projects/{proc-id}/events/{event-id}/scores/:
     parameters:
       - $ref: '#/components/parameters/ProcurementParam'
       - $ref: '#/components/parameters/EventParam'
-      - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Params.yaml#/components/parameters/SupplierParam'
-
 
     put:
       description: Updates a suppliers score for an RFx
       tags:
         - Scoring
       operationId: SupplierScore
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+               $ref: '#/components/schemas/ScoreAndCommentNonOCDS'
       responses:
         '200':
           description: ok
@@ -5229,7 +5234,26 @@ components:
             - Pre-award
             - Complete
                   
-                                          
+    ScoreAndCommentNonOCDS:
+      description: 
+        Details of an Score and Comment.
+      type: object
+      properties:
+          organisationId:
+            description: The identifier of organisation
+            type: string
+            minLength: 1
+            example: GB-COH-05684804
+          comment:
+            description: A comment for given score.
+            type: string
+          score:
+            description: Score for supplier
+            type: number
+            format: double
+            minLength: 1
+            maxLength: 3 
+                    
   securitySchemes:
     openID:
       type: openIdConnect

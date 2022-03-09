@@ -1009,7 +1009,7 @@ paths:
       description: Update properties for Evaluation Criteria
       tags:
         - Define Procurement Event
-      operationId: CreateEvalCriterionGroup
+      operationId: EditeEvalCriterion
       requestBody:
         content:
           application/json:
@@ -4572,7 +4572,7 @@ components:
         Details of an Evaluation type. This is known as an Envelope or Criterion
         # overrides: https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/OCDS/OCDS_Requirements_Ext.yaml#/components/schemas/Criterion
       type: object
-        properties:
+      properties:
         id:
           title: Identifier
           description: 'The identifier for this criterion. It must be unique and cannot change within the Open Contracting Process it is part of (defined by a single ocid). See the [identifier guidance](http://standard.open-contracting.org/latest/en/schema/identifiers/) for further details.'

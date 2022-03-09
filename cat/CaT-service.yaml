@@ -4564,8 +4564,9 @@ components:
         nonOCDS:
           $ref: '#/components/schemas/EvalCriteriaNonOCDS'
         OCDS:
-          $ref: '#/components/schemas/EvalCriteriaOCDS'
-          readOnly: true
+          allOf:
+            - $ref: '#/components/schemas/EvalCriteriaOCDS'
+            - readOnly: true
           
     EvalCriteriaOCDS:
       description: 

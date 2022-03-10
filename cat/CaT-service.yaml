@@ -5085,6 +5085,12 @@ components:
                 date:
                   readOnly: true
                 author:
+                  type: object
+                  properties:
+                    id:
+                      type: string
+                    name:
+                      type: string
                   readOnly: true
                 relatedLot:
                   readOnly: true

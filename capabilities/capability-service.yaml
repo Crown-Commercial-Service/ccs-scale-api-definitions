@@ -84,7 +84,7 @@ paths:
               schema:
                 type: string
                 example: |
-                  Supplier, Requirements, Criteria 1, Criteria 2, Criteria 3\n
+                  Supplier, Requirements, Criterion 1, Criterion 2, Criterion 3\n
                   Supplier 1, Requirement 1, Val 1, Val 2, Val 3 \n
                   Supplier 1, Requirement 2, Val 4, Val 5, Val 6 \n
                   Supplier 1, Requirement 3, Val 7, Val 8, Val 9 \n

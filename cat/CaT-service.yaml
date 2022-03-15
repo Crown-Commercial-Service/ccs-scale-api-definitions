@@ -1009,7 +1009,7 @@ paths:
       description: Update properties for Evaluation Criteria
       tags:
         - Define Procurement Event
-      operationId: EditeEvalCriterion
+      operationId: EditEvalCriterion
       requestBody:
         content:
           application/json:
@@ -1035,7 +1035,7 @@ paths:
       security:
         - OAuth2:
             - buyer
-      summary: Create a question group
+      summary: Update Criterion
       
       
   /tenders/projects/{proc-id}/events/{event-id}/criteria/{criterion-id}/groups:

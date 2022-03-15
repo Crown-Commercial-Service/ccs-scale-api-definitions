@@ -59,10 +59,13 @@ paths:
               schema:
                 type: string
                 example: |
-                  Requirements, Criteria 1, Criteria 2, Criteria 3\n
-                  Requirement 1, Val 1, Val 2, Val 3\n
-                  Requirement 2, Val 4, Val 5, Val 6\n
-                  Requirement 3, Val 7, Val 8, Val 9\n
+                  Supplier, Requirements, Criteria 1, Criteria 2, Criteria 3\n
+                  Supplier 1, Requirement 1, Val 1, Val 2, Val 3 \n
+                  Supplier 1, Requirement 2, Val 4, Val 5, Val 6 \n
+                  Supplier 1, Requirement 3, Val 7, Val 8, Val 9 \n
+                  Supplier 2, Requirement 1, Val 10, Val 11, Val 12 \n
+                  Supplier 2, Requirement 2, Val 13, Val 14, Val 15 \n
+                  Supplier 2, Requirement 3, Val 16, Val 17, Val 18 \n
             application/json:
               schema:
                 type: array

@@ -42,7 +42,7 @@ paths:
           $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/500InternalServerError'
   /assessments/tools/{external-tool-id}/suppliers:
     get:
-      summary: Return list of suppliers.
+      summary: Return list of suppliers within the tool.
       description: Retrieves a list of suppliers for an event within a lot. 
       tags:
         - View Capabilities
@@ -96,6 +96,7 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/SuppliersData'
+
         '400':
           $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/400InvalidRequest'
         '404':
@@ -551,6 +552,7 @@ components:
       properties:
         supplier:
           $ref: '#/components/schemas/Supplier'
+
         dimensionScores:
           type: array
           items:

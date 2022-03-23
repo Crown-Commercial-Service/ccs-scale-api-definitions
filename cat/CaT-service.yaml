@@ -783,7 +783,9 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ProjectTerminationType'
+                type: array
+                items:
+                  $ref: '#/components/schemas/ProjectTerminationType'
         '401':
           $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/401Unauthorized'
         '403':
@@ -1454,6 +1456,11 @@ paths:
       tags:
         - Manage Procurement Project
       operationId: ProcurementProjectClose
+      requestBody:
+        content:
+          application/json:
+            schema:
+                $ref: '#/components/schemas/ProjectTerminationType'
       responses:
         '200':
           $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/200Success'
@@ -1959,6 +1966,7 @@ paths:
             - buyer
       summary: Add/update a document attached to an event
       
+      
   /tenders/projects/{proc-id}/events/{event-id}/documents/{document-id}:
     parameters:
       - $ref: '#/components/parameters/ProcurementParam'
@@ -2059,6 +2067,280 @@ paths:
         - OAuth2:
             - buyer
       summary: Download a document attached to an event
+      
+    delete:
+      description: Remove an document attached to an event
+      tags:
+        - Define Procurement Event
+      operationId: removeDocument
+      deprecated: false
+      responses:
+        '200':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/200Success'
+        '401':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/401Unauthorized'
+        '403':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/403Forbidden'
+        '429':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/429TooManyRequests'
+        '500':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/500InternalServerError'
+        '502':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/502BadGateway'
+      security:
+        - OAuth2:
+            - buyer
+      summary: Delete a document attached to an event
+            
+      
+  /tenders/projects/{proc-id}/events/{event-id}/documents/templates:
+    parameters:
+      - $ref: '#/components/parameters/ProcurementParam'
+      - $ref: '#/components/parameters/EventParam'
+
+    get:
+      description: Get summary information of templates used to create documents attached to an event
+      tags:
+        - Define Procurement Event
+      operationId: getTemplates
+      responses:
+        '200':
+          description: ok
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  allOf:
+                    - $ref: '#/components/schemas/DocumentSummary'
+                    - type: object
+                      description: Metadata relating to a template
+                      properties:
+                        id:
+                          description: ID for the template
+                        fileName: 
+                          description: The suggested filename for the document
+                        fileSize:
+                          description: The size of the file when downloaded
+                        description: 
+                          description: Description of what the document contains                  
+        '401':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/401Unauthorized'
+        '403':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/403Forbidden'
+        '429':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/429TooManyRequests'
+        '500':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/500InternalServerError'
+        '502':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/502BadGateway'
+      security:
+        - OAuth2:
+            - buyer
+      summary: Get templates for an event
+      
+  /tenders/projects/{proc-id}/events/{event-id}/documents/templates/{template-id}:
+    parameters:
+      - $ref: '#/components/parameters/ProcurementParam'
+      - $ref: '#/components/parameters/EventParam'
+      - $ref: '#/components/parameters/TemplateParam'
+
+    get:
+      description: Get proforma templates used to create documents attached to an event
+      tags:
+        - Define Procurement Event
+      operationId: getTemplate
+      responses:
+        '200':
+          description: ok
+          content:
+            application/octet-stream:
+              schema:
+                type: string
+                format: binary
+            application/msword:
+              schema:
+                type: string
+                format: binary
+            application/vnd.openxmlformats-officedocument.wordprocessingml.document:
+              schema:
+                type: string
+                format: binary
+            application/vnd.oasis.opendocument.spreadsheet:
+              schema:
+                type: string
+                format: binary
+            application/vnd.oasis.opendocument.text:
+              schema:
+                type: string
+                format: binary
+            application/vnd.ms-powerpoint:
+              schema:
+                type: string
+                format: binary
+            application/vnd.openxmlformats-officedocument.presentationml.presentation:
+              schema:
+                type: string
+                format: binary
+            application/rtf:
+              schema:
+                type: string
+                format: binary
+            application/vnd.ms-excel:
+              schema:
+                type: string
+                format: binary
+            application/vnd.openxmlformats-officedocument.spreadsheetml.sheet:
+              schema:
+                type: string
+                format: binary
+            application/xml:
+              schema:
+                type: string
+                format: binary
+            application/zip:
+              schema:
+                type: string
+                format: binary
+            application/vnd.google-earth.kml+xml application/vnd.google-earth.kmz:
+              schema:
+                type: string
+                format: binary
+            image/jpeg:
+              schema:
+                type: string
+                format: binary
+            image/png:
+              schema:
+                type: string
+                format: binary
+            text/csv:
+              schema:
+                type: string
+                format: binary
+            text/plain:
+              schema:
+                type: string
+                format: binary
+            
+        '401':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/401Unauthorized'
+        '403':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/403Forbidden'
+        '404':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/404NotFound'
+        '429':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/429TooManyRequests'
+        '500':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/500InternalServerError'
+        '502':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/502BadGateway'
+      security:
+        - OAuth2:
+            - buyer
+      summary: Get template for an event
+      
+  /tenders/projects/{proc-id}/events/{event-id}/documents/templates/{template-id}/draft:
+    parameters:
+      - $ref: '#/components/parameters/ProcurementParam'
+      - $ref: '#/components/parameters/EventParam'
+      - $ref: '#/components/parameters/TemplateParam'
+
+    get:
+      description: Get the current draft document for an event that uses the specified template.
+      tags:
+        - Define Procurement Event
+      operationId: getDocumentDraft
+      responses:
+        '200':
+          description: ok
+          content:
+            application/octet-stream:
+              schema:
+                type: string
+                format: binary
+            application/msword:
+              schema:
+                type: string
+                format: binary
+            application/vnd.openxmlformats-officedocument.wordprocessingml.document:
+              schema:
+                type: string
+                format: binary
+            application/vnd.oasis.opendocument.spreadsheet:
+              schema:
+                type: string
+                format: binary
+            application/vnd.oasis.opendocument.text:
+              schema:
+                type: string
+                format: binary
+            application/vnd.ms-powerpoint:
+              schema:
+                type: string
+                format: binary
+            application/vnd.openxmlformats-officedocument.presentationml.presentation:
+              schema:
+                type: string
+                format: binary
+            application/rtf:
+              schema:
+                type: string
+                format: binary
+            application/vnd.ms-excel:
+              schema:
+                type: string
+                format: binary
+            application/vnd.openxmlformats-officedocument.spreadsheetml.sheet:
+              schema:
+                type: string
+                format: binary
+            application/xml:
+              schema:
+                type: string
+                format: binary
+            application/zip:
+              schema:
+                type: string
+                format: binary
+            application/vnd.google-earth.kml+xml application/vnd.google-earth.kmz:
+              schema:
+                type: string
+                format: binary
+            image/jpeg:
+              schema:
+                type: string
+                format: binary
+            image/png:
+              schema:
+                type: string
+                format: binary
+            text/csv:
+              schema:
+                type: string
+                format: binary
+            text/plain:
+              schema:
+                type: string
+                format: binary
+            
+        '401':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/401Unauthorized'
+        '403':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/403Forbidden'
+        '404':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/404NotFound'
+        '429':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/429TooManyRequests'
+        '500':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/500InternalServerError'
+        '502':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/502BadGateway'
+      security:
+        - OAuth2:
+            - buyer
+      summary: Get draft document
+      
       
   /tenders/projects/{proc-id}/events/{event-id}/publish/options:
     parameters:
@@ -2977,18 +3259,23 @@ paths:
         - OAuth2:
             - buyer
       summary: Get all scores for an RFx
-  /tenders/projects/{proc-id}/events/{event-id}/scores/suppliers/{supplier-id}/':
+  /tenders/projects/{proc-id}/events/{event-id}/scores/:
     parameters:
       - $ref: '#/components/parameters/ProcurementParam'
       - $ref: '#/components/parameters/EventParam'
-      - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Params.yaml#/components/parameters/SupplierParam'
-
 
     put:
       description: Updates a suppliers score for an RFx
       tags:
         - Scoring
       operationId: SupplierScore
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+               $ref: '#/components/schemas/ScoreAndCommentNonOCDS'
       responses:
         '200':
           description: ok
@@ -3124,7 +3411,9 @@ paths:
     parameters:
       - $ref: '#/components/parameters/ProcurementParam'
       - $ref: '#/components/parameters/EventParam'
+
       - $ref: '#/components/parameters/AwardStateParam'
+
     get:
       description: Gets the awards made on the procurement
       tags:
@@ -3151,6 +3440,7 @@ paths:
         - OAuth2:
             - buyer
       summary: Retrieve Awards
+
       
     post:
       description: Awards the contract to a supplier. The current event must be of type FC or DA
@@ -3444,6 +3734,16 @@ components:
         type: string
         example: YnV5ZXJANzYxMzg0OUBjYXQtamFnZ2Flci1maWxlLXRlc3QtMi50eHQ=
         readOnly: true
+    
+    TemplateParam:
+      name: template-id
+      in: path
+      required: true
+      description: Document ID
+      schema:
+        type: string
+        example: 12345
+        readOnly: true
         
     AwardParam:
       name: award-id
@@ -3460,7 +3760,6 @@ components:
       description: Define the state of an award.
       schema:
         $ref: '#/components/schemas/AwardState'
-        
 
   schemas:
   
@@ -3728,6 +4027,13 @@ components:
         projectName:
           example: RM6118-Lot 2-Crown Commercial Services
           type: string
+        projectState:
+          description: Shows if the project has been closed or is still being worked on.
+          type: string
+          enum:
+            - open
+            - closed
+          default: open
         supportId:
           example: project_1055
           type: string
@@ -3876,6 +4182,9 @@ components:
           description: ID to allow support staff to support this event. 
         eventType:
           $ref: '#/components/schemas/ViewEventType'
+        offline:
+          type: boolean
+          default: false
         assessmentId:
           $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/capabilities/capability-service.yaml#/components/schemas/AssessmentId'
 
@@ -3902,6 +4211,8 @@ components:
               $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/OCDS/OCDS_CodeLists.yaml#/components/schemas/ReleaseTag'
             status:
               $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OCDS_Standards/CCS-OCDS_Schema.yaml#/components/schemas/TenderStatus'
+            tenderPeriod:
+              $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OCDS_Standards/CCS-OCDS_Schema.yaml#/components/schemas/Period'
         - $ref: '#/components/schemas/NonOCDSEventSummary'
 
     EventDetailNonOCDS:
@@ -4230,14 +4541,11 @@ components:
       description: 
         Subset of the codes in [tenderStatus](https://standard.open-contracting.org/1.1/en/schema/codelists/#tender-status) codelist.
         These are the statuses which the user can close the project. If the response is null then the project cannot be closed.
-      type: array
-      items:
-        type: string
-        enum:
-          - cancelled
-          - unsuccessful
-          - complete
-          - withdrawn.
+      type: string
+      enum:
+        - cancelled
+        - unsuccessful
+        - withdrawn.
 
               
     DraftProcurementProject:
@@ -4587,8 +4895,7 @@ components:
         - Outside
         - Alternative
         - MultiAnswerGroup
-        
-  
+        - PercentageGroup
 
     ResponseSummary:
       description: 
@@ -4702,13 +5009,17 @@ components:
       properties:
           id:
             type: string
+            description: ID for the document
           fileName: 
-            type: string  
+            type: string
+            description: The suggested filename for the document
           fileSize:
             type: integer
             format: int64
+            description: The size of the file when downloaded
           description: 
             type: string  
+            description: Description of what the document contains
           audience:
             $ref: '#/components/schemas/DocumentAudienceType'
             
@@ -4827,6 +5138,12 @@ components:
                 date:
                   readOnly: true
                 author:
+                  type: object
+                  properties:
+                    id:
+                      type: string
+                    name:
+                      type: string
                   readOnly: true
                 relatedLot:
                   readOnly: true
@@ -4991,8 +5308,28 @@ components:
       type: string
       enum:
         - Pre-award
-        - Complete                      
-                       
+        - Complete                                         
+                  
+    ScoreAndCommentNonOCDS:
+      description: 
+        Details of an Score and Comment.
+      type: object
+      properties:
+          organisationId:
+            description: The identifier of organisation
+            type: string
+            minLength: 1
+            example: GB-COH-05684804
+          comment:
+            description: A comment for given score.
+            type: string
+          score:
+            description: Score for supplier
+            type: number
+            format: double
+            minLength: 1
+            maxLength: 3 
+                    
   securitySchemes:
     openID:
       type: openIdConnect

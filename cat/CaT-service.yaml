@@ -3411,6 +3411,9 @@ paths:
     parameters:
       - $ref: '#/components/parameters/ProcurementParam'
       - $ref: '#/components/parameters/EventParam'
+
+      - $ref: '#/components/parameters/AwardStateParam'
+
     get:
       description: Gets the awards made on the procurement
       tags:
@@ -3436,7 +3439,8 @@ paths:
       security:
         - OAuth2:
             - buyer
-      summary: Award Procurement
+      summary: Retrieve Awards
+
       
     post:
       description: Awards the contract to a supplier. The current event must be of type FC or DA
@@ -3496,10 +3500,12 @@ paths:
       security:
         - OAuth2:
             - buyer
-      summary: Award Procurement
+      summary: View Award Detail
       
 
     put:
+      parameters:
+        - $ref: '#/components/parameters/AwardStateParam'
       description: Updates an Award to a supplier. This includes changing status from pre-award to award, or to whom it is awarded
       tags:
         - Manage Procurement Project
@@ -3746,6 +3752,14 @@ components:
       description: Award ID
       schema:
         $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Schema.yaml#/components/schemas/GenericId'
+        
+    AwardStateParam:
+      name: award-state
+      in: query
+      required: true
+      description: Define the state of an award.
+      schema:
+        $ref: '#/components/schemas/AwardState'
 
   schemas:
   
@@ -5234,11 +5248,25 @@ components:
       allOf:
         - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OCDS_Standards/CCS-OCDS_Schema.yaml#/components/schemas/Award'     
         - type: object
+          description: An award for the given procurement. There can be more than one award per contracting process e.g. because the contract is split among different providers, or because it is a standing offer. Currently CAS only supports a single supplier.
           properties:
             id:
               readOnly: true
+            title:
+              readOnly: true
+            description:
+              readOnly: true
+            status:
+              readOnly: true
+            value:
+              readOnly: true
             date:
               readOnly: true
+            contractPeriod:
+              deprecated: true
+            suppliers:
+              minItems: 1
+              maxItems: 1
             items:
               deprecated: true
             documents:
@@ -5274,10 +5302,13 @@ components:
           title: Description
           description: Award description
         state:
-          type: string
-          enum:
-            - Pre-award
-            - Complete
+          $ref: '#/components/schemas/AwardState'
+          
+    AwardState:                
+      type: string
+      enum:
+        - Pre-award
+        - Complete                                         
                   
     ScoreAndCommentNonOCDS:
       description: 

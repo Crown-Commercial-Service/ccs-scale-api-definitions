@@ -3150,7 +3150,7 @@ paths:
       security:
         - OAuth2:
             - buyer
-      summary: Award Procurement
+      summary: Retrieve Awards
       
     post:
       description: Awards the contract to a supplier. The current event must be of type FC or DA
@@ -3210,10 +3210,12 @@ paths:
       security:
         - OAuth2:
             - buyer
-      summary: Award Procurement
+      summary: View Award Detail
       
 
     put:
+      parameters:
+        - $ref: '#/components/parameters/AwardStateParam'
       description: Updates an Award to a supplier. This includes changing status from pre-award to award, or to whom it is awarded
       tags:
         - Manage Procurement Project

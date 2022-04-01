@@ -40,6 +40,69 @@ paths:
           $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/404NotFound'
         '500':
           $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/500InternalServerError'
+  /assessments/tools/{external-tool-id}/suppliers:
+    get:
+      summary: Return list of suppliers within the tool.
+      description: Retrieves a list of suppliers for an event within a lot. 
+      tags:
+        - View Capabilities
+      operationId: get-suppliers
+      parameters:
+        - $ref: '#/components/parameters/ToolParam'
+      responses:
+        '200':
+          description: Suppliers
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Supplier'
+        '400':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/400InvalidRequest'
+        '404':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/404NotFound'
+        '500':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/500InternalServerError'
+          
+  /assessments/tools/{external-tool-id}/dimensions/{dimension-id}/data:
+    get:
+      summary: Return list of capabilities.
+      description: Retrieves a list of dimensions for an event within a lot. 
+      tags:
+        - View Capabilities
+      operationId: get-supplier-data
+      parameters:
+        - $ref: '#/components/parameters/ToolParam'
+        - $ref: '#/components/parameters/DimensionParam'
+        - $ref: '#/components/parameters/SuppliersParam'
+      responses:
+        '200':
+          description: ok
+          content:
+            text/csv:
+              schema:
+                type: string
+                example: |
+                  Supplier, Requirements, Criterion 1, Criterion 2, Criterion 3\n
+                  Supplier 1, Requirement 1, Val 1, Val 2, Val 3 \n
+                  Supplier 1, Requirement 2, Val 4, Val 5, Val 6 \n
+                  Supplier 1, Requirement 3, Val 7, Val 8, Val 9 \n
+                  Supplier 2, Requirement 1, Val 10, Val 11, Val 12 \n
+                  Supplier 2, Requirement 2, Val 13, Val 14, Val 15 \n
+                  Supplier 2, Requirement 3, Val 16, Val 17, Val 18 \n
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/SuppliersData'
+
+        '400':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/400InvalidRequest'
+        '404':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/404NotFound'
+        '500':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/500InternalServerError'
   /assessments:
     post:
       description: Creates a new assessment that the user will score suppliers based on requirements for an event within a lot.
@@ -229,6 +292,20 @@ components:
       description: Requirement ID
       schema:
         $ref: '#/components/schemas/RequirementId'
+        
+    SuppliersParam:
+      name: suppliers
+      in: query
+      required: false
+      description: List of suppliers
+      schema:
+        type: array
+        items:
+            $ref: '#/components/schemas/SupplierId'
+      style: form
+      explode: false
+      example: [GB-COH-123456,GB-DUNS-56789]
+      
   schemas:
     ExternalToolId:
       type: string
@@ -251,6 +328,10 @@ components:
       type: string
       description: Value ID provided within the capability definition within a dimension .
       example: 1
+    SupplierId:
+      type: string
+      description: Supplier ID in CCS Format.
+      example: GB-COH-123456
 
     Assessment:
       type: object
@@ -428,12 +509,50 @@ components:
                 - type: integer
                 - type: string
               example: Security Check (SC)
-    
+              
+    Supplier:
+      $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OCDS_Standards/CCS-OCDS_Schema.yaml#/components/schemas/OrganizationReference'
+          
+    SuppliersData:
+      type: object
+      properties:
+        criteria:
+          type: array
+          items:
+            $ref: '#/components/schemas/CriterionDefinition'
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/SupplierData'
+          
+          
+    SupplierData:
+      type: object
+      properties:
+        supplier:
+          $ref: '#/components/schemas/Supplier'
+        criteria:
+          type: array
+          items:
+            $ref: '#/components/schemas/CriterionData'
+            
+    CriterionData:
+      type: object
+      properties:
+        criterion-id:
+          $ref: '#/components/schemas/CriterionId'
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Data'
+      
+          
     SupplierScores:
       type: object
       properties:
         supplier:
-          type: string
+          $ref: '#/components/schemas/Supplier'
+
         dimensionScores:
           type: array
           items:
@@ -443,7 +562,7 @@ components:
           type: number
           format: double
           example: 56.91
-    
+          
     DimensionScores:
       type: object
       properties:
@@ -459,23 +578,29 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/RequirementScore'
-          
-    RequirementScore:
+            
+    Data:
       type: object
       properties:
         name:
-          type: string
-        criterion:
           type: string
         value:
           description: Supplier requirement submission value
           type: integer
           example: 2
-        score:
-          description: Supplier requirement score, calculated
-          type: number
-          format: double
-          example: 15.75
+          
+    RequirementScore:
+      allOf:
+        - $ref: '#/components/schemas/Data'
+        - type: object
+          properties:
+            criterion:
+              type: string
+            score:
+              description: Supplier requirement score, calculated
+              type: number
+              format: double
+              example: 15.75
           
     Percentage:
       type: integer

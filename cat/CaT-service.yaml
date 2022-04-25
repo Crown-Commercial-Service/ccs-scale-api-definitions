@@ -4975,6 +4975,8 @@ components:
       properties:
         dependentOnId:
           type: string
+        dependencyValue:
+          type: string
         relationshipType:
           $ref: '#/components/schemas/RelationshipType'
                 
@@ -4989,6 +4991,7 @@ components:
           * Outside (Question value outside a range or period defined in dependent question)
           * Alternative (Either question or dependent question may contain an answer not both)
           * MultiAnswerGroup (Question value is part of multi answered questions)
+          * PercentageOf (Question value is should have minuum percentage)
       enum:
         - GreaterThan
         - EqualTo
@@ -4998,6 +5001,7 @@ components:
         - Alternative
         - MultiAnswerGroup
         - PercentageGroup
+        - PercentageOf
 
     ResponseSummary:
       description: 

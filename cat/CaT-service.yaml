@@ -4975,6 +4975,8 @@ components:
       properties:
         dependentOnId:
           type: string
+        dependencyValue:
+          type: string
         relationshipType:
           $ref: '#/components/schemas/RelationshipType'
                 

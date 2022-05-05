@@ -4261,6 +4261,18 @@ components:
           default: false
         assessmentId:
           $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/capabilities/capability-service.yaml#/components/schemas/AssessmentId'
+        dashboardStatus:
+          type: string 
+          enum:
+            - ASSESSMENT
+            - IN-PROGRESS
+            - PUBLISHED
+            - EVALUATERESPONSES
+            - EVALUATIONCOMPLETE
+            - AWARDED
+            - COMPLETE
+            - CLOSED
+          example: IN-PROGRESS
 
     EventSummary:
       allOf:

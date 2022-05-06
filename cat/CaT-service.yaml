@@ -4230,7 +4230,20 @@ components:
         preMarketActivity:
           type: boolean
           description: If set to 'true' indicates the Event Type is a pre-market activity
-        
+    
+    DashboardStatus:
+      type: string 
+      enum:
+        - ASSESSMENT
+        - IN-PROGRESS
+        - PUBLISHED
+        - EVALUATERESPONSES
+        - EVALUATIONCOMPLETE
+        - AWARDED
+        - COMPLETE
+        - CLOSED
+      example: IN-PROGRESS
+    
 #    EventStatus:
 #      description: 
 #        Generic term for an event put out to the market. Each is an optional procurement step in the procurement process. This call shows the current status of each in the procurement process.
@@ -4262,17 +4275,7 @@ components:
         assessmentId:
           $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/capabilities/capability-service.yaml#/components/schemas/AssessmentId'
         dashboardStatus:
-          type: string 
-          enum:
-            - ASSESSMENT
-            - IN-PROGRESS
-            - PUBLISHED
-            - EVALUATERESPONSES
-            - EVALUATIONCOMPLETE
-            - AWARDED
-            - COMPLETE
-            - CLOSED
-          example: IN-PROGRESS
+          $ref: '#/components/schemas/DashboardStatus'
 
     EventSummary:
       allOf:

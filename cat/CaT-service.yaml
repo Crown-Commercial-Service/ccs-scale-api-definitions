@@ -4178,7 +4178,9 @@ components:
       type: object
       properties:
           terminationType:
-            $ref: '#/components/schemas/TerminationType'  
+            $ref: '#/components/schemas/TerminationType'
+      required:
+        - terminationType    
         
     DefineEventType:
       description: |

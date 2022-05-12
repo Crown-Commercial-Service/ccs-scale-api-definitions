@@ -4244,9 +4244,11 @@ components:
         - ASSESSMENT
         - IN-PROGRESS
         - PUBLISHED
-        - EVALUATERESPONSES
-        - EVALUATIONCOMPLETE
+        - TO-BE-EVALUATED
+        - EVALUATING
+        - EVALUATED
         - AWARDED
+        - PRE-AWARD
         - COMPLETE
         - CLOSED
       example: IN-PROGRESS

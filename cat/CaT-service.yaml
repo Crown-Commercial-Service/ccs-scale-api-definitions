@@ -4251,6 +4251,7 @@ components:
         - PRE-AWARD
         - COMPLETE
         - CLOSED
+        - UNKNOWN
       example: IN-PROGRESS
     
 #    EventStatus:

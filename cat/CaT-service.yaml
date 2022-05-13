@@ -2567,9 +2567,7 @@ paths:
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/ResponseSummary'
+                $ref: '#/components/schemas/ResponseSummary'
         '401':
           $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/401Unauthorized'
         '403':
@@ -2620,6 +2618,42 @@ paths:
         - OAuth2:
             - buyer
       summary: Get responses from a supplier to an RFx
+      
+  /tenders/projects/{proc-id}/events/{event-id}/responses/{supplier-id}/export:
+    parameters:
+      - $ref: '#/components/parameters/ProcurementParam'
+      - $ref: '#/components/parameters/EventParam'
+      - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Params.yaml#/components/parameters/SupplierParam'
+
+
+    get:
+      description: Get responses from a supplier in a downloadble file
+      tags:
+        - View Responses
+      operationId: SupplierResponsesExport
+      responses:
+        '200':
+          description: ok
+          content:
+            application/zip:
+              schema:
+                type: string
+                format: binary
+        '401':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/401Unauthorized'
+        '403':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/403Forbidden'
+        '429':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/429TooManyRequests'
+        '500':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/500InternalServerError'
+        '502':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/502BadGateway'
+      security:
+        - OAuth2:
+            - buyer
+            - supplier
+      summary: Download responses from a supplier to an RFx
   
   
   /tenders/projects/{proc-id}/events/{event-id}/responses/{supplier-id}/needs:
@@ -3272,15 +3306,7 @@ paths:
         '200':
           description: ok
           content:
-            application/octet-stream:
-              schema:
-                type: string
-                format: binary
-            application/msword:
-              schema:
-                type: string
-                format: binary
-            application/vnd.openxmlformats-officedocument.wordprocessingml.document:
+            application/zip:
               schema:
                 type: string
                 format: binary
@@ -3316,7 +3342,9 @@ paths:
           content:
             application/json:
               schema:
-                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Schema.yaml#/components/schemas/GenericId'
+                type: array
+                items:
+                  $ref: '#/components/schemas/ScoreAndCommentNonOCDS'
         '400':
           $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/400InvalidRequest'
         '401':
@@ -3333,10 +3361,7 @@ paths:
         - OAuth2:
             - buyer
       summary: Get all scores for an RFx
-  /tenders/projects/{proc-id}/events/{event-id}/scores/:
-    parameters:
-      - $ref: '#/components/parameters/ProcurementParam'
-      - $ref: '#/components/parameters/EventParam'
+  
 
     put:
       description: Updates a suppliers score for an RFx
@@ -3485,7 +3510,6 @@ paths:
     parameters:
       - $ref: '#/components/parameters/ProcurementParam'
       - $ref: '#/components/parameters/EventParam'
-
       - $ref: '#/components/parameters/AwardStateParam'
 
     get:
@@ -5031,7 +5055,28 @@ components:
     ResponseSummary:
       description: 
         This is summary of the responses from suppliers
-  
+      type: object
+      properties:
+        invited:
+          type: integer
+          description: total of number of suppliers in the event
+        responded:
+          type: integer
+          description: total of responders with responseState = submitted
+        declined:
+          type: integer
+          description: total of responders with responseState = declined
+        noResponse:
+          type: integer
+          description: total of responders with responseState = none
+        responders:
+          type: array
+          items:
+            $ref: '#/components/schemas/Responders'
+            
+    Responders:
+      description: 
+        Sumary details of a responder
       type: object
       properties:
         supplier: 
@@ -5047,6 +5092,9 @@ components:
             - None
             - Draft
             - Submitted
+        responseDate:
+          type: string
+          format: date
         readState: 
           type: string
           description: |
@@ -5459,8 +5507,8 @@ components:
             description: Score for supplier
             type: number
             format: double
-            minLength: 1
-            maxLength: 3 
+            minimum: 0
+            maximum: 100
                     
   securitySchemes:
     openID:

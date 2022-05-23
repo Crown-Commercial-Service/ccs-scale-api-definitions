@@ -1775,6 +1775,7 @@ paths:
           description: OK
           content:
             application/json:
+              $ref: '#/components/schemas/EventSuppliers'
               schema:
                 type: object
                 title: ProcurementEventSuppliers
@@ -4112,6 +4113,17 @@ components:
             type: string
             nullable: true
             format: date-time
+    EventSuppliers:
+      description:
+        List of supplier belonfs to procurement event.
+      type: object
+      properties:
+        suppliers:
+            type: array
+            items:
+              $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OCDS_Standards/CCS-OCDS_Schema.yaml#/components/schemas/OrganizationReference'
+        justification:
+          type: string
             
             
     ProjectPackageSummary:

@@ -4107,8 +4107,12 @@ components:
               $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OCDS_Standards/CCS-OCDS_Schema.yaml#/components/schemas/OrganizationReference'
         justification:
           type: string
-            
-            
+        overwriteSuppliers:
+          type: boolean
+          example: false
+          writeOnly: true
+          description: 'If `true` - all suppliers will be replaced. If `false` - suppliers will only be added/overwritten. Optional - defaults to `false`.'
+
     ProjectPackageSummary:
       title: Project Package Summary
       description: 

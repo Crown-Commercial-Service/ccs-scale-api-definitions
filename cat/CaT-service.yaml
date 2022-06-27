@@ -3916,13 +3916,12 @@ paths:
       security:
         - OAuth2:
             - buyer
-      summary: Download scoring template
+      summary: Download awarding template
       
   /tenders/projects/{proc-id}/events/{event-id}/awards/templates/export:
     parameters:
       - $ref: '#/components/parameters/ProcurementParam'
       - $ref: '#/components/parameters/EventParam'
-
 
     get:
       description: Provide an archive file containing all templates used for awarding.
@@ -3954,7 +3953,7 @@ paths:
             - buyer
       summary: Export awarding templates
 
-      
+
   /tenders/projects/{proc-id}/events/{event-id}/signed/:
     parameters:
       - $ref: '#/components/parameters/ProcurementParam'

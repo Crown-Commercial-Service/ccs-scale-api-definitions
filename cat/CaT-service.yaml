@@ -3915,7 +3915,7 @@ paths:
       security:
         - OAuth2:
             - buyer
-      summary: Download scoring template
+      summary: Download awarding template
       
       
   /tenders/projects/{proc-id}/events/{event-id}/signed/:

@@ -3776,6 +3776,7 @@ paths:
             - buyer
       summary: Update Award
       
+
   /tenders/projects/{proc-id}/events/{event-id}/awards/templates:
     parameters:
       - $ref: '#/components/parameters/ProcurementParam'
@@ -3917,6 +3918,42 @@ paths:
             - buyer
       summary: Download scoring template
       
+  /tenders/projects/{proc-id}/events/{event-id}/awards/templates/export:
+    parameters:
+      - $ref: '#/components/parameters/ProcurementParam'
+      - $ref: '#/components/parameters/EventParam'
+
+
+    get:
+      description: Provide an archive file containing all templates used for awarding.
+      tags:
+        - Awarding
+      operationId: awardTemplatesExport
+      responses:
+        '200':
+          description: ok
+          content:
+            application/zip:
+              schema:
+                type: string
+                format: binary
+        '400':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/400InvalidRequest'
+        '401':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/401Unauthorized'
+        '403':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/403Forbidden'
+        '429':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/429TooManyRequests'
+        '500':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/500InternalServerError'
+        '502':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/502BadGateway'
+      security:
+        - OAuth2:
+            - buyer
+      summary: Export awarding templates
+
       
   /tenders/projects/{proc-id}/events/{event-id}/signed/:
     parameters:

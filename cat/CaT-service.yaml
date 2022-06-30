@@ -5826,7 +5826,7 @@ components:
       type: string
       enum:
         - Pre-award
-        - Complete                                         
+        - Award                                         
                   
     ScoreAndCommentNonOCDS:
       description: 

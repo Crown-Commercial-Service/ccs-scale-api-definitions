@@ -3360,6 +3360,8 @@ paths:
   
 
     put:
+      parameters:
+        - $ref: '#/components/parameters/ScoringCompleteParam'
       description: Updates a suppliers score for an RFx
       tags:
         - Scoring
@@ -4181,6 +4183,15 @@ components:
       description: Define the state of an award.
       schema:
         $ref: '#/components/schemas/AwardState'
+        
+    ScoringCompleteParam:
+      name: scoring-complete
+      in: query
+      required: true
+      description: Signals that the user has finished scoring.
+      schema:
+        type: boolean
+        default: false
 
   schemas:
   

@@ -176,21 +176,21 @@ paths:
         '500':
           $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/500InternalServerError'
           
-  /assessments/{assessment-id}/dimensions/{dimension-id}:
+  /assessments/{assessment-id}/dimensions:
     put:
-      description: Adds/Updates dimension details on an assessment
+      description: Adds/Updates dimensions details on an assessment
       tags:
         - Manage Requirements
       operationId: update-dimension
       parameters:
         - $ref: '#/components/parameters/AssessmentParam'
-        - $ref: '#/components/parameters/DimensionParam'
       requestBody:
         content:
           application/json:
             schema:
-              allOf:
-                - $ref: '#/components/schemas/DimensionRequirement'
+              type: array
+              items:
+                $ref: '#/components/schemas/Dimension'
 
       responses:
         '201':
@@ -209,7 +209,7 @@ paths:
           $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/500InternalServerError'
         '502':
           $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/502BadGateway'
-      summary: Add/Update dimension
+      summary: Add/Update dimensions
       
   
   /assessments/{assessment-id}/dimensions/{dimension-id}/requirements/{requirement-id}:

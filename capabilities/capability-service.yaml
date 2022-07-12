@@ -160,6 +160,7 @@ paths:
       operationId: get-assessment
       parameters:
         - $ref: '#/components/parameters/AssessmentParam'
+        - $ref: '#/components/parameters/ScoringRequiredParam'
       responses:
         '200':
           description: Assessment State
@@ -305,6 +306,15 @@ components:
       style: form
       explode: false
       example: [GB-COH-123456,GB-DUNS-56789]
+      
+    ScoringRequiredParam:
+      name: scores
+      in: query
+      required: false
+      schema:
+        type: boolean
+        default: false
+      description: Indicates if scores calculation is required
       
   schemas:
     ExternalToolId:

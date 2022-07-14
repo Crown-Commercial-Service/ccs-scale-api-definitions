@@ -3956,13 +3956,13 @@ paths:
       summary: Export awarding templates
 
 
-  /tenders/projects/{proc-id}/events/{event-id}/contracts/:
+  /tenders/projects/{proc-id}/events/{event-id}/contracts:
     parameters:
       - $ref: '#/components/parameters/ProcurementParam'
       - $ref: '#/components/parameters/EventParam'
 
 
-    put:
+    post:
       description: Indicate the contract has been signed.
       tags:
         - Contract Management

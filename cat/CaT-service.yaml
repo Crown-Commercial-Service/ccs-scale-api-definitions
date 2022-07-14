@@ -3956,22 +3956,22 @@ paths:
       summary: Export awarding templates
 
 
-  /tenders/projects/{proc-id}/events/{event-id}/signed/:
+  /tenders/projects/{proc-id}/events/{event-id}/contracts:
     parameters:
       - $ref: '#/components/parameters/ProcurementParam'
       - $ref: '#/components/parameters/EventParam'
 
 
-    put:
+    post:
       description: Indicate the contract has been signed.
       tags:
-        - Manage Procurement Project
+        - Contract Management
       operationId: signed
       requestBody:
         content:
           application/json:
             schema:
-              $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OCDS_Standards/CCS-OCDS_Schema.yaml#/components/schemas/Contract'
+              $ref: '#/components/schemas/Contract'
       responses:
         '200':
           $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/200Success'
@@ -3990,7 +3990,38 @@ paths:
             - write
         - openID:
             - write
-      summary: Sign Procurement
+      summary: Sign Contract
+      
+    get:
+      description: Get details of contracts signed relating to the agreement
+      tags:
+        - Contract Management
+      operationId: getContracts
+      responses:
+        '200':
+          description: ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Contract'
+        '400':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/400InvalidRequest'
+        '401':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/401Unauthorized'
+        '403':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/403Forbidden'
+        '429':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/429TooManyRequests'
+        '500':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/500InternalServerError'
+        '502':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/502BadGateway'
+      security:
+        - OAuth2:
+            - buyer
+      summary: Get contract details
+
+      
 components:
 
   parameters:
@@ -5837,7 +5868,46 @@ components:
       type: string
       enum:
         - Pre-award
-        - Award                                         
+        - Award      
+    
+    Contract:
+      allOf:
+        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OCDS_Standards/CCS-OCDS_Schema.yaml#/components/schemas/Contract'   
+        - type: object
+          description: An contract relating to an award. There can be more than one award per contracting process e.g. because the contract is split among different providers, or because it is a standing offer. Currently CAS only supports a single supplier.
+          required: 
+            - awardID
+            - status
+          properties:
+            id:
+              readOnly: true
+            title:
+              deprecated: true
+            description:
+              deprecated: true
+            period:
+              deprecated: true
+            value:
+              deprecated: true
+            items:
+              deprecated: true
+            dateSigned:
+              deprecated: true
+            documents:
+              deprecated: true
+            implementation:
+              deprecated: true
+            relatedProcesses:
+              deprecated: true
+            milestones:
+              deprecated: true
+            amendments:
+              deprecated: true
+            finance:
+              deprecated: true
+            requirementResponses:
+              deprecated: true   
+                                       
                   
     ScoreAndCommentNonOCDS:
       description: 

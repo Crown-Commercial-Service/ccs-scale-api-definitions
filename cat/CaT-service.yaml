@@ -1861,12 +1861,11 @@ paths:
       operationId: getSupplier
       responses:
         '200':
-          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/200Success'
-        description: OK
+          description: ok
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/OrganizationReference'
+                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OCDS_Standards/CCS-OCDS_Schema.yaml#/components/schemas/OrganizationReference'
         '401':
           $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/401Unauthorized'
         '403':

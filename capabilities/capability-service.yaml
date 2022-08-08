@@ -424,6 +424,10 @@ components:
           type: string
           example: Data Analyst
           readOnly: true
+        description:
+          type: string
+          example: A data analyst collects, organises and studies data to provide business insight.<br>Find out more about this <a href='https://www.gov.uk/guidance/data-analyst'>role</a>.
+          readOnly: true
         groupRequirement:
           type: boolean
           example: false
@@ -436,6 +440,10 @@ components:
               name:
                 type: string
                 example: data
+              description:
+                type: string
+                example: some data.
+                readOnly: true
               level:
                 type: integer
                 example: 1

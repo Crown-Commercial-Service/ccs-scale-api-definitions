@@ -136,6 +136,8 @@ paths:
       tags:
         - Manage Assessments
       operationId: get-users-assessments
+      parameters:
+        - $ref: '#/components/parameters/ToolFilterParam'
       responses:
         '200':
           description: Assessments List
@@ -170,6 +172,52 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Assessment'
+        '400':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/400InvalidRequest'
+        '404':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/404NotFound'
+        '500':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/500InternalServerError'
+        
+    delete:
+      summary: Delete assessment.
+      description: Delete assessment.
+      tags:
+        - Manage Assessments
+      operationId: delete-assessment
+      parameters:
+        - $ref: '#/components/parameters/AssessmentParam'
+      responses:
+        '200':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/200Success'
+        '400':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/400InvalidRequest'
+        '404':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/404NotFound'
+        '500':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/500InternalServerError'
+          
+          
+          
+  /assessments/{assessment-id}/export:
+    get:
+      summary: Export Assessment.
+      description: Downloads assessment and prevents it from being edited.
+      tags:
+        - Manage Assessments
+      operationId: export-assessment
+      parameters:
+        - $ref: '#/components/parameters/AssessmentParam'
+      responses:
+        '200':
+          description: ok
+          content:
+            text/csv:
+              schema:
+                type: string
+            text/osd:
+              schema:
+                type: string
         '400':
           $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/400InvalidRequest'
         '404':
@@ -272,6 +320,15 @@ components:
       description: External Tool ID
       schema:
         $ref: '#/components/schemas/ExternalToolId'
+        
+    ToolFilterParam:
+      name: external-tool-id
+      in: query
+      required: false
+      description: Filters results by external-tool-id
+      schema:
+        $ref: '#/components/schemas/ExternalToolId'
+        
     DimensionParam:
       name: dimension-id
       in: path
@@ -344,14 +401,32 @@ components:
       example: GB-COH-123456
 
     Assessment:
+     allOf: # Adds assessment detail to an AssessmentSummary 
+        - $ref: '#/components/schemas/AssessmentSummary'
+        - $ref: '#/components/schemas/AssessmentDetail'
+        
+    AssessmentDetail:
+      oneOf:
+        - $ref: '#/components/schemas/StandardAssessmentDetail'
+        - $ref: '#/components/schemas/GCloudAssessmentDetail'
+          
+    StandardAssessmentDetail:
       type: object
       properties:
-        assessment-id:
-          $ref: '#/components/schemas/AssessmentId'
-        external-tool-id:
-          $ref: '#/components/schemas/ExternalToolId'
-        status:
-          $ref: '#/components/schemas/AssessmentStatus'
+        dimensionRequirements:
+          type: array
+          items:
+            allOf:
+              - $ref: '#/components/schemas/DimensionRequirement'
+        scores:
+          type: array
+          readOnly: true
+          items:
+            $ref: '#/components/schemas/SupplierScores'
+            
+    GCloudAssessmentDetail:
+      type: object
+      properties:
         dimensionRequirements:
           type: array
           items:

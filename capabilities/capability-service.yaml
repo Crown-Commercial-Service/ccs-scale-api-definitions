@@ -153,6 +153,7 @@ paths:
           $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/404NotFound'
         '500':
           $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/500InternalServerError'
+
   /assessments/{assessment-id}:
     get:
       summary: Return assessment state.
@@ -197,7 +198,31 @@ paths:
         '500':
           $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/500InternalServerError'
           
-          
+    put:
+      description: Updates Saved GCloud Assessment
+      tags:
+        - Manage Assessments
+      operationId: update-assessment
+      parameters:
+        - $ref: '#/components/parameters/AssessmentParam'
+      requestBody:
+        content:
+          'application/json:':
+            schema:
+              $ref: '#/components/schemas/AssessmentDetail'
+      responses:
+        '200':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/200Success'
+        '401':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/401Unauthorized'
+        '403':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/403Forbidden'
+        '422':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/422ValidationErrors'
+        '500':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/500InternalServerError'
+      summary: Update an Assessment
+     
           
   /assessments/{assessment-id}/export:
     get:
@@ -428,21 +453,40 @@ components:
       type: object
       properties:
         dimensionRequirements:
+          type: string
+          example: "q=&lot=cloud-support&serviceCategories=quality%20assurance%20and%20performance%20testing&resellingType=not_reseller"
+        results:
           type: array
           items:
-            allOf:
-              - $ref: '#/components/schemas/DimensionRequirement'
-        scores:
-          type: array
-          readOnly: true
-          items:
-            $ref: '#/components/schemas/SupplierScores'
+            $ref: '#/components/schemas/GCloudResult'
+            
+    GCloudResult:
+      type: object
+      properties:
+        serviceName:
+          type: string
+          example: 'Physical and Environmental Security'
+        supplier:
+          $ref: '#/components/schemas/Supplier'
+        serviceDescription:
+          type: string
+          example: 'We can conduct a thorough review of existing IT landscape, suggesting areas for improvement and ensuring resilience of physical and environmental systems to ensure any external threats are minimised.'
+        serviceLink:
+          type: string
+          format: uri
+          example: 'https://www.digitalmarketplace.service.gov.uk/g-cloud/services/743543101626621'
 
     AssessmentSummary:
       type: object
+      required:
+        - assessment-id
+        - external-tool-id
+        - status
       properties:
         assessment-id:
           $ref: '#/components/schemas/AssessmentId'
+        assessmentName:
+          type: string
         external-tool-id:
           $ref: '#/components/schemas/ExternalToolId'
         status:

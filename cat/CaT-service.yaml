@@ -847,7 +847,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/EventType'
+                  $ref: '#/components/schemas/ProjectEventType'
         '401':
           $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/401Unauthorized'
         '403':
@@ -4619,6 +4619,7 @@ components:
 
           * EOI - Expression of Interest
           * RFI - Request for Information
+          * PA  - Procurement Assessment
           * FCA - Further Competition Assessment
           * DAA - Direct Award Assessment
           * DA  - Direct Award
@@ -4629,6 +4630,7 @@ components:
           - RFI
           - DA
           - FC
+          - PA
           - FCA
           - DAA
           
@@ -4639,6 +4641,7 @@ components:
 
           * EOI - Expression of Interest
           * RFI - Request for Information
+          * PA  - Procurement Assessment
           * FCA - Further Competition Assessment
           * DAA - Direct Award Assessment
           * DA  - Direct Award
@@ -4652,8 +4655,9 @@ components:
           - RFI
           - DA
           - FC
+          - PA 
           - FCA
-          - DAA          
+          - DAA   
           - TBD
     
     EventType:
@@ -4667,6 +4671,15 @@ components:
         preMarketActivity:
           type: boolean
           description: If set to 'true' indicates the Event Type is a pre-market activity
+        
+    ProjectEventType:
+      allOf:
+        - $ref: '#/components/schemas/EventType'
+        - type: object
+          properties:
+            mandatory:
+              type: boolean
+              description: Indicates if the event must be carried out as part of the procurement. 
     
     DashboardStatus:
       type: string 

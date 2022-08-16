@@ -103,6 +103,7 @@ paths:
           $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/404NotFound'
         '500':
           $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/500InternalServerError'
+
   /assessments:
     post:
       description: Creates a new assessment that the user will score suppliers based on requirements for an event within a lot.
@@ -154,6 +155,34 @@ paths:
         '500':
           $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/500InternalServerError'
 
+  /assessments/gcloud:
+    post:
+      description: Creates a new assessment that the user will score suppliers based on requirements for an event within a lot.
+      tags:
+        - Manage Assessments
+      operationId: create-gcloud-assessment
+      requestBody:
+        content:
+          'application/json:':
+            schema:
+              $ref: '#/components/schemas/GCloudAssessment'
+      responses:
+        '201':
+          description: Assessment ID for the created assessment
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AssessmentId'
+        '401':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/401Unauthorized'
+        '403':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/403Forbidden'
+        '422':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/422ValidationErrors'
+        '500':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/500InternalServerError'
+      summary: Create a new Assessment
+      
   /assessments/{assessment-id}:
     get:
       summary: Return assessment state.
@@ -179,7 +208,7 @@ paths:
           $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/404NotFound'
         '500':
           $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/500InternalServerError'
-        
+
     delete:
       summary: Delete assessment.
       description: Delete assessment.
@@ -198,18 +227,45 @@ paths:
         '500':
           $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/500InternalServerError'
           
+
+  /assessments/{assessment-id}/gcloud:
+    get:
+      summary: Return assessment state.
+      description: Retrieves assessment.
+      tags:
+        - Manage Assessments
+      operationId: get-gcloud-assessment
+      parameters:
+        - $ref: '#/components/parameters/AssessmentParam'
+        - $ref: '#/components/parameters/ScoringRequiredParam'
+      responses:
+        '200':
+          description: Assessment State
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/GCloudAssessment'
+        '400':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/400InvalidRequest'
+        '404':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/404NotFound'
+        '500':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/500InternalServerError'
+        
     put:
       description: Updates Saved GCloud Assessment
       tags:
         - Manage Assessments
-      operationId: update-assessment
+      operationId: update-gcloud-assessment
       parameters:
         - $ref: '#/components/parameters/AssessmentParam'
       requestBody:
         content:
           'application/json:':
             schema:
-              $ref: '#/components/schemas/AssessmentDetail'
+              $ref: '#/components/schemas/GCloudAssessment'
       responses:
         '200':
           $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/200Success'
@@ -426,9 +482,14 @@ components:
       example: GB-COH-123456
 
     Assessment:
-     allOf: # Adds assessment detail to an AssessmentSummary 
+      allOf: # Adds assessment detail to an AssessmentSummary 
         - $ref: '#/components/schemas/AssessmentSummary'
-        - $ref: '#/components/schemas/AssessmentDetail'
+        - $ref: '#/components/schemas/StandardAssessmentDetail'
+        
+    GCloudAssessment:
+      allOf: # Adds assessment detail to an AssessmentSummary 
+        - $ref: '#/components/schemas/AssessmentSummary'
+        - $ref: '#/components/schemas/GCloudAssessmentDetail'
         
     AssessmentDetail:
       oneOf:
@@ -441,8 +502,7 @@ components:
         dimensionRequirements:
           type: array
           items:
-            allOf:
-              - $ref: '#/components/schemas/DimensionRequirement'
+            $ref: '#/components/schemas/DimensionRequirement'
         scores:
           type: array
           readOnly: true

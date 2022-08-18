@@ -5816,19 +5816,6 @@ components:
                   type: string
                   title: Identifier
                   description: A unique identifier of for a message containing answer (Null if first message in a thread)
-                isBroadcast:
-                  type: boolean
-                  description: Indicates if the buyer sent the message to the author of the a parent message or to all suppliers
-                receiverList:
-                  type: array
-                  items:
-                    allOf:
-                      - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OCDS_Standards/CCS-OCDS_Schema.yaml#/components/schemas/OrganizationReference'
-                      - type: object
-                        properties:
-                          name:
-                            readOnly: true
-                  description: lists the organisations the message has been sent to. (Messages from supplier will only show buyer)
                 readList:
                   type: array
                   items:

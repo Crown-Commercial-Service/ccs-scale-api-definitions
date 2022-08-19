@@ -5161,6 +5161,23 @@ components:
       allOf:
         - $ref: '#/components/schemas/EvalCriteriaNonOCDS'
         - $ref: '#/components/schemas/EvalCriteriaOCDS'
+        
+        
+    DataTemplateInheritanceType:
+      description: |+
+        Objects within the DataTemplate may be inherited from a previous template. The inheritance may apply in the following ways-
+
+          * None - Not linked to any other template
+          * Part - Inherits from previous template but subsections have their own inheritance setting
+          * AsIs - Does not allow editing but will be included from previous template
+          * Edit - Inherits but can be updated
+
+      type: string
+      enum:
+          - None
+          - Part
+          - AsIs
+          - Edit
             
           
     EvalCriteriaOCDS:
@@ -5189,8 +5206,6 @@ components:
           type: string
           minLength: 1
           readOnly: true
-        inheritance:
-          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/feature/SCAT-6046/agreements/agreements-service.yaml#/components/schemas/DataTemplateInheritanceType'
         relatesTo:
           allOf:
              - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/OCDS/OCDS_CodeLists_Ext.yaml#/components/schemas/RelatesTo'
@@ -5217,6 +5232,8 @@ components:
         offlineNonOCDS:
           type: boolean
           default: false
+        inheritanceNonOCDS:
+          $ref: '#/components/schemas/DataTemplateInheritanceType'
           
             
     QuestionGroup:
@@ -5242,6 +5259,8 @@ components:
               description: 
                 Defines an order of the qustion group to be displayed in UI
               type: integer
+            inheritance:
+              $ref: '#/components/schemas/DataTemplateInheritanceType'
         OCDS:
             # overrides: https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/OCDS/OCDS_Requirements_Ext.yaml#/components/schemas/RequirementGroup
             type: object
@@ -5283,6 +5302,8 @@ components:
               description: 
                 Defines a the buyer or supplier must answer the question before a tender or response is published
               type: boolean
+            inheritance:
+              $ref: '#/components/schemas/DataTemplateInheritanceType'
             multiAnswer:
               description: 
                 Defines a the buyer can add new questions of this type

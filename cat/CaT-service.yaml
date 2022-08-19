@@ -4444,6 +4444,12 @@ components:
           description: 'Is the user the project owner'
           example: false
           
+    TemplateId:
+      type: number
+      format: integer
+      description: Identifies a template for an event that includes documents and questions to be included in that event.
+      example: 1
+          
     UpdateTeamMember:
       type: object
       properties:
@@ -4672,6 +4678,29 @@ components:
           type: boolean
           description: If set to 'true' indicates the Event Type is a pre-market activity
         
+            
+    EventTemplate:
+      type: object
+      properties:
+        templateId:
+          $ref: '#/components/schemas/TemplateId'
+        name:
+          type: string
+          description: Name of template
+          example: 'Round 2 template'
+          readOnly: true
+        description:
+          type: string
+          description: Description of the Template
+          example: 'Collects the data required for the second Further Competition Event'
+        mandatoryTemplate:
+          type: boolean
+          description: Indicates if the event must use the template out as part of the procurement. 
+        inheritsFrom:
+          type: number
+          format: integer
+          example: 1
+            
     ProjectEventType:
       allOf:
         - $ref: '#/components/schemas/EventType'
@@ -4680,6 +4709,10 @@ components:
             mandatory:
               type: boolean
               description: Indicates if the event must be carried out as part of the procurement. 
+            templates:
+              type: array
+              items:
+                $ref: '#/components/schemas/EventTemplate'
     
     DashboardStatus:
       type: string 
@@ -4722,6 +4755,8 @@ components:
           description: ID to allow support staff to support this event. 
         eventType:
           $ref: '#/components/schemas/ViewEventType'
+        templateId:
+          $ref: '#/components/schemas/TemplateId'
         offline:
           type: boolean
           default: false
@@ -5041,6 +5076,8 @@ components:
           properties:
             eventType:
               $ref: '#/components/schemas/DefineEventType'
+            templateId:
+              $ref: '#/components/schemas/TemplateId'
             assessmentId:
               $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/capabilities/capability-service.yaml#/components/schemas/AssessmentId'
         OCDS:

@@ -5189,6 +5189,8 @@ components:
           type: string
           minLength: 1
           readOnly: true
+        inheritance:
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/feature/SCAT-6046/agreements/agreements-service.yaml#/components/schemas/DataTemplateInheritanceType'
         relatesTo:
           allOf:
              - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/OCDS/OCDS_CodeLists_Ext.yaml#/components/schemas/RelatesTo'

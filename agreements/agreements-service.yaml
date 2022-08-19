@@ -830,6 +830,23 @@ components:
     EventType:
       $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/cat/CaT-service.yaml#/components/schemas/ProjectEventType' 
 #
+    DataTemplateInheritanceType:
+      description: |+
+        Objects within the DataTemplate may be inherited from a previous template. The inheritance may apply in the following ways-
+
+          * None - Not linked to any other template
+          * Part - Inherits from previous template but subsections have their own inheritance setting
+          * AsIs - Does not allow editing but will be included from previous template
+          * Edit - Inherits but can be updated
+
+      type: string
+      enum:
+          - None
+          - Part
+          - AsIs
+          - Edit
+
+#
     DataTemplate:
       description: |+
         A JSON structure that defines templates for data to be collected from a buyer to create a tender. These are grouped into Criteria. Each criterion can either:

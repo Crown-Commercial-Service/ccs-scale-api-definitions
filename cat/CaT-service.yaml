@@ -4695,7 +4695,8 @@ components:
           example: 'Collects the data required for the second Further Competition Event'
         mandatoryTemplate:
           type: boolean
-          description: Indicates if the event must use the template out as part of the procurement. 
+          description: Indicates if the event must use the template out as part of the procurement.
+          readOnly: true
         inheritsFrom:
           type: number
           format: integer
@@ -4708,7 +4709,8 @@ components:
           properties:
             mandatory:
               type: boolean
-              description: Indicates if the event must be carried out as part of the procurement. 
+              description: Indicates if the event must be carried out as part of the procurement.
+              readOnly: true
             templates:
               type: array
               items:
@@ -5171,13 +5173,13 @@ components:
           * Part - Inherits from previous template but subsections have their own inheritance setting
           * AsIs - Does not allow editing but will be included from previous template
           * Edit - Inherits but can be updated
-
       type: string
       enum:
           - None
           - Part
           - AsIs
           - Edit
+      readOnly: true
             
           
     EvalCriteriaOCDS:
@@ -5255,6 +5257,7 @@ components:
             mandatory:
               description: Defines if the user must answer the question to proceed.
               type: boolean
+              readOnly: true
             order:
               description: 
                 Defines an order of the qustion group to be displayed in UI
@@ -5298,20 +5301,24 @@ components:
               description: 
                 Defines a the buyer or supplier has answered
               type: boolean
+              readOnly: true
             mandatory: 
               description: 
                 Defines a the buyer or supplier must answer the question before a tender or response is published
               type: boolean
+              readOnly: true
             inheritance:
               $ref: '#/components/schemas/DataTemplateInheritanceType'
             multiAnswer:
               description: 
                 Defines a the buyer can add new questions of this type
               type: boolean
+              readOnly: true
             order:
               description: 
                 Defines an order of the question to be displayed in UI
               type: integer
+              readOnly: true
             length:
               description: 
                 Defines the maximum length of the question answer to be displayed in UI

@@ -4444,10 +4444,10 @@ components:
           description: 'Is the user the project owner'
           example: false
           
-    TemplateId:
+    TemplateGroupId:
       type: number
       format: integer
-      description: Identifies a template for an event that includes documents and questions to be included in that event.
+      description: Identifies a template group for an event that includes template documents and questions to be included in that event. More than one group will exist if you can run multiple events of the same type but with different.
       example: 1
           
     UpdateTeamMember:
@@ -4679,11 +4679,11 @@ components:
           description: If set to 'true' indicates the Event Type is a pre-market activity
         
             
-    EventTemplate:
+    TemplateGroup:
       type: object
       properties:
-        templateId:
-          $ref: '#/components/schemas/TemplateId'
+        templateGroupId:
+          $ref: '#/components/schemas/TemplateGroupId'
         name:
           type: string
           description: Name of template
@@ -4711,10 +4711,10 @@ components:
               type: boolean
               description: Indicates if the event must be carried out as part of the procurement.
               readOnly: true
-            templates:
+            templateGroups:
               type: array
               items:
-                $ref: '#/components/schemas/EventTemplate'
+                $ref: '#/components/schemas/TemplateGroup'
     
     DashboardStatus:
       type: string 
@@ -4757,8 +4757,8 @@ components:
           description: ID to allow support staff to support this event. 
         eventType:
           $ref: '#/components/schemas/ViewEventType'
-        templateId:
-          $ref: '#/components/schemas/TemplateId'
+        templateGroupId:
+          $ref: '#/components/schemas/TemplateGroupId'
         offline:
           type: boolean
           default: false
@@ -5078,8 +5078,8 @@ components:
           properties:
             eventType:
               $ref: '#/components/schemas/DefineEventType'
-            templateId:
-              $ref: '#/components/schemas/TemplateId'
+            templateGroupId:
+              $ref: '#/components/schemas/TemplateGroupId'
             assessmentId:
               $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/capabilities/capability-service.yaml#/components/schemas/AssessmentId'
         OCDS:

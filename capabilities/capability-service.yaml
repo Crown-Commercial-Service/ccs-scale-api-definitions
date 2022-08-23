@@ -295,7 +295,7 @@ paths:
           content:
             text/csv:
               schema:
-                type: string
+                $ref: '#/components/schemas/CSVExport'
             text/osd:
               schema:
                 type: string
@@ -453,6 +453,29 @@ components:
         type: boolean
         default: false
       description: Indicates if scores calculation is required
+      
+    MaxScoreParam:
+      name: MaxScore
+      in: query
+      required: false
+      schema:
+        type: number
+        minimum: 0
+        maximum: 100
+        format: percentage
+      description: Filters out suppliers that score above a given percentage
+      
+    MinScoreParam:
+      name: MinScore
+      in: query
+      required: false
+      schema:
+        type: number
+        minimum: 0
+        maximum: 100
+        format: percentage
+      description: Filters out suppliers that score below a given percentage
+      
       
   schemas:
     ExternalToolId:
@@ -804,6 +827,11 @@ components:
       minimum: 0
       maximum: 100
       example: 10
+      
+    CSVExport:
+      type: string
+      pattern: "^name,identifier,streetAddress,locality,region,postalCode,countryName,contactName,contactEmail,contactTelephone,contactFaxNumber,contactUrl,score(\\n.*,.*,.*,.*,.*,.*,.*,.*,.*,.*,.*,.*,.*)*"
+      example: "name,identifier,streetAddress,locality,region,postalCode,countryName,contactName,contactEmail,contactTelephone,contactFaxNumber,contactUrl,score\nGadgets Limited,GB-DUNS-1234567,Gadget House,Big Town,Cheshire,CH15 1BC,United Kingdom,Fred Bloggs,f.blogs@gadgets.com,01234 567 8910,01234 567 8911,www.gadgets.com,53.2\nWidgets Inc,GB-DUNS-4566788,Widget Towers,Small Town,Cheshire,CH33 9YZ,United Kingdom,Wilma Flintstone,wilma@widgets.co.uk,07123852345,,www.widgets.co.uk,32"
       
 servers:
   - description: SwaggerHub API Auto Mocking

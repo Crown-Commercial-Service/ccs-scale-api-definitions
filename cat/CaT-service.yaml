@@ -5095,6 +5095,8 @@ components:
           example: New name
         eventType:
           $ref: '#/components/schemas/DefineEventType'
+        templateGroupId:
+          $ref: '#/components/schemas/TemplateGroupId'
         assessmentId:
           $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/capabilities/capability-service.yaml#/components/schemas/AssessmentId'
         assessmentSupplierTarget:

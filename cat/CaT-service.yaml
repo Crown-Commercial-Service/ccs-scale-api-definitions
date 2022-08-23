@@ -847,7 +847,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/EventType'
+                  $ref: '#/components/schemas/ProjectEventType'
         '401':
           $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/401Unauthorized'
         '403':
@@ -4444,6 +4444,12 @@ components:
           description: 'Is the user the project owner'
           example: false
           
+    TemplateId:
+      type: number
+      format: integer
+      description: Identifies a template for an event that includes documents and questions to be included in that event.
+      example: 1
+          
     UpdateTeamMember:
       type: object
       properties:
@@ -4619,6 +4625,7 @@ components:
 
           * EOI - Expression of Interest
           * RFI - Request for Information
+          * PA  - Procurement Assessment
           * FCA - Further Competition Assessment
           * DAA - Direct Award Assessment
           * DA  - Direct Award
@@ -4629,6 +4636,7 @@ components:
           - RFI
           - DA
           - FC
+          - PA
           - FCA
           - DAA
           
@@ -4639,6 +4647,7 @@ components:
 
           * EOI - Expression of Interest
           * RFI - Request for Information
+          * PA  - Procurement Assessment
           * FCA - Further Competition Assessment
           * DAA - Direct Award Assessment
           * DA  - Direct Award
@@ -4652,8 +4661,9 @@ components:
           - RFI
           - DA
           - FC
+          - PA 
           - FCA
-          - DAA          
+          - DAA   
           - TBD
     
     EventType:
@@ -4667,6 +4677,44 @@ components:
         preMarketActivity:
           type: boolean
           description: If set to 'true' indicates the Event Type is a pre-market activity
+        
+            
+    EventTemplate:
+      type: object
+      properties:
+        templateId:
+          $ref: '#/components/schemas/TemplateId'
+        name:
+          type: string
+          description: Name of template
+          example: 'Round 2 template'
+          readOnly: true
+        description:
+          type: string
+          description: Description of the Template
+          example: 'Collects the data required for the second Further Competition Event'
+        mandatoryTemplate:
+          type: boolean
+          description: Indicates if the event must use the template out as part of the procurement.
+          readOnly: true
+        inheritsFrom:
+          type: number
+          format: integer
+          example: 1
+            
+    ProjectEventType:
+      allOf:
+        - $ref: '#/components/schemas/EventType'
+        - type: object
+          properties:
+            mandatory:
+              type: boolean
+              description: Indicates if the event must be carried out as part of the procurement.
+              readOnly: true
+            templates:
+              type: array
+              items:
+                $ref: '#/components/schemas/EventTemplate'
     
     DashboardStatus:
       type: string 
@@ -4709,6 +4757,8 @@ components:
           description: ID to allow support staff to support this event. 
         eventType:
           $ref: '#/components/schemas/ViewEventType'
+        templateId:
+          $ref: '#/components/schemas/TemplateId'
         offline:
           type: boolean
           default: false
@@ -5028,6 +5078,8 @@ components:
           properties:
             eventType:
               $ref: '#/components/schemas/DefineEventType'
+            templateId:
+              $ref: '#/components/schemas/TemplateId'
             assessmentId:
               $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/capabilities/capability-service.yaml#/components/schemas/AssessmentId'
         OCDS:
@@ -5111,6 +5163,23 @@ components:
       allOf:
         - $ref: '#/components/schemas/EvalCriteriaNonOCDS'
         - $ref: '#/components/schemas/EvalCriteriaOCDS'
+        
+        
+    DataTemplateInheritanceType:
+      description: |+
+        Objects within the DataTemplate may be inherited from a previous template. The inheritance may apply in the following ways-
+
+          * None - Not linked to any other template
+          * Part - Inherits from previous template but subsections have their own inheritance setting
+          * AsIs - Does not allow editing but will be included from previous template
+          * Edit - Inherits but can be updated
+      type: string
+      enum:
+          - None
+          - Part
+          - AsIs
+          - Edit
+      readOnly: true
             
           
     EvalCriteriaOCDS:
@@ -5165,6 +5234,8 @@ components:
         offlineNonOCDS:
           type: boolean
           default: false
+        inheritanceNonOCDS:
+          $ref: '#/components/schemas/DataTemplateInheritanceType'
           
             
     QuestionGroup:
@@ -5186,10 +5257,13 @@ components:
             mandatory:
               description: Defines if the user must answer the question to proceed.
               type: boolean
+              readOnly: true
             order:
               description: 
                 Defines an order of the qustion group to be displayed in UI
               type: integer
+            inheritance:
+              $ref: '#/components/schemas/DataTemplateInheritanceType'
         OCDS:
             # overrides: https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/OCDS/OCDS_Requirements_Ext.yaml#/components/schemas/RequirementGroup
             type: object
@@ -5227,18 +5301,24 @@ components:
               description: 
                 Defines a the buyer or supplier has answered
               type: boolean
+              readOnly: true
             mandatory: 
               description: 
                 Defines a the buyer or supplier must answer the question before a tender or response is published
               type: boolean
+              readOnly: true
+            inheritance:
+              $ref: '#/components/schemas/DataTemplateInheritanceType'
             multiAnswer:
               description: 
                 Defines a the buyer can add new questions of this type
               type: boolean
+              readOnly: true
             order:
               description: 
                 Defines an order of the question to be displayed in UI
               type: integer
+              readOnly: true
             length:
               description: 
                 Defines the maximum length of the question answer to be displayed in UI
@@ -5767,7 +5847,19 @@ components:
                     - Compliance Clarification
                   default: Unclassified
                   description: Indicates purpose of the message. A response inherits classification from an inbound message.
- 
+            isBroadcast:
+                  type: boolean
+                  description: Indicates if the buyer sent the message to the author of the a parent message or to all suppliers
+            receiverList:
+                  type: array
+                  items:
+                    allOf:
+                      - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OCDS_Standards/CCS-OCDS_Schema.yaml#/components/schemas/OrganizationReference'
+                      - type: object
+                        properties:
+                          name:
+                            readOnly: true
+                  description: lists the organisations the message has been sent to. (Messages from supplier will only show buyer)
     MessageOCDS:
        allOf:
          - $ref: '#/components/schemas/CaTMessageOCDS' 
@@ -5791,19 +5883,6 @@ components:
                   type: string
                   title: Identifier
                   description: A unique identifier of for a message containing answer (Null if first message in a thread)
-                isBroadcast:
-                  type: boolean
-                  description: Indicates if the buyer sent the message to the author of the a parent message or to all suppliers
-                receiverList:
-                  type: array
-                  items:
-                    allOf:
-                      - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OCDS_Standards/CCS-OCDS_Schema.yaml#/components/schemas/OrganizationReference'
-                      - type: object
-                        properties:
-                          name:
-                            readOnly: true
-                  description: lists the organisations the message has been sent to. (Messages from supplier will only show buyer)
                 readList:
                   type: array
                   items:

@@ -237,7 +237,6 @@ paths:
       operationId: get-gcloud-assessment
       parameters:
         - $ref: '#/components/parameters/AssessmentParam'
-        - $ref: '#/components/parameters/ScoringRequiredParam'
       responses:
         '200':
           description: Assessment State
@@ -454,28 +453,7 @@ components:
         default: false
       description: Indicates if scores calculation is required
       
-    MaxScoreParam:
-      name: MaxScore
-      in: query
-      required: false
-      schema:
-        type: number
-        minimum: 0
-        maximum: 100
-        format: percentage
-      description: Filters out suppliers that score above a given percentage
-      
-    MinScoreParam:
-      name: MinScore
-      in: query
-      required: false
-      schema:
-        type: number
-        minimum: 0
-        maximum: 100
-        format: percentage
-      description: Filters out suppliers that score below a given percentage
-      
+
       
   schemas:
     ExternalToolId:

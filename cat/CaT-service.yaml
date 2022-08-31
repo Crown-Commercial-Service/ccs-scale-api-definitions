@@ -1774,7 +1774,7 @@ paths:
         '200':
           description: OK
           content:
-            application/json:
+            text/csv:
               schema:
                 $ref: '#/components/schemas/EventSuppliers'
         '401':
@@ -1828,17 +1828,20 @@ paths:
     parameters:
       - $ref: '#/components/parameters/ProcurementParam'
       - $ref: '#/components/parameters/EventParam'
+      - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/capabilities/capability-service.yaml#/components/parameters/ScoringRequiredParam'
+      - $ref: '#/components/parameters/MinScoreParam'
+      - $ref: '#/components/parameters/MaxScoreParam'
 
     get:
       description: List all suppliers on an event
       tags:
         - Define Procurement Event
-      operationId: Suppliers
+      operationId: SuppliersExport
       responses:
         '200':
           description: OK
           content:
-            application/json:
+            text/csv:
               schema:
                 $ref: '#/components/schemas/SupplierExport'
         '401':
@@ -1854,7 +1857,7 @@ paths:
       security:
         - OAuth2:
             - buyer
-      summary: List suppliers on an event
+      summary: Export of list suppliers on an event
       
   /tenders/projects/{proc-id}/events/{event-id}/suppliers/{supplier-id}:
     parameters:
@@ -4281,6 +4284,30 @@ components:
       schema:
         type: boolean
         default: false
+        
+    MaxScoreParam:
+      name: MaxScore
+      in: query
+      required: false
+      default: 100
+      schema:
+        type: number
+        minimum: 0
+        maximum: 100
+        format: percentage
+      description: Filters out suppliers that score above a given percentage
+      
+    MinScoreParam:
+      name: MinScore
+      in: query
+      required: false
+      default: 0
+      schema:
+        type: number
+        minimum: 0
+        maximum: 100
+        format: percentage
+      description: Filters out suppliers that score below a given percentage
 
   schemas:
   
@@ -6075,8 +6102,7 @@ components:
       type: string
       pattern: "^name,identifier,streetAddress,locality,region,postalCode,countryName,contactName,contactEmail,contactTelephone,contactFaxNumber,contactUrl,score(\\n.*,.*,.*,.*,.*,.*,.*,.*,.*,.*,.*,.*,.*)*"
       example: "name,identifier,streetAddress,locality,region,postalCode,countryName,contactName,contactEmail,contactTelephone,contactFaxNumber,contactUrl,score\nGadgets Limited,GB-DUNS-1234567,Gadget House,Big Town,Cheshire,CH15 1BC,United Kingdom,Fred Bloggs,f.blogs@gadgets.com,01234 567 8910,01234 567 8911,www.gadgets.com,53.2\nWidgets Inc,GB-DUNS-4566788,Widget Towers,Small Town,Cheshire,CH33 9YZ,United Kingdom,Wilma Flintstone,wilma@widgets.co.uk,07123852345,,www.widgets.co.uk,32"
-      
-                    
+              
   securitySchemes:
     openID:
       type: openIdConnect

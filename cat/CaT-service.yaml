@@ -1824,6 +1824,38 @@ paths:
             - buyer
       summary: Add a supplier to an event
       
+  /tenders/projects/{proc-id}/events/{event-id}/suppliers/export:
+    parameters:
+      - $ref: '#/components/parameters/ProcurementParam'
+      - $ref: '#/components/parameters/EventParam'
+
+    get:
+      description: List all suppliers on an event
+      tags:
+        - Define Procurement Event
+      operationId: Suppliers
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SupplierExport'
+        '401':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/401Unauthorized'
+        '403':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/403Forbidden'
+        '429':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/429TooManyRequests'
+        '500':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/500InternalServerError'
+        '502':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/502BadGateway'
+      security:
+        - OAuth2:
+            - buyer
+      summary: List suppliers on an event
+      
   /tenders/projects/{proc-id}/events/{event-id}/suppliers/{supplier-id}:
     parameters:
       - $ref: '#/components/parameters/ProcurementParam'
@@ -6033,6 +6065,17 @@ components:
             format: double
             minimum: 0
             maximum: 100
+            
+    GCloudSupplierExport:
+      type: string
+      pattern: "^\"Framework\",\"Search ended\",\"Search summary\"\n\"G-Cloud [0-9]{2}\",\"(Monday|Tuesday|Wednesday|Thursday|Friday|Saturday) ([0-9]{1}[0-9]?) (January|February|March|April|May|June|July|August|September|October|November|December) ([0-9]{4}) at ([0-9]{1}[0-9]?:[0-9]{2})(am|pm) BST\",(\".*\")\n\n\"Supplier name\",\"Service name\",\"Service description\",\"Price\",\"Service page URL\",\"Contact name\",\"Telephone\",\"Email\"\n((\"[^(\",\")]*\"),(\"[^(\",\")]*\"),(\"[^(\",\")]*,?.*\"),(\"[^(\",\")]*\"),(\"[^(\",\")]*,?.*\"),(\"[^(\",\")]*\"),(\"[^(\",\")]*,?.*)\n)"
+      example: "\"Framework\",\"Search ended\",\"Search summary\"\n\"G-Cloud 12\",\"Tuesday 16 August 2022 at 3:40pm BST\",\"30 results found in Cloud hosting in the category Content delivery network, where the supplier is a reseller providing extra features and support, a reseller providing extra support or a reseller (no extras), where usage metrics are provided through API access, regular reports and reports on request, where scaling is manual, where the service notifies users if usage nears service limits, where backup and recovery is available and where users authenticate with 2-factor authentication and public key authentication (including by TLS client certificate)\"\n\n\"Supplier name\",\"Service name\",\"Service description\",\"Price\",\"Service page URL\",\"Contact name\",\"Telephone\",\"Email\"\n\"Just After Midnight\",\"High Availability Website Managed Hosting\",\"Specialist Cloud Hosting service from a vendor/platform agnostic provider. \nFull consultancy service to ensure the hosting solution is the right one. We manage everything from design and build to procurement, ongoing management, maintenance and patching including 24 hour \"\"eyes on\"\" monitoring service, incident management and 1st and 2nd line support.\",\"£2,400 an instance a year\",\"https://www.preview.marketplace.team/g-cloud/services/118409656067100\",\"Supplier #708624 Contact\",\"555708624\",\"simulate-delivered@notifications.service.gov.uk\"\n\"Fujitsu Services Limited\",\"Cloud Service for Azure Managed Infrastructure\",\"Cloud Service for Azure offers the extensive portfolio of Microsoft Azure services as a platform for IT, new digital applications and business innovation, with Fujitsu as an overarching Direct CSP and Azure Expert MSP. It offers true pay-as-you-go pricing and enables successful turnkey adoption of Azure.\",\"£21 a virtual machine a month\",\"https://www.preview.marketplace.team/g-cloud/services/119627256840345\",\"Supplier #92271 Contact\",\"55592271\",\"simulate-delivered@notifications.service.gov.uk\""
+    
+    SupplierExport:
+      type: string
+      pattern: "^name,identifier,streetAddress,locality,region,postalCode,countryName,contactName,contactEmail,contactTelephone,contactFaxNumber,contactUrl,score(\\n.*,.*,.*,.*,.*,.*,.*,.*,.*,.*,.*,.*,.*)*"
+      example: "name,identifier,streetAddress,locality,region,postalCode,countryName,contactName,contactEmail,contactTelephone,contactFaxNumber,contactUrl,score\nGadgets Limited,GB-DUNS-1234567,Gadget House,Big Town,Cheshire,CH15 1BC,United Kingdom,Fred Bloggs,f.blogs@gadgets.com,01234 567 8910,01234 567 8911,www.gadgets.com,53.2\nWidgets Inc,GB-DUNS-4566788,Widget Towers,Small Town,Cheshire,CH33 9YZ,United Kingdom,Wilma Flintstone,wilma@widgets.co.uk,07123852345,,www.widgets.co.uk,32"
+      
                     
   securitySchemes:
     openID:

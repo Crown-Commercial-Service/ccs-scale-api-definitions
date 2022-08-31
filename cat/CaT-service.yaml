@@ -1764,8 +1764,10 @@ paths:
     parameters:
       - $ref: '#/components/parameters/ProcurementParam'
       - $ref: '#/components/parameters/EventParam'
-
+      
     get:
+      parameters:
+        - $ref: '#/components/parameters/PreviousSuppliersParam'
       description: List all suppliers on an event
       tags:
         - Define Procurement Event
@@ -4249,6 +4251,15 @@ components:
       schema:
         type: boolean
         default: false
+        
+    PreviousSuppliersParam:
+      name: showPreviousSuppliers
+      in: query
+      required: false
+      description: Indicate that the list of suppliers before the event should be supplied as well as the current list.
+      schema:
+        type: boolean
+        default: false
 
   schemas:
   
@@ -4497,11 +4508,17 @@ components:
             type: string
             nullable: true
             format: date-time
+            
     EventSuppliers:
       description:
-        List of supplier belonfs to procurement event.
+        List of suppliers that belong to procurement event.
       type: object
       properties:
+        previousEventSuppliers:
+            type: array
+            items:
+              $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OCDS_Standards/CCS-OCDS_Schema.yaml#/components/schemas/OrganizationReference'
+            readOnly: true
         suppliers:
             type: array
             items:

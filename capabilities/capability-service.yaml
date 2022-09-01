@@ -453,8 +453,6 @@ components:
         default: false
       description: Indicates if scores calculation is required
       
-
-      
   schemas:
     ExternalToolId:
       type: string
@@ -806,7 +804,6 @@ components:
       maximum: 100
       example: 10
       
-    
 servers:
   - description: SwaggerHub API Auto Mocking
     url: https://virtserver.swaggerhub.com/davejhughes/agreement-service/v0.0.6

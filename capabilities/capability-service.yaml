@@ -320,7 +320,7 @@ paths:
             schema:
               type: array
               items:
-                $ref: '#/components/schemas/Dimension'
+                $ref: '#/components/schemas/DimensionRequirement'
 
       responses:
         '201':

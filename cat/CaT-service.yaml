@@ -4571,19 +4571,20 @@ components:
       type: object
       required:
         - agreementId
-        - lotId
       properties:
         agreementId:
           allOf:
             - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Schema.yaml#/components/schemas/AgreementId'
           readOnly: false
           pattern: 'RM[0-9]{4}([.][0-9]{1,2})?'
+          description: 'The identifier for the agreement being used on the project'
         lotId:
           allOf:
             - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Schema.yaml#/components/schemas/LotId'
           readOnly: false
           pattern: '([a-zA-Z0-9]+[ ]*)+'
           maxLength: 20
+          description: 'The identifier for the lot being used on the project (currently required for all projects except GCloud 13)'
           
     ExtendCriteria:
       description: 

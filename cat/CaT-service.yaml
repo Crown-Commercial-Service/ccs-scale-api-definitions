@@ -13,6 +13,39 @@ servers:
 paths:
 # Start of end points for managing profiles
 
+  /tenders/users:
+    parameters:
+      - $ref: '#/components/parameters/OrgFilterParam'
+    get:
+      description: Get all users using tenders subject to filters (oridinary users will be limited to those within their organisation) 
+      tags:
+        - Profile Management
+      operationId: app.listUsers
+      responses:
+        '200':
+          description: ok
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/User'
+        '401':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/401Unauthorized'
+        '403':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/403Forbidden'
+        '404':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/404NotFound'
+        '409':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/409Conflict'        
+        '500':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/500InternalServerError'
+      security:
+        - openID:
+            - read
+            - write
+      summary: List users registered to use Tenders API (Jaggaer)
+
   /tenders/users/{user-id}:
     parameters:
       - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Params.yaml#/components/parameters/UserParam'
@@ -4309,6 +4342,14 @@ components:
         format: percentage
       description: Filters out suppliers that score below a given percentage
 
+    OrgFilterParam:
+      name: org-id
+      in: query
+      required: false
+      description: Organisation ID Filter
+      schema:
+        $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Schema.yaml#/components/schemas/OrgId'
+
   schemas:
   
     SalesforceProjectTender:
@@ -5652,6 +5693,17 @@ components:
             - Unread
             - Read
 
+    User:
+      allOf:
+        - type: object
+          properties:
+            name:
+              type: string
+            user-id:
+              type: string
+        - $ref: '#/components/schemas/GetUserResponse'
+      
+          
     GetUserResponse:
       type: object
       properties:

@@ -591,6 +591,10 @@ components:
           type: string
           example: Resource Profile (SC)
           readOnly: true
+        value:
+          type: boolean
+          description: Indicates if the criteria should be included in the calculation
+          writeOnly: true
             
     DimensionDefinition:
       allOf:
@@ -704,6 +708,10 @@ components:
         name:
           type: string
           example: via Subcontractors
+          readOnly: true
+        mandatory:
+          type: boolean
+          description: Defines that the criterion will always be part of any calculation. If false it will only be included if it is one of the included criteria in the calculation request. 
           readOnly: true
         type:
           $ref: '#/components/schemas/CriteriaSelectionType'

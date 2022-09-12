@@ -591,6 +591,10 @@ components:
           type: string
           example: Resource Profile (SC)
           readOnly: true
+        value:
+          type: boolean
+          description: Indicates if the criteria should be included in the calculation
+          writeOnly: true
             
     DimensionDefinition:
       allOf:

@@ -4322,11 +4322,11 @@ components:
       name: MaxScore
       in: query
       required: false
-      default: 100
       schema:
         type: number
         minimum: 0
         maximum: 100
+        default: 100
         format: percentage
       description: Filters out suppliers that score above a given percentage
       
@@ -4334,11 +4334,11 @@ components:
       name: MinScore
       in: query
       required: false
-      default: 0
       schema:
         type: number
         minimum: 0
         maximum: 100
+        default: 0
         format: percentage
       description: Filters out suppliers that score below a given percentage
 

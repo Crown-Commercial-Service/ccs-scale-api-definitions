@@ -294,7 +294,7 @@ paths:
           content:
             text/csv:
               schema:
-                $ref: 'https://https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/cat/CaT-service.yaml#/components/schemas/SupplierExport'
+                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/cat/CaT-service.yaml#/components/schemas/SupplierExport'
             text/osd:
               schema:
                 type: string

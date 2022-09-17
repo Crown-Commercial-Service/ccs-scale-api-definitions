@@ -3294,9 +3294,7 @@ paths:
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/QandA'
+                 $ref: '#/components/schemas/QandAWithProjectDetails'
         '401':
           $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/401Unauthorized'
         '403':
@@ -5831,6 +5829,18 @@ components:
           type: string 
           format: date-time
           readOnly: true
+      required:
+        - question
+        - answer
+    
+    QandAWithProjectDetails:
+      description: Question and Answer item
+      type: object
+      properties:
+        QandA:
+          type: array 
+          items:   
+            $ref: '#/components/schemas/QandA' 
         projectId:
           $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Schema.yaml#/components/schemas/ProcurementProjectId'
         projectName:
@@ -5844,7 +5854,7 @@ components:
           type: string        
       required:
         - question
-        - answer
+        - answer    
 
     CaTMessage:
       type: object

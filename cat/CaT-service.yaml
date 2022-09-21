@@ -6010,6 +6010,10 @@ components:
                         type: integer
                       name:
                         type: string
+                      size:
+                        type: integer
+                        format: int64
+                        decription: Number of bytes in the file as a Long value
                   readOnly: true
                   description: list attachments sent with the message.
     Message:

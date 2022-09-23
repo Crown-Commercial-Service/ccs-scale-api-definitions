@@ -519,7 +519,7 @@ components:
           example: "2586 results found in Cloud software in the category Creative, design and publishing"
         lastUpdate:
            type: string
-           format: date
+           format: date-time
            readOnly: true
            description: 'The date and time of the last update. If the state is active then this will be the last date saved otherwise if complete it will be the date it was exported.'
         results:

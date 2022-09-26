@@ -5851,6 +5851,8 @@ components:
         agreementName:
           type: string
         lotId:
+          type: string
+        lotName:
           type: string        
       required:
         - question

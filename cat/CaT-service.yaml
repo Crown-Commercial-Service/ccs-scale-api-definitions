@@ -5682,7 +5682,7 @@ components:
             - Declined
         responseDate:
           type: string
-          format: date
+          format: date-time
         readState: 
           type: string
           description: |

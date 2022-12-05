@@ -738,6 +738,9 @@ paths:
       
         
   /tenders/projects:
+    parameters:
+      - $ref: '#/components/parameters/PageParam'
+      - $ref: '#/components/parameters/PageSizeParam'
     get:
       description: Lists the projects the user has access too within the filters imposed. Filters include active/archived, summary/OCDS, 
       tags:
@@ -4660,6 +4663,9 @@ components:
           type: string
         activeEvent:
           $ref: '#/components/schemas/EventSummary'
+        links:
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Schema.yaml#/components/schemas/Links'
+          
               
     ProjectPackage:
       allOf:

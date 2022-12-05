@@ -739,6 +739,8 @@ paths:
         
   /tenders/projects:
     parameters:
+      - $ref: '#/components/parameters/ProcurementSearchTypeParam'
+      - $ref: '#/components/parameters/ProcurementSearchTermParam'
       - $ref: '#/components/parameters/PageParam'
       - $ref: '#/components/parameters/PageSizeParam'
     get:
@@ -4162,6 +4164,29 @@ components:
       schema:
         $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Schema.yaml#/components/schemas/ProcurementProjectId'
         
+    ProcurementSearchTypeParam:
+      name: search-type
+      in: query
+      required: false
+      description: Data you wish to search for presnece of the term
+      schema:
+        type: string
+        enum:
+          - projectName
+          - eventId
+          - eventSupportId
+        readOnly: true
+        
+    ProcurementSearchTermParam:
+      name: search-term
+      in: query
+      required: false
+      description: Search term to look for
+      schema:
+        type: string
+        example: My search term
+        readOnly: true
+    
     EventParam:
       name: event-id
       in: path

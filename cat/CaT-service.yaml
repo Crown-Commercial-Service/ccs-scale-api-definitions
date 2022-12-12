@@ -6190,6 +6190,10 @@ components:
     openID:
       type: openIdConnect
       openIdConnectUrl: 'https://accounts.google.com/.well-known/openid-configuration'
+    ApiKeyAuth:
+      type: apiKey
+      in: header      
+      name: x-api-key
     OAuth2:
       type: oauth2
       flows:

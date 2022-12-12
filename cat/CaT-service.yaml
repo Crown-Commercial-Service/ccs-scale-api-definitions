@@ -198,7 +198,10 @@ paths:
           $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/504GatewayTimeout'
         default:
           description: successful operation
-      summary: Create Project from an Salesforce data
+      security:
+        - ApiKeyAuth:
+            - Salesforce (eSourcing)
+      summary: Create Project from an Salesforce data    
    
   
   /tenders/projects/deltas:
@@ -237,8 +240,11 @@ paths:
         '502':
           $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/502BadGateway'
 
+      security:
+        - ApiKeyAuth:
+            - Salesforce (eSourcing)
 
-# End of end points for Salesforce to eSourcing Project
+  # End of end points for Salesforce to eSourcing Project
 
 
 
@@ -3743,6 +3749,8 @@ paths:
       security:
         - OAuth2:
             - buyer
+        - ApiKeyAuth:
+            - Salesforce (eSourcing)
       summary: Terminate RFx
       
   /tenders/projects/{proc-id}/events/{event-id}/awards/:

@@ -203,7 +203,7 @@ paths:
   
   /tenders/projects/deltas:
     get:
-      deprecated: true
+      deprecated: false
       tags:
         - eSourcing  
       summary: "US3-6 - Update an ITT event's details (in Salesforce) when it has been published on the eSourcing platform to the invited suppliers."

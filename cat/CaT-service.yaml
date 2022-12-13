@@ -93,6 +93,9 @@ paths:
           $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/500InternalServerError'
         default:
           description: successful operation
+      security:
+        - ApiKeyAuth:
+            - allow Conclave services to pass in Api Key       
       summary: Register user to use Tenders (Jaggaer)
       
     get:
@@ -152,6 +155,9 @@ paths:
           $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/500InternalServerError'
         default:
           description: successful operation
+      security:
+        - ApiKeyAuth:
+            - allow Conclave services to pass in Api Key       
       summary: Update org details in Tenders (Jaggaer)
       
       

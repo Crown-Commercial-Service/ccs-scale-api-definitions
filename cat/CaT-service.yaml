@@ -93,6 +93,9 @@ paths:
           $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/500InternalServerError'
         default:
           description: successful operation
+      security:
+        - ApiKeyAuth:
+            - allow Conclave services to pass in Api Key       
       summary: Register user to use Tenders (Jaggaer)
       
     get:
@@ -152,6 +155,9 @@ paths:
           $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/500InternalServerError'
         default:
           description: successful operation
+      security:
+        - ApiKeyAuth:
+            - allow Conclave services to pass in Api Key       
       summary: Update org details in Tenders (Jaggaer)
       
       
@@ -198,12 +204,15 @@ paths:
           $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/504GatewayTimeout'
         default:
           description: successful operation
-      summary: Create Project from an Salesforce data
+      security:
+        - ApiKeyAuth:
+            - Salesforce (eSourcing)
+      summary: Create Project from an Salesforce data    
    
   
   /tenders/projects/deltas:
     get:
-      deprecated: true
+      deprecated: false
       tags:
         - eSourcing  
       summary: "US3-6 - Update an ITT event's details (in Salesforce) when it has been published on the eSourcing platform to the invited suppliers."
@@ -237,8 +246,11 @@ paths:
         '502':
           $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/502BadGateway'
 
+      security:
+        - ApiKeyAuth:
+            - Salesforce (eSourcing)
 
-# End of end points for Salesforce to eSourcing Project
+  # End of end points for Salesforce to eSourcing Project
 
 
 
@@ -3748,6 +3760,8 @@ paths:
       security:
         - OAuth2:
             - buyer
+        - ApiKeyAuth:
+            - Salesforce (eSourcing)
       summary: Terminate RFx
       
   /tenders/projects/{proc-id}/events/{event-id}/awards/:
@@ -6221,6 +6235,10 @@ components:
     openID:
       type: openIdConnect
       openIdConnectUrl: 'https://accounts.google.com/.well-known/openid-configuration'
+    ApiKeyAuth:
+      type: apiKey
+      in: header      
+      name: x-api-key
     OAuth2:
       type: oauth2
       flows:

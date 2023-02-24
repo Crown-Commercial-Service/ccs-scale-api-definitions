@@ -4448,6 +4448,7 @@ components:
         - publishDate
         - closeDate
         - procurementRoute
+        - ownerUserLogin
       properties:
         shortDescription:
           type: string
@@ -4458,9 +4459,6 @@ components:
         value:
           type: string
           example: 0
-        templateReferenceCode:
-          type: string
-          example: itt_543
         qualEnvStatus:
           type: string
           example: 0
@@ -4494,6 +4492,9 @@ components:
         frameworkRMNumber:
           type: string
           example: 12345
+        ownerUserLogin:
+          type: string
+          example: user@crowncommercial.gov.uk 
           
     SalesforceProjectTender200Response:
       type: object

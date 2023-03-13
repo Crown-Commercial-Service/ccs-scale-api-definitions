@@ -4939,6 +4939,9 @@ components:
           $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/capabilities/capability-service.yaml#/components/schemas/AssessmentId'
         dashboardStatus:
           $ref: '#/components/schemas/DashboardStatus'
+        lastUpdated:
+          type: string
+          format: date-time
 
     EventSummary:
       allOf:

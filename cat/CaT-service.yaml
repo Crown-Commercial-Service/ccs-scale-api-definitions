@@ -183,9 +183,7 @@ paths:
           content:
             application/json:
               schema:
-                oneOf:
-                  - $ref: '#/components/schemas/SalesforceProjectTender200Response'   
-                  - $ref: '#/components/schemas/DraftProcurementProject'
+                $ref: '#/components/schemas/SalesforceProjectTender200Response'   
         '400':
           $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/400InvalidRequest'
         '401':

@@ -4896,7 +4896,9 @@ components:
       enum:
         - ASSESSMENT
         - IN-PROGRESS
+        - PUBLISHING
         - PUBLISHED
+        - PUBLISH FAILED
         - TO-BE-EVALUATED
         - EVALUATING
         - EVALUATED

@@ -1,0 +1,47 @@
+
+<h2>Requirement_1</h2>
+<ul class="parameter">
+  <li class="param-required-true">id : String
+    <br/>The identifier for this requirement. It must be unique and cannot change within the Open Contracting Process it is part of (defined by a single ocid). See the [identifier guidance](http://standard.open-contracting.org/latest/en/schema/identifiers/) for further details.
+  </li>
+</ul>
+<ul class="parameter">
+  <li class="param-required-false">title : String
+    <br/>The title of this atomic requirement.
+  </li>
+</ul>
+<ul class="parameter">
+  <li class="param-required-false">description : String
+    <br/>A free text description for this atomic requirement.
+  </li>
+</ul>
+<ul class="parameter">
+  <li class="param-required-false">dataType : AllOfRequirement_1DataType
+    <br/>
+  </li>
+</ul>
+<ul class="parameter">
+  <li class="param-required-false">pattern : String
+    <br/>A regular expression against which validate the requirement response.
+  </li>
+</ul>
+<ul class="parameter">
+  <li class="param-required-false">expectedValue : OneOfRequirement_1ExpectedValue
+    <br/>Used to state the requirement when the response must be particular value.
+  </li>
+</ul>
+<ul class="parameter">
+  <li class="param-required-false">minValue : BigDecimal
+    <br/>Used to state the lower bound of the requirement when the response must be within a certain range.
+  </li>
+</ul>
+<ul class="parameter">
+  <li class="param-required-false">maxValue : BigDecimal
+    <br/>Used to state the upper bound of the requirement when the response must be within a certain range.
+  </li>
+</ul>
+<ul class="parameter">
+  <li class="param-required-false">period : AllOfRequirement_1Period
+    <br/>Used to specify a particular period the requirement applies to, for example the bidder&#x27;s turnover in a given year.
+  </li>
+</ul>

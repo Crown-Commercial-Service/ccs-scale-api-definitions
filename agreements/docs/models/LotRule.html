@@ -1,0 +1,41 @@
+
+<h2>LotRule</h2>
+<ul class="parameter">
+  <li class="param-required-false">name : String
+    <br/>Name of the rule (3 or 4 word description)
+  </li>
+</ul>
+<ul class="parameter">
+  <li class="param-required-false">ruleId : String
+    <br/>Unique identifier of the rule
+  </li>
+</ul>
+<ul class="parameter">
+  <li class="param-required-false">lotAttributes : List
+    <br/>
+  </li>
+</ul>
+<ul class="parameter">
+  <li class="param-required-false">transactionData : List
+    <br/>Data required from the relevant transaction to be able to evaluate the rule
+  </li>
+</ul>
+<ul class="parameter">
+  <li class="param-required-false">evaluationType : String
+    <br/>How the rule should be evaluated -&lt;br&gt; equal &#x3D; rule is true if the lotAttribute is equal to the transactionData&lt;br&gt; greater &#x3D; rule is true if the lotAttribute is greater than the transactionData&lt;br&gt; less &#x3D; rule is true if the lotAttribute is less than the transactionData&lt;br&gt; complex &#x3D; rule specific code is required to evaluate (typically where there are multiple variables)&lt;br&gt; flag &#x3D; rule is always true. The presence of the rule is used to flag that certain behaviour is required. In some cases data may be passed in the lotAttributes.
+      <dl class="param-enum">
+        <dt>Enum:
+            <dd>equal</dd>
+            <dd>greater</dd>
+            <dd>less</dd>
+            <dd>complex</dd>
+            <dd>flag</dd>
+        </dt>
+      </dl>
+  </li>
+</ul>
+<ul class="parameter">
+  <li class="param-required-false">service : String
+    <br/>Name of the service to which the rule applies (in future the Agreement Service may only return rules for the requested services)
+  </li>
+</ul>

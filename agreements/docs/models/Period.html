@@ -1,0 +1,22 @@
+
+<h2>Period</h2>
+<ul class="parameter">
+  <li class="param-required-false">startDate : Date
+    <br/>The start date for the period. When known, a precise start date must be provided.
+  </li>
+</ul>
+<ul class="parameter">
+  <li class="param-required-false">endDate : Date
+    <br/>The end date for the period. When known, a precise end date must be provided.
+  </li>
+</ul>
+<ul class="parameter">
+  <li class="param-required-false">maxExtentDate : Date
+    <br/>The period cannot be extended beyond this date. This field can be used to express the maximum available date for extension or renewal of this period.
+  </li>
+</ul>
+<ul class="parameter">
+  <li class="param-required-false">durationInDays : Integer
+    <br/>The maximum duration of this period in days. A user interface can collect or display this data in months or years as appropriate, and then convert it into days when storing this field. This field can be used when exact dates are not known. If a startDate and endDate are set, this field, if used, should be equal to the difference between startDate and endDate. Otherwise, if a startDate and maxExtentDate are set, this field, if used, should be equal to the difference between startDate and maxExtentDate.
+  </li>
+</ul>

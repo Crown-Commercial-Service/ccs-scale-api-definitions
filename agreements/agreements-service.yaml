@@ -11,9 +11,12 @@
       "name" : "Open Government Licence 3.0",
       "url" : "https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/"
     },
-    "version" : "1.0.0"
+    "version" : "0.0.10"
   },
   "servers" : [ {
+    "url" : "https://virtserver.swaggerhub.com/Crown-Commercial/Agreements/1.0.0",
+    "description" : "SwaggerHub API Auto Mocking"
+  }, {
     "url" : "https://virtserver.swaggerhub.com/trear590/agreements-api2/1.0.0",
     "description" : "SwaggerHub API Auto Mocking"
   }, {

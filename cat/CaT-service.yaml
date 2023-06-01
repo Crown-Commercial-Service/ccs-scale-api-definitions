@@ -5611,6 +5611,8 @@ components:
                   type: array
                   items:
                     $ref: '#/components/schemas/QuestionRelationship'
+            TimelineDependency:
+              $ref: '#/components/schemas/TimelineDependency'
         OCDS:
           $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OCDS_Standards/CCS-OCDS_Schema.yaml#/components/schemas/Requirement'
           

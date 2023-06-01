@@ -5419,78 +5419,6 @@ components:
         inheritanceNonOCDS:
           $ref: '#/components/schemas/DataTemplateInheritanceType'
           
-    TimelineDependency:
-      description:
-        A question for timeline dependency.
-      type: object
-      properties:
-        timelineNonOCDS:
-          type: object
-          properties:
-            questionType:
-              $ref: '#/components/schemas/QuestionType'
-            answered:
-              description:
-                Defines a the buyer or supplier has answered
-              type: boolean
-              readOnly: true
-            mandatory:
-              description:
-                Defines a the buyer or supplier must answer the question before a tender or response is published
-              type: boolean
-              readOnly: true
-            inheritance:
-              $ref: '#/components/schemas/DataTemplateInheritanceType'
-            multiAnswer:
-              description:
-                Defines a the buyer can add new questions of this type
-              type: boolean
-              readOnly: true
-            order:
-              description:
-                Defines an order of the question to be displayed in UI
-              type: integer
-              readOnly: true
-            length:
-              description:
-                Defines the maximum length of the question answer to be displayed in UI
-              type: integer
-            options:
-              description:
-                Defines options
-              type: array
-              items:
-                type: object
-                properties:
-                  text:
-                    description:
-                      Defines the text to be displayed for an option
-                    type: string
-                  value:
-                    description:
-                      Defines value that the selection represents
-                    type: string
-                  selected:
-                    description:
-                      Indicates if the UI should show it as selected
-                    type: boolean
-                  tableDefinition:
-                    $ref: '#/components/schemas/TableDefinition'
-            tableData:
-              $ref: '#/components/schemas/TableDefinition'
-            dependency:
-              description:
-                Describes any dependency this question has on another question
-              type: object
-              properties:
-                conditional:
-                  $ref: '#/components/schemas/QuestionDependancy'
-                relationships:
-                  type: array
-                  items:
-                    $ref: '#/components/schemas/QuestionRelationship'
-        OCDS:
-          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OCDS_Standards/CCS-OCDS_Schema.yaml#/components/schemas/Requirement'
 
     QuestionGroup:
       description: 
@@ -5680,7 +5608,79 @@ components:
             - string
             - integer
         
-    
+    TimelineDependency:
+      description:
+        A question for timeline dependency.
+      type: object
+      properties:
+        nonOCDS:
+          type: object
+          properties:
+            questionType:
+              $ref: '#/components/schemas/QuestionType'
+            answered:
+              description:
+                Defines a the buyer or supplier has answered
+              type: boolean
+              readOnly: true
+            mandatory:
+              description:
+                Defines a the buyer or supplier must answer the question before a tender or response is published
+              type: boolean
+              readOnly: true
+            inheritance:
+              $ref: '#/components/schemas/DataTemplateInheritanceType'
+            multiAnswer:
+              description:
+                Defines a the buyer can add new questions of this type
+              type: boolean
+              readOnly: true
+            order:
+              description:
+                Defines an order of the question to be displayed in UI
+              type: integer
+              readOnly: true
+            length:
+              description:
+                Defines the maximum length of the question answer to be displayed in UI
+              type: integer
+            options:
+              description:
+                Defines options
+              type: array
+              items:
+                type: object
+                properties:
+                  text:
+                    description:
+                      Defines the text to be displayed for an option
+                    type: string
+                  value:
+                    description:
+                      Defines value that the selection represents
+                    type: string
+                  selected:
+                    description:
+                      Indicates if the UI should show it as selected
+                    type: boolean
+                  tableDefinition:
+                    $ref: '#/components/schemas/TableDefinition'
+            tableData:
+              $ref: '#/components/schemas/TableDefinition'
+            dependency:
+              description:
+                Describes any dependency this question has on another question
+              type: object
+              properties:
+                conditional:
+                  $ref: '#/components/schemas/QuestionDependancy'
+                relationships:
+                  type: array
+                  items:
+                    $ref: '#/components/schemas/QuestionRelationship'
+        OCDS:
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OCDS_Standards/CCS-OCDS_Schema.yaml#/components/schemas/Requirement'
+
     QuestionType:
       type: string
       description: |

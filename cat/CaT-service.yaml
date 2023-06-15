@@ -4087,9 +4087,6 @@ paths:
           $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/500InternalServerError'
         '502':
           $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/502BadGateway'
-      security:
-        - OAuth2:
-            - buyer
       summary: Export awarding templates
 
 
@@ -4153,12 +4150,102 @@ paths:
           $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/500InternalServerError'
         '502':
           $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/502BadGateway'
-      security:
-        - OAuth2:
-            - buyer
       summary: Get contract details
 
+
+  /public/projects:
+    parameters:
+      - $ref: '#/components/parameters/PublicProjectKeySearchQueryParam'
+      - $ref: '#/components/parameters/PublicProjectStatusQueryParam'
+      - $ref: '#/components/parameters/LotQueryParam'
+        required: false
+      - $ref: '#/components/parameters/PageParam'
+      - $ref: '#/components/parameters/PageSizeParam'
+    get:
+      description: Get all projects summary for public viewing
+      tags:
+        - Data Transparency
+      operationId: searchPublicProject
+      responses:
+        '200':
+          description: ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProjectPublicSearchResult'
+        '400':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/400InvalidRequest'
+        '401':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/401Unauthorized'
+        '403':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/403Forbidden'
+        '429':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/429TooManyRequests'
+        '500':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/500InternalServerError'
+        '502':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/502BadGateway'
+      summary: Get project details for public
+
+
+  /public/projects/{project-id}:
+    parameters:
+      - $ref: '#/components/parameters/ProcurementParam'
+    get:
+      description: Get project summary for public viewing
+      tags:
+        - Data Transparency
+      operationId: getProjectsPublicSummary
+      responses:
+        '200':
+          description: ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProjectPublicSummary'
+        '400':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/400InvalidRequest'
+        '401':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/401Unauthorized'
+        '403':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/403Forbidden'
+        '429':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/429TooManyRequests'
+        '500':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/500InternalServerError'
+        '502':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/502BadGateway'
+      summary: Get project summary for public
       
+  /public/projects/{project-id}/detail:
+    parameters:
+      - $ref: '#/components/parameters/ProcurementParam'
+    get:
+      description: Get project detailed view for public viewing
+      tags:
+        - Data Transparency
+      operationId: getProjectsPublicDetail
+      responses:
+        '200':
+          description: ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProjectPublicDetail'
+        '400':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/400InvalidRequest'
+        '401':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/401Unauthorized'
+        '403':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/403Forbidden'
+        '429':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/429TooManyRequests'
+        '500':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/500InternalServerError'
+        '502':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/502BadGateway'
+      summary: Get project details for public viewing
+
 components:
 
   parameters:
@@ -4415,6 +4502,36 @@ components:
       description: Organisation ID Filter
       schema:
         $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Schema.yaml#/components/schemas/OrgId'
+
+    PublicProjectKeySearchQueryParam:
+      name: projectKeyWord
+      in: query
+      required: false
+      description: Search term to look for
+      schema:
+        type: string
+        example: Printer Service
+        readOnly: true
+
+    PublicProjectStatusQueryParam:
+      name: projectStatus
+      in: query
+      required: false
+      description: project Status open or closed
+      schema:
+        type: string
+        enum:
+          - open
+          - closed
+        readOnly: true        
+
+    LotQueryParam:
+      name: lot-id
+      in: query
+      required: false
+      description: Lot
+      schema:
+        $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Schema.yaml#/components/schemas/LotId'
 
   schemas:
   
@@ -6308,7 +6425,217 @@ components:
       type: string
       pattern: "^name,identifier,streetAddress,locality,region,postalCode,countryName,contactName,contactEmail,contactTelephone,contactFaxNumber,contactUrl,score(\\n.*,.*,.*,.*,.*,.*,.*,.*,.*,.*,.*,.*,.*)*"
       example: "name,identifier,streetAddress,locality,region,postalCode,countryName,contactName,contactEmail,contactTelephone,contactFaxNumber,contactUrl,score\nGadgets Limited,GB-DUNS-1234567,Gadget House,Big Town,Cheshire,CH15 1BC,United Kingdom,Fred Bloggs,f.blogs@gadgets.com,01234 567 8910,01234 567 8911,www.gadgets.com,53.2\nWidgets Inc,GB-DUNS-4566788,Widget Towers,Small Town,Cheshire,CH33 9YZ,United Kingdom,Wilma Flintstone,wilma@widgets.co.uk,07123852345,,www.widgets.co.uk,32"
-              
+
+    ProjectPublicSearchSummary:
+      type: object
+      properties:
+        projectName:
+          type: string
+        buyerName:
+          type: string
+        budgetRange:
+          type: string
+        lot:
+          type: string
+        status:
+          type: string
+          enum:
+            - open
+            - closed
+        subStatus:
+          type: string
+        description:
+          type: string
+
+    SupplierAwarded:
+      type: object
+      properties:
+        name:
+          type: string
+        identifier:
+          type: string
+        address:
+          type: string
+        website:
+          type: string
+        contractValue:
+          type: number
+
+    TimelineSummary:
+      type: array
+      items:
+        type: object
+        properties:
+          status:
+            type: string
+          asOn:
+            type: string
+
+    ProjectPublicAwardSummary:
+      type: object
+      properties:
+        awardedOn:
+          type: string
+        supplierName:
+          type: string
+        identifier:
+          type: string
+        address:
+          type: string
+        website:
+          type: string
+        contractValue:
+          type: number
+
+    ProjectPublicSummary:
+      type: object
+      properties:
+        projectName:
+          type: string
+        buyerName:
+          type: string
+        lot:
+          type: string
+        status:
+          type: string
+          enum:
+            - open
+            - closed
+        subStatus:
+          type: string
+        description:
+          type: string
+        supplierResponse:
+          type: object
+          properties:
+            complete: 
+              type: integer
+            incomplete:
+              type: integer
+            completeSme: 
+              type: integer
+            incompleteSme:
+              type: integer
+            completeLorg: 
+              type: integer
+            incompleteLorg:
+              type: integer
+        awardSummary:
+          type: object
+          $ref: '#/components/schemas/ProjectPublicAwardSummary'
+
+    ProjectPublicDetail:
+      type: object
+      properties:
+        projectName:
+          type: string
+        buyerName:
+          type: string
+        lot:
+          type: string
+        status:
+          type: string
+          enum:
+            - open
+            - closed
+        subStatus:
+          type: string
+        requirementGroups:
+          type: array
+          items:
+            type: object
+            $ref: '#/components/schemas/ProjectPublicRequirementGroup'
+        description:
+          type: string
+        timeline:
+          $ref: '#/components/schemas/TimelineSummary'
+        awardSummary:
+          type: object
+          $ref: '#/components/schemas/ProjectPublicAwardSummary'
+
+
+    ProjectPublicRequirement:
+      type: object
+      properties:
+        question:
+          type: string
+        answer:
+          type: string
+
+    ProjectPublicRequirementGroup:
+      type: object
+      properties:
+        name:
+          type: string
+        requirements:
+          type: array
+          items:
+            type: object
+            $ref: '#/components/schemas/ProjectPublicRequirement'
+
+    AggregatedCount:
+      type: object
+      properties:
+        name:
+          type: string
+        count:
+          type: integer
+
+    Pagination:
+      type: object
+      properties:      
+        recordsPerPage:
+          type: integer
+        offset:
+          type: integer
+        total: 
+          type: integer
+
+    ProjectPublicSearchAggregation:
+      type: object
+      properties:
+        lots:
+          type: array
+          items:
+            $ref: '#/components/schemas/AggregatedCount'
+
+    Criteria:
+      type: object
+      properties:
+        operandProperty: 
+          type: string
+        operandValue:
+          type: string
+        operator:
+          type: string
+
+    FilteringCriteria:
+      type: object
+      properties:
+        criterias:
+          type: array
+          items: 
+            $ref: '#/components/schemas/Criteria'
+
+
+    ProjectPublicSearchResult:
+      type: object
+      properties:
+        result: 
+          type: array
+          items:
+            $ref: '#/components/schemas/ProjectPublicSearchSummary'
+        summary:
+          type: object
+          $ref: '#/components/schemas/ProjectPublicSearchAggregation'
+        pagination:
+          type: object
+          $ref: '#/components/schemas/Pagination'
+        selectedCriteria:
+          type: object
+          $ref: '#/components/schemas/FilteringCriteria'
+
+
   securitySchemes:
     openID:
       type: openIdConnect

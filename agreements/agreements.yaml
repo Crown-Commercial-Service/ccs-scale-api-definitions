@@ -200,9 +200,9 @@ paths:
           content:
             application/json:
               schema:
-                type: array
-                items:
-                   $ref: '#/components/schemas/LotBasicInfo'
+                oneOf:
+                  - $ref: '#/components/schemas/LotBasicInfo'
+                  - $ref: '#/components/schemas/LotDeletionInfo'
         '400':
           $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/400InvalidRequest'
         '403':
@@ -663,7 +663,32 @@ components:
           description: original inserted date - used to differentiate between UPDATE and INSERT of lot as same endpoint being used ie) PUT
           example: yyyy-mm-dd
           readOnly: true  
-#
+    LotDeletionInfo:
+      type: object
+      properties:
+        number:
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Schema.yaml#/components/schemas/LotId'
+        removedDate:
+          type: string
+          format: date
+          description: Last Updated Date
+          example: yyyy-mm-dd
+          readOnly: true
+        removedBy:
+          type: string
+          #only updates from DMP are in scope initially but others added to future proof
+          enum: [ "Salesforce", "UI", "Digital Marketplace"]
+          example: "Digital Marketplace"
+          description: System last updated By
+          readOnly: true
+        originalInsertedDate:
+          type: string
+          format: date
+          description: original inserted date - used to differentiate between UPDATE and INSERT of lot as same endpoint being used ie) PUT
+          example: yyyy-mm-dd
+          readOnly: true  
+    
+    #
     LotDetail:
       allOf:     # Combines the LotBasicInfo and the extended version to create LotDetail
         - $ref: '#/components/schemas/LotBasicInfo'

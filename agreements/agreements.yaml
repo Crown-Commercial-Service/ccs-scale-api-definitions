@@ -186,6 +186,14 @@ paths:
       operationId: update-agreement-lots
       parameters:
         - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Params.yaml#/components/parameters/AgreementParam'
+      requestBody:
+        content:
+          application/json:
+              schema:
+                type: array
+                items:
+                   $ref: '#/components/schemas/LotDetail'
+                
       responses:
         201:
           description: Lot details
@@ -194,7 +202,7 @@ paths:
               schema:
                 type: array
                 items:
-                   $ref: '#/components/schemas/LotDetail'
+                   $ref: '#/components/schemas/LotBasicInfo'
         '400':
           $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/400InvalidRequest'
         '403':
@@ -269,6 +277,7 @@ paths:
           application/json:
               schema:
                 $ref: '#/components/schemas/LotDetail'
+                
       responses:
         201:
           description: Lot details
@@ -276,6 +285,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/LotBasicInfo'
+                    
+                
         '400':
           $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/400InvalidRequest'
         '403':
@@ -646,10 +657,11 @@ components:
           example: "Digital Marketplace"
           description: System last updated By
           readOnly: true
-        overwriteExistingLot:
-          type: boolean
-          description: has previous lot been overwritten. false if lot is new
-          example: true
+        originalInsertedDate:
+          type: string
+          format: date
+          description: original inserted date - used to differentiate between UPDATE and INSERT of lot as same endpoint being used ie) PUT
+          example: yyyy-mm-dd
           readOnly: true  
 #
     LotDetail:

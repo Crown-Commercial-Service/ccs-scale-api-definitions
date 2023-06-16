@@ -322,13 +322,57 @@ paths:
         - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Params.yaml#/components/parameters/LotParam'
       responses:
         '200':
-          description: Lot details
+          description: Lot supplier details
           content:
             application/json:
               schema:
                 type: array
                 items:
                   $ref: '#/components/schemas/LotSupplier'
+        '400':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/400InvalidRequest'
+        '403':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/403Forbidden'
+        '404':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/404NotFound'
+        '410':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/410Gone'
+        '429':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/429TooManyRequests'
+        '500':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/500InternalServerError'
+        '502':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/502BadGateway'
+        '503':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/503ServiceUnavailable'
+        '504':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/504GatewayTimeout'
+        '505':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/505HTTPVersionNotSupported'
+#
+    put:
+      summary: update the supplier list for the Lot
+      description: update the suppliers for the specified lot
+      tags:
+      - Lot
+      operationId: put-lot-suppliers
+      parameters:
+        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Params.yaml#/components/parameters/AgreementParam'
+        - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Params.yaml#/components/parameters/LotParam'
+      requestBody:
+        content:
+          application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/LotSupplier'  
+      responses:
+        '200':
+          description: Lot suppliers update summary
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LotSuppliersUpdateSummary'
         '400':
           $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/400InvalidRequest'
         '403':
@@ -899,19 +943,60 @@ components:
           description: Lot name
           example: "Finance"
 #
+    
+    LotSuppliersUpdateSummary:
+      type: object
+      properties:
+        lastUpdatedDate:
+          type: string
+          format: date
+          description: Last Updated Date
+          example: yyyy-mm-dd
+          readOnly: true
+        lastUpdatedBy:
+          type: string
+          #only updates from DMP are in scope initially but others added to future proof
+          enum: [ "Salesforce", "UI", "Digital Marketplace"]
+          example: "Digital Marketplace"
+          description: System last updated By
+        supplierCount:
+          type: number
+          description: The number of suppliers listed under the lot that can be considered for an award under the lot.  
+        
+#
+    LotSupplierBasicInfo:
+      type: object
+      properties:
+        supplierStatus: 
+          type: string
+          enum: [active,suspended,excluded]
+        lastUpdatedDate:
+          type: string
+          format: date
+          description: Last Updated Date
+          example: yyyy-mm-dd
+          readOnly: true
+        lastUpdatedBy:
+          type: string
+          #only updates from DMP are in scope initially but others added to future proof
+          enum: [ "Salesforce", "UI", "Digital Marketplace"]
+          example: "Digital Marketplace"
+          description: System last updated By
+#        
     LotSupplier:
+      allOf:     # Combines the LotSupplierBasicInfo and the extended version to create LotSupplier
+        - $ref: '#/components/schemas/LotSupplierBasicInfo'
       type: object
       properties:
         organization: 
           $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OCDS_Standards/CCS-OCDS_Schema.yaml#/components/schemas/Organization'
-        supplierStatus: 
-          type: string
-          enum: [active,suspended,excluded]
         lotContacts:
           type: array
           items:
             $ref: '#/components/schemas/Contact'
 #
+    
+    
     Contact:
       type: "object"
       description: "Agreement/Lot specific contacts for the Organization"

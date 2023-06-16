@@ -634,6 +634,7 @@ components:
 #  - CPV codes are omitted as noted above
 #
     AgreementDetail:
+      #allOf: 
       type: object
       properties:
         number:
@@ -673,14 +674,13 @@ components:
             description: Short description of the benefit
         lotAssessmentTool:
           $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/capabilities/capability-service.yaml#/components/schemas/AssessmentId'
-          description: Defines if an assessment tool can be used to select the lot. If specified then a Project can be created without a lot being defined
         preDefinedLotRequired:
-          type: boolean
-          description: Defines if a project can be set up without defining a lot. The lot is defined as an assessment provided by the agreement.
+           type: boolean
+           description: Defines if a project can be set up without defining a lot. The lot is defined as an assessment provided by the agreement.
         lots:
-          type: array
-          items:
-            $ref: '#/components/schemas/LotSummary'
+           type: array
+           items:
+             $ref: '#/components/schemas/LotSummary'
 
     #
     LotBasicInfo:

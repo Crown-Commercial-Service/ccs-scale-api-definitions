@@ -657,6 +657,17 @@ components:
           description: Routes to Market for the Lot and associated bounds
           items:
             $ref: '#/components/schemas/RouteToMarket'
+        lastUpdatedDate:
+          type: string
+          format: date
+          description: Last Updated Date
+          example: yyyy-mm-dd
+        lastUpdatedBy:
+          type: string
+          #only updates from DMP are in scope initially but others added to future proof
+          enum: [ "Salesforce", "UI", "Digital Marketplace"]
+          example: "Digital Marketplace"
+          description: System last updated By
         supplierCount:
           type: number
           description: The number of suppliers listed under the lot that can be considered for an award under the lot.

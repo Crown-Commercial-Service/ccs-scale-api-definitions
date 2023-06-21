@@ -4461,17 +4461,9 @@ components:
       in: query
       required: false
       description: Filters to apply
-      content:
-        application/json:  # <---- media type indicates how to serialize / deserialize the parameter content
-          schema:
-            type: object
-            properties:
-              filter:
-                type: string
-              selections:
-                type: array
-                items:
-                  type: string
+      schema:
+        $ref: '#/components/schemas/ProjectFilters'
+
         
     AgreementQueryParam:
       name: agreement-id
@@ -6597,6 +6589,9 @@ components:
     ProjectPublicSearchResult:
       type: object
       properties:
+        totalResults:
+          type: integer
+          description: Total number of results that match the seach without pagination
         results: 
           type: array
           items:
@@ -6604,9 +6599,9 @@ components:
         searchCriteria:
           type: object
           $ref: '#/components/schemas/ProjectSearchCriteria'
-        pagination:
-          type: object
-          $ref: '#/components/schemas/Pagination'
+        links:
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Schema.yaml#/components/schemas/Links'
+          
           
     ProjectSearchCriteria:
       type: object
@@ -6617,7 +6612,7 @@ components:
         lots:
           type: array
           items:
-            $ref: '#/components/schemas/ProjectFilterOption'
+            $ref: '#/components/schemas/ProjectLots'
             description: Filters Supported
         filters:
           type: array
@@ -6637,6 +6632,14 @@ components:
         selected:
           type: boolean
           description: Indicates if lot is selected in the request
+          
+    ProjectFilters:
+      type: object
+      properties: 
+        filters:
+        type: array
+        items:
+          $ref: '#/components/schemas/ProjectFilter'
   
     ProjectFilter:
       type: object
@@ -6647,7 +6650,7 @@ components:
         options:
           type: array
           items:
-            $ref: 'components/schemas/ProjectFilterOption'
+            $ref: '#/components/schemas/ProjectFilterOption'
         
     ProjectFilterOption:
       type: object
@@ -6661,6 +6664,7 @@ components:
         selected:
           type: boolean
           description: Indicates if option isselected in the request
+          
   
 
   securitySchemes:

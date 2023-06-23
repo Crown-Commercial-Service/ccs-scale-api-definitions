@@ -6637,9 +6637,9 @@ components:
       type: object
       properties: 
         filters:
-        type: array
-        items:
-          $ref: '#/components/schemas/ProjectFilter'
+          type: array
+          items:
+            $ref: '#/components/schemas/ProjectFilter'
   
     ProjectFilter:
       type: object

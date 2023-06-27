@@ -4087,9 +4087,6 @@ paths:
           $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/500InternalServerError'
         '502':
           $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/502BadGateway'
-      security:
-        - OAuth2:
-            - buyer
       summary: Export awarding templates
 
 
@@ -4153,12 +4150,45 @@ paths:
           $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/500InternalServerError'
         '502':
           $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/502BadGateway'
-      security:
-        - OAuth2:
-            - buyer
       summary: Get contract details
 
-      
+
+  /tenders/projects/search:
+    parameters:
+      - $ref: '#/components/parameters/AgreementQueryParam'
+      - $ref: '#/components/parameters/PublicProjectKeySearchQueryParam'
+      - $ref: '#/components/parameters/PublicProjectFiltersQueryParam'
+      - $ref: '#/components/parameters/LotQueryParam'
+      - $ref: '#/components/parameters/PageParam'
+      - $ref: '#/components/parameters/PageSizeParam'
+    get:
+      description: Get all projects summary for public viewing
+      tags:
+        - Manage Procurement Project
+      operationId: searchPublicProject
+      responses:
+        '200':
+          description: ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProjectPublicSearchResult'
+        '400':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/400InvalidRequest'
+        '401':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/401Unauthorized'
+        '403':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/403Forbidden'
+        '429':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/429TooManyRequests'
+        '500':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/500InternalServerError'
+        '502':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/502BadGateway'
+      summary: Get project details for public
+
+
+ 
 components:
 
   parameters:
@@ -4415,6 +4445,39 @@ components:
       description: Organisation ID Filter
       schema:
         $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Schema.yaml#/components/schemas/OrgId'
+
+    PublicProjectKeySearchQueryParam:
+      name: keyword
+      in: query
+      required: false
+      description: Search term to look for
+      schema:
+        type: string
+        example: Printer Service
+        readOnly: true
+
+    PublicProjectFiltersQueryParam:
+      name: filters
+      in: query
+      required: false
+      description: Filters to apply
+      schema:
+        $ref: '#/components/schemas/ProjectFilters'
+
+        
+    AgreementQueryParam:
+      name: agreement-id
+      in: query
+      schema:
+        $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Schema.yaml#/components/schemas/AgreementId'
+
+    LotQueryParam:
+      name: lot-id
+      in: query
+      required: false
+      description: Lot
+      schema:
+        $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Schema.yaml#/components/schemas/LotId'
 
   schemas:
   
@@ -6308,7 +6371,302 @@ components:
       type: string
       pattern: "^name,identifier,streetAddress,locality,region,postalCode,countryName,contactName,contactEmail,contactTelephone,contactFaxNumber,contactUrl,score(\\n.*,.*,.*,.*,.*,.*,.*,.*,.*,.*,.*,.*,.*)*"
       example: "name,identifier,streetAddress,locality,region,postalCode,countryName,contactName,contactEmail,contactTelephone,contactFaxNumber,contactUrl,score\nGadgets Limited,GB-DUNS-1234567,Gadget House,Big Town,Cheshire,CH15 1BC,United Kingdom,Fred Bloggs,f.blogs@gadgets.com,01234 567 8910,01234 567 8911,www.gadgets.com,53.2\nWidgets Inc,GB-DUNS-4566788,Widget Towers,Small Town,Cheshire,CH33 9YZ,United Kingdom,Wilma Flintstone,wilma@widgets.co.uk,07123852345,,www.widgets.co.uk,32"
-              
+
+    ProjectPublicSearchSummary:
+      type: object
+      properties:
+        projectId:
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Schema.yaml#/components/schemas/ProcurementProjectId'
+        projectName:
+          type: string
+          description: Name of the Project
+          example: Security Architect April 2023 - April 2024
+        buyerName:
+          type: string
+          description: Name of the Buyer
+          example: Department of Work & Pensions
+        location:
+          type: string
+          description: Location of contract
+          example: North East England
+        budgetRange:
+          type: string
+          description: Budget range (I cant see requirement for this)
+          example: '1000-5000'
+        agreement:
+          type: string
+          description: Agreement Name
+          example: Digital Outcomes
+        lot:
+          type: string
+          description: Lot Name
+          example: Lot 1
+        status:
+          type: string
+          enum:
+            - open
+            - closed
+        subStatus:
+          type: string
+          description: Dont know what this is
+          example: '????'
+        description:
+          type: string
+          description: Summary of the opportunity.
+          example: Lead, deliver and support the technical and security architecture design elements of DWP Digital projects / initiatives. Own the security product architecture, develop security product roadmaps and represent product designs at governance forums. Provide clear communication of security architecture design and decision making.
+
+    SupplierAwarded:
+      type: object
+      properties:
+        name:
+          type: string
+        identifier:
+          type: string
+        address:
+          type: string
+        website:
+          type: string
+        contractValue:
+          type: number
+
+    TimelineSummary:
+      type: array
+      items:
+        type: object
+        properties:
+          status:
+            type: string
+          asOn:
+            type: string
+
+    ProjectPublicAwardSummary:
+      type: object
+      properties:
+        awardedOn:
+          type: string
+        supplierName:
+          type: string
+        identifier:
+          type: string
+        address:
+          type: string
+        website:
+          type: string
+        contractValue:
+          type: number
+
+    ProjectPublicSummary:
+      type: object
+      properties:
+        projectName:
+          type: string
+        buyerName:
+          type: string
+        lot:
+          type: string
+        status:
+          type: string
+          enum:
+            - open
+            - closed
+        subStatus:
+          type: string
+        description:
+          type: string
+        supplierResponse:
+          type: object
+          properties:
+            complete: 
+              type: integer
+            incomplete:
+              type: integer
+            completeSme: 
+              type: integer
+            incompleteSme:
+              type: integer
+            completeLorg: 
+              type: integer
+            incompleteLorg:
+              type: integer
+        awardSummary:
+          type: object
+          $ref: '#/components/schemas/ProjectPublicAwardSummary'
+
+    ProjectPublicDetail:
+      type: object
+      properties:
+        projectName:
+          type: string
+        buyerName:
+          type: string
+        lot:
+          type: string
+        status:
+          type: string
+          enum:
+            - open
+            - closed
+        subStatus:
+          type: string
+        requirementGroups:
+          type: array
+          items:
+            type: object
+            $ref: '#/components/schemas/ProjectPublicRequirementGroup'
+        description:
+          type: string
+        timeline:
+          $ref: '#/components/schemas/TimelineSummary'
+        awardSummary:
+          type: object
+          $ref: '#/components/schemas/ProjectPublicAwardSummary'
+
+
+    ProjectPublicRequirement:
+      type: object
+      properties:
+        question:
+          type: string
+        answer:
+          type: string
+
+    ProjectPublicRequirementGroup:
+      type: object
+      properties:
+        name:
+          type: string
+        requirements:
+          type: array
+          items:
+            type: object
+            $ref: '#/components/schemas/ProjectPublicRequirement'
+
+    AggregatedCount:
+      type: object
+      properties:
+        name:
+          type: string
+        count:
+          type: integer
+
+    Pagination:
+      type: object
+      properties:      
+        recordsPerPage:
+          type: integer
+        offset:
+          type: integer
+        total: 
+          type: integer
+
+    ProjectPublicSearchAggregation:
+      type: object
+      properties:
+        lots:
+          type: array
+          items:
+            $ref: '#/components/schemas/AggregatedCount'
+
+    Criteria:
+      type: object
+      properties:
+        operandProperty: 
+          type: string
+        operandValue:
+          type: string
+        operator:
+          type: string
+
+    FilteringCriteria:
+      type: object
+      properties:
+        criterias:
+          type: array
+          items: 
+            $ref: '#/components/schemas/Criteria'
+
+
+    ProjectPublicSearchResult:
+      type: object
+      properties:
+        totalResults:
+          type: integer
+          description: Total number of results that match the seach without pagination
+        results: 
+          type: array
+          items:
+            $ref: '#/components/schemas/ProjectPublicSearchSummary'
+        searchCriteria:
+          type: object
+          $ref: '#/components/schemas/ProjectSearchCriteria'
+        links:
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Schema.yaml#/components/schemas/Links'
+          
+          
+    ProjectSearchCriteria:
+      type: object
+      properties:
+        keyword:
+          type: string
+          description: Keyword to search for
+        lots:
+          type: array
+          items:
+            $ref: '#/components/schemas/ProjectLots'
+            description: Filters Supported
+        filters:
+          type: array
+          items:
+            $ref: '#/components/schemas/ProjectFilterOption'
+            description: Filters Supported
+            
+    ProjectLots:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: ID for the Lot
+        text:
+          type: string
+          description: Display text for the option
+        selected:
+          type: boolean
+          description: Indicates if lot is selected in the request
+          
+    ProjectFilters:
+      type: object
+      properties: 
+        filters:
+          type: array
+          items:
+            $ref: '#/components/schemas/ProjectFilter'
+  
+    ProjectFilter:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Name of the filter
+        options:
+          type: array
+          items:
+            $ref: '#/components/schemas/ProjectFilterOption'
+        
+    ProjectFilterOption:
+      type: object
+      properties:      
+        id:
+          type: integer
+          description: ID for the option
+        text:
+          type: string
+          description: Display text for the option
+        selected:
+          type: boolean
+          description: Indicates if option isselected in the request
+          
+  
+
   securitySchemes:
     openID:
       type: openIdConnect

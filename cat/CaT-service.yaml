@@ -6592,6 +6592,10 @@ components:
         totalResults:
           type: integer
           description: Total number of results that match the seach without pagination
+        aggregatedTotal:
+          type: object
+          description: Aggregated totals based on different parameters
+          $ref: '#/components/schemas/ProjectPublicSearchAggregation'
         results: 
           type: array
           items:

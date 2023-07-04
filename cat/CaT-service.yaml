@@ -6541,14 +6541,6 @@ components:
             type: object
             $ref: '#/components/schemas/ProjectPublicRequirement'
 
-    AggregatedCount:
-      type: object
-      properties:
-        name:
-          type: string
-        count:
-          type: integer
-
     Pagination:
       type: object
       properties:      
@@ -6558,14 +6550,6 @@ components:
           type: integer
         total: 
           type: integer
-
-    ProjectPublicSearchAggregation:
-      type: object
-      properties:
-        lots:
-          type: array
-          items:
-            $ref: '#/components/schemas/AggregatedCount'
 
     Criteria:
       type: object
@@ -6617,7 +6601,7 @@ components:
         filters:
           type: array
           items:
-            $ref: '#/components/schemas/ProjectFilterOption'
+            $ref: '#/components/schemas/ProjectFilter'
             description: Filters Supported
             
     ProjectLots:
@@ -6632,6 +6616,9 @@ components:
         selected:
           type: boolean
           description: Indicates if lot is selected in the request
+        count:
+          type: integer
+          description: count of projects for the lot
           
     ProjectFilters:
       type: object
@@ -6664,7 +6651,9 @@ components:
         selected:
           type: boolean
           description: Indicates if option isselected in the request
-          
+        count:
+          type: integer
+          description: optional- count of projects for the filtered value          
   
 
   securitySchemes:

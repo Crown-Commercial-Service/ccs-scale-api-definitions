@@ -4811,9 +4811,27 @@ components:
               type: string
               example: 'https://www.crowncommercial.gov.uk/tenders/projects/{proc-id}'
               format: uri
+            nonOCDS:
+              $ref: '#/components/parameters/NonOCDSRelease'
       title: Project Package
       description: The record package contains a list of Event records within a single procurement project along with some publishing metadata. The Event Records pull together all the releases of a procurement under a single Open Contracting ID and compile them into the latest version of the information along with the history of any data changes.
-    
+
+    NonOCDSRelease:
+      title: Non OCDS Release options
+      type: object
+      properties:
+        tender:
+          $ref: '#/components/parameters/NonOCDSTender'
+
+    NonOCDSTender:
+      title: Non OCDS Tender options
+      type: object
+      properties:
+          cancellationDate:
+            type: string
+            nullable: true
+            format: date-time
+
     TerminationTypes:
       title: Termination Options
       description: |

@@ -6419,6 +6419,10 @@ components:
           type: string
           description: Lot Name
           example: Lot 1
+        lotName:
+          type: string
+          description: Lot description
+          example: User research
         status:
           type: string
           enum:

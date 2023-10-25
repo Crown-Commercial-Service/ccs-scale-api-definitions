@@ -302,14 +302,15 @@ paths:
           $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/505HTTPVersionNotSupported'
 #
 #
-  /agreements/{agreement-id}/updates:
+  /agreements/{ocid-id}/{agreement-id}/updates:
     get:
       summary: Returns any updates added to the Agreement
-      description: Returns updates recorded for the specified Commercial Agreement
+      description: Returns updates recorded for the specified Commercial Agreement (OCDS each update stored within a Release within the Record)
       tags:
       - Agreement
       operationId: get-agreement-updates
       parameters:
+        - $ref: '#/components/parameters/AgreementOcidParam'
         - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Params.yaml#/components/parameters/AgreementParam'
       responses:
         200:
@@ -319,7 +320,7 @@ paths:
               schema:
                 type: array
                 items:
-                    $ref: '#/components/schemas/AgreementUpdate'
+                    $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/OCDS/OCDS_Vanilla.yaml#/components/schemas/Release'
         '400':
           $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/400InvalidRequest'
         '403':
@@ -710,23 +711,7 @@ components:
           type: string
           description: The unit of the value given in the value fields e.g. kg, mile, hour
 #
-    AgreementUpdate:
-      type: object
-      properties:
-        date:
-          type: string
-          format: date
-          description: Date that the update was added
-          example: yyyy-mm-dd
-        linkUrl:
-          type: string
-          format: uri
-          description: Link to further information regarding the update
-        text:
-          type: string
-          description: Actual update text
-
-#
+    
     LotSupplier:
       type: object
       properties:

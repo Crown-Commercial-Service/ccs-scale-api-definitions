@@ -60,15 +60,18 @@ paths:
         '505':
           $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/505HTTPVersionNotSupported'
 
-  /agreements/{agreement-id}:
+  /agreements/{ocid-id}/{agreement-id}:
     get:
-      summary: Returns details of the specified Commercial Agreement
-      description: Returns the definition of the specified Commercial Agreement
+      summary: Returns details of the specified OCID Record/Commercial Agreement
+      description: Returns the definition of the specified OCID Record/Commercial Agreement
       tags:
       - Agreement
       operationId: get-agreement-detail
       parameters:
+        - $ref: '#/components/parameters/AgreementOcidParam'
         - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Params.yaml#/components/parameters/AgreementParam'
+        
+        
       responses:
         200:
           description: Commercial Agreement detail
@@ -467,6 +470,13 @@ components:
 
 # This needs to move to common as Event Types will be fixed across the organisation.
   parameters:
+    AgreementOcidParam:
+      name: ocid-id
+      in: path
+      required: true
+      description: Agreement OCID
+      schema:
+        $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Schema.yaml#/components/schemas/AgreementOcid'
     EventTypeParam:
       name: event-type
       in: path

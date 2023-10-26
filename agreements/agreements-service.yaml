@@ -501,10 +501,7 @@ components:
       type: object
       properties:
         ocid:
-          title: Open Contracting ID
-          description: 'A globally unique identifier for this Open Contracting Process. Composed of an ocid prefix and an identifier for the contracting process. For more information see the [Open Contracting Identifier guidance](https://standard.open-contracting.org/1.1/en/schema/identifiers/)'
-          type: string
-          minLength: 1
+         $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Schema.yaml#/components/schemas/AgreementOcid'
         id:
             title: Release ID
             description: 'An identifier for this particular release of information. A release identifier must be unique within the scope of its related contracting process (defined by a common ocid). A release identifier must not contain the # character.'

@@ -262,14 +262,15 @@ paths:
         '505':
           $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/505HTTPVersionNotSupported'
   #
-  /agreements/{agreement-id}/lots/{lot-id}/suppliers:
+  /agreements/{ocid-id}/{agreement-id}/latest/lots/{lot-id}/suppliers:
     get:
-      summary: Returns the supplier list for the Lot
-      description: Returns details of the suppliers for the specified Lot for this Commercial Agreement
+      summary: Returns the latest supplier list for the Lot
+      description: Returns latest details of the suppliers for the specified Lot for this Commercial Agreement
       tags:
       - Lot
-      operationId: get-lot-suppliers
+      operationId: get-latest-lot-suppliers
       parameters:
+        - $ref: '#/components/parameters/AgreementOcidParam'
         - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Params.yaml#/components/parameters/AgreementParam'
         - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Params.yaml#/components/parameters/LotParam'
       responses:

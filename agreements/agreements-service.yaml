@@ -139,7 +139,7 @@ paths:
         '505':
           $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/505HTTPVersionNotSupported'
  # The get-agreement-detail call explicitly omits CPV codes in the initial version. These will be added later if required. As there are potentially thousands of CPV codes it was felt that these would overwhelm the output and management of the underlying data.  Additional calls can be added to provide these if required in a similar way to the '/agreements/{ca-number}/updates' call below.
-  /agreements/{agreement-id}/lots:
+  /agreements/{ocid-id}/{agreement-id}/latest/lots:
     get:
       summary: Returns details of all of the Lots for this Commercial Agreement
       description: Returns data about the Lots, both general information and parameters required to govern the behaviour of applications using this data
@@ -151,6 +151,7 @@ paths:
           in: query
           schema:
               $ref: "#/components/schemas/BuyingMethod"
+        - $ref: '#/components/parameters/AgreementOcidParam'
         - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Params.yaml#/components/parameters/AgreementParam'
       responses:
         200:
@@ -160,7 +161,7 @@ paths:
               schema:
                 type: array
                 items:
-                    $ref: '#/components/schemas/LotDetail'
+                    $ref: '#/components/schemas/AgreementRecord'
         '400':
           $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/400InvalidRequest'
         '403':
@@ -527,11 +528,44 @@ components:
 #
   
 #
+    
+    AgreementRelease:
+      title: AgreementOCDS Release
+      type: object
+      #allOf:
+      #  - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/OCDS/OCDS_Vanilla.yaml#/components/schemas/Release'
+     #   - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/OCDS/OCDS_Pagination_Ext.yaml#/components/schemas/Release'
+    #    - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/OCDS/OCDS_BidStatisticsDetails_Ext.yaml#/components/schemas/Release'
+    #    - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/OCDS/OCDS_ProcessTitle_Ext.yaml#/components/schemas/Release'
+      #  - type: object
+      properties:
+        tender:
+          $ref: '#/components/schemas/AgreementTender'
+    
+    
+              
+              
+    AgreementTender:
+      $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/OCDS/OCDS_Lot_Ext.yaml#/components/schemas/Tender'
+                        
+              
+            
+    
+    AgreementRecord:
+      title: OCDS Record
+      
+      #allOf:
+      #  - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/OCDS/OCDS_Vanilla.yaml#/components/schemas/Record'
+      type: object
+      properties:
+          compiledRelease:
+              $ref: '#/components/schemas/AgreementRelease'
+                  
     LotDetail:
       type: object
       properties:
         number:
-          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Schema.yaml#/components/schemas/LotId'
+          $ref: ''#/components/schemas/Release'
         name:
           type: string
           description: Lot name

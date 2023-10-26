@@ -223,7 +223,7 @@ paths:
         '505':
           $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/505HTTPVersionNotSupported'
   #
-  /agreements/{agreement-id}/lots/{lot-id}:
+  /agreements/{ocid-id}/{agreement-id}/latest/lots/{lot-id}:
     get:
       summary: Returns details of the specified Lot for this Commercial Agreement
       description: Returns data about the Lot, both general information and parameters required to govern the behaviour of applications using this data
@@ -231,15 +231,16 @@ paths:
       - Lot
       operationId: get-lot-details-for-agreement
       parameters:
+        - $ref: '#/components/parameters/AgreementOcidParam'
         - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Params.yaml#/components/parameters/AgreementParam'
         - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Params.yaml#/components/parameters/LotParam'
       responses:
         200:
-          description: Lot details
+          description: Lot
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/LotDetail'
+                $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OCDS_Standards/CCS-OCDS_Schema.yaml#/components/schemas/Lot'
         '400':
           $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/400InvalidRequest'
         '403':
@@ -579,8 +580,6 @@ components:
         tender:
           $ref: '#/components/schemas/AgreementTender'
     
-    
-              
               
     AgreementTender:
       $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/OCDS/OCDS_Lot_Ext.yaml#/components/schemas/Tender'

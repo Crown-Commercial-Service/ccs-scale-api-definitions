@@ -1206,6 +1206,7 @@ components:
         creationDate:
           title: Creation date
           type: string
+          format: date
           nullable: true
           example: 2000-11-11
         countryCode:

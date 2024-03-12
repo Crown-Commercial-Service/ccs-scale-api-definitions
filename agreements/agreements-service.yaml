@@ -109,7 +109,7 @@ paths:
         content:
           application/json:
               schema:
-                   $ref: '#/components/schemas/AgreementDetail'
+                   $ref: '#/components/schemas/AgreementDetailRequest'
                   
       responses:
         200:
@@ -725,6 +725,47 @@ components:
 #  - Suppliers will be shown at a Lot level rather than Agreement level
 #  - CPV codes are omitted as noted above
 #
+    
+    AgreementDetailRequest:
+      #allOf: 
+      type: object
+      properties:
+        number:
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Schema.yaml#/components/schemas/AgreementId'
+        name:
+          type: string
+          description: Commercial Agreement Name
+          example: "Technology Products 2"
+        description:
+          type: string
+          description: Short textual description of the commercial agreement
+        ownerName:
+          type: string
+          description: name of owner
+          example: CCS  
+        startDate:
+          type: string
+          format: date
+          description: Effective start date of Commercial Agreement
+          example: yyyy-mm-dd
+        endDate:
+          type: string
+          format: date
+          example: yyyy-mm-dd
+          description: Effective end date of Commercial Agreement
+        detailUrl:
+          type: string
+          format: uri
+          description: URL of the Agreement detail page on the CCS website
+          example: "https://www.crowncommercial.gov.uk/agreements/RM3733"
+        preDefinedLotRequired:
+           type: boolean
+           description: Defines if a project can be set up without defining a lot. The lot is defined as an assessment provided by the agreement.
+        benefits:
+          type: array
+          items:
+            type: string
+            description: Short description of the benefit
     AgreementDetail:
       #allOf: 
       type: object

@@ -848,6 +848,10 @@ components:
         type:
           type: string
           enum: ["product","service","product and service"]
+        supplierCount:
+          type: number
+          example: 12
+          description: number of suppliers for the lot
         
         # Further to the rules model below can data drive the whole rules evaluation triggering the rules from events in CaT and BaT
         # e.g. a list of events mapped to rules in config. When event happens, if Agreement has rule data then we evaluate the rule. All in a standard function passed event data and Agreement data

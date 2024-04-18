@@ -910,10 +910,6 @@ components:
           format: date
           description: Date that the update was added
           example: yyyy-mm-dd
-        linkUrl:
-          type: string
-          format: uri
-          description: Link to further information regarding the update
         text:
           type: string
           description: Actual update text

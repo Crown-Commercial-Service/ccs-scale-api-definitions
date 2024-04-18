@@ -157,7 +157,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OCDS_Standards/CCS-OCDS_Schema.yaml#/components/schemas/Document'
+                  $ref: '#/components/schemas/Document'
         '400':
           $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/400InvalidRequest'
         '403':
@@ -711,6 +711,41 @@ components:
 
   schemas:
 #
+    Document:
+      type: object
+      title: Document
+      description: 'Links to, or descriptions of, external documents can be attached at various locations within the standard. Documents can be supporting information, formal notices, downloadable forms, or any other kind of resource that ought to be made public as part of full open contracting.'
+      required:
+        - id
+      properties:
+        
+        url:
+          title: URL
+          description: A direct link to the document or attachment. The server providing access to this document ought to be configured to correctly report the document mime type.
+          type: string
+          nullable: true
+          format: uri
+        documentType:
+          allOf: 
+            - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/OCDS/OCDS_CodeLists.yaml#/components/schemas/DocumentType'
+        language:
+          allOf: 
+            - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/OCDS/OCDS_CodeLists.yaml#/components/schemas/Language'  
+        format:
+          allOf: 
+            - $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/OCDS/OCDS_CodeLists.yaml#/components/schemas/FileFormat'    
+        title:
+          title: Title
+          description: The document title.
+          type: string
+          nullable: true
+        datePublished:
+          title: Date published
+          description: The date on which the document was first published. This is particularly important for legally important documents such as notices of a tender.
+          type: string
+          nullable: true
+          format: date-time
+
     AgreementSummary:
       type: object
       properties:

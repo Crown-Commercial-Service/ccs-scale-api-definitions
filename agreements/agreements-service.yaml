@@ -810,7 +810,7 @@ components:
           items:
             type: string
             description: Short description of the benefit
-        lotAssessmentTool:
+        #lotAssessmentTool:
           $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-scale-api-definitions/master/capabilities/capability-service.yaml#/components/schemas/AssessmentId'
         preDefinedLotRequired:
            type: boolean

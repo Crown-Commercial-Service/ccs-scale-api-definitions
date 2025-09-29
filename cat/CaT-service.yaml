@@ -4886,6 +4886,7 @@ components:
           * DAA - Direct Award Assessment
           * DA  - Direct Award
           * FC  - Further Competition
+          * SAS - Search and Save
       type: string
       enum:
           - EOI
@@ -4895,6 +4896,7 @@ components:
           - PA
           - FCA
           - DAA
+          - SAS
           
     ViewEventType:
       description: |
@@ -4908,6 +4910,7 @@ components:
           * DAA - Direct Award Assessment
           * DA  - Direct Award
           * FC  - Further Competition
+          * SAS - Search and Save
           * TBD - To Be Determined
           
         Note - TBD is not a real event type and must be defined before going to market.
@@ -4919,7 +4922,8 @@ components:
           - FC
           - PA 
           - FCA
-          - DAA   
+          - DAA
+          - SAS   
           - TBD
     
     EventType:

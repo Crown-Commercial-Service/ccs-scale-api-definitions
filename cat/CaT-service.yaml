@@ -4664,18 +4664,30 @@ components:
       required:
         - id
         - name
-      properties: 
-        teamMember:  
+      properties:
+        teamMember:
           type: boolean
           description: 'Is the user a Team Member on the project'
           example: true
-        emailRecipient:  
+        emailRecipient:
           type: boolean
           description: 'Is the user an EMail recipient of the current event on the project'
           example: true
-        projectOwner:  
+        projectOwner:
           type: boolean
           description: 'Is the user the project owner'
+          example: false
+        collaborator:
+          type: boolean
+          description: 'Is the user a Collaborator (API-local role)'
+          example: false
+        assessor:
+          type: boolean
+          description: 'Is the user an Assessor (API-local role)'
+          example: false
+        moderator:
+          type: boolean
+          description: 'Is the user a Moderator (API-local role)'
           example: false
           
     TemplateGroupId:
@@ -4698,6 +4710,9 @@ components:
         - EMAIL_RECIPIENT
         - TEAM_MEMBER
         - PROJECT_OWNER
+        - COLLABORATOR
+        - ASSESSOR
+        - MODERATOR
               
     # See openapi-generator issue: https://github.com/OpenAPITools/openapi-generator/issues/7342
     # Hence why we are repeating the validation attributes here, until a fix is issued
@@ -6702,4 +6717,3 @@ components:
             profile: profile
             supplier: Grants access to act as a supplier
             buyer: Grants access to act as a buyer
-            

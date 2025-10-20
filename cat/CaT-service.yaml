@@ -6625,8 +6625,10 @@ components:
         - project_id
         - event_id
         - framework_agreement
+        - lot
         - question_id
-        - assessor_email_id
+        - question_text
+        - assessor_email
         - assessor_score
       properties:
         project_id:
@@ -6640,17 +6642,27 @@ components:
         framework_agreement:
           description: Framework Agreement identifier
           type: string
-          maxLength: 20
+          maxLength: 10
           example: "RM12345"
+        lot:
+          description: Lot identifier
+          type: string
+          maxLength: 10
+          example: "Lot1"
         question_id:
           description: Question ID
-          type: integer
-          example: 1
-        assessor_email_id:
+          type: string
+          maxLength: 20
+          example: "Q-123"
+        question_text:
+          description: The full question text
+          type: string
+        assessor_email:
           description: Assessor email address
           type: string
+          maxLength: 100
           format: email
-          example: "zahid@yopmail.com"
+          example: "assessor@example.com"
         assessor_score:
           description: Score given by the assessor
           type: integer
@@ -6658,7 +6670,7 @@ components:
         assessor_comment:
           description: Comment provided by the assessor
           type: string
-          example: "String comment Text"
+          example: "Comment text"
 
     AssessmentEvaluationScoreResponse:
       description: Response model for assessment evaluation score operations
@@ -6679,16 +6691,27 @@ components:
         framework_agreement:
           description: Framework Agreement identifier
           type: string
+          maxLength: 10
           example: "RM12345"
+        lot:
+          description: Lot identifier
+          type: string
+          maxLength: 10
+          example: "Lot1"
         question_id:
           description: Question ID
-          type: integer
-          example: 1
-        assessor_email_id:
+          type: string
+          maxLength: 20
+          example: "Q-123"
+        question_text:
+          description: The full question text
+          type: string
+        assessor_email:
           description: Assessor email address
           type: string
+          maxLength: 100
           format: email
-          example: "zahid@yopmail.com"
+          example: "assessor@example.com"
         assessor_score:
           description: Score given by the assessor
           type: integer
@@ -6696,7 +6719,6 @@ components:
         assessor_comment:
           description: Comment provided by the assessor
           type: string
-          example: "String comment Text"
         created_at:
           description: Timestamp when the score was created
           type: string

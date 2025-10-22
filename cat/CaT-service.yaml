@@ -3529,6 +3529,215 @@ paths:
         - OAuth2:
             - buyer
       summary: Update supplier score
+
+  /tenders/assessment-evaluation-scores:
+    put:
+      description: Create or update an assessment evaluation score for a specific question by an assessor
+      tags:
+        - Assessment Evaluation
+      operationId: createOrUpdateAssessmentEvaluationScore
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AssessmentEvaluationScoreRequest'
+      responses:
+        '200':
+          description: Assessment evaluation score created or updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AssessmentEvaluationScoreResponse'
+        '400':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/400InvalidRequest'
+        '401':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/401Unauthorized'
+        '403':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/403Forbidden'
+        '500':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/500InternalServerError'
+      security:
+        - OAuth2:
+            - buyer
+      summary: Create or update assessment evaluation score
+
+  /tenders/assessment-evaluation-scores/project/{project-id}/event/{event-id}:
+    get:
+      description: Get all assessment evaluation scores for a specific project and event
+      tags:
+        - Assessment Evaluation
+      operationId: getAssessmentEvaluationScoresByProjectAndEvent
+      parameters:
+        - name: project-id
+          in: path
+          required: true
+          schema:
+            type: integer
+          description: Project ID
+        - name: event-id
+          in: path
+          required: true
+          schema:
+            type: integer
+          description: Event ID
+      responses:
+        '200':
+          description: List of assessment evaluation scores
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/AssessmentEvaluationScoreResponse'
+        '400':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/400InvalidRequest'
+        '401':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/401Unauthorized'
+        '403':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/403Forbidden'
+        '500':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/500InternalServerError'
+      security:
+        - OAuth2:
+            - buyer
+      summary: Get assessment evaluation scores by project and event
+
+  /tenders/assessment-evaluation-scores/assessor/{assessor-email}:
+    get:
+      description: Get all assessment evaluation scores for a specific assessor
+      tags:
+        - Assessment Evaluation
+      operationId: getAssessmentEvaluationScoresByAssessor
+      parameters:
+        - name: assessor-email
+          in: path
+          required: true
+          schema:
+            type: string
+            format: email
+          description: Assessor email address
+      responses:
+        '200':
+          description: List of assessment evaluation scores for the assessor
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/AssessmentEvaluationScoreResponse'
+        '400':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/400InvalidRequest'
+        '401':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/401Unauthorized'
+        '403':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/403Forbidden'
+        '500':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/500InternalServerError'
+      security:
+        - OAuth2:
+            - buyer
+      summary: Get assessment evaluation scores by assessor
+
+  /tenders/assessment-evaluation-scores/project/{project-id}/event/{event-id}/question/{question-id}:
+    get:
+      description: Get all assessment evaluation scores for a specific question
+      tags:
+        - Assessment Evaluation
+      operationId: getAssessmentEvaluationScoresByQuestion
+      parameters:
+        - name: project-id
+          in: path
+          required: true
+          schema:
+            type: integer
+          description: Project ID
+        - name: event-id
+          in: path
+          required: true
+          schema:
+            type: integer
+          description: Event ID
+        - name: question-id
+          in: path
+          required: true
+          schema:
+            type: integer
+          description: Question ID
+      responses:
+        '200':
+          description: List of assessment evaluation scores for the question
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/AssessmentEvaluationScoreResponse'
+        '400':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/400InvalidRequest'
+        '401':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/401Unauthorized'
+        '403':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/403Forbidden'
+        '500':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/500InternalServerError'
+      security:
+        - OAuth2:
+            - buyer
+      summary: Get assessment evaluation scores by question
+
+  /tenders/assessment-evaluation-scores/project/{project-id}/event/{event-id}/question/{question-id}/assessor/{assessor-email}:
+    get:
+      description: Get a specific assessment evaluation score for a question by an assessor
+      tags:
+        - Assessment Evaluation
+      operationId: getAssessmentEvaluationScore
+      parameters:
+        - name: project-id
+          in: path
+          required: true
+          schema:
+            type: integer
+          description: Project ID
+        - name: event-id
+          in: path
+          required: true
+          schema:
+            type: integer
+          description: Event ID
+        - name: question-id
+          in: path
+          required: true
+          schema:
+            type: integer
+          description: Question ID
+        - name: assessor-email
+          in: path
+          required: true
+          schema:
+            type: string
+            format: email
+          description: Assessor email address
+      responses:
+        '200':
+          description: Assessment evaluation score found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AssessmentEvaluationScoreResponse'
+        '400':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/400InvalidRequest'
+        '401':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/401Unauthorized'
+        '403':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/403Forbidden'
+        '404':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/404NotFound'
+        '500':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/500InternalServerError'
+      security:
+        - OAuth2:
+            - buyer
+      summary: Get specific assessment evaluation score
       
   /tenders/projects/{proc-id}/events/{event-id}/scores/templates:
     parameters:
@@ -6408,6 +6617,118 @@ components:
             format: double
             minimum: 0
             maximum: 100
+
+    AssessmentEvaluationScoreRequest:
+      description: Request model for assessment evaluation score operations
+      type: object
+      required:
+        - project_id
+        - event_id
+        - framework_agreement
+        - lot
+        - question_id
+        - question_text
+        - assessor_email
+        - assessor_score
+      properties:
+        project_id:
+          description: Project ID
+          type: integer
+          example: 12345
+        event_id:
+          description: Event ID
+          type: integer
+          example: 483883
+        framework_agreement:
+          description: Framework Agreement identifier
+          type: string
+          maxLength: 10
+          example: "RM12345"
+        lot:
+          description: Lot identifier
+          type: string
+          maxLength: 10
+          example: "Lot1"
+        question_id:
+          description: Question ID
+          type: string
+          maxLength: 20
+          example: "Q-123"
+        question_text:
+          description: The full question text
+          type: string
+        assessor_email:
+          description: Assessor email address
+          type: string
+          maxLength: 100
+          format: email
+          example: "assessor@example.com"
+        assessor_score:
+          description: Score given by the assessor
+          type: integer
+          example: 25
+        assessor_comment:
+          description: Comment provided by the assessor
+          type: string
+          example: "Comment text"
+
+    AssessmentEvaluationScoreResponse:
+      description: Response model for assessment evaluation score operations
+      type: object
+      properties:
+        id:
+          description: Unique identifier for the assessment evaluation score
+          type: integer
+          example: 1
+        project_id:
+          description: Project ID
+          type: integer
+          example: 12345
+        event_id:
+          description: Event ID
+          type: integer
+          example: 483883
+        framework_agreement:
+          description: Framework Agreement identifier
+          type: string
+          maxLength: 10
+          example: "RM12345"
+        lot:
+          description: Lot identifier
+          type: string
+          maxLength: 10
+          example: "Lot1"
+        question_id:
+          description: Question ID
+          type: string
+          maxLength: 20
+          example: "Q-123"
+        question_text:
+          description: The full question text
+          type: string
+        assessor_email:
+          description: Assessor email address
+          type: string
+          maxLength: 100
+          format: email
+          example: "assessor@example.com"
+        assessor_score:
+          description: Score given by the assessor
+          type: integer
+          example: 25
+        assessor_comment:
+          description: Comment provided by the assessor
+          type: string
+        created_at:
+          description: Timestamp when the score was created
+          type: string
+          format: date-time
+          example: "2024-01-15T10:30:00Z"
+        updated_at:
+          description: Timestamp when the score was last updated
+          type: string
+          format: date-time
+          example: "2024-01-15T10:30:00Z"
             
     GCloudSupplierExport:
       type: string

@@ -5105,6 +5105,14 @@ components:
       properties:
           terminationType:
             $ref: '#/components/schemas/TerminationType'
+          cancellationReason:
+            type: string
+            description: "Reason for cancelling the event"
+            example: "Requirements changed"
+          cancellationReasonDetail:
+            type: string
+            description: "Detailed explanation for cancelling the event"
+            example: "The project requirements have significantly changed and we need to restart the procurement process"
       required:
         - terminationType    
         
@@ -5265,6 +5273,16 @@ components:
         lastUpdated:
           type: string
           format: date-time
+        cancellationReason:
+          type: string
+          description: "Reason for cancelling the event"
+          example: "Requirements changed"
+          nullable: true
+        cancellationReasonDetail:
+          type: string
+          description: "Detailed explanation for cancelling the event"
+          example: "The project requirements have significantly changed and we need to restart the procurement process"
+          nullable: true
 
     EventSummary:
       allOf:
@@ -5291,6 +5309,16 @@ components:
               $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OCDS_Standards/CCS-OCDS_Schema.yaml#/components/schemas/TenderStatus'
             tenderPeriod:
               $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OCDS_Standards/CCS-OCDS_Schema.yaml#/components/schemas/Period'
+            cancellationReason:
+              type: string
+              description: "Reason for cancelling the event"
+              example: "Requirements changed"
+              nullable: true
+            cancellationReasonDetail:
+              type: string
+              description: "Detailed explanation for cancelling the event"
+              example: "The project requirements have significantly changed and we need to restart the procurement process"
+              nullable: true
         - $ref: '#/components/schemas/NonOCDSEventSummary'
 
     EventDetailNonOCDS:

@@ -4809,16 +4809,6 @@ components:
         lotName:
           example: Packaged Software
           type: string
-        userRole:
-          title: User Role
-          description: The user's role in this project (e.g., Owner, Moderator, Assessor, Collaborator)
-          type: string
-          enum:
-            - Owner
-            - Moderator
-            - Assessor
-            - Collaborator
-          example: Assessor
         activeEvent:
           $ref: '#/components/schemas/EventSummary'
         links:

@@ -1,0 +1,417 @@
+openapi: 3.0.1
+
+info:
+  title: "SCALE Questions and Answers Service"
+  version: 0.0.1
+  description: >
+    API for storing and retrieving question data for events. This is a minimal
+    foundation spec intended to be generated into a Java Spring (Maven) service
+    and extended in future iterations.
+
+servers:
+  - description: Dev environment
+    url: https://dev.api.crowncommercial.gov.uk/questions-and-answers-service
+
+security:
+  - ApiKeyAuth: [ ]
+
+tags:
+  - name: Questions
+    description: Operations for managing questions for events
+
+paths:
+  /questions:
+    get:
+      tags:
+        - Questions
+      summary: Get questions for an event
+      description: >
+        Returns all questions stored for the supplied event, grouped into
+        criteria and question groups. If no questions exist for the event,
+        an empty criteriaGroups array is returned with HTTP 200.
+      operationId: get-questions-for-event
+      parameters:
+        - name: event-id
+          in: query
+          required: true
+          description: Event identifier for which to retrieve questions.
+          schema:
+            type: string
+            minLength: 1
+            maxLength: 64
+      responses:
+        '200':
+          description: Questions for the event, grouped into criteria and question groups.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EventQuestionsResponse'
+        '400':
+          $ref: '#/components/responses/400InvalidRequest'
+        '401':
+          $ref: '#/components/responses/401Unauthorized'
+        '403':
+          $ref: '#/components/responses/403Forbidden'
+        '500':
+          $ref: '#/components/responses/500InternalServerError'
+
+    post:
+      tags:
+        - Questions
+      summary: Add questions for an event
+      description: >
+        Adds questions for an event, agreement and lot.
+
+        If the request includes a non-empty questions array, those questions
+        are stored directly in the underlying database table.
+
+        If the questions array is omitted or empty, the service will use the
+        supplied eventId, agreementId and lotId to fetch question data from
+        another (external) service and then persist that data against the
+        same identifiers.
+
+        In both cases, the endpoint returns HTTP 200 on success.
+      operationId: add-questions
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AddQuestionsRequest'
+      responses:
+        '200':
+          description: Questions have been stored (either from request or external source).
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AddQuestionsResponse'
+        '400':
+          $ref: '#/components/responses/400InvalidRequest'
+        '401':
+          $ref: '#/components/responses/401Unauthorized'
+        '403':
+          $ref: '#/components/responses/403Forbidden'
+        '500':
+          $ref: '#/components/responses/500InternalServerError'
+
+  /questions/{question-id}:
+    delete:
+      tags:
+        - Questions
+      summary: Delete a single question for an event
+      description: >
+        Deletes a specific question row from the database by its ID and
+        associated event ID. Both identifiers must match an existing row.
+      operationId: delete-question
+      parameters:
+        - name: question-id
+          in: path
+          required: true
+          description: Auto-increment identifier for the question row.
+          schema:
+            type: integer
+            format: int64
+            minimum: 1
+        - name: event-id
+          in: query
+          required: true
+          description: Event identifier to which the question belongs.
+          schema:
+            type: string
+            minLength: 1
+            maxLength: 64
+      responses:
+        '200':
+          description: Question deletion outcome.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeleteQuestionResponse'
+        '400':
+          $ref: '#/components/responses/400InvalidRequest'
+        '401':
+          $ref: '#/components/responses/401Unauthorized'
+        '403':
+          $ref: '#/components/responses/403Forbidden'
+        '404':
+          $ref: '#/components/responses/404NotFound'
+        '500':
+          $ref: '#/components/responses/500InternalServerError'
+
+components:
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-API-KEY
+
+  responses:
+    400InvalidRequest:
+      description: The request was invalid or failed validation.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    401Unauthorized:
+      description: Missing or invalid API key.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    403Forbidden:
+      description: The client is authenticated but not authorised to perform this operation.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    404NotFound:
+      description: The requested resource could not be found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    500InternalServerError:
+      description: An unexpected error occurred in the service.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+
+  schemas:
+
+    # ---------- Core Question Models ----------
+
+    QuestionBase:
+      type: object
+      description: Common fields for a question row.
+      required:
+        - eventId
+        - agreementId
+        - lotId
+        - criteria
+        - groupNumber
+        - questionNumber
+        - questionText
+      properties:
+        eventId:
+          type: string
+          description: Event identifier this question belongs to.
+          example: "EVT-12345"
+        agreementId:
+          type: string
+          description: Agreement identifier associated with this question.
+          example: "RM1234"
+        lotId:
+          type: string
+          description: Lot identifier associated with this question.
+          example: "1a"
+        criteria:
+          type: string
+          description: Logical criteria grouping for the question.
+          example: "Technical"
+        groupNumber:
+          type: string
+          description: Question group number within the criteria.
+          example: "1"
+        questionNumber:
+          type: string
+          description: Question number within the group.
+          example: "1.2"
+        questionText:
+          type: string
+          description: Text of the question presented to the user.
+          example: "Describe your experience delivering similar services."
+
+    QuestionCreate:
+      allOf:
+        - $ref: '#/components/schemas/QuestionBase'
+      description: >
+        Question payload used when creating/storing questions. The database
+        auto-increment ID is not included here.
+
+    Question:
+      allOf:
+        - $ref: '#/components/schemas/QuestionBase'
+        - type: object
+          properties:
+            id:
+              type: integer
+              format: int64
+              description: Auto-increment primary key of the question row.
+              readOnly: true
+
+    # ---------- Grouped Response Model for GET ----------
+
+    QuestionGroup:
+      type: object
+      description: A logical group of questions within a single criteria.
+      required:
+        - groupNumber
+        - questions
+      properties:
+        groupNumber:
+          type: string
+          description: Question group number or identifier.
+          example: "1"
+        questions:
+          type: array
+          description: Questions that belong to this group.
+          items:
+            $ref: '#/components/schemas/Question'
+
+    CriteriaGroup:
+      type: object
+      description: A set of question groups for a specific criteria.
+      required:
+        - criteria
+        - questionGroups
+      properties:
+        criteria:
+          type: string
+          description: Criteria name or identifier.
+          example: "Technical"
+        questionGroups:
+          type: array
+          description: >
+            Question groups within this criteria. May be empty if there are
+            no questions for the criteria.
+          items:
+            $ref: '#/components/schemas/QuestionGroup'
+
+    EventQuestionsResponse:
+      type: object
+      description: >
+        Response model returned when fetching questions for a specific event.
+        Questions are grouped by criteria and question group. If there are no
+        questions for the event, criteriaGroups will be an empty array.
+      required:
+        - eventId
+        - criteriaGroups
+      properties:
+        eventId:
+          type: string
+          description: Event identifier used to query the questions.
+          example: "EVT-12345"
+        criteriaGroups:
+          type: array
+          items:
+            $ref: '#/components/schemas/CriteriaGroup'
+
+    # ---------- POST Request/Response Models ----------
+
+    AddQuestionsRequest:
+      type: object
+      description: >
+        Request model used to add questions for an event.
+
+        Validation rules:
+        - eventId, agreementId and lotId are mandatory.
+        - questions is optional. If omitted or empty, the service will fetch
+          questions from another service using the supplied identifiers.
+      required:
+        - eventId
+        - agreementId
+        - lotId
+      properties:
+        eventId:
+          type: string
+          description: Event identifier to store/fetch questions for.
+          example: "EVT-12345"
+        agreementId:
+          type: string
+          description: Agreement identifier associated with the event.
+          example: "RM1234"
+        lotId:
+          type: string
+          description: Lot identifier associated with the event.
+          example: "1a"
+        questions:
+          type: array
+          nullable: true
+          description: >
+            Optional set of questions to persist directly. If this is null,
+            omitted, or an empty array, the service will attempt to fetch
+            question data from an external service instead.
+          items:
+            $ref: '#/components/schemas/QuestionCreate'
+
+    AddQuestionsResponse:
+      type: object
+      description: >
+        Response model returned after questions have been added (from the
+        request body or fetched from an external service).
+      properties:
+        eventId:
+          type: string
+          description: Event identifier used when storing questions.
+          example: "EVT-12345"
+        agreementId:
+          type: string
+          description: Agreement identifier used when storing questions.
+          example: "RM1234"
+        lotId:
+          type: string
+          description: Lot identifier used when storing questions.
+          example: "1a"
+        createdCount:
+          type: integer
+          format: int32
+          description: Number of questions created/updated in the database.
+          example: 10
+        questions:
+          type: array
+          description: >
+            Questions as stored in the database (including IDs), if the
+            implementation chooses to return them.
+          items:
+            $ref: '#/components/schemas/Question'
+
+    # ---------- DELETE Response Model ----------
+
+    DeleteQuestionResponse:
+      type: object
+      description: Outcome of a delete operation for a single question.
+      properties:
+        id:
+          type: integer
+          format: int64
+          description: ID of the question that was requested to be deleted.
+          example: 42
+        eventId:
+          type: string
+          description: Event ID that the question was associated with.
+          example: "EVT-12345"
+        deleted:
+          type: boolean
+          description: >
+            Indicates whether a matching question row was found and deleted.
+          example: true
+
+    # ---------- Error Model ----------
+
+    ErrorResponse:
+      type: object
+      description: Standard error response payload.
+      properties:
+        timestamp:
+          type: string
+          format: date-time
+          description: Time at which the error was generated.
+        status:
+          type: integer
+          format: int32
+          description: HTTP status code.
+          example: 400
+        error:
+          type: string
+          description: Short error summary.
+          example: "Bad Request"
+        message:
+          type: string
+          description: Detailed error message suitable for logging or debugging.
+          example: "event-id must be provided and must not be blank."
+        path:
+          type: string
+          description: Request path that generated the error.
+          example: "/questions"
+

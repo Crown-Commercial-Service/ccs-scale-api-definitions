@@ -220,13 +220,13 @@ components:
           description: Whether or not the quetion needs to be answered by the user.
           example: true
         dependency:
-	  type: object
-	  description: This is the relationship the question shares for a multi-answer question. Linked to the multiAnswer boolean field in a preceding question in a group.
-	  additionalProperties: true
-	  example:
-	    relationships:
-	      - dependentOnID: "Question 1"
-		relationshipType: "MultiAnswerGroup"
+		  type: object
+		  description: This is the relationship the question shares for a multi-answer question. Linked to the multiAnswer boolean field in a preceding question in a group.
+		  additionalProperties: true
+		  example:
+		    relationships:
+		      dependentOnID: "Question 1"
+			  relationshipType: "MultiAnswerGroup"
         multiAnswer:
           type: boolean
           description: Whether or not the quetion is linked to another question and requires all parts answered.

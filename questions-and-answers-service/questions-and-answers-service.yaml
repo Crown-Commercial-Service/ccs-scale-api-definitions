@@ -20,32 +20,32 @@ tags:
     description: Operations for managing questions for events
 
 paths:
-  /questions:
+  /questions/{event-id}:
     get:
       tags:
         - Questions
       summary: Get questions for an event
       description: >
-        Returns all questions stored for the supplied event, grouped into
+        Returns all questions stored for the given event-id, grouped into
         criteria and question groups. If no questions exist for the event,
-        an empty criteriaGroups array is returned with HTTP 200.
-      operationId: get-questions-for-event
+        an empty array is returned with HTTP 200.
+      operationId: get-questions-for-event-id
       parameters:
         - name: event-id
-          in: query
+          in: path
           required: true
-          description: Event identifier for which to retrieve questions.
+          description: Event identifier used to retrieve questions.
           schema:
             type: string
             minLength: 1
             maxLength: 64
       responses:
         '200':
-          description: Questions for the event, grouped into criteria and question groups.
+          description: Questions for an event, grouped into criteria and question groups.
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/EventQuestionsResponse'
+                $ref: '#/components/schemas/QuestionRead'
         '400':
           $ref: '#/components/responses/400InvalidRequest'
         '401':
@@ -55,21 +55,19 @@ paths:
         '500':
           $ref: '#/components/responses/500InternalServerError'
 
+  /questions:
     post:
       tags:
         - Questions
       summary: Add questions for an event
       description: >
-        Adds questions for an event, agreement and lot.
-
+        Stores questions for an event, agreement and lot.
         If the request includes a non-empty questions array, those questions
         are stored directly in the underlying database table.
-
         If the questions array is omitted or empty, the service will use the
         supplied eventId, agreementId and lotId to fetch question data from
-        another (external) service and then persist that data against the
-        same identifiers.
-
+        agreements service and then store that legacy question data against the
+        same identifiers in our db, so all data is aligned.
         In both cases, the endpoint returns HTTP 200 on success.
       operationId: add-questions
       requestBody:
@@ -77,14 +75,14 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/AddQuestionsRequest'
+              $ref: '#/components/schemas/QuestionWrite'
       responses:
         '200':
-          description: Questions have been stored (either from request or external source).
+          description: Questions have been stored, either directly from the request or agreements service legacy questions.
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/AddQuestionsResponse'
+                $ref: '#/components/schemas/QuestionWriteResponse'
         '400':
           $ref: '#/components/responses/400InvalidRequest'
         '401':
@@ -94,32 +92,30 @@ paths:
         '500':
           $ref: '#/components/responses/500InternalServerError'
 
-  /questions/{question-id}:
+  /questions/{event-id}/question/{question-id}:
     delete:
       tags:
         - Questions
       summary: Delete a single question for an event
-      description: >
-        Deletes a specific question row from the database by its ID and
-        associated event ID. Both identifiers must match an existing row.
+      description: Deletes a specific question row from the database by its ID and associated event ID. Both identifiers must match an existing row.
       operationId: delete-question
       parameters:
-        - name: question-id
-          in: path
-          required: true
-          description: Auto-increment identifier for the question row.
-          schema:
-            type: integer
-            format: int64
-            minimum: 1
         - name: event-id
-          in: query
+          in: path
           required: true
           description: Event identifier to which the question belongs.
           schema:
             type: string
             minLength: 1
             maxLength: 64
+        - name: question-id
+          in: path
+          required: true
+          description: Identifier for the question row.
+          schema:
+            type: integer
+            format: int64
+            minimum: 1
       responses:
         '200':
           description: Question deletion outcome.
@@ -179,212 +175,208 @@ components:
 
   schemas:
 
-    # ---------- Core Question Models ----------
+    # ---------- Core Models ----------
 
-    QuestionBase:
+    Question:
       type: object
       description: Common fields for a question row.
       required:
-        - eventId
-        - agreementId
-        - lotId
-        - criteria
-        - groupNumber
-        - questionNumber
-        - questionText
+        - questionId
+        - title
+        - dataType
+        - order
+        - answered
+        - mandatory
+        - multiAnswer
+        - questionType
+        - isLegacyQuestion
+      properties:
+        questionId:
+          type: string
+          description: String for the question number. Called Id in Agreements Service.
+          example: "Question 2"
+        title:
+          type: string
+          description: Title of the question presented to the user.
+          example: "Enter a weighting for this skill or experience in whole numbers, for example 30"
+        description:
+          type: string
+          description: Optional. Description of the question presented to the user.
+          example: "Add another skill or experience"
+        dataType:
+          type: string
+          description: Required data type of the answer to the the question that a user must provide.
+          example: "number"
+        order:
+          type: number
+          description: Question number/order within the group.
+          example: 2
+        answered:
+          type: boolean
+          description: Whether or not the quetion has been answered by the user. Default is false.
+          example: false
+        mandatory:
+          type: boolean
+          description: Whether or not the quetion needs to be answered by the user.
+          example: true
+        dependency:
+	  type: object
+	  description: This is the relationship the question shares for a multi-answer question. Linked to the multiAnswer boolean field in a preceding question in a group.
+	  additionalProperties: true
+	  example:
+	    relationships:
+	      - dependentOnID: "Question 1"
+		relationshipType: "MultiAnswerGroup"
+        multiAnswer:
+          type: boolean
+          description: Whether or not the quetion is linked to another question and requires all parts answered.
+          example: true
+        questionType:
+          type: string
+          description: The type of question that is being asked to the user.
+          example: "Percentage"
+        isLegacyQuestion:
+          type: boolean
+          description: Whether or not this is a user created question or a legacy question taken from the agreement service json data templates.
+          example: true
+
+    QuestionGroup:
+      type: object
+      description: A group of questions within a single criterion.
+      required:
+        - groupId
+        - task
+        - order
+        - mandatory
+        - requirements
+      properties:
+        groupId:
+          type: string
+          description: String for the group number. Called Id in Agreements Service.
+          example: "Group 5"
+        description:
+          type: string
+          description: Optional. Description of the group presented to the user.
+          example: "Essential skills and experience"
+        task:
+          type: string
+          description: The task that this group of questions covers.
+          example: "Essential skills and experience"
+        order:
+          type: number
+          description: Group number/order within the criterion.
+          example: 5
+        prompt:
+          type: string
+          description: The prompt for this group of questions, which provides additional guidance.
+          example: "<p>These are the skills and experience that suppliers must have in order to do the work you need. Suppliers who do not meet one or more of your essential criteria can be excluded at the shortlisting stage.<br><br>Add up to 20 questions.</p>"
+        mandatory:
+          type: boolean
+          description: Whether or not this group of questions needs to be answered by the user.
+          example: true
+        requirements:
+          type: array
+          description: Questions that belong to this group, with their internal id included.
+          items:
+            $ref: '#/components/schemas/Question'
+
+    Criterion:
+      type: object
+      description: A set of question groups (criterion) for a specific criteria.
+      required:
+        - criteriaId
+        - title
+        - requirementGroups
+      properties:
+        criteriaId:
+          type: string
+          description: String for the criterion number. Called Id in Agreements Service.
+          example: "Criterion 2"
+        title:
+          type: string
+          description: Optional. Description of the criteria presented to the user.
+          example: "How to bid including evaluation criteria."
+        requirementGroups:
+          type: array
+          description: Question groups within this criterion. May be empty if there are no questions for the criteria.
+          items:
+            $ref: '#/components/schemas/QuestionGroup'
+
+    QuestionQueryData:
+      type: object
+      description: Full question data set, along with custom params/fields.
+      required:
+        - criterion
       properties:
         eventId:
           type: string
           description: Event identifier this question belongs to.
-          example: "EVT-12345"
+          example: "ocds-abcd1e-23456"
         agreementId:
           type: string
           description: Agreement identifier associated with this question.
-          example: "RM1234"
+          example: "RM1234.56"
         lotId:
           type: string
           description: Lot identifier associated with this question.
-          example: "1a"
-        criteria:
-          type: string
-          description: Logical criteria grouping for the question.
-          example: "Technical"
-        groupNumber:
-          type: string
-          description: Question group number within the criteria.
           example: "1"
-        questionNumber:
-          type: string
-          description: Question number within the group.
-          example: "1.2"
-        questionText:
-          type: string
-          description: Text of the question presented to the user.
-          example: "Describe your experience delivering similar services."
+        criterion:
+          type: array
+          description: Question groups within this criterion. May be empty if there are no questions for the criteria.
+          items:
+            $ref: '#/components/schemas/Criterion'
 
-    QuestionCreate:
-      allOf:
-        - $ref: '#/components/schemas/QuestionBase'
-      description: >
-        Question payload used when creating/storing questions. The database
-        auto-increment ID is not included here.
+    # ---------- Models for Requests ----------
 
-    Question:
+    QuestionRead:
       allOf:
-        - $ref: '#/components/schemas/QuestionBase'
+        - $ref: '#/components/schemas/QuestionQueryData'
         - type: object
-          properties:
-            id:
-              type: integer
-              format: int64
-              description: Auto-increment primary key of the question row.
-              readOnly: true
+      description: Question payload used when reading questions.
 
-    # ---------- Grouped Response Model for GET ----------
+    QuestionWrite:
+      allOf:
+        - $ref: '#/components/schemas/QuestionQueryData'
+      description: Question payload used when creating/storing questions.
 
-    QuestionGroup:
+    QuestionWriteResponse:
       type: object
-      description: A logical group of questions within a single criteria.
-      required:
-        - groupNumber
-        - questions
+      description: Response model returned after questions have been added (from the request body or fetched from an external service).
       properties:
-        groupNumber:
-          type: string
-          description: Question group number or identifier.
-          example: "1"
-        questions:
-          type: array
-          description: Questions that belong to this group.
-          items:
-            $ref: '#/components/schemas/Question'
-
-    CriteriaGroup:
-      type: object
-      description: A set of question groups for a specific criteria.
-      required:
-        - criteria
-        - questionGroups
-      properties:
-        criteria:
-          type: string
-          description: Criteria name or identifier.
-          example: "Technical"
-        questionGroups:
-          type: array
-          description: >
-            Question groups within this criteria. May be empty if there are
-            no questions for the criteria.
-          items:
-            $ref: '#/components/schemas/QuestionGroup'
-
-    EventQuestionsResponse:
-      type: object
-      description: >
-        Response model returned when fetching questions for a specific event.
-        Questions are grouped by criteria and question group. If there are no
-        questions for the event, criteriaGroups will be an empty array.
-      required:
-        - eventId
-        - criteriaGroups
-      properties:
-        eventId:
-          type: string
-          description: Event identifier used to query the questions.
-          example: "EVT-12345"
-        criteriaGroups:
-          type: array
-          items:
-            $ref: '#/components/schemas/CriteriaGroup'
-
-    # ---------- POST Request/Response Models ----------
-
-    AddQuestionsRequest:
-      type: object
-      description: >
-        Request model used to add questions for an event.
-
-        Validation rules:
-        - eventId, agreementId and lotId are mandatory.
-        - questions is optional. If omitted or empty, the service will fetch
-          questions from another service using the supplied identifiers.
-      required:
-        - eventId
-        - agreementId
-        - lotId
-      properties:
-        eventId:
-          type: string
-          description: Event identifier to store/fetch questions for.
-          example: "EVT-12345"
-        agreementId:
-          type: string
-          description: Agreement identifier associated with the event.
-          example: "RM1234"
-        lotId:
-          type: string
-          description: Lot identifier associated with the event.
-          example: "1a"
-        questions:
-          type: array
-          nullable: true
-          description: >
-            Optional set of questions to persist directly. If this is null,
-            omitted, or an empty array, the service will attempt to fetch
-            question data from an external service instead.
-          items:
-            $ref: '#/components/schemas/QuestionCreate'
-
-    AddQuestionsResponse:
-      type: object
-      description: >
-        Response model returned after questions have been added (from the
-        request body or fetched from an external service).
-      properties:
+        id:
+	  type: integer
+      	  format: int64
+      	  description: Internal ID of a single question. Auto-increment primary key of the individual question row in DB table.
+      	  readOnly: true
         eventId:
           type: string
           description: Event identifier used when storing questions.
-          example: "EVT-12345"
+          example: "ocds-abcd1e-23456"
         agreementId:
           type: string
           description: Agreement identifier used when storing questions.
-          example: "RM1234"
+          example: "RM1234.56"
         lotId:
           type: string
           description: Lot identifier used when storing questions.
-          example: "1a"
-        createdCount:
-          type: integer
-          format: int32
-          description: Number of questions created/updated in the database.
-          example: 10
-        questions:
-          type: array
-          description: >
-            Questions as stored in the database (including IDs), if the
-            implementation chooses to return them.
-          items:
-            $ref: '#/components/schemas/Question'
-
-    # ---------- DELETE Response Model ----------
+          example: "1"
 
     DeleteQuestionResponse:
       type: object
-      description: Outcome of a delete operation for a single question.
+      description: Response of a delete operation for a single question.
       properties:
         id:
           type: integer
           format: int64
-          description: ID of the question that was requested to be deleted.
-          example: 42
+          description: Internal ID of the single question that was requested to be deleted.
+          example: 1
         eventId:
           type: string
           description: Event ID that the question was associated with.
-          example: "EVT-12345"
+          example: "ocds-abcd1e-23456"
         deleted:
           type: boolean
-          description: >
-            Indicates whether a matching question row was found and deleted.
+          description: Indicates whether a matching question row was found and deleted.
           example: true
 
     # ---------- Error Model ----------
@@ -414,4 +406,3 @@ components:
           type: string
           description: Request path that generated the error.
           example: "/questions"
-

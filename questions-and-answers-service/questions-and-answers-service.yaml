@@ -1,0 +1,408 @@
+openapi: 3.0.1
+
+info:
+  title: "SCALE Questions and Answers Service"
+  version: 0.0.1
+  description: >
+    API for storing and retrieving question data for events. This is a minimal
+    foundation spec intended to be generated into a Java Spring (Maven) service
+    and extended in future iterations.
+
+servers:
+  - description: Dev environment
+    url: https://dev.api.crowncommercial.gov.uk/questions-and-answers-service
+
+security:
+  - ApiKeyAuth: [ ]
+
+tags:
+  - name: Questions
+    description: Operations for managing questions for events
+
+paths:
+  /questions/{event-id}:
+    get:
+      tags:
+        - Questions
+      summary: Get questions for an event
+      description: >
+        Returns all questions stored for the given event-id, grouped into
+        criteria and question groups. If no questions exist for the event,
+        an empty array is returned with HTTP 200.
+      operationId: get-questions-for-event-id
+      parameters:
+        - name: event-id
+          in: path
+          required: true
+          description: Event identifier used to retrieve questions.
+          schema:
+            type: string
+            minLength: 1
+            maxLength: 64
+      responses:
+        '200':
+          description: Questions for an event, grouped into criteria and question groups.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/QuestionRead'
+        '400':
+          $ref: '#/components/responses/400InvalidRequest'
+        '401':
+          $ref: '#/components/responses/401Unauthorized'
+        '403':
+          $ref: '#/components/responses/403Forbidden'
+        '500':
+          $ref: '#/components/responses/500InternalServerError'
+
+  /questions:
+    post:
+      tags:
+        - Questions
+      summary: Add questions for an event
+      description: >
+        Stores questions for an event, agreement and lot.
+        If the request includes a non-empty questions array, those questions
+        are stored directly in the underlying database table.
+        If the questions array is omitted or empty, the service will use the
+        supplied eventId, agreementId and lotId to fetch question data from
+        agreements service and then store that legacy question data against the
+        same identifiers in our db, so all data is aligned.
+        In both cases, the endpoint returns HTTP 200 on success.
+      operationId: add-questions
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/QuestionWrite'
+      responses:
+        '200':
+          description: Questions have been stored, either directly from the request or agreements service legacy questions.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/QuestionWriteResponse'
+        '400':
+          $ref: '#/components/responses/400InvalidRequest'
+        '401':
+          $ref: '#/components/responses/401Unauthorized'
+        '403':
+          $ref: '#/components/responses/403Forbidden'
+        '500':
+          $ref: '#/components/responses/500InternalServerError'
+
+  /questions/{event-id}/question/{question-id}:
+    delete:
+      tags:
+        - Questions
+      summary: Delete a single question for an event
+      description: Deletes a specific question row from the database by its ID and associated event ID. Both identifiers must match an existing row.
+      operationId: delete-question
+      parameters:
+        - name: event-id
+          in: path
+          required: true
+          description: Event identifier to which the question belongs.
+          schema:
+            type: string
+            minLength: 1
+            maxLength: 64
+        - name: question-id
+          in: path
+          required: true
+          description: Identifier for the question row.
+          schema:
+            type: integer
+            format: int64
+            minimum: 1
+      responses:
+        '200':
+          description: Question deletion outcome.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeleteQuestionResponse'
+        '400':
+          $ref: '#/components/responses/400InvalidRequest'
+        '401':
+          $ref: '#/components/responses/401Unauthorized'
+        '403':
+          $ref: '#/components/responses/403Forbidden'
+        '404':
+          $ref: '#/components/responses/404NotFound'
+        '500':
+          $ref: '#/components/responses/500InternalServerError'
+
+components:
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-API-KEY
+
+  responses:
+    400InvalidRequest:
+      description: The request was invalid or failed validation.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    401Unauthorized:
+      description: Missing or invalid API key.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    403Forbidden:
+      description: The client is authenticated but not authorised to perform this operation.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    404NotFound:
+      description: The requested resource could not be found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    500InternalServerError:
+      description: An unexpected error occurred in the service.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+
+  schemas:
+
+    # ---------- Core Models ----------
+
+    Question:
+      type: object
+      description: Common fields for a question row.
+      required:
+        - questionId
+        - title
+        - dataType
+        - order
+        - answered
+        - mandatory
+        - multiAnswer
+        - questionType
+        - isLegacyQuestion
+      properties:
+        questionId:
+          type: string
+          description: String for the question number. Called Id in Agreements Service.
+          example: "Question 2"
+        title:
+          type: string
+          description: Title of the question presented to the user.
+          example: "Enter a weighting for this skill or experience in whole numbers, for example 30"
+        description:
+          type: string
+          description: Optional. Description of the question presented to the user.
+          example: "Add another skill or experience"
+        dataType:
+          type: string
+          description: Required data type of the answer to the the question that a user must provide.
+          example: "number"
+        order:
+          type: number
+          description: Question number/order within the group.
+          example: 2
+        answered:
+          type: boolean
+          description: Whether or not the quetion has been answered by the user. Default is false.
+          example: false
+        mandatory:
+          type: boolean
+          description: Whether or not the quetion needs to be answered by the user.
+          example: true
+        dependency:
+		  type: object
+		  description: This is the relationship the question shares for a multi-answer question. Linked to the multiAnswer boolean field in a preceding question in a group.
+		  additionalProperties: true
+		  example:
+		    relationships:
+		      dependentOnID: "Question 1"
+			  relationshipType: "MultiAnswerGroup"
+        multiAnswer:
+          type: boolean
+          description: Whether or not the quetion is linked to another question and requires all parts answered.
+          example: true
+        questionType:
+          type: string
+          description: The type of question that is being asked to the user.
+          example: "Percentage"
+        isLegacyQuestion:
+          type: boolean
+          description: Whether or not this is a user created question or a legacy question taken from the agreement service json data templates.
+          example: true
+
+    QuestionGroup:
+      type: object
+      description: A group of questions within a single criterion.
+      required:
+        - groupId
+        - task
+        - order
+        - mandatory
+        - requirements
+      properties:
+        groupId:
+          type: string
+          description: String for the group number. Called Id in Agreements Service.
+          example: "Group 5"
+        description:
+          type: string
+          description: Optional. Description of the group presented to the user.
+          example: "Essential skills and experience"
+        task:
+          type: string
+          description: The task that this group of questions covers.
+          example: "Essential skills and experience"
+        order:
+          type: number
+          description: Group number/order within the criterion.
+          example: 5
+        prompt:
+          type: string
+          description: The prompt for this group of questions, which provides additional guidance.
+          example: "<p>These are the skills and experience that suppliers must have in order to do the work you need. Suppliers who do not meet one or more of your essential criteria can be excluded at the shortlisting stage.<br><br>Add up to 20 questions.</p>"
+        mandatory:
+          type: boolean
+          description: Whether or not this group of questions needs to be answered by the user.
+          example: true
+        requirements:
+          type: array
+          description: Questions that belong to this group, with their internal id included.
+          items:
+            $ref: '#/components/schemas/Question'
+
+    Criterion:
+      type: object
+      description: A set of question groups (criterion) for a specific criteria.
+      required:
+        - criteriaId
+        - title
+        - requirementGroups
+      properties:
+        criteriaId:
+          type: string
+          description: String for the criterion number. Called Id in Agreements Service.
+          example: "Criterion 2"
+        title:
+          type: string
+          description: Optional. Description of the criteria presented to the user.
+          example: "How to bid including evaluation criteria."
+        requirementGroups:
+          type: array
+          description: Question groups within this criterion. May be empty if there are no questions for the criteria.
+          items:
+            $ref: '#/components/schemas/QuestionGroup'
+
+    QuestionQueryData:
+      type: object
+      description: Full question data set, along with custom params/fields.
+      required:
+        - criterion
+      properties:
+        eventId:
+          type: string
+          description: Event identifier this question belongs to.
+          example: "ocds-abcd1e-23456"
+        agreementId:
+          type: string
+          description: Agreement identifier associated with this question.
+          example: "RM1234.56"
+        lotId:
+          type: string
+          description: Lot identifier associated with this question.
+          example: "1"
+        criterion:
+          type: array
+          description: Question groups within this criterion. May be empty if there are no questions for the criteria.
+          items:
+            $ref: '#/components/schemas/Criterion'
+
+    # ---------- Models for Requests ----------
+
+    QuestionRead:
+      allOf:
+        - $ref: '#/components/schemas/QuestionQueryData'
+        - type: object
+      description: Question payload used when reading questions.
+
+    QuestionWrite:
+      allOf:
+        - $ref: '#/components/schemas/QuestionQueryData'
+      description: Question payload used when creating/storing questions.
+
+    QuestionWriteResponse:
+      type: object
+      description: Response model returned after questions have been added (from the request body or fetched from an external service).
+      properties:
+        id:
+	  type: integer
+      	  format: int64
+      	  description: Internal ID of a single question. Auto-increment primary key of the individual question row in DB table.
+      	  readOnly: true
+        eventId:
+          type: string
+          description: Event identifier used when storing questions.
+          example: "ocds-abcd1e-23456"
+        agreementId:
+          type: string
+          description: Agreement identifier used when storing questions.
+          example: "RM1234.56"
+        lotId:
+          type: string
+          description: Lot identifier used when storing questions.
+          example: "1"
+
+    DeleteQuestionResponse:
+      type: object
+      description: Response of a delete operation for a single question.
+      properties:
+        id:
+          type: integer
+          format: int64
+          description: Internal ID of the single question that was requested to be deleted.
+          example: 1
+        eventId:
+          type: string
+          description: Event ID that the question was associated with.
+          example: "ocds-abcd1e-23456"
+        deleted:
+          type: boolean
+          description: Indicates whether a matching question row was found and deleted.
+          example: true
+
+    # ---------- Error Model ----------
+
+    ErrorResponse:
+      type: object
+      description: Standard error response payload.
+      properties:
+        timestamp:
+          type: string
+          format: date-time
+          description: Time at which the error was generated.
+        status:
+          type: integer
+          format: int32
+          description: HTTP status code.
+          example: 400
+        error:
+          type: string
+          description: Short error summary.
+          example: "Bad Request"
+        message:
+          type: string
+          description: Detailed error message suitable for logging or debugging.
+          example: "event-id must be provided and must not be blank."
+        path:
+          type: string
+          description: Request path that generated the error.
+          example: "/questions"

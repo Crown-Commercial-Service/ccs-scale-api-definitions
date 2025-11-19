@@ -235,9 +235,9 @@ components:
           type: string
           description: The type of question that is being asked to the user.
           example: "Percentage"
-        isLegacyQuestion:
+        isDefaultQuestion:
           type: boolean
-          description: Whether or not this is a user created question or a legacy question taken from the agreement service json data templates.
+          description: Whether or not this is a user created question or a default question taken from the agreement service json data templates.
           example: true
 
     QuestionGroup:

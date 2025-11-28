@@ -4910,6 +4910,8 @@ components:
           * DA  - Direct Award
           * FC  - Further Competition
           * SAS - Search and Save
+          * MS1 - Multi-Stage Further Competition
+          * MSR - Multi-Stage Further Competition Assessment
       type: string
       enum:
           - EOI
@@ -4920,6 +4922,8 @@ components:
           - FCA
           - DAA
           - SAS
+          - MS1
+          - MSR
           
     ViewEventType:
       description: |
@@ -4934,6 +4938,8 @@ components:
           * DA  - Direct Award
           * FC  - Further Competition
           * SAS - Search and Save
+          * MS1 - Multi-Stage Further Competition
+          * MSR - Multi-Stage Further Competition Assessment
           * TBD - To Be Determined
           
         Note - TBD is not a real event type and must be defined before going to market.
@@ -4947,6 +4953,8 @@ components:
           - FCA
           - DAA
           - SAS   
+          - MS1
+          - MSR
           - TBD
     
     EventType:

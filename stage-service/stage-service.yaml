@@ -49,7 +49,6 @@ paths:
       summary: Get stages for an event
       description:
         Returns all stages stored for the given event-id.
-        If no stages exist for the event, HTTP 404 is returned.
       operationId: get-stages-for-event-id
       parameters:
         - name: event-id
@@ -132,12 +131,6 @@ components:
             $ref: '#/components/schemas/ErrorResponse'
     403Forbidden:
       description: The client is authenticated but not authorised to perform this operation.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-    404NotFound:
-      description: The requested resource could not be found.
       content:
         application/json:
           schema:

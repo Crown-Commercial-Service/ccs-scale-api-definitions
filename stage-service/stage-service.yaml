@@ -1,0 +1,240 @@
+openapi: 3.0.1
+
+info:
+  title: "SCALE Stage Service"
+  version: 0.0.1
+  description: >
+    API for storing and retrieving stage data for events. This is a minimal
+    foundation spec intended to be generated into a Java Spring (Maven) service
+    and extended in future iterations.
+
+servers:
+  - description: Dev environment
+    url: https://dev.api.crowncommercial.gov.uk/stage-service
+
+security:
+  - ApiKeyAuth: [ ]
+
+tags:
+  - name: Stages
+    description: Operations for managing stages for events
+
+paths:
+  /stages/types:
+    get:
+      tags:
+        - Stages
+      summary: Get all stages
+      description: >
+        Returns all defined stages.
+      operationId: get-stages
+      responses:
+        '200':
+          description: All defined stages.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StageTypesRead'
+        '401':
+          $ref: '#/components/responses/401Unauthorized'
+        '403':
+          $ref: '#/components/responses/403Forbidden'
+        '500':
+          $ref: '#/components/responses/500InternalServerError'
+
+  /stages/event/{event-id}:
+    get:
+      tags:
+        - Stages
+      summary: Get stages for an event
+      description:
+        Returns all stages stored for the given event-id.
+        If no stages exist for the event, HTTP 404 is returned.
+      operationId: get-stages-for-event-id
+      parameters:
+        - name: event-id
+          in: path
+          required: true
+          description: Event identifier used to retrieve stages.
+          schema:
+            type: string
+            minLength: 1
+            maxLength: 64
+      responses:
+        '200':
+          description: Stages for an event.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StagesRead'
+        '400':
+          $ref: '#/components/responses/400InvalidRequest'
+        '401':
+          $ref: '#/components/responses/401Unauthorized'
+        '403':
+          $ref: '#/components/responses/403Forbidden'
+        '500':
+          $ref: '#/components/responses/500InternalServerError'
+
+  /stages/event/{event-id2}:
+    post:
+      tags:
+        - Stages
+      summary: Stores the list of stages for an event
+      description: Creates or updates the given list of stages in the database with the associated event ID.
+      operationId: create-or-update-stages
+      parameters:
+        - name: event-id2
+          in: path
+          required: true
+          description: Event identifier against which the stages will be stored.
+          schema:
+            type: string
+            minLength: 1
+            maxLength: 64
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/StagesWrite'
+      responses:
+        '200':
+          description: Stage data has been successfully persisted.
+        '400':
+          $ref: '#/components/responses/400InvalidRequest'
+        '401':
+          $ref: '#/components/responses/401Unauthorized'
+        '403':
+          $ref: '#/components/responses/403Forbidden'
+        '500':
+          $ref: '#/components/responses/500InternalServerError'
+
+components:
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-API-KEY
+
+  responses:
+    400InvalidRequest:
+      description: The request was invalid or failed validation.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    401Unauthorized:
+      description: Missing or invalid API key.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    403Forbidden:
+      description: The client is authenticated but not authorised to perform this operation.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    404NotFound:
+      description: The requested resource could not be found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    500InternalServerError:
+      description: An unexpected error occurred in the service.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+
+  schemas:
+
+    # ---------- Models for Requests ----------
+
+    StageTypesRead:
+      type: object
+      description: Response model holding the list of defined stage type tuples.
+      properties:
+        stageTypes:
+          type: list
+          description: Stage type tuples, with their internal ids included.
+          items:
+            $ref: '#/components/schemas/StageType'
+
+    StageType:
+      type: object
+      description: Response model tuple holding a stage type and its corresponding internal id.
+      properties:
+        id:
+          type: integer
+          format: int64
+          description: Internal ID of a single stage type. Auto-increment primary key of the individual stage type row in DB table.
+        stageType:
+          type: string
+          description: The text corresponding to a stage type.
+
+    StagesRead:
+      type: object
+      description: Response model holding the list of internal ids for the stages defined for a given eventId.
+      properties:
+        eventId:
+          type: string
+          minLength: 1
+          maxLength: 64
+        numberOfStages:
+          type: integer
+          format: int
+        stages:
+          type: list
+          description: The internal ids of the stages defined for the given eventId.
+          items:
+            $ref: '#/components/schemas/Stages'
+
+    StagesWrite:
+      type: object
+      description: Request model holding the list of stages for a given eventId.
+      properties:
+        stages:
+          type: list
+          description: The internal ids of the stages for a given eventId.
+          items:
+            $ref: '#/components/schemas/Stages'
+
+    Stages:
+      type: object
+      description: Model holding the internal ids of the stages for an eventId.
+      properties:
+        id:
+          type: integer
+          format: int64
+          description: Internal ID of a single stage.
+
+    # ---------- Error Model ----------
+
+    ErrorResponse:
+      type: object
+      description: Standard error response payload.
+      properties:
+        timestamp:
+          type: string
+          format: date-time
+          description: Time at which the error was generated.
+        status:
+          type: integer
+          format: int32
+          description: HTTP status code.
+          example: 400
+        error:
+          type: string
+          description: Short error summary.
+          example: "Bad Request"
+        message:
+          type: string
+          description: Detailed error message suitable for logging or debugging.
+          example: "event-id must be provided and must not be blank."
+        path:
+          type: string
+          description: Request path that generated the error.
+          example: "/stages"

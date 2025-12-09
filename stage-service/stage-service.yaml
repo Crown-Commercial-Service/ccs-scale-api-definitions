@@ -25,7 +25,7 @@ paths:
       tags:
         - Stages
       summary: Get all stages
-      description: >
+      description:
         Returns all defined stages.
       operationId: get-stages
       responses:

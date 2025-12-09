@@ -3,7 +3,7 @@ openapi: 3.0.1
 info:
   title: "SCALE Stage Service"
   version: 0.0.1
-  description: >
+  description:
     API for storing and retrieving stage data for events. This is a minimal
     foundation spec intended to be generated into a Java Spring (Maven) service
     and extended in future iterations.

@@ -5026,6 +5026,7 @@ components:
         - PRE-AWARD
         - COMPLETE
         - CLOSED
+        - EXITED
         - UNKNOWN
       example: IN-PROGRESS
     
@@ -5075,6 +5076,27 @@ components:
           type: string
           description: "Detailed explanation for cancelling the event"
           example: "The project requirements have significantly changed and we need to restart the procurement process"
+          nullable: true
+        buyerExited:
+          type: boolean
+          description: "Flag indicating if the buyer has exited the procurement process"
+          nullable: true
+        supplierAwarded:
+          type: string
+          description: "Name of the supplier awarded the contract (for exited events)"
+          nullable: true
+        contractStartDate:
+          type: string
+          format: date-time
+          description: "Contract start date (for exited events)"
+          nullable: true
+        contractValue:
+          type: string
+          description: "Contract value (for exited events)"
+          nullable: true
+        awardUrl:
+          type: string
+          description: "URL to the award notice (UK6 notice) for exited events"
           nullable: true
 
     EventSummary:

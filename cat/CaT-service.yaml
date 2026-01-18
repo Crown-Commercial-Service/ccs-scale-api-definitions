@@ -4187,8 +4187,67 @@ paths:
           $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/502BadGateway'
       summary: Get project details for public
 
+  /tenders/projects/{proc-id}/events/{event-id}/question-groups:
+    parameters:
+      - $ref: '#/components/parameters/ProcurementParam'
+      - $ref: '#/components/parameters/EventParam'
 
- 
+    get:
+      summary: Returns the question groups for the given event id
+      description: Gets the list of question groups in the database with the associated event ID.
+      tags:
+        - Manage Procurement Project
+        - question groups
+      operationId: get-question-groups
+      responses:
+        '200':
+          description: ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/QuestionGroupNamesRead'
+        '401':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/401Unauthorized'
+        '403':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/403Forbidden'
+        '404':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/404NotFound'
+        '409':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/409Conflict'
+        '500':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/500InternalServerError'
+      security:
+        - OAuth2:
+          - buyer
+
+    post:
+      summary: Stores the question groups for the given event id
+      description: Creates or updates the given list of question groups in the database with the associated event ID.
+      tags:
+        - Manage Procurement Project
+        - question groups
+      operationId: create-or-update-question-groups
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/QuestionGroupNamesWrite'
+      responses:
+        '200':
+          description: Stage data has been successfully persisted.
+        '400':
+          $ref: '#/components/responses/400InvalidRequest'
+        '401':
+          $ref: '#/components/responses/401Unauthorized'
+        '403':
+          $ref: '#/components/responses/403Forbidden'
+        '500':
+          $ref: '#/components/responses/500InternalServerError'
+      security:
+        - OAuth2:
+          - buyer
+
 components:
 
   parameters:
@@ -6741,10 +6800,10 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/ProjectFilterOption'
-        
+
     ProjectFilterOption:
       type: object
-      properties:      
+      properties:
         id:
           type: integer
           description: ID for the option
@@ -6756,8 +6815,27 @@ components:
           description: Indicates if option isselected in the request
         count:
           type: integer
-          description: optional- count of projects for the filtered value          
-  
+          description: optional- count of projects for the filtered value
+
+    QuestionGroupNamesRead:
+      type: object
+      description: Response model holding the list of question groups.
+      properties:
+        questionGroups:
+          type: list
+          description: The question groups for a given eventId.
+          items:
+            type: string
+
+    QuestionGroupNamesWrite:
+      type: object
+      description: Request model holding the list of question groups.
+      properties:
+        questionGroups:
+          type: list
+          description: The question groups for a given eventId.
+          items:
+            type: string
 
   securitySchemes:
     openID:

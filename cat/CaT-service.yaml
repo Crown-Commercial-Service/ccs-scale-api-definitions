@@ -6821,6 +6821,11 @@ components:
       type: object
       description: Response model holding the list of question groups.
       properties:
+        qaIds:
+          type: list
+          description: The QandA id index values from the DB.
+          items:
+            type: string
         questionGroups:
           type: list
           description: The question groups for a given eventId.
@@ -6831,9 +6836,14 @@ components:
       type: object
       description: Request model holding the list of question groups.
       properties:
+        qaIds:
+          type: list
+          description: The existing QandA id index values from the DB (to be deleted).
+          items:
+            type: integer
         questionGroups:
           type: list
-          description: The question groups for a given eventId.
+          description: The new question groups to be stored for a given eventId.
           items:
             type: string
 

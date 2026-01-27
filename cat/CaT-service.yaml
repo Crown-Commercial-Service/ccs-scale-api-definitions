@@ -4187,10 +4187,73 @@ paths:
           $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/502BadGateway'
       summary: Get project details for public
 
-  /tenders/projects/{proc-id}/events/{event-id}/question-groups:
+  /tenders/projects/{proc-id}/events/{event-id}/{group-type}/use-question-groups:
     parameters:
       - $ref: '#/components/parameters/ProcurementParam'
       - $ref: '#/components/parameters/EventParam'
+      - $ref: '#/components/parameters/GroupTypeParam'
+
+    get:
+      summary: Returns the 'use question groups' flag' for the given event id
+      description: Returns the flag from the database which controls the use of question groups with the associated event ID.
+      tags:
+        - Manage Procurement Project
+        - question groups
+      operationId: use-question-groups
+      responses:
+        '200':
+          description: ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/QuestionGroupNamesRead'
+        '401':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/401Unauthorized'
+        '403':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/403Forbidden'
+        '404':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/404NotFound'
+        '409':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/409Conflict'
+        '500':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/500InternalServerError'
+      security:
+        - OAuth2:
+          - buyer
+
+    post:
+      summary: Stores the use of question groups flag for the given event id
+      description: Creates or updates the flag controlling the use of question groups in the database with the associated event ID.
+      tags:
+        - Manage Procurement Project
+        - question groups
+      operationId: create-or-update-use-question-groups
+      requestBody:
+         required: true
+         content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/QuestionGroupNamesWrite'
+      responses:
+        '200':
+          description: Question groups flag has been successfully persisted.
+        '400':
+          $ref: '#/components/responses/400InvalidRequest'
+        '401':
+          $ref: '#/components/responses/401Unauthorized'
+        '403':
+          $ref: '#/components/responses/403Forbidden'
+        '500':
+          $ref: '#/components/responses/500InternalServerError'
+      security:
+        - OAuth2:
+          - buyer
+
+  /tenders/projects/{proc-id}/events/{event-id}/{group-type}/question-groups:
+    parameters:
+      - $ref: '#/components/parameters/ProcurementParam'
+      - $ref: '#/components/parameters/EventParam'
+      - $ref: '#/components/parameters/GroupTypeParam'
 
     get:
       summary: Returns the question groups for the given event id
@@ -4235,7 +4298,7 @@ paths:
               $ref: '#/components/schemas/QuestionGroupNamesWrite'
       responses:
         '200':
-          description: Stage data has been successfully persisted.
+          description: Question group data has been successfully persisted.
         '400':
           $ref: '#/components/responses/400InvalidRequest'
         '401':
@@ -4537,6 +4600,16 @@ components:
       description: Lot
       schema:
         $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Schema.yaml#/components/schemas/LotId'
+
+    GroupTypeParam:
+      name: group-type
+      in: path
+      required: true
+      description: Type of question group
+      schema:
+        type: string
+        example: CoP / AwardCriteria
+        readOnly: true
 
   schemas:
   
@@ -6821,6 +6894,12 @@ components:
       type: object
       description: Response model holding the list of question groups.
       properties:
+        useQuestionGroups:
+          type: boolean
+          description: Indicates if question groups are to be used.
+        useQuestionGroupsQaId:
+          type: integer
+          description: The QandA id index value from the DB.
         qaIds:
           type: list
           description: The QandA id index values from the DB.
@@ -6836,6 +6915,12 @@ components:
       type: object
       description: Request model holding the list of question groups.
       properties:
+        useQuestionGroups:
+          type: boolean
+          description: Indicates if question groups are to be used.
+        useQuestionGroupsQaId:
+          type: integer
+          description: The QandA id index value from the DB.
         qaIds:
           type: list
           description: The existing QandA id index values from the DB (to be deleted).

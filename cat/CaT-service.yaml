@@ -5926,6 +5926,7 @@ components:
           * ReadMe (provides guidance to the user)
           * Duration (provides input that will allow a length of time to be specified)
           * Table (provides input to define a table)
+          * DropDown (provides input to define a drop down box, which works as functionally the same as SingleSelect)
       enum:
         - Value
         - Range
@@ -5946,6 +5947,7 @@ components:
         - ReadMe
         - Duration
         - Table
+        - DropDown
         
     QuestionDependancy:
       type: object

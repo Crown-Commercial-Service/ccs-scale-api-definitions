@@ -6630,14 +6630,22 @@ components:
           type: string
           description: Agreement Name
           example: Digital Outcomes
+        agreementId:
+          type: string
+          description: Agreement Id
+          example: Agreement Id
         lot:
           type: string
           description: Lot Name
           example: Lot 1
         lotName:
           type: string
+          description: Lot name
+          example: Lot name
+        lotDescription:
+          type: string
           description: Lot description
-          example: User research
+          example: Lot description
         status:
           type: string
           enum:

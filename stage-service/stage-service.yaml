@@ -20,7 +20,6 @@ tags:
     description: Operations for managing stages for events
 
 paths:
-
   /stages/event/{event-id}:
     get:
       tags:
@@ -121,10 +120,8 @@ components:
           schema:
             $ref: '#/components/schemas/ErrorResponse'
 
-  schemas:
-
     # ---------- Models for Requests ----------
-
+  schemas:
     StagesRead:
       type: object
       description: Response model holding the details of the stages defined for a given eventId.
@@ -143,12 +140,12 @@ components:
           type: integer
           format: int
         stageNames:
-          type: list
+          type: array
           description: The (optional) list of names for the stages defined for the given eventId.
           items:
             $ref: '#/components/schemas/StageNameRead'
         stageEvents:
-          type: list
+          type: array
           description: The list of events associated with this multi-stage process.
           items:
             $ref: '#/components/schemas/StageEventRead'
@@ -171,12 +168,12 @@ components:
           type: integer
           format: int
         stageNames:
-          type: list
+          type: array
           description: The (optional) list of names for the stages defined for the given eventId.
           items:
             $ref: '#/components/schemas/StageNameWrite'
         stageEvents:
-          type: list
+          type: array
           description: The list of events associated with this multi-stage process.
           items:
             $ref: '#/components/schemas/StageEventWrite'

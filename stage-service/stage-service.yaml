@@ -20,6 +20,27 @@ tags:
     description: Operations for managing stages for events
 
 paths:
+  /stages/types:
+    get:
+      tags:
+        - Stages
+      summary: Get all stages
+      description:
+        Returns all defined stages.
+      operationId: get-stages
+      responses:
+        '200':
+          description: All defined stages.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StageTypesRead'
+        '401':
+          $ref: '#/components/responses/401Unauthorized'
+        '403':
+          $ref: '#/components/responses/403Forbidden'
+        '500':
+          $ref: '#/components/responses/500InternalServerError'
 
   /stages/event/{event-id}:
     get:
@@ -125,13 +146,32 @@ components:
 
     # ---------- Models for Requests ----------
 
-    StagesRead:
+    StageTypesRead:
       type: object
-      description: Response model holding the details of the stages defined for a given eventId.
+      description: Response model holding the list of defined stage type tuples.
+      properties:
+        stageTypes:
+          type: list
+          description: Stage type tuples, with their internal ids included.
+          items:
+            $ref: '#/components/schemas/StageType'
+
+    StageType:
+      type: object
+      description: Response model tuple holding a stage type and its corresponding internal id.
       properties:
         id:
           type: integer
           format: int
+          description: Internal ID of a single stage type. Auto-increment primary key of the individual stage type row in DB table.
+        stageType:
+          type: string
+          description: The text corresponding to a stage type.
+
+    StagesRead:
+      type: object
+      description: Response model holding the list of internal ids for the stages defined for a given eventId.
+      properties:
         eventId:
           type: string
           minLength: 1
@@ -139,122 +179,30 @@ components:
         numberOfStages:
           type: integer
           format: int
-        currentStageNumber:
-          type: integer
-          format: int
-        stageNames:
+        stages:
           type: list
-          description: The (optional) list of names for the stages defined for the given eventId.
+          description: The internal ids of the stages defined for the given eventId.
           items:
-            $ref: '#/components/schemas/StageNameRead'
-        stageEvents:
-          type: list
-          description: The list of events associated with this multi-stage process.
-          items:
-            $ref: '#/components/schemas/StageEventRead'
+            $ref: '#/components/schemas/Stages'
 
     StagesWrite:
       type: object
-      description: Request model holding the details of the stages defined for a given eventId.
+      description: Request model holding the list of stages for a given eventId.
       properties:
-        id:
-          type: integer
-          format: int
-        eventId:
-          type: string
-          minLength: 1
-          maxLength: 64
-        numberOfStages:
-          type: integer
-          format: int
-        currentStageNumber:
-          type: integer
-          format: int
-        stageNames:
+        stages:
           type: list
-          description: The (optional) list of names for the stages defined for the given eventId.
+          description: The internal ids of the stages for a given eventId.
           items:
-            $ref: '#/components/schemas/StageNameWrite'
-        stageEvents:
-          type: list
-          description: The list of events associated with this multi-stage process.
-          items:
-            $ref: '#/components/schemas/StageEventWrite'
+            $ref: '#/components/schemas/Stages'
 
-    StageEventRead:
+    Stages:
       type: object
-      description: Response model holding the details of all eventIds associated with this multi-stage process.
+      description: Model holding the internal ids of the stages for an eventId.
       properties:
         id:
           type: integer
           format: int
-        eventId:
-          type: string
-          minLength: 1
-        stageNumber:
-          type: integer
-          format: int
-        priorEventId:
-          type: string
-          minLength: 1
-
-    StageEventWrite:
-      type: object
-      description: Request model holding the details of all eventIds associated with this multi-stage process.
-      properties:
-        id:
-          type: integer
-          format: int
-        eventId:
-          type: string
-          minLength: 1
-          maxLength: 64
-        stageNumber:
-          type: integer
-          format: int
-        priorEventId:
-          type: string
-          minLength: 1
-
-    StageNameRead:
-      type: object
-      description: Response model holding the details of the stage name for the given stage of a given eventId.
-      properties:
-        id:
-          type: integer
-          format: int
-        eventId:
-          type: string
-          minLength: 1
-          maxLength: 64
-        stageNumber:
-          type: integer
-          format: int
-        stageName:
-          type: string
-          minLength: 1
-          maxLength: 510
-          description: The (optional) name of this stage for a given eventId.
-
-    StageNameWrite:
-      type: object
-      description: Request model holding the details of the stage name for the given stage of a given eventId.
-      properties:
-        id:
-          type: integer
-          format: int
-        eventId:
-          type: string
-          minLength: 1
-          maxLength: 64
-        stageNumber:
-          type: integer
-          format: int
-        stageName:
-          type: string
-          minLength: 1
-          maxLength: 510
-          description: The (optional) name of this stage for a given eventId.
+          description: Internal ID of a single stage.
 
     # ---------- Error Model ----------
 

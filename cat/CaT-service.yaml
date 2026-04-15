@@ -6646,6 +6646,18 @@ components:
           type: string
           description: Lot description
           example: Lot description
+        eventId:
+          type: string
+          description: Event id
+          example: Event id
+        eventName:
+          type: string
+          description: Event name
+          example: Event name
+        eventType:
+          type: string
+          description: Event type
+          example: Event type
         status:
           type: string
           enum:

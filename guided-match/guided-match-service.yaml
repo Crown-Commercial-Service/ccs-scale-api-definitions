@@ -3,20 +3,6 @@ info:
   title: SCALE Guided Match Service
   version: "0.1.7"
   description: This API allows access to Scale FaT Guided Match functionality from the Scale presentation layer
-#  PLACEHOLDERS
-#  termsOfService: "http://api.crowncommercial.gov.uk/terms/"
-#  contact:
-#    email: "apiteam@crowncommercial.gov.uk"
-#  license:
-#    name: "Open Government Licence 3.0"
-#    url: "https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/"
-
-# References: FaT HLD - https://crowncommercialservice.atlassian.net/wiki/spaces/SCALE/pages/122617907/HLD+-+B.01+FaT
-#
-# PLACEHOLDER - Commented out security until Conclave is in place for integration
-#security:
-#  - OAuth2:
-#    - read
 
 servers:
   - url: https://{apiHost}{basePath}
@@ -443,7 +429,7 @@ components:
 
     Agreement:
       type: object
-      description: CCS commercial agreement (aka framework)
+      description: GCA commercial agreement (aka framework)
       properties:
         number:
           $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Schema.yaml#/components/schemas/AgreementId'

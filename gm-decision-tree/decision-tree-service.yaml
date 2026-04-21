@@ -288,7 +288,7 @@ components:
 
     Agreement:
       type: object
-      description: CCS commercial agreement (aka framework)
+      description: GCA commercial agreement (aka framework)
       properties:
         number:
           $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Schema.yaml#/components/schemas/AgreementId'

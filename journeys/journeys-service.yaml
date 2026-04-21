@@ -6,7 +6,7 @@ info:
 #  PLACEHOLDERs - to be uncommented when implemented
   termsOfService: "http://api.crowncommercial.gov.uk/terms/"
   contact:
-    email: "apiteam@crowncommercial.gov.uk"
+    email: "apiteam@gca.gov.uk"
   license:
     name: "Open Government Licence 3.0"
     url: "https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/"

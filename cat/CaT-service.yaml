@@ -168,7 +168,7 @@ paths:
       tags:
         - eSourcing
         - Create Procurement Project       
-      description: Creates a new CCS procurement case in the Jaggaer eSourcing platform.
+      description: Creates a new GCA procurement case in the Jaggaer eSourcing platform.
       operationId: app.createProcurementCase
       requestBody:
         content:
@@ -4687,7 +4687,7 @@ components:
           example: 12345
         ownerUserLogin:
           type: string
-          example: user@crowncommercial.gov.uk 
+          example: user@gca.gov.uk 
           
     SalesforceProjectTender200Response:
       type: object
@@ -4906,7 +4906,7 @@ components:
           title: Package identifier
           description: The URI of this package that identifies it uniquely in the world.
           type: string
-          example: 'https://www.crowncommercial.gov.uk/tenders/projects/{proc-id}'
+          example: 'https://www.gca.gov.uk/tenders/projects/{proc-id}'
           format: uri
         publishedDate:
           title: Published date (last updated)
@@ -4917,7 +4917,7 @@ components:
         projectId:
           $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Schema.yaml#/components/schemas/ProcurementProjectId'
         projectName:
-          example: RM6118-Lot 2-Crown Commercial Services
+          example: RM6118-Lot 2-Government Commercial Agency
           type: string
         projectState:
           description: Shows if the project has been closed or is still being worked on.
@@ -6266,7 +6266,7 @@ components:
         projectId:
           $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Schema.yaml#/components/schemas/ProcurementProjectId'
         projectName:
-          example: RM6118-Lot 2-Crown Commercial Services
+          example: RM6118-Lot 2-Government Commercial Agency
           type: string
         agreementId:
           type: string

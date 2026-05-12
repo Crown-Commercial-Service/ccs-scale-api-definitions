@@ -19,12 +19,12 @@ tags:
   description: "Operations at Agreement level"
   externalDocs:
     description: "Find out more"
-    url: "http://apis.crowncommercial.gov.uk"
+    url: "http://apis.gca.gov.uk"
 - name: "Lot"
   description: "Operations at Lot level"
   externalDocs:
     description: "Find out more"
-    url: "http://apis.crowncommercial.gov.uk"
+    url: "http://apis.gca.gov.uk"
 paths:
   # No filter parameter included against API principle due to no use case for this call for MVP which would require a filter and enterprise search provides search functionality on agreements.
   /agreements:
@@ -797,7 +797,7 @@ components:
           type: string
           format: uri
           description: URL of the Agreement detail page on the GCA website
-          example: "https://www.crowncommercial.gov.uk/agreements/RM3733"
+          example: "https://www.gca.gov.uk/agreements/RM3733"
         preDefinedLotRequired:
            type: boolean
            description: Defines if a project can be set up without defining a lot. The lot is defined as an assessment provided by the agreement.
@@ -1109,4 +1109,4 @@ servers:
   - description: SwaggerHub API Auto Mocking
     url: https://virtserver.swaggerhub.com/trear590/agreements-api2/1.0.0
   - description: Dev environment
-    url: https://dev.api.crowncommercial.gov.uk/agreements-service
+    url: https://dev.api.gca.gov.uk/agreements-service

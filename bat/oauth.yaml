@@ -3,7 +3,7 @@ info:
   version: 1.0.1
   title: GCA Shopping Service OAuth 2.0 Authentication
   description: "To be used until the Shopping Service is integrated with Conclave"
-  termsOfService: "http://api.crowncommercial.gov.uk/terms/"
+  termsOfService: "http://api.gca.gov.uk/terms/"
   contact:
     email: "apiteam@gca.gov.uk"
   license:

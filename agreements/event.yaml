@@ -4,7 +4,7 @@ info:
   version: v0.0.9
   description: This shows how to define data driven specification for an event for a given Commercial Agreement and Lot. (EOI,RFI, RFP, DA .....)
 #  PLACEHOLDERs - to be uncommented when implemented
-  termsOfService: "http://api.crowncommercial.gov.uk/terms/"
+  termsOfService: "http://api.gca.gov.uk/terms/"
   contact:
     email: "apiteam@gca.gov.uk"
   license:
@@ -20,7 +20,7 @@ tags:
   description: "EventDefinitions"
   externalDocs:
     description: "Find out more"
-    url: "http://apis.crowncommercial.gov.uk"
+    url: "http://apis.gca.gov.uk"
 
 paths:
   # Mock endpoint

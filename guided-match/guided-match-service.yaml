@@ -9,7 +9,7 @@ servers:
     description: "Server base URL - parameterised for different environments"
     variables:
       apiHost:
-        default: api.crowncommercial.gov.uk
+        default: api.gca.gov.uk
         description: API Host (TBC)
       basePath:
         default: /dev/scale/guided-match-service
@@ -389,7 +389,7 @@ components:
       flows:
         authorizationCode:
           authorizationUrl: http://ccsexample.com/oauth/auth
-          tokenUrl: https://api.crowncommercial.gov.uk/oauth/token
+          tokenUrl: https://api.gca.gov.uk/oauth/token
           scopes:
             read: Grants read access
 #           only read for MVP

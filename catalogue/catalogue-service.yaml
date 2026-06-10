@@ -1,13 +1,13 @@
 openapi: "3.0.1"
 info:
-  title: "CCS Catalog Service"
+  title: "GCA Catalog Service"
   version: 0.1.3
-  description: This API provides access to the CCS product catalog browse functionality. This API is a modified version of the Spree Storefront API as adapted for Scale, taken from github on 11-01-2021. 
-    <br> Version 0.1.1 updated to use common Error schema and to follow CCS standards for camelCase schema properties.
+  description: This API provides access to the GCA product catalog browse functionality. This API is a modified version of the Spree Storefront API as adapted for Scale, taken from github on 11-01-2021. 
+    <br> Version 0.1.1 updated to use common Error schema and to follow GCA standards for camelCase schema properties.
 #  PLACEHOLDERs - to be uncommented when implemented
-  termsOfService: "http://api.crowncommercial.gov.uk/terms/"
+  termsOfService: "http://api.gca.gov.uk/terms/"
   contact:
-    email: "apiteam@crowncommercial.gov.uk"
+    email: "apiteam@gca.gov.uk"
 #  license:
 #    name: "Open Government Licence 3.0"
 #    url: "https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/"

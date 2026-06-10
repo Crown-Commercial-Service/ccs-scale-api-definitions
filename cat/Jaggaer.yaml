@@ -18,7 +18,7 @@ paths:
       tags:
         - PROJECT  
       summary: Create Project     
-      description: Creates a new CCS procurement case in the Jaggaer eSourcing platform.
+      description: Creates a new GCA procurement case in the Jaggaer eSourcing platform.
       operationId: CreateProjects
       requestBody:
         content:
@@ -99,7 +99,7 @@ paths:
       tags:
         - RFX
       summary: Create RFX     
-      description: Creates a new CCS procurement case in the Jaggaer eSourcing platform.
+      description: Creates a new GCA procurement case in the Jaggaer eSourcing platform.
       operationId: CreateRFx
       requestBody:
         content:
@@ -1608,7 +1608,7 @@ components:
           #VARCHAR2(256 CHAR)
           description: |+
             UI: Category (as “categoryCode – categoryName”)
-          example: "Crown Commercial Service"
+          example: "Government Commercial Agency"
         fiscalCode:
           type: string
           # VARCHAR2(256 CHAR)
@@ -3959,7 +3959,7 @@ components:
           description: |+
             UI: Email
             Recipient user e-mail
-          example: "nicholas.openshaw@crowncommercial.gov.uk"
+          example: "nicholas.openshaw@gca.gov.uk"
         division:
           type: string
           # VARCHAR2(80 CHAR)
@@ -3973,7 +3973,7 @@ components:
           description: |+
             UI: Role Name
             Recipient user profile name
-          example: "Non-CCS Call-Off Buyer"
+          example: "Non-GCA Call-Off Buyer"
         objectVisibility:
           type: boolean
           # NUMBER(1)

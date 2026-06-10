@@ -7,7 +7,7 @@ servers:
     description: "Server base URL - parameterised for different environments"
     variables:
       apiHost:
-        default: api.crowncommercial.gov.uk
+        default: api.gca.gov.uk
         description: API Host (TBC)
       basePath:
         default: /dev/scale/decision-tree
@@ -288,7 +288,7 @@ components:
 
     Agreement:
       type: object
-      description: CCS commercial agreement (aka framework)
+      description: GCA commercial agreement (aka framework)
       properties:
         number:
           $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Schema.yaml#/components/schemas/AgreementId'

@@ -10,7 +10,7 @@ info:
 
 servers:
   - description: Dev environment
-    url: https://dev.api.crowncommercial.gov.uk/stage-service
+    url: https://dev.api.gca.gov.uk/stage-service
 
 security:
   - ApiKeyAuth: [ ]

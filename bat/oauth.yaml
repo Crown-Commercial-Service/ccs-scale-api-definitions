@@ -1,11 +1,11 @@
 openapi: "3.0.1"
 info:
   version: 1.0.1
-  title: CCS Shopping Service OAuth 2.0 Authentication
+  title: GCA Shopping Service OAuth 2.0 Authentication
   description: "To be used until the Shopping Service is integrated with Conclave"
-  termsOfService: "http://api.crowncommercial.gov.uk/terms/"
+  termsOfService: "http://api.gca.gov.uk/terms/"
   contact:
-    email: "apiteam@crowncommercial.gov.uk"
+    email: "apiteam@gca.gov.uk"
   license:
     url: 'https://github.com/spree/spree/blob/master/license.md'
     name: BSD-3-Clause
@@ -50,7 +50,7 @@ paths:
               create token:
                 value:
                   grant_type: password
-                  username: user@crowncommercial.gov.uk
+                  username: user@gca.gov.uk
                   password: Password123
               refresh token:
                 value:
@@ -245,7 +245,7 @@ components:
         username:
           type: string
           description: User email address
-          example: user@crowncommercial.gov.uk
+          example: user@gca.gov.uk
         password:
           type: string
           description: User password
@@ -322,7 +322,7 @@ components:
           description: Country ISO3 code
         company:
           type: string
-          example: 'Crown Commercial Services'
+          example: 'Government Commercial Agency'
         defaultBillingAddress:
           type: string
           format: boolean

@@ -4,9 +4,9 @@ info:
   version: v0.0.9
   description: This shows how to define data driven specification for an event for a given Commercial Agreement and Lot. (EOI,RFI, RFP, DA .....)
 #  PLACEHOLDERs - to be uncommented when implemented
-  termsOfService: "http://api.crowncommercial.gov.uk/terms/"
+  termsOfService: "http://api.gca.gov.uk/terms/"
   contact:
-    email: "apiteam@crowncommercial.gov.uk"
+    email: "apiteam@gca.gov.uk"
   license:
     name: "Open Government Licence 3.0"
     url: "https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/"
@@ -20,7 +20,7 @@ tags:
   description: "EventDefinitions"
   externalDocs:
     description: "Find out more"
-    url: "http://apis.crowncommercial.gov.uk"
+    url: "http://apis.gca.gov.uk"
 
 paths:
   # Mock endpoint
@@ -53,7 +53,7 @@ components:
 #      flows:
 #        authorizationCode:
 #          authorizationUrl: http://ccsexample.com/oauth/auth
-#          tokenUrl: https://api.crowncommercial.gov.uk/oauth/token
+#          tokenUrl:
 #          scopes:
 #            read: Grants read access
 #           only read for MVP

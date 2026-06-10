@@ -10,7 +10,7 @@ info:
 
 servers:
   - description: Dev environment
-    url: https://dev.api.crowncommercial.gov.uk/questions-and-answers-service
+    url: https://dev.api.gca.gov.uk/questions-and-answers-service
 
 security:
   - ApiKeyAuth: [ ]

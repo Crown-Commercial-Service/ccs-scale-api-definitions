@@ -517,6 +517,9 @@ components:
         resultsSummary:
           type: string
           example: "2586 results found in Cloud software in the category Creative, design and publishing"
+        searchCriteriaSummary:
+          type: string
+          example: "75 results found in Lot 1: Digital outcomes and where the supplier provides Ai Sdk By Vercel, Aisight1 Clinical Trials Platform, Acquia Optimize and Altair Rapidminer"
         lastUpdate:
            type: string
            format: date-time

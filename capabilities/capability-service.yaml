@@ -479,6 +479,9 @@ components:
       type: string
       description: Supplier ID in GCA Format.
       example: GB-COH-123456
+    SearchCriteriaSummary:
+      type: string
+      example: "75 results found in Lot 1: Digital outcomes and where the supplier provides Ai Sdk By Vercel, Aisight1 Clinical Trials Platform, Acquia Optimize and Altair Rapidminer"
 
     Assessment:
       allOf: # Adds assessment detail to an AssessmentSummary 
@@ -518,8 +521,7 @@ components:
           type: string
           example: "2586 results found in Cloud software in the category Creative, design and publishing"
         searchCriteriaSummary:
-          type: string
-          example: "75 results found in Lot 1: Digital outcomes and where the supplier provides Ai Sdk By Vercel, Aisight1 Clinical Trials Platform, Acquia Optimize and Altair Rapidminer"
+          $ref: '#/components/schemas/SearchCriteriaSummary'
         lastUpdate:
            type: string
            format: date-time
@@ -561,6 +563,8 @@ components:
           $ref: '#/components/schemas/ExternalToolId'
         status:
           $ref: '#/components/schemas/AssessmentStatus'
+        searchCriteriaSummary:
+          $ref: '#/components/schemas/SearchCriteriaSummary'
 
     AssessmentStatus:
       type: string

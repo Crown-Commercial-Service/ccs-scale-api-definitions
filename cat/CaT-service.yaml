@@ -1086,8 +1086,37 @@ paths:
         - OAuth2:
             - buyer
       summary: Update Criterion
-      
-      
+
+
+  /tenders/projects/{proc-id}/events/{event-id}/criteria/update-stage-descriptions:
+    parameters:
+      - $ref: '#/components/parameters/ProcurementParam'
+      - $ref: '#/components/parameters/EventParam'
+
+    put:
+      description: ensure Stage Description details are stored in each Procurement Stage Event
+      tags:
+        - Update Procurement Stage Event
+      operationId: Get Eval Criterion
+      responses:
+        '200':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/200Success'
+        '401':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/401Unauthorized'
+        '403':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/403Forbidden'
+        '429':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/429TooManyRequests'
+        '500':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/500InternalServerError'
+        '502':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/502BadGateway'
+      security:
+        - OAuth2:
+            - buyer
+      summary: Update Procurement Stage Event
+
+
   /tenders/projects/{proc-id}/events/{event-id}/criteria/{criterion-id}/groups:
     parameters:
       - $ref: '#/components/parameters/ProcurementParam'

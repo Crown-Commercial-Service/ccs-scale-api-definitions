@@ -1097,7 +1097,7 @@ paths:
       description: ensure Stage Description details are stored in each Procurement Stage Event
       tags:
         - Update Procurement Stage Event
-      operationId: Get Eval Criterion
+      operationId: UpdateProcurementStageDescription
       responses:
         '200':
           $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/200Success'

@@ -1421,8 +1421,50 @@ paths:
         - OAuth2:
             - buyer
       summary: Delete a Question
-      
-      
+
+
+  /tenders/projects/{proc-id}/events/{event-id}/criteria/{criterion-id}/groups/{group-id}/questions/{question-id}/stage/{stage-number}:
+    parameters:
+      - $ref: '#/components/parameters/ProcurementParam'
+      - $ref: '#/components/parameters/EventParam'
+      - $ref: '#/components/parameters/CriterionParam'
+      - $ref: '#/components/parameters/GroupParam'
+      - $ref: '#/components/parameters/QuestionParam'
+      - $ref: '#/components/parameters/StageNumberParam'
+
+    put:
+      description: Edit Question details within its structure for a given stage
+      tags:
+        - Define Procurement Event
+      operationId: EditEvalCriterionGroupQuestionForStage
+      requestBody:
+        content:
+          application/json:
+            schema:
+             $ref: '#/components/schemas/Question'
+      responses:
+        '200':
+          description: ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Question'
+        '401':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/401Unauthorized'
+        '403':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/403Forbidden'
+        '429':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/429TooManyRequests'
+        '500':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/500InternalServerError'
+        '502':
+          $ref: 'https://raw.githubusercontent.com/Crown-Commercial-Service/ccs-api-definitions-common/main/CCS_OpenAPI_Standards/CCS_Standard_API_Responses.yaml#/components/responses/502BadGateway'
+      security:
+        - OAuth2:
+            - buyer
+      summary: Edit a Question details for a given stage
+
+
   /tenders/projects/{proc-id}/events/{event-id}/needs/{question-id}/forms:
     parameters:
       - $ref: '#/components/parameters/ProcurementParam'
@@ -4639,6 +4681,14 @@ components:
         type: string
         example: CoP / AwardCriteria
         readOnly: true
+
+StageNumberParam:
+  name: stage-number
+  in: path
+  required: true
+  description: Stage Number
+  schema:
+    type: integer
 
   schemas:
   

@@ -4682,13 +4682,13 @@ components:
         example: CoP / AwardCriteria
         readOnly: true
 
-StageNumberParam:
-  name: stage-number
-  in: path
-  required: true
-  description: Stage Number
-  schema:
-    type: integer
+    StageNumberParam:
+      name: stage-number
+      in: path
+      required: true
+      description: Stage Number
+      schema:
+        type: integer
 
   schemas:
   

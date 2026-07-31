@@ -1,0 +1,496 @@
+
+    public void cleanupDeletedQuestionGroupReferences2(
+            String projectId,
+            String eventId,
+            Integer stageNumber,
+            String groupId,
+            List<String> validQuestionGroups,
+            String accessToken) throws IllegalAccessException {
+
+        JsonNode event;
+
+        try {
+            event = eventLogicClient.getEventSummaryViewModelNoJaggaer(projectId, eventId, stageNumber, accessToken);
+        } catch (IllegalAccessException | ExecutionException | InterruptedException | JacksonException e) {
+            // we can safely ignore any errors here
+            return;
+        }
+
+        if (event == null) {
+            return;
+        }
+
+        ArrayNode groups = getCriterion2RequirementGroups(event);
+
+        Set<String> validGroupNames = validQuestionGroups == null
+                ? Set.of()
+                : validQuestionGroups.stream()
+                  .filter(Objects::nonNull)
+                  .map(String::trim)
+                  .filter(groupName -> !groupName.isBlank())
+                  .collect(Collectors.toCollection(LinkedHashSet::new));
+
+        normaliseQuestionGroupReferences(groups, groupId, validGroupNames);
+        normaliseOtherQuestionGroupOrders(groups, projectId, eventId, stageNumber, groupId, accessToken);
+
+        eventLogicClient.saveEventPayload(projectId, eventId, stageNumber, event, accessToken);
+        removeEventFromCache(projectId, eventId, stageNumber);
+        eventLogicClient.removeEventFromCache(projectId, eventId);
+    }
+
+    private ArrayNode getCriterion2RequirementGroups(JsonNode event) {
+        JsonNode criteriaArray = event.path("criteria");
+
+        if (!criteriaArray.isArray()) {
+            throw new IllegalStateException("criteria is not an array");
+        }
+
+        ObjectNode criterion2 = null;
+
+        for (JsonNode criterion : criteriaArray) {
+            if ("Criterion 2".equals(criterion.path("id").asText())) {
+                criterion2 = (ObjectNode) criterion;
+                break;
+            }
+        }
+
+        if (criterion2 == null) {
+            throw new IllegalStateException("Criterion 2 not found");
+        }
+
+        JsonNode groupsNode = criterion2.path("requirementGroups");
+
+        if (!groupsNode.isArray()) {
+            throw new IllegalStateException("requirementGroups is not an array");
+        }
+
+        return (ArrayNode) groupsNode;
+    }
+
+    private void removeQuestionSetsForDeletedGroupNames(ArrayNode groups, String groupId, Set<String> validGroupNames) {
+        if (groups == null || validGroupNames == null) {
+            return;
+        }
+
+        String baseGroupId = "Group " + groupId;
+        String duplicatedGroupPrefix = baseGroupId + ".";
+
+        for (JsonNode groupNode : groups) {
+            String currentGroupId = groupNode.path("OCDS").path("id").asText("");
+
+            if (!baseGroupId.equals(currentGroupId) && !currentGroupId.startsWith(duplicatedGroupPrefix)) {
+                continue;
+            }
+
+            String selectedGroupName = getSelectedGroupNameFromRequirementGroup(groupNode);
+
+            if (selectedGroupName == null || selectedGroupName.isBlank()) {
+                continue;
+            }
+
+            boolean selectedGroupStillExists = validGroupNames.stream()
+                    .anyMatch(validGroupName -> validGroupName.equalsIgnoreCase(selectedGroupName));
+
+            if (selectedGroupStillExists) {
+                continue;
+            }
+
+            clearSelectGroupNameQuestionAnswer(groupNode);
+        }
+    }
+
+    private void normaliseQuestionGroupReferences(ArrayNode groups, String groupId, Set<String> validGroupNames) {
+        removeQuestionSetsForDeletedGroupNames(groups, groupId, validGroupNames);
+        normaliseSelectGroupNameQuestionOrders(groups, groupId, validGroupNames);
+    }
+
+    private void normaliseQuestionGroupReferencesFromFetchedNames(ArrayNode groups, String groupId, Set<String> validGroupNames) {
+        normaliseSelectGroupNameQuestionOrders(groups, groupId, getFetchedQuestionGroupNamesForOrdering(groups, groupId, validGroupNames));
+    }
+
+    private Set<String> getFetchedQuestionGroupNamesForOrdering(ArrayNode groups, String groupId, Set<String> fetchedGroupNames) {
+        if (groups == null || fetchedGroupNames == null || fetchedGroupNames.isEmpty()) {
+            return null;
+        }
+
+        Set<String> fetchedGroupNameKeys = fetchedGroupNames.stream()
+                .filter(Objects::nonNull)
+                .map(this::getQuestionGroupNameKey)
+                .filter(groupName -> !groupName.isBlank())
+                .collect(Collectors.toSet());
+
+        if (fetchedGroupNameKeys.isEmpty()) {
+            return null;
+        }
+
+        for (JsonNode groupNode : groups) {
+            if (!isQuestionGroupFamily(groupNode, groupId)) {
+                continue;
+            }
+
+            JsonNode selectGroupNameRequirement = getSelectGroupNameRequirement(groupNode);
+
+            if (selectGroupNameRequirement == null) {
+                continue;
+            }
+
+            String selectedGroupName = getSelectedOptionValue(selectGroupNameRequirement);
+
+            if (selectedGroupName == null || selectedGroupName.isBlank()) {
+                continue;
+            }
+
+            if (!fetchedGroupNameKeys.contains(getQuestionGroupNameKey(selectedGroupName))) {
+                return null;
+            }
+        }
+
+        return fetchedGroupNames;
+    }
+
+    private void normaliseOtherQuestionGroupOrders(
+            ArrayNode groups,
+            String projectId,
+            String eventId,
+            Integer stageNumber,
+            String currentGroupId,
+            String accessToken) {
+
+        String otherGroupId = "1".equals(currentGroupId) ? "2" : "1";
+        Set<String> otherValidGroupNames = getValidQuestionGroupNames(projectId, eventId, stageNumber, otherGroupId, accessToken);
+        normaliseQuestionGroupReferencesFromFetchedNames(groups, otherGroupId, otherValidGroupNames);
+    }
+
+    private boolean shouldRestoreQuestionGroupOrdersAfterAnswerSave(BuildTaskViewModel model) {
+        return model != null
+                && model.summaryInfo != null
+                && model.summaryInfo.projectDetails != null
+                && model.summaryInfo.projectDetails.id != null
+                && model.summaryInfo.eventId != null
+                && (isAssessmentCriteriaId(model.criteriaId) || isQuestionGroupAnswerGroupId(model.groupId));
+    }
+
+    private boolean isAssessmentCriteriaId(String criteriaId) {
+        if (criteriaId == null || criteriaId.isBlank()) {
+            return false;
+        }
+
+        return "2".equals(criteriaId.replaceAll("[^\\d.]", ""));
+    }
+
+    private boolean isQuestionGroupAnswerGroupId(String groupId) {
+        if (groupId == null || groupId.isBlank()) {
+            return false;
+        }
+
+        String numericGroupId = groupId.replaceFirst("(?i)^Group\\s+", "").trim();
+
+        return "1".equals(numericGroupId)
+                || "2".equals(numericGroupId)
+                || numericGroupId.startsWith("1.")
+                || numericGroupId.startsWith("2.");
+    }
+
+    private void restoreAllQuestionGroupOrders(
+            String projectId,
+            String eventId,
+            Integer stageNumber,
+            String accessToken) {
+
+        JsonNode event;
+
+        try {
+            removeEventFromCache(projectId, eventId, stageNumber);
+            eventLogicClient.removeEventFromCache(projectId, eventId);
+            event = eventLogicClient.getEventSummaryViewModelNoJaggaer(projectId, eventId, stageNumber, accessToken);
+        } catch (IllegalAccessException | ExecutionException | InterruptedException | JacksonException e) {
+            throw new RuntimeException(e);
+        }
+
+        if (event == null) {
+            return;
+        }
+
+        ArrayNode groups = getCriterion2RequirementGroups(event);
+        normaliseQuestionGroupOrders(groups, projectId, eventId, stageNumber, "1", accessToken);
+        normaliseQuestionGroupOrders(groups, projectId, eventId, stageNumber, "2", accessToken);
+
+        try {
+            eventLogicClient.saveEventPayload(projectId, eventId, stageNumber, event, accessToken);
+        } catch (IllegalAccessException e) {
+            throw new RuntimeException(e);
+        }
+
+        removeEventFromCache(projectId, eventId, stageNumber);
+        eventLogicClient.removeEventFromCache(projectId, eventId);
+    }
+
+    private void normaliseQuestionGroupOrders(
+            ArrayNode groups,
+            String projectId,
+            String eventId,
+            Integer stageNumber,
+            String groupId,
+            String accessToken) {
+
+        Set<String> validGroupNames = getValidQuestionGroupNames(projectId, eventId, stageNumber, groupId, accessToken);
+        normaliseQuestionGroupReferencesFromFetchedNames(groups, groupId, validGroupNames);
+    }
+
+    private void clearSelectGroupNameQuestionAnswer(JsonNode groupNode) {
+        JsonNode requirements = groupNode.path("OCDS").path("requirements");
+
+        if (!requirements.isArray()) {
+            return;
+        }
+
+        for (JsonNode requirement : requirements) {
+            if (!isSelectGroupNameQuestion(requirement)) {
+                continue;
+            }
+
+            JsonNode nonOcdsNode = requirement.path("nonOCDS");
+
+            if (!nonOcdsNode.isObject()) {
+                return;
+            }
+
+            ((ObjectNode) nonOcdsNode).put("answered", false);
+            ((ObjectNode) nonOcdsNode).put(GROUP_ORDER_FIELD, UNGROUPED_QUESTION_GROUP_ORDER);
+
+            JsonNode options = nonOcdsNode.path("options");
+
+            if (options.isArray()) {
+                for (JsonNode option : options) {
+                    if (!option.isObject()) {
+                        continue;
+                    }
+
+                    if (option.has("value")) {
+                        ((ObjectNode) option).put("value", "");
+                    }
+
+                    if (option.has("select")) {
+                        ((ObjectNode) option).put("select", false);
+                    }
+
+                    if (option.has("selected")) {
+                        ((ObjectNode) option).put("selected", false);
+                    }
+                }
+            }
+
+            return;
+        }
+    }
+
+
+    private String getSelectedGroupNameFromRequirementGroup(JsonNode groupNode) {
+        JsonNode requirements = groupNode.path("OCDS").path("requirements");
+
+        if (!requirements.isArray()) {
+            return null;
+        }
+
+        for (JsonNode requirement : requirements) {
+            if (isSelectGroupNameQuestion(requirement)) {
+                return getSelectedOptionValue(requirement);
+            }
+        }
+
+        return null;
+    }
+
+    private void normaliseSelectGroupNameQuestionOrders(ArrayNode groups, String groupId, Set<String> validGroupNames) {
+        if (groups == null) {
+            return;
+        }
+
+        Map<String, Integer> groupOrderBySelectedGroupName = getConfiguredQuestionGroupOrder(validGroupNames);
+
+        List<JsonNode> groupsInCreationOrder = new ArrayList<>();
+        groups.forEach(groupsInCreationOrder::add);
+        groupsInCreationOrder.sort(Comparator.comparingInt(this::getQuestionGroupCreationIndex));
+
+        for (JsonNode groupNode : groupsInCreationOrder) {
+            if (!isQuestionGroupFamily(groupNode, groupId)) {
+                continue;
+            }
+
+            JsonNode selectGroupNameRequirement = getSelectGroupNameRequirement(groupNode);
+
+            if (selectGroupNameRequirement == null) {
+                continue;
+            }
+
+            String selectedGroupName = getSelectedOptionValue(selectGroupNameRequirement);
+
+            if (selectedGroupName == null || selectedGroupName.isBlank()) {
+                setGroupOrder(selectGroupNameRequirement, UNGROUPED_QUESTION_GROUP_ORDER);
+                continue;
+            }
+
+            if (!isValidSelectedGroupName(selectedGroupName, validGroupNames)) {
+                setGroupOrder(selectGroupNameRequirement, UNGROUPED_QUESTION_GROUP_ORDER);
+                continue;
+            }
+
+            int groupOrder = groupOrderBySelectedGroupName.computeIfAbsent(
+                    getQuestionGroupNameKey(selectedGroupName),
+                    ignored -> getNextQuestionGroupOrder(groupOrderBySelectedGroupName.values())
+            );
+
+            setGroupOrder(selectGroupNameRequirement, groupOrder);
+        }
+    }
+
+    private boolean isValidSelectedGroupName(String selectedGroupName, Set<String> validGroupNames) {
+        if (validGroupNames == null) {
+            return true;
+        }
+
+        return validGroupNames.stream()
+                .filter(Objects::nonNull)
+                .anyMatch(validGroupName -> validGroupName.equalsIgnoreCase(selectedGroupName));
+    }
+
+    private Map<String, Integer> getConfiguredQuestionGroupOrder(Set<String> validGroupNames) {
+        Map<String, Integer> groupOrderBySelectedGroupName = new LinkedHashMap<>();
+
+        if (validGroupNames == null) {
+            return groupOrderBySelectedGroupName;
+        }
+
+        int groupOrder = FIRST_QUESTION_GROUP_ORDER;
+
+        for (String groupName : validGroupNames) {
+            if (groupName == null || groupName.isBlank()) {
+                continue;
+            }
+
+            groupOrderBySelectedGroupName.put(getQuestionGroupNameKey(groupName), groupOrder++);
+        }
+
+        return groupOrderBySelectedGroupName;
+    }
+
+    private String getQuestionGroupNameKey(String groupName) {
+        return groupName == null ? "" : groupName.trim().toLowerCase(Locale.UK);
+    }
+
+    private JsonNode getSelectGroupNameRequirement(JsonNode groupNode) {
+        JsonNode requirements = groupNode.path("OCDS").path("requirements");
+
+        if (!requirements.isArray()) {
+            return null;
+        }
+
+        for (JsonNode requirement : requirements) {
+            if (isSelectGroupNameQuestion(requirement)) {
+                return requirement;
+            }
+        }
+
+        return null;
+    }
+
+    private boolean isQuestionGroupFamily(JsonNode groupNode, String groupId) {
+        String currentGroupId = groupNode.path("OCDS").path("id").asText("");
+        String baseGroupId = "Group " + groupId;
+
+        return baseGroupId.equals(currentGroupId) || currentGroupId.startsWith(baseGroupId + ".");
+    }
+
+    private int getNextQuestionGroupOrder(Collection<Integer> existingGroupOrders) {
+        return existingGroupOrders.stream()
+                .filter(Objects::nonNull)
+                .filter(groupOrder -> groupOrder > 0)
+                .filter(groupOrder -> groupOrder != UNGROUPED_QUESTION_GROUP_ORDER)
+                .max(Integer::compareTo)
+                .map(groupOrder -> groupOrder + 1)
+                .orElse(FIRST_QUESTION_GROUP_ORDER);
+    }
+
+    private void setGroupOrder(JsonNode requirement, int groupOrder) {
+        JsonNode nonOcdsNode = requirement.path("nonOCDS");
+
+        if (nonOcdsNode.isObject()) {
+            ((ObjectNode) nonOcdsNode).put(GROUP_ORDER_FIELD, groupOrder);
+        }
+    }
+
+    private int getQuestionGroupCreationIndex(JsonNode groupNode) {
+        String id = groupNode.path("OCDS").path("id").asText("");
+
+        if (id.matches("Group\\s+\\d+")) {
+            return 0;
+        }
+
+        String suffix = id.replaceFirst("^Group\\s+\\d+\\.", "");
+
+        if (suffix.matches("\\d+")) {
+            return Integer.parseInt(suffix);
+        }
+
+        return Integer.MAX_VALUE;
+    }
+
+    private boolean isSelectGroupNameQuestion(JsonNode requirement) {
+        String title = requirement.path("OCDS").path("title").asText("");
+
+        return "Select group name".equalsIgnoreCase(title);
+    }
+hlb
+    private String getSelectedOptionValue(JsonNode requirement) {
+        JsonNode options = requirement.path("nonOCDS").path("options");
+
+        if (!options.isArray()) {
+            return null;
+        }
+
+        String onlyOptionValue = null;
+        int optionValueCount = 0;
+
+        for (JsonNode option : options) {
+            boolean selected = option.path("select").asBoolean(false) || option.path("selected").asBoolean(false);
+            String value = option.path("value").asText(null);
+
+            if (selected && value != null && !value.isBlank()) {
+                return value.trim();
+            }
+
+            if (value != null && !value.isBlank()) {
+                onlyOptionValue = value.trim();
+                optionValueCount++;
+            }
+        }
+
+        return optionValueCount == 1 ? onlyOptionValue : null;
+    }
+
+    private Set<String> getValidQuestionGroupNames(
+            String projectId,
+            String eventId,
+            Integer stageNumber,
+            String groupId,
+            String accessToken) {
+
+        QuestionGroupsResponseModel response = null;
+
+        if ("2".equals(groupId)) {
+            response = eventLogicClient.getAwardCriteriaQuestionGroups(projectId, eventId, stageNumber, accessToken);
+        } else if ("1".equals(groupId)) {
+            response = eventLogicClient.getConditionsOfParticipationQuestionGroups(projectId, eventId, stageNumber, accessToken);
+        }
+
+        if (response == null || response.questionGroups == null || response.questionGroups.isEmpty()) {
+            return Set.of();
+        }
+
+        return response.questionGroups.stream()
+                .filter(Objects::nonNull)
+                .map(String::trim)
+                .filter(groupName -> !groupName.isBlank())
+                .collect(Collectors.toCollection(LinkedHashSet::new));
+    }
+

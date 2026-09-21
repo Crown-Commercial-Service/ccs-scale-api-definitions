@@ -1,0 +1,197 @@
+openapi: 3.0.1
+
+info:
+  title: "Tender search and save endpoints"
+  version: 0.0.1
+  description:
+    API for storing and retrieving search session, search and save with filter search for SAS event. This is a minimal
+    foundation spec intended to be generated into a Java Spring (Maven) service
+    and extended in future iterations.
+
+servers:
+  - description: Dev environment
+    url: https://dev.api.gca.gov.uk
+
+security:
+  - ApiKeyAuth: [ ]
+
+tags:
+  - name: Search
+    description: Operations for managing sas for events
+  - name: SasFilters
+    description: Operations for managing sas journey
+
+paths:
+  /tenders/search-sessions:
+    post:
+      tags:
+        - SearchSessionFilters
+      summary: Create a new search session
+      description: Stores search filters and tracking data, returning a generated session ID.
+      operationId: create-search-session
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SearchSessionWrite'
+      responses:
+        '200':
+          description: Successfully created search session. Returns the UUID.
+          content:
+            text/plain:
+              schema:
+                type: string
+                format: uuid
+        '400':
+          $ref: '#/components/responses/400InvalidRequest'
+        '401':
+          $ref: '#/components/responses/401Unauthorized'
+        '403':
+          $ref: '#/components/responses/403Forbidden'
+        '500':
+          $ref: '#/components/responses/500InternalServerError'
+
+  /tenders/search-sessions/{sessionId}:
+    get:
+      tags:
+        - SearchSessionFilters
+      summary: Get search session filters for a SAS event
+      description: Returns search filters for a sessionId.
+      operationId: get-search-filters
+      parameters:
+        - name: sessionId
+          in: path
+          required: true
+          description: UUID session identifier used to retrieve search filters.
+          schema:
+            type: string
+            minLength: 1
+            maxLength: 64
+      responses:
+        '200':
+          description: Search filters found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SearchSessionRead'
+        '400':
+          $ref: '#/components/responses/400InvalidRequest'
+        '401':
+          $ref: '#/components/responses/401Unauthorized'
+        '403':
+          $ref: '#/components/responses/403Forbidden'
+        '404':
+          description: Search session not found or expired.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          $ref: '#/components/responses/500InternalServerError'
+
+components:
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-API-KEY
+
+  responses:
+    400InvalidRequest:
+      description: The request was invalid or failed validation.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    401Unauthorized:
+      description: Missing or invalid API key.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    403Forbidden:
+      description: The client is authenticated but not authorised to perform this operation.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    500InternalServerError:
+      description: An unexpected error occurred in the service.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+
+  schemas:
+    SearchSessionRead:
+      type: object
+      description: Response model holding the details of the search filter defined for a given sessionId.
+      properties:
+        sessionId:
+          type: string
+          description: Search filters UUID.
+        filters:
+          type: string
+          description: Search filters or criteria.
+        projectId:
+          type: integer
+          format: int32
+          description: Project id for the event.
+        eventId:
+          type: string
+          description: SAS event id.
+        createdBy:
+          type: string
+          description: The loggedIn email address.
+
+    SearchSessionWrite:
+      type: object
+      description: Request model holding the details to save a search filter payload.
+      required:
+        - filters
+        - projectId
+        - eventId
+        - createdBy
+      properties:
+        filters:
+          type: string
+          description: Search filters or criteria.
+        projectId:
+          type: integer
+          format: int32
+          description: Project id for the event.
+        eventId:
+          type: string
+          description: SAS event id.
+        createdBy:
+          type: string
+          description: The loggedIn email address.
+
+    # ---------- Error Model ----------
+
+    ErrorResponse:
+      type: object
+      description: Standard error response payload.
+      properties:
+        timestamp:
+          type: string
+          format: date-time
+          description: Time at which the error was generated.
+        status:
+          type: integer
+          format: int32
+          description: HTTP status code.
+          example: 400
+        error:
+          type: string
+          description: Short error summary.
+          example: "Bad Request"
+        message:
+          type: string
+          description: Detailed error message suitable for logging or debugging.
+          example: "event-id must be provided and must not be blank."
+        path:
+          type: string
+          description: Request path that generated the error.
+          example: "/search-sessions"

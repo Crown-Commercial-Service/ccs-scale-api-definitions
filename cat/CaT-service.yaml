@@ -6750,6 +6750,10 @@ components:
           type: string
           description: Summary of the opportunity.
           example: Lead, deliver and support the technical and security architecture design elements of DWP Digital projects / initiatives. Own the security product architecture, develop security product roadmaps and represent product designs at governance forums. Provide clear communication of security architecture design and decision making.
+        isTestOnly:
+          type: boolean
+          description: should normally be set to null; set to true to hide this test entry on the digital opportunities page
+          example: null or true
 
     SupplierAwarded:
       type: object
